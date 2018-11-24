@@ -65,8 +65,6 @@ function init(){
     current = playlist.firstElementChild;
     tracks = playlist.querySelectorAll('a');
     audio.volume = .10;
-    audio.play();
-    audio.currentTime = currentTime;
     for (var link of tracks) {
         link.addEventListener('click', function(e){ 
         e.preventDefault();
@@ -94,6 +92,8 @@ function init(){
     audio.addEventListener('pause',function(e){
         localStorage.setItem('currentTime', audio.currentTime);
     });
+    audio.play();
+    audio.currentTime = currentTime;
 }
 function run(link, player){
         player.src = link.href;
