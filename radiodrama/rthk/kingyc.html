@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>雍正皇帝</title>
+<style>
+p , pre  {font-size: 20px;}    
+#audio{background:#666;width:94%;padding:20px;}
+.active a{color:#5DB0E6;text-decoration:none;}
+div a{color:black;}
+div a:hover{text-decoration:none;}
+#playlist {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  background-color: green;
+  padding: 3px;
+}
+#playlist > div  {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid black;
+  padding: 4px;
+  text-align: center;
+  font-size: 20px;
+}
+</style>
+</head>
+<body>
+    <audio id="audio" preload="auto" tabindex="0" controls="" type="audio/mpeg">
+        <source type="audio/mp3" src="">
+        Sorry, your browser does not support HTML5 audio.
+    </audio>
+<div id="playlist">
+</div>
+<p>香港電台廣播劇「雍正皇帝」，演員陣容強大，由兩位好戲之人鄭少秋及黃秋生擔綱演繹，分別飾演冷面王四阿哥「胤禛」(雍正)及康熙，純以聲線發揮演技。</p>
+<p>參演重臣角色亦來頭不少，計有：電視、電台兩邊走的梁思浩飾演「李衛」，聰明但不學無術，後得雍正一手提攜成為大臣；曾偉權則飾演七品芝麻官「俞鴻圖」，為人仗義執言；林韋辰飾演恩科探花「劉墨林」，為人風流風趣，甚得雍正喜愛；熊良錫飾演謀臣「鄔思道」，憑其聰明才智，扶助雍正登位。此外，「播音皇帝」鍾偉明及最受歡迎DJ車淑梅更分飾極受重用的三朝元老大臣「張廷玉」及「皇后」；梁奕倫飾「李紱」，與「田文鏡」本為好友，後卻因政見不合而反目；華夫飾演「田文鏡」，為官清廉，刻薄寡恩，只知忠於雍正；</p>
+<p>此外，演技精湛的秋官更為廣播劇主唱主題曲「問江山」。</p>
+</body>
+<script type="text/javascript">
+var audio;
+var playlist;
+var tracks;
+var current;
+var activeEpisode;
+var currentTime;
+if (!localStorage.getItem('activeEpisode')) {
+    localStorage.setItem('activeEpisode', "1");
+    localStorage.setItem('currentTime', 0.0);
+}
+activeEpisode = localStorage.getItem('activeEpisode');
+currentTime = localStorage.getItem('currentTime');
+if (document.readyState !== 'loading' ) {
+  eventHandler();
+} else {
+  document.addEventListener( 'DOMContentLoaded', eventHandler);  
+}  
+function eventHandler(){
+
+init();
+function init(){
+    audio = document.getElementById('audio');
+    playlist = document.getElementById('playlist');
+    FillPlaylist("1classics/king",75, 2);	
+    current = playlist.firstElementChild;
+    tracks = playlist.querySelectorAll('a');
+    audio.volume = .10;
+    audio.play();
+    audio.currentTime = currentTime;
+    for (var link of tracks) {
+        link.addEventListener('click', function(e){ 
+        e.preventDefault();
+        var link = this;
+        current.classList.remove('active');
+        current = link.parentNode;
+        current.classList.add('active');
+        currentTime = 0.0;
+        localStorage.setItem('currentTime', 0.0);
+        run(link, audio);
+        });
+    }
+    audio.addEventListener('ended',function(e){
+        current.classList.remove('active');
+        current= current.nextElementSibling;
+        if(current == null){
+            current = playlist.firstElementChild;
+        }
+        current.classList.add('active');
+        link = current.firstElementChild;
+        currentTime = 0.0;
+        localStorage.setItem('currentTime', 0.0);
+        run(link,audio);
+    });
+    audio.addEventListener('pause',function(e){
+        localStorage.setItem('currentTime', audio.currentTime);
+    });
+}
+function run(link, player){
+        player.src = link.href;
+        localStorage.setItem('activeEpisode', link.innerHTML);
+        audio.load();
+        audio.play();
+        audio.currentTime = currentTime;
+}
+function FillPlaylist(drama, len, pad) {
+    var i;
+    for (i=1; i<=len; i++) { 	
+       var div_ = document.createElement("DIV");
+       var a_ = document.createElement("A");
+       var episode = i.toString();	    
+       if (pad > 0) {
+	  episode = episode.padStart(pad, '0');
+       }       
+       a_.setAttribute("href", "http://rthk9.rthk.hk/radiodrama/mp3/"+ drama + episode + ".mp3");
+       var i_ = document.createTextNode(i.toString());
+       a_.appendChild(i_);
+       div_.appendChild(a_);
+       if (i.toString() == activeEpisode) {
+	  div_.setAttribute("class","active");     
+	  audio.firstElementChild.setAttribute("src", a_.attributes[0].value);     
+	  audio.load();     
+       }	       
+       playlist.appendChild(div_);
+    }	    
+}
+}	
+</script>
+</html>
