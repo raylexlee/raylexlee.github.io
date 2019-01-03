@@ -110,7 +110,7 @@ function FillxPlaylist(drama, len) {
     for (i=1; i<=len; i++) { 	
        var div_ = document.createElement("DIV");
        var a_ = document.createElement("A");
-       var episode = "abcdefghijklmnopqrstuvxywz".charCodeAt(i-1);	    
+       var episode = "abcdefghijklmnopqrstuvxywz".charAt(i-1);	    
        a_.setAttribute("href", "http://rthk9.rthk.hk/radiodrama/mp3/"+ drama + episode + ".mp3");
        var i_ = document.createTextNode(i.toString());
        a_.appendChild(i_);
