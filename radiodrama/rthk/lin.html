@@ -60,7 +60,6 @@ function init(){
     audio = document.getElementById('audio');
     playlist = document.getElementById('playlist');
     FillxPlaylist("5martial/80s_0022", 25);	
-    current = playlist.firstElementChild;
     tracks = playlist.querySelectorAll('a');
     audio.volume = .10;
     audio.play();
@@ -69,22 +68,21 @@ function init(){
         link.addEventListener('click', function(e){ 
         e.preventDefault();
         var link = this;
-        current.classList.remove('active');
-        current = link.parentNode;
-        current.classList.add('active');
+        tracks[number(activeEpisode)-1].parentNode.classList.remove('active');
+        link.parentNode.classList.add('active');
         currentTime = 0.0;
         localStorage.setItem('currentTime', 0.0);
         run(link, audio);
         });
     }
     audio.addEventListener('ended',function(e){
-        current.classList.remove('active');
-        current= current.nextElementSibling;
-        if(current == null){
-            current = playlist.firstElementChild;
+        tracks[number(activeEpisode)-1].parentNode.classList.remove('active');
+        current= number(activeEpisode);
+        if(current == tracks.length){
+            current = 0;
         }
-        current.classList.add('active');
-        link = current.firstElementChild;
+        tracks[current].parentNode.classList.add('active');
+        link = tracks[current];
         currentTime = 0.0;
         localStorage.setItem('currentTime', 0.0);
         run(link,audio);
