@@ -22,7 +22,6 @@ function init(){
     audio = document.getElementById('audio');
     playlist = document.getElementById('playlist');
     FillPlaylist();	
-    current = playlist.firstElementChild;
     tracks = playlist.querySelectorAll('a');
     audio.volume = .10;
     for (var link of tracks) {
@@ -87,7 +86,8 @@ function FillPlaylist() {
        a_.appendChild(i_);
        div_.appendChild(a_);
        if (i.toString() == activeEpisode) {
-	  div_.setAttribute("class","active");     
+      div_.setAttribute("class","active");     
+      current = div_;
 	  audio.firstElementChild.setAttribute("src", a_.attributes[0].value);     
 	  audio.load();     
        }	       
