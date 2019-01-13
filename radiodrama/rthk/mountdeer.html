@@ -4,27 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="鹿鼎記">
     <title>鹿鼎記</title>
-<style>
-p , pre  {font-size: 20px;}    
-#audio{background:#666;width:94%;padding:20px;}
-.active a{color:#5DB0E6;text-decoration:none;}
-div a{color:black;}
-div a:hover{text-decoration:none;}
-#playlist {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  background-color: green;
-  padding: 3px;
-}
-#playlist > div  {
-  background-color: rgba(255, 255, 255, 0.8);
-  border: 1px solid black;
-  padding: 4px;
-  text-align: center;
-  font-size: 20px;
-}
-</style>
+    <link rel="stylesheet" href="style0.css">
 </head>
 <body>
     <audio id="audio" preload="auto" tabindex="0" controls="" type="audio/mpeg">
@@ -47,98 +31,13 @@ div a:hover{text-decoration:none;}
 羅嘉玲 - 方怡 	
 Kawaii - 沐劍屏
 </pre>
-</body>
 <script type="text/javascript">
-var audio;
-var playlist;
-var tracks;
-var current;
-var activeEpisode;
-var currentTime;
-if (!localStorage.getItem('activeEpisode')) {
-    localStorage.setItem('activeEpisode', "1");
-    localStorage.setItem('currentTime', 0.0);
-}
-activeEpisode = localStorage.getItem('activeEpisode');
-currentTime = localStorage.getItem('currentTime');
-if (document.readyState !== 'loading' ) {
-  eventHandler();
-} else {
-  document.addEventListener( 'DOMContentLoaded', eventHandler);  
-}  
-function eventHandler(){
-
-init();
-function init(){
-    audio = document.getElementById('audio');
-    playlist = document.getElementById('playlist');
-    FillPlaylist("5martial/2000s_0008_",100, 3);	
-    current = playlist.firstElementChild;
-    tracks = playlist.querySelectorAll('a');
-    audio.volume = .10;
-    audio.play();
-    audio.currentTime = currentTime;
-    for (var link of tracks) {
-        link.addEventListener('click', function(e){ 
-        e.preventDefault();
-        var link = this;
-        current.classList.remove('active');
-        current = link.parentNode;
-        current.classList.add('active');
-        currentTime = 0.0;
-        localStorage.setItem('currentTime', 0.0);
-        run(link, audio);
-        });
-    }
-    audio.addEventListener('ended',function(e){
-        current.classList.remove('active');
-        current= current.nextElementSibling;
-        if(current == null){
-            current = playlist.firstElementChild;
-        }
-        current.classList.add('active');
-        link = current.firstElementChild;
-        currentTime = 0.0;
-        localStorage.setItem('currentTime', 0.0);
-        run(link,audio);
-    });
-    audio.addEventListener('play',function(e){
-        if (currentTime > audio.currentTime) {
-            audio.currentTime = currentTime;
-        }
-    });
-    audio.addEventListener('pause',function(e){
-        localStorage.setItem('currentTime', audio.currentTime);
-    });
-}
-function run(link, player){
-        player.src = link.href;
-        localStorage.setItem('activeEpisode', link.innerHTML);
-        audio.load();
-        audio.play();
-        audio.currentTime = currentTime;
-}
-function FillPlaylist(drama, len, pad) {
-    var i;
-    for (i=1; i<=len; i++) { 	
-       var div_ = document.createElement("DIV");
-       var a_ = document.createElement("A");
-       var episode = i.toString();	    
-       if (pad > 0) {
-	  episode = episode.padStart(pad, '0');
-       }       
-       a_.setAttribute("href", "http://rthk9.rthk.hk/radiodrama/mp3/"+ drama + episode + ".mp3");
-       var i_ = document.createTextNode(i.toString());
-       a_.appendChild(i_);
-       div_.appendChild(a_);
-       if (i.toString() == activeEpisode) {
-	  div_.setAttribute("class","active");     
-	  audio.firstElementChild.setAttribute("src", a_.attributes[0].value);     
-	  audio.load();     
-       }	       
-       playlist.appendChild(div_);
-    }	    
-}
-}	
+var radiodrama = {
+    program_infix: "5martial/2000s_0008_",
+    episodes: 100,
+    digit: 3
+};
 </script>
+<script type='text/javascript' src="app.js"></script>
+</body>
 </html>
