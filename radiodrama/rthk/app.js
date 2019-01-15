@@ -63,9 +63,10 @@ function init(){
     audio.currentTime = currentTime;
 }
 function run(link, player){
-        document.title = title + ' - ' + activeEpisode;
         player.src = link.href;
         localStorage.setItem('activeEpisode', link.innerHTML);
+        activeEpisode = link.innerHTML;
+        document.title = title + ' - ' + activeEpisode;
         audio.load();
         audio.play();
         audio.currentTime = currentTime;
