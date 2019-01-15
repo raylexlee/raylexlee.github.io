@@ -20,6 +20,7 @@ function eventHandler(){
 
 init();
 function init(){
+    SetGridColumn();
     title = document.title;
     audio = document.getElementById('audio');
     playlist = document.getElementById('playlist');
@@ -98,5 +99,37 @@ function FillPlaylist() {
        }	       
        playlist.appendChild(div_);
     }	    
+}
+function SetGridColumn() {
+    var colNum = 10;
+    var n = radiodrama.episodes;
+    switch (n) {
+       case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9:
+          colNum = n;
+          break;
+       case 11: case 12:
+          colNum = 6;
+          break;
+       case 13: case 14:
+       case 21:
+          colNUm = 7;
+          break;
+       case 15: case 16:
+       case 22: case 23: case 24:
+       case 31: case 32:
+          colNum = 8;
+          break;
+       case 17: case 18:
+       case 25: case 26: case 27:
+       case 33: case 34: case 35: case 36:
+       case 41: case 42: case 43: case 44: case 45:
+       case 51: case 52: case 53: case 54:
+       case 61: case 62: case 63:
+       case 71: case 72:
+       case 81: 
+          colNum = 9;
+          break;
+    }
+    document.documentElement.style.setProperty("--colNum", colNum);
 }
 }	
