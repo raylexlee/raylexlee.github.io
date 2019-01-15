@@ -2,6 +2,7 @@ var audio;
 var playlist;
 var tracks;
 var current;
+var title;
 var activeEpisode;
 var currentTime;
 if (!localStorage.getItem('activeEpisode')) {
@@ -19,6 +20,7 @@ function eventHandler(){
 
 init();
 function init(){
+    title = document.title;
     audio = document.getElementById('audio');
     playlist = document.getElementById('playlist');
     FillPlaylist();	
@@ -60,6 +62,7 @@ function init(){
     audio.currentTime = currentTime;
 }
 function run(link, player){
+        document.title = title + ' - ' + activeEpisode;
         player.src = link.href;
         localStorage.setItem('activeEpisode', link.innerHTML);
         audio.load();
