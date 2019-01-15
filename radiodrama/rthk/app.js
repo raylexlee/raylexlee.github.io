@@ -58,6 +58,7 @@ function init(){
     audio.addEventListener('pause',function(e){
         localStorage.setItem('currentTime', audio.currentTime);
     });
+    document.title = title + ' - ' + activeEpisode;
     audio.play();
     audio.currentTime = currentTime;
 }
