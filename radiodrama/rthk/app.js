@@ -5,12 +5,13 @@ var current;
 var title;
 var activeEpisode;
 var currentTime;
-if (!localStorage.getItem('activeEpisode')) {
-    localStorage.setItem('activeEpisode', "1");
-    localStorage.setItem('currentTime', 0.0);
+title = document.title;
+if (!localStorage.getItem('activeEpisode'+title)) {
+    localStorage.setItem('activeEpisode'+title, "1");
+    localStorage.setItem('currentTime'+title, 0.0);
 }
-activeEpisode = localStorage.getItem('activeEpisode');
-currentTime = localStorage.getItem('currentTime');
+activeEpisode = localStorage.getItem('activeEpisode'+title);
+currentTime = localStorage.getItem('currentTime'+title);
 if (document.readyState !== 'loading' ) {
   eventHandler();
 } else {
@@ -35,7 +36,7 @@ function init(){
         current = link.parentNode;
         current.classList.add('active');
         currentTime = 0.0;
-        localStorage.setItem('currentTime', 0.0);
+        localStorage.setItem('currentTime'+title, 0.0);
         run(link, audio);
         });
     }
@@ -48,7 +49,7 @@ function init(){
         current.classList.add('active');
         link = current.firstElementChild;
         currentTime = 0.0;
-        localStorage.setItem('currentTime', 0.0);
+        localStorage.setItem('currentTime'+title, 0.0);
         run(link,audio);
     });
     audio.addEventListener('play',function(e){
@@ -57,7 +58,7 @@ function init(){
         }
     });
     audio.addEventListener('pause',function(e){
-        localStorage.setItem('currentTime', audio.currentTime);
+        localStorage.setItem('currentTime'+title, audio.currentTime);
     });
     document.title = title + ' - ' + activeEpisode;
     audio.play();
@@ -65,7 +66,7 @@ function init(){
 }
 function run(link, player){
         player.src = link.href;
-        localStorage.setItem('activeEpisode', link.innerHTML);
+        localStorage.setItem('activeEpisode'+title, link.innerHTML);
         activeEpisode = link.innerHTML;
         document.title = title + ' - ' + activeEpisode;
         audio.load();
