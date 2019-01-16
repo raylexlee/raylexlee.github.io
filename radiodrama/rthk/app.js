@@ -79,6 +79,7 @@ function FillPlaylist() {
        var a_ = document.createElement("A");
        var drama = radiodrama.program_infix;
        var pad = radiodrama.digit;
+       var base = (drama.indexOf('/') == -1) ? "media" : "mp3";
        if (pad == 4) {
            var episode = "abcdefghijklmnopqrstuvxywz".charAt(i-1);	    
        } else {
@@ -87,7 +88,7 @@ function FillPlaylist() {
 	          episode = episode.padStart(pad, '0');
            }
        }       
-       a_.setAttribute("href", "http://rthk9.rthk.hk/radiodrama/mp3/"+ drama + episode + ".mp3");
+       a_.setAttribute("href", "http://rthk9.rthk.hk/radiodrama/" + base" + "/"+ drama + episode + ".mp3");
        var i_ = document.createTextNode(i.toString());
        a_.appendChild(i_);
        div_.appendChild(a_);
