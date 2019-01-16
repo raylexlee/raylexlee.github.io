@@ -81,7 +81,7 @@ function FillPlaylist() {
        var pad = radiodrama.digit;
        var base = (drama.indexOf("/") == -1) ? "media" : "mp3";
        if (pad == 4) {
-           var episode = "abcdefghijklmnopqrstuvxywz".charAt(i-1);	    
+           var episode = "abcdefghijklmnopqrstuvwxyz".charAt(i-1);	    
        } else {
            var episode = i.toString();
            if (pad > 0) {
