@@ -79,7 +79,7 @@ function FillPlaylist() {
        var a_ = document.createElement("A");
        var drama = radiodrama.program_infix;
        var pad = radiodrama.digit;
-       var base = (drama.indexOf("/") == -1) ? "media" : "mp3";
+       var base = (drama.indexOf("\/") == -1) ? "media" : "mp3";
        if (pad == 4) {
            var episode = "abcdefghijklmnopqrstuvxywz".charAt(i-1);	    
        } else {
