@@ -25,7 +25,6 @@ function init(){
     audio = document.getElementById('audio');
     playlist = document.getElementById('playlist');
     tracks = playlist.querySelectorAll('a');
-    audio.volume = .10;
     for (var link of tracks) {
         link.addEventListener('click', function(e){ 
         e.preventDefault();
@@ -42,6 +41,7 @@ function init(){
             current.classList.add('active');
 	        audio.firstElementChild.setAttribute("src", link.href);     
             audio.load();
+            audio.volume = .10;
         }	
     }
     audio.addEventListener('ended',function(e){
