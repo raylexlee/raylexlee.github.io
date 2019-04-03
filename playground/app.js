@@ -4,6 +4,6 @@ const re = new XRegExp('<body(.*)<\\/body>','s')
 fetch(proxyurl + url) // https://cors-anywhere.herokuapp.com/http://esda.wyk.edu.hk/status/staff.html
 .then(response => response.text())
 .then(function(contents) {  
-    const responseText = responseText.replace(re, '$1');
+    const responseText = contents.replace(re, '$1');
     console.log(responseText)})
 .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))
