@@ -36,8 +36,8 @@ function GetAvp() {
     .then(response => response.text())
     .then(function(contents) {  
       console.log(contents);
-      console.log(match);
       const match = vpattern.exec(contents);
+      console.log(match);
       outputHTML(match[1], match[2], match[3]);
     } )
     .catch(() => console.log('AV ' + url(avnbr.value) + ' not found!'));
