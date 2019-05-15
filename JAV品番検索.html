@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Locate AV# </title>
-    <script src="https://unpkg.com/xregexp/xregexp-all.js"></script>
 <script>
 'use strict';
 function outputHTML(category, title, vtype) {
@@ -39,7 +38,7 @@ function GetAvp() {
     if (this.readyState === 4 && this.status === 200) {
       const contents = this.responseText;
       console.log(m);
-      console.log(contents.length);
+      console.log(contents);
       if (contents.includes(`${m[1]}${m[2].padStart(5,'0')}_dmb_w.mp4\"}]`)) {
         outputHTML(m[1], m[2].padStart(5,'0'), 'dmb_w');
         return;

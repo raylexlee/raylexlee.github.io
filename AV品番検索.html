@@ -35,10 +35,10 @@ function GetAvp() {
   fetch(proxyurl + url(avnbr.value.toLowerCase())) // https://cors-anywhere.herokuapp.com/url(av#)
     .then(response => response.text())
     .then(function(contents) {  
+      console.log(contents);
+      console.log(match);
       const match = vpattern.exec(contents);
       outputHTML(match[1], match[2], match[3]);
-      console.log(match);
-      console.log(contents.length);
     } )
     .catch(() => console.log('AV ' + url(avnbr.value) + ' not found!'));
 }
