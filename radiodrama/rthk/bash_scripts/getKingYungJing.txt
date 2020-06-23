@@ -1,0 +1,16 @@
+#!/bin/bash
+AUTHOR="二月河"
+COMMENT="香港電台廣播劇"
+GENRE="Other"
+ALBUM="雍正皇帝"
+YEAR=2001
+mkdir $ALBUM
+cd $ALBUM
+for i in {1..75}
+do
+   NBR=$(printf '%02d' $i)	
+   curl -s -o "$ALBUM-$NBR.mp3" http://rthk9.rthk.hk/radiodrama/mp3/1classics/king$NBR.mp3
+#   mp3info -a "$AUTHOR" -t "$ALBUM-$NBR" -g "$GENRE" -c "$COMMENT" -l "$ALBUM" -n $i -y $YEAR $ALBUM-$NBR.mp3
+   id3v2 -D "$ALBUM-$NBR.mp3"
+   file "$ALBUM-$NBR.mp3"
+   done

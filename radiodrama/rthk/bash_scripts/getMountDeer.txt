@@ -1,0 +1,16 @@
+#!/bin/bash
+AUTHOR="金庸"
+COMMENT="香港電台廣播劇"
+GENRE="Other"
+ALBUM="鹿鼎記"
+YEAR=1999
+mkdir $ALBUM
+cd $ALBUM
+for i in {1..100}
+do
+   NBR=$(printf '%03d' $i)	
+   curl -s -o "$ALBUM-$NBR.mp3" http://rthk9.rthk.hk/radiodrama/mp3/5martial/2000s_0008_$NBR.mp3
+#   mp3info -a "$AUTHOR" -t "$ALBUM-$NBR" -g "$GENRE" -c "$COMMENT" -l "$ALBUM" -n $i -y $YEAR $ALBUM-$NBR.mp3
+   id3v2 -D "$ALBUM-$NBR.mp3"
+   file "$ALBUM-$NBR.mp3"
+   done
