@@ -7,7 +7,14 @@
     <link rel="stylesheet" href="music.css">
 </head>
 <body>
-    <div class="videoWrapper" id="musicvideo"></div>    
+    <div class="wrapper">
+        <div class="myTube">
+            <div class="videoWrapper" id="musicvideo"></div>    
+        </div>
+        <form class="myForm">
+            <select name="myAlbum" id="myAlbum" onchange="gotoAlbum"></select>
+        </form>
+    </div>
 </body>
-    <script src="utilm.js"></script>
+    <script src="music.js"></script>
 </html>
