@@ -5,14 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collection of Raylex Lee</title>
     <link rel="stylesheet" href="music.css">
+    <script src="https://unpkg.com/xregexp/xregexp-all.js"></script>
+    <script src="./getSongs.js"></script>
+    <script src="./xgetSongs.js"></script>
 </head>
 <body>
     <div class="wrapper">
         <div class="myTube">
             <div class="videoWrapper" id="musicvideo"></div>    
+            <br><br>
+            <textarea name="bashscript" id="bashscript" cols="90" rows="15" value=""></textarea>
         </div>
         <form class="myForm">
             <select name="myAlbum" id="myAlbum" size="20" onchange="gotoAlbum()"></select>
+            <select name="mySong" id="mySong" size="10" onchange="gotoSong()"></select>
         </form>
     </div>
 </body>
