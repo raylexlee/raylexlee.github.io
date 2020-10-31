@@ -6,7 +6,7 @@ function getRandomIntInclusive(min, max) {
 }
 const IframeHTML = videoId => `<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`; 
 const optSong = timeTitle => {
-  const start = ('Start' in timeTitle) ? timeTitle.start : '';
+  const start = ('Start' in timeTitle) ? timeTitle.Start : '';
   const song = ('Artist' in timeTitle ) ? `${timeTitle.Artist}-${timeTitle.Title}` : timeTitle.Title;
   return `<option value="${start}">${song.replace(/\\/g, '')}`;
 };
