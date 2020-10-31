@@ -17,8 +17,8 @@ const xgetsongs = arg => {
         const Artist = hasArtist ? r.a.replace(escapePattern, '\\$&') : '';
         const Year = hasYear ? r.y : '';
         return hasTime 
-            ? {Time: Time, Title: Title, Artist: Artist, Year: Year}
-            : {Start: Start, Time: Time, Title: Title, Artist: Artist, Year: Year};
+            ? {Start: Start, Time: Time, Title: Title, Artist: Artist, Year: Year}
+            : {Time: Time, Title: Title, Artist: Artist, Year: Year};
     });
     const Times = TimeTitles.map(e => e.Time);
     const artist = album.singer.replace(escapePattern, '\\$&');

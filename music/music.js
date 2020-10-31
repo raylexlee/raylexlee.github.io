@@ -8,7 +8,9 @@ const IframeHTML = videoId => `<iframe width="560" height="315" src="https://www
 const optSong = timeTitle => {
   const start = ('Start' in timeTitle) ? timeTitle.Start : '';
   const song = ('Artist' in timeTitle ) ? `${timeTitle.Artist}-${timeTitle.Title}` : timeTitle.Title;
-  return `<option value="${start}">${song.replace(/\\/g, '')}`;
+  return start 
+      ? `<option value="${start}">${timestamp(timeTitle.Time)} ${song.replace(/\\/g, '')}`
+      : `<option value="">${song.replace(/\\/g, '')}`;
 };
 function outputHTML(arg) {
     const link = arg.link;
@@ -32,6 +34,13 @@ function gotoSong() {
         document.getElementById('musicvideo').innerHTML = IframeHTML(link);
     }
 }
+const timestamp = splitTime => {
+  const s = splitTime.split('.');
+  const r = s[0] % 60;
+  const d = (s[0] - r) / 60;
+  const h = (d===0) ? '' : `${d}:`;
+  return `${h}${r}:${s[1]}`; 
+};
 const optAlbum = videoId => `<option value="${videoId}">${Album[videoId].album}`;
 fetch('album.json')
     .then(response => response.json())
