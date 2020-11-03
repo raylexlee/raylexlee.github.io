@@ -17,7 +17,6 @@ function outputHTML(arg) {
     const album = arg.albumObj;
     const GetShScriptFunc = /\(\?<t>/.test(album.regex) ? xgetsongs : getsongs;
     const r = GetShScriptFunc(arg);
-    document.getElementById("bashscript").value = r.shscript;
     document.getElementById("mySong").innerHTML = r.TimeTitles.map(id => optSong(id)).join('\n')
     document.getElementById('myAlbum').value = link;
     document.getElementById('musicvideo').innerHTML = IframeHTML(link);
