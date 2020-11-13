@@ -13,7 +13,7 @@ a:hover {
 }
 .videoWrapper {
 	position: relative;
-	padding-bottom: 50%; /* 16:9 */
+	padding-bottom: 62.5%; /* 8:5 */
 	padding-top: 25px;
 	height: 0;
 }
