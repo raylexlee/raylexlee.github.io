@@ -4,8 +4,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WYK Campus Tour 2000</title>
-    <link rel="stylesheet" href="tour.css">
+    <title>Virtual Campus Tour</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-image: url("yellowback.jpg");
+            background-color: #BC9B72;
+        }
+
+        .wrapper {
+            display: grid;
+            grid-gap: 10px;
+            grid-template-columns: 1.2fr 3fr;
+            background-image: url("yellowback.jpg");
+            background-color: #BC9B72;
+            color: #444;
+        }
+
+        .myMap {
+            grid-column: 1;
+            z-index: 10;
+            top: 10px;
+            width: 480;
+            height: 650;
+            border: 0;
+        }
+
+        .myMap>img {
+            width: 100%;
+            height: 100%;
+            margin-top: 8px;
+            top: 0;
+            left: 0;
+            object-fit: contain;
+        }
+
+        .myPano {
+            grid-column: 2;
+        }
+
+        .videoWrapper {
+            position: relative;
+            padding-bottom: 62.5%;
+            /* 8:5 */
+            padding-top: 25px;
+            height: 0;
+        }
+
+        .videoWrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 </head>
 
 <body>
@@ -42,6 +98,16 @@
 
 </body>
 <script src="imageMapResizer.min.js"></script>
-<script src="tour.js"></script>
+<script>
+    const panoIframe = loc =>
+        `<iframe width="800" height="500" allowfullscreen style="border-style:none;"
+    src="https://cdn.pannellum.org/2.5/pannellum.htm#panorama=https%3A//raylexlee.github.io/wypath_campus_tour/dest_pano/${loc}.jpg&autoLoad=true"></iframe>`;
+    const maps = imageMapResize();
+    maps[0].onclick = function (MapClick) {
+        MapClick.preventDefault();
+        document.getElementById('pano').innerHTML = panoIframe(MapClick.target.alt);
+    };
+    document.getElementById('pano').innerHTML = panoIframe("1");
+</script>
 
 </html>
