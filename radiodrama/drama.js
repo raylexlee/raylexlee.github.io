@@ -13,7 +13,7 @@ function gotoPlaylist() {
     const playlistId = document.getElementById("myPlaylist").value;
     outputHTML(playlistId);
 }
-const optPlaylist = playlistId => `<option value="${playlistId}">${Playlist[playlistId].title}(${Playlist[playlistId].videoCount}集)`;
+const optPlaylist = playlistId => `<option value="${playlistId}">${Playlist[playlistId].title}(${Playlist[playlistId].videoCount})`;
 fetch('playlist.json')
     .then(response => response.json())
     .then(data => { 
