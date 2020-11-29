@@ -54,34 +54,9 @@ a:hover {
     grid-column: labels;
     grid-row: auto;
   }
-  .myForm > input, 
-  .myForm > select,
-  .myForm > textarea,
-  .myForm > button {
+  .myForm > select   {
     grid-column: controls;
     grid-row: auto;
     padding: .4em;
     border: 0;
   }
-  .myForm > fieldset {
-    grid-column: span 2;
-  }  
-  .myForm > button {
-    background: darkkhaki;
-    color: white;
-    }
-  .myForm > textarea {
-    min-height: 3em;
-    }
-  .button {
-  border: none;
-  color: white;
-  padding: 16px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  transition-duration: 0.4s;
-  cursor: pointer;
-}

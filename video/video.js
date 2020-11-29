@@ -1,4 +1,13 @@
 var Playlist, playlistIds, arg;
+const Category = {
+  "song":"Single Song", 
+  "album":"Album", 
+  "game":"Gaming Tutorial", 
+  "code":"Coding Tutorial", 
+  "radio":"Radio Drama", 
+  "drama":"Video Drama", 
+  "book":"Audio-book"
+};
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -16,18 +25,22 @@ function gotoPlaylist() {
     outputHTML(playlistId);
 }
 const optPlaylist = playlistId => `<option value="${playlistId}">${Playlist[playlistId].title}(${Playlist[playlistId].videoCount})`;
-function handleClick(myRadio) {
+const optCategory = categoryId => `<option value="${categoryId}">${Category[categoryId]}`;
+function handleClick() {
+  const categoryId = document.getElementById("category").value;
   document.getElementById("myPlaylist").innerHTML = playlistIds
-    .filter(id => Playlist[id].category === myRadio.value)
+    .filter(id => Playlist[id].category === categoryId)
     .map(id => optPlaylist(id)).join('\n');
 }
 fetch('video.json')
     .then(response => response.json())
     .then(data => { 
       Playlist = data;
+      document.getElementById("category").innerHTML = Object.keys(Category)
+        .map(id => optCategory(id)).join('\n');
       playlistIds = Object.keys(Playlist);
       const i = getRandomIntInclusive(0, playlistIds.length - 1);
-      document.getElementById(Playlist[playlistIds[i]].category).checked = true;
+      document.getElementById("category").value = Playlist[playlistIds[i]].category;
       document.getElementById("myPlaylist").innerHTML = playlistIds
         .filter(id => Playlist[id].category === Playlist[playlistIds[i]].category)
         .map(id => optPlaylist(id)).join('\n');

@@ -15,18 +15,8 @@
             <br><br>
         </div>
         <form class="myForm">
-            <select name="myPlaylist" id="myPlaylist" size="10" onchange="gotoPlaylist()"></select>
-            <fieldset>
-                <legend>Specify Category</legend>
-                <label><input type="radio" name="category" id="song" onclick="handleClick(this);" value="song" checked >Song  </label>
-                <label><input type="radio" name="category" id="album" onclick="handleClick(this);" value="album">Album </label>
-                <label><input type="radio" name="category" id="game" onclick="handleClick(this);" value="game">Game  </label>
-                <label><input type="radio" name="category" id="code" onclick="handleClick(this);" value="code">Code  </label>
-                <label><input type="radio" name="category" id="radio" onclick="handleClick(this);" value="radio">Radio </label>
-                <label><input type="radio" name="category" id="drama" onclick="handleClick(this);" value="drama">Drama</label>
-                <label><input type="radio" name="category" id="book" onclick="handleClick(this);" value="book">Book</label>
-           </fieldset>
-            
+            <select name="myPlaylist" id="myPlaylist" size="7" onchange="gotoPlaylist()"></select>
+            <select name="category" id="category" size="3" onchange="handleClick()"></select>
         </form>
     </div>
 </body>
