@@ -24,7 +24,10 @@ function gotoPlaylist() {
     const playlistId = document.getElementById("myPlaylist").value;
     outputHTML(playlistId);
 }
-const optPlaylist = playlistId => `<option value="${playlistId}">${Playlist[playlistId].title}(${Playlist[playlistId].videoCount})`;
+const optPlaylist = id => {
+  const fullTitle = `${Playlist[id].title}(${Playlist[id].videoCount})`;
+  return `<option value="${id}" title="${fullTitle}">${fullTitle.substr(0,20)}`;
+}; 
 const optCategory = categoryId => `<option value="${categoryId}">${Category[categoryId]}`;
 function handleClick() {
   const categoryId = document.getElementById("category").value;
