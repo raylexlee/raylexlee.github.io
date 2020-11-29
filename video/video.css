@@ -43,8 +43,11 @@ a:hover {
     grid-gap: .8em .5em;
     background: beige;
     padding: 1.2em;
-    width: 95%;
   }
+@media only screen and (orientation: landscape) {
+  .myTube { grid-area: 1 / 1 / 1 / 2; }
+  .myForm { grid-area: 1 / 2 / 1 / 3; width: 95%}
+}
 @media only screen and (orientation: portrait) {
   .myTube { grid-area: 1 / 1 / 2 / 3; }
   .myForm { grid-area: 2 / 1 / 3 / 3; width: 95vw}

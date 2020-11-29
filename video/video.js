@@ -28,9 +28,11 @@ const optPlaylist = playlistId => `<option value="${playlistId}">${Playlist[play
 const optCategory = categoryId => `<option value="${categoryId}">${Category[categoryId]}`;
 function handleClick() {
   const categoryId = document.getElementById("category").value;
-  document.getElementById("myPlaylist").innerHTML = playlistIds
-    .filter(id => Playlist[id].category === categoryId)
+  const videoIds = playlistIds.filter(id => Playlist[id].category === categoryId);
+  const i = getRandomIntInclusive(0, videoIds.length - 1);
+  document.getElementById("myPlaylist").innerHTML = videoIds
     .map(id => optPlaylist(id)).join('\n');
+  outputHTML(videoIds[i]);  
 }
 fetch('video.json')
     .then(response => response.json())
