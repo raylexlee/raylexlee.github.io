@@ -26,7 +26,8 @@ function gotoPlaylist() {
 }
 const optPlaylist = id => {
   const fullTitle = `${Playlist[id].title}(${Playlist[id].videoCount})`;
-  return `<option value="${id}" title="${fullTitle}">${fullTitle.substr(0,20)}`;
+  const length = (fullTitle.charCodeAt(0) > 255) ? 10 : 20
+  return `<option value="${id}" title="${fullTitle}">${fullTitle.substr(0,length)}`;
 }; 
 const optCategory = categoryId => `<option value="${categoryId}">${Category[categoryId]}`;
 function handleClick() {
