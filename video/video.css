@@ -47,7 +47,7 @@ a:hover {
   }
 @media only screen and (orientation: portrait) {
   .myTube { grid-area: 1 / 1 / 2 / 3; }
-  .myForm { grid-area: 2 / 1 / 3 / 3; }
+  .myForm { grid-area: 2 / 1 / 3 / 3; width: 95vw}
 }
   .myForm > label,
   .myForm > fieldset  {
