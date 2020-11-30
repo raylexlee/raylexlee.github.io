@@ -27,7 +27,7 @@ function getTextWidth(text, font) {
     return metrics.width;
 }
 function GetTextLengths() {
-  const winWidth = window.outerWidth * 0.6;
+  const winWidth = window.outerWidth * 0.55;
   const myFont = document.getElementById("myPlaylist").style.font;
   const englishWidth = getTextWidth(EnglishName, myFont) / 10;
   const chineseWidth = getTextWidth(ChineseName, myFont) / 5;
