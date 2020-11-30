@@ -69,7 +69,6 @@ function handleResize() {
   const myPlaylist = document.getElementById("myPlaylist");
   const oldValue = myPlaylist.value;
   myPlaylist.innerHTML = videoIds.map(id => optPlaylist(id)).join('\n');
-  outputHTML(playlistIds[i]);
   myPlaylist.value = oldValue;
 }
 fetch('video.json')
