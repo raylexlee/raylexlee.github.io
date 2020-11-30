@@ -45,20 +45,15 @@ a:hover {
   .myForm {
     grid-row: 2 / 3;
     display: grid;
-    grid-template-columns: [labels] auto [controls] 1fr;
+    grid-template-columns: auto;
     grid-auto-flow: row;
     grid-gap: .8em .5em;
     background: beige;
     padding: 1.2em;
-    width: 85vw;
-  }
-  .myForm > label,
-  .myForm > fieldset  {
-    grid-column: labels;
-    grid-row: auto;
+    width: 95vw;
   }
   .myForm > select   {
-    grid-column: controls;
+    grid-column: 1;
     grid-row: auto;
     padding: .2em;
     border: 0;
