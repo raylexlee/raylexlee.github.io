@@ -50,7 +50,7 @@ a:hover {
     grid-gap: .8em .5em;
     background: beige;
     padding: 1.2em;
-    width: 90vw;
+    width: 85vw;
   }
   .myForm > label,
   .myForm > fieldset  {
@@ -60,6 +60,6 @@ a:hover {
   .myForm > select   {
     grid-column: controls;
     grid-row: auto;
-    padding: .4em;
+    padding: .2em;
     border: 0;
   }
