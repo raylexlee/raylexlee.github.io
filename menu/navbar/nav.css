@@ -85,6 +85,7 @@ nav {
     nav ul {
       display: none; }
       nav ul li {
+        z-index: 2;
         float: none; }
         nav ul li a {
           padding: 15px;
