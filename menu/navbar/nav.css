@@ -75,7 +75,7 @@ nav {
     #nav-toggle.active span:after {
       transform: rotate(-45deg); }
 
-@media only screen and (max-width: 1200px) {
+@media only screen and (max-width: 1400px) {
   .nav-mobile {
     display: block; }
 
@@ -95,7 +95,7 @@ nav {
 
   .nav-dropdown {
     position: static; } }
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1400px) {
   .nav-list {
     display: block !important; } }
 .navigation {
@@ -103,7 +103,7 @@ nav {
   background: #262626; }
 
 .nav-container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto; }
 
 .brand {

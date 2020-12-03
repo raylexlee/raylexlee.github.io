@@ -10,3 +10,10 @@ const IframeHTML = playlistId =>
 function outputHTML(playlistId) {
   document.querySelector(".videoWrapper").innerHTML = IframeHTML(playlistId);
 }
+const b = document.getElementsByTagName('a');
+let m = null;
+while (m === null) {
+  i = getRandomIntInclusive(0, b.length - 1);
+  m = b[i].href.match(/\('(.*)'\)/);
+}
+outputHTML(m[1]);
