@@ -1,22 +1,32 @@
 function toggle(elem) {
   elem.style.display = (elem.style.display === 'none') ? 'block' : 'none';
 }
-document.querySelectorAll('nav ul li > a:not(:only-child)')
-  .forEach(el =>  el.addEventListener('click', function(e) {
-    const el = this;
-    toggle(el.nextElementSubling);
-    document.querySelectorAll('.nav-dropdown').filter((child) => child !== el.nextElementSubling)
-      .forEach(element => {
-        element.style.display = 'none';
-      });
-    e.stopPropagation();
-  }));
-document.documentElement.addEventListener('click', function() {
+
+function ProcessMenu() {
+  document.querySelectorAll('nav ul li > a:not(:only-child)')
+    .forEach(el => el.onclick = function (e) {
+      const nd = this.nextElementSibling;
+      document.querySelectorAll('.nav-dropdown')
+        .forEach(function(elem) { 
+          if (elem === nd) {
+            toggle(nd);
+          } else {
+            elem.style.display = 'none';
+          }});
+      e.stopPropagation();
+    });
+  document.documentElement.onclick = function () {
     document.querySelectorAll('.nav-dropdown').forEach(el => el.style.display = 'none');
-  });
-document.querySelector('#nav-toggle').addEventListener('click', function() {
-    this.classList.toggle('active');
-  });
-document.querySelector('#nav-toggle').addEventListener('click', function() {
-    document.querySelectorAll('nav ul').forEach(el => toggle(el));
+  };
+}
+if (document.readyState !== 'loading') {
+  ProcessMenu();
+} else {
+  document.addEventListener('DOMContentLoaded', ProcessMenu);
+}
+document.getElementById('nav-toggle').onclick = function () {
+  this.classList.toggle('active');
+  };
+document.getElementById('nav-toggle').addEventListener('click', function () {
+  document.querySelectorAll('nav ul').forEach(el => toggle(el));
   });
