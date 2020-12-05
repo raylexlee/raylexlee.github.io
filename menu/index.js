@@ -5,7 +5,9 @@ function getRandomIntInclusive(min, max) {
 }
 const IframeHTML = playlistId => 
   '<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/'
-  + (playlistId.startsWith("PL") ? 'playlistseries?list=' : '') + playlistId 
+  + (playlistId.startsWith("PL") 
+      ? ('playlistseries?enablejsapi=1&list='+playlistId) 
+      : (playlistId +'?enablejsapi=1')) 
   + '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
 function outputHTML(playlistId) {
   document.querySelector(".videoWrapper").innerHTML = IframeHTML(playlistId);
