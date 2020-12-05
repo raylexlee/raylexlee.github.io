@@ -29,7 +29,7 @@ function gotoSong() {
     const start = document.getElementById("mySong").value;
     if (start) {
         const videoId = document.getElementById("myAlbum").value;
-        const link = `${videoId}?start=${start}`;
+        const link = `${videoId}?start=${start}&autoplay=1`;
         document.getElementById('musicvideo').innerHTML = IframeHTML(link);
     }
 }
