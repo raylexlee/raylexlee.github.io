@@ -69,10 +69,12 @@ function SaveCurrentPlayer() {
   if (m !== null) {
     localStorage.setItem(lsTime(m[1]), player.getCurrentTime());
     localStorage.setItem(lsIndex(m[1]), player.getPlaylistIndex());
+    return;
     }
   const v = url.match(/v=([^=]+)$/);
   if (v !== null) {
     localStorage.setItem(lsTime(v[1]), player.getCurrentTime());
+    return;
     } 
 }
 
