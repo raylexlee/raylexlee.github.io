@@ -41,22 +41,12 @@ function outputHTML(playlistId) {
   }
 }
 const b = document.getElementsByTagName('a');
-let m = null;
-while (m === null) {
+let mOpeningVideoId = null;
+while (mOpeningVideoId === null) {
   i = getRandomIntInclusive(0, b.length - 1);
-  m = b[i].href.match(/\('(.*)'\)/);
+  mOpeningVideoId = b[i].href.match(/\('(.*)'\)/);
 }
-genIframeHTML(m[1]);
-if (m[1].startsWith("PL")) { 
-  if (!localStorage.getItem(lsTime(m[1]))) {
-    localStorage.setItem(lsTime(m[1]), 0.0);
-    localStorage.setItem(lsIndex(m[1]), "0");
-    }
-  } else {
-  if (!localStorage.getItem(lsTime(m[1]))) {
-    localStorage.setItem(lsTime(m[1]), 0.0);
-    }
-}
+genIframeHTML(mOpeningVideoId[1]);
 const tag = document.createElement('script');
 tag.id = 'iframe-demo';
 tag.src = 'https://www.youtube.com/iframe_api';
@@ -88,29 +78,9 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-  document.getElementById('idIframe').style.borderColor = '#FF6D00';
-}
-
-function changeBorderColor(playerStatus) {
-  var color;
-  if (playerStatus == -1) {
-    color = "#37474F"; // unstarted = gray
-  } else if (playerStatus == 0) {
-    color = "#FFFF00"; // ended = yellow
-  } else if (playerStatus == 1) {
-    color = "#33691E"; // playing = green
-  } else if (playerStatus == 2) {
-    color = "#DD2C00"; // paused = red
-  } else if (playerStatus == 3) {
-    color = "#AA00FF"; // buffering = purple
-  } else if (playerStatus == 5) {
-    color = "#FF6DOO"; // video cued = orange
-  }
-  if (color) {
-    document.getElementById('idIframe').style.borderColor = color;
-  }
+  SaveCurrentPlayer();
 }
 
 function onPlayerStateChange(event) {
-  changeBorderColor(event.data);
+  SaveCurrentPlayer();
 }
