@@ -47,7 +47,7 @@ while (m === null) {
   m = b[i].href.match(/\('(.*)'\)/);
 }
 genIframeHTML(m[1]);
-if (m[1].StartsWith("PL")) { 
+if (m[1].startsWith("PL")) { 
   if (!localStorage.getItem(lsTime(m[1]))) {
     localStorage.setItem(lsTime(m[1]), 0.0);
     localStorage.setItem(lsIndex(m[1]), "0");
