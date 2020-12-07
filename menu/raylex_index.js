@@ -19,7 +19,9 @@ function genIframeHTML(playlistId) {
   document.querySelector(".videoWrapper").innerHTML = IframeHTML(playlistId);
 }
 function outputHTML(playlistId) {
-  SaveCurrentPlayer();
+  if (mOpeningVideoId === null) {
+    SaveCurrentPlayer();
+    }
   if (playlistId.startsWith('PL')) {
     if (!localStorage.getItem(lsTime(playlistId))) {
       localStorage.setItem(lsTime(playlistId), 0.0);
@@ -78,7 +80,8 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-  SaveCurrentPlayer();
+  outputHTML(mOpeningVideoId[1]);
+  mOpeningVideoId = null;
 }
 
 function onPlayerStateChange(event) {
