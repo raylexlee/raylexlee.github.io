@@ -18,10 +18,7 @@ const IframeHTML = playlistId =>
 function genIframeHTML(playlistId) {
   document.querySelector(".videoWrapper").innerHTML = IframeHTML(playlistId);
 }
-function outputHTML(playlistId) {
-  if (mOpeningVideoId === null) {
-    SaveCurrentPlayer();
-    }
+function _outputHTML(playlistId) {
   if (playlistId.startsWith('PL')) {
     if (!localStorage.getItem(lsTime(playlistId))) {
       localStorage.setItem(lsTime(playlistId), 0.0);
@@ -41,6 +38,10 @@ function outputHTML(playlistId) {
     player.loadVideoById({videoId: playlistId,
                       startSeconds: Time});  
   }
+}
+function outputHTML(playlistId) {
+  SaveCurrentPlayer();
+  _outputHTML(playlistId);
 }
 const b = document.getElementsByTagName('a');
 let mOpeningVideoId = null;
@@ -80,8 +81,7 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-  outputHTML(mOpeningVideoId[1]);
-  mOpeningVideoId = null;
+  _outputHTML(mOpeningVideoId[1]);
 }
 
 function onPlayerStateChange(event) {
