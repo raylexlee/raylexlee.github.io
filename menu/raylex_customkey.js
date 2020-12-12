@@ -1,7 +1,7 @@
 document.onkeydown = (keyDownEvent) => {
-  const keyPressed = keyDownEvent.key;  
+  const keyPressed = keyDownEvent.key;
   keyDownEvent.preventDefault();  
-  if (keyPressed === 'a') {
+  if (keyPressed === 'q') {
     const url = player.getVideoUrl();
     const m = url.match(/list=([^&]+)&v=/);
     let videoLink, outputFilename;
@@ -12,8 +12,8 @@ document.onkeydown = (keyDownEvent) => {
     } else {
         vidoeLink = `https://www.youtube.com/playlist?list=${m[1]}`;
         outputFilename = "'%(playlist_index)s-%(title)s.%(ext)s'";
-    }
-    document.getElementById("idHint").innerHTML 
+    };
+    document.getElementById("idHint").innerText 
       = `youtube-dl --extract-audio --audio-format mp3 --audio-quality 7 -o ${outputFilename} ${videoLink}`; 
   }  
 };
