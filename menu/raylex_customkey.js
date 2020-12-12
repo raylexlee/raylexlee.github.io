@@ -13,7 +13,7 @@ document.onkeydown = (keyDownEvent) => {
         vidoeLink = `https://www.youtube.com/playlist?list=${m[1]}`;
         outputFilename = "'%(playlist_index)s-%(title)s.%(ext)s'";
     }
-    document.getElementById("idHint") 
+    document.getElementById("idHint").innerHTML 
       = `youtube-dl --extract-audio --audio-format mp3 --audio-quality 7 -o ${outputFilename} ${videoLink}`; 
   }  
 };
