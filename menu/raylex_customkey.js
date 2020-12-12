@@ -13,7 +13,11 @@ document.onkeydown = (keyDownEvent) => {
         videoLink = `https://www.youtube.com/playlist?list=${m[1]}`;
         outputFilename = "'%(playlist_index)s-%(title)s.%(ext)s'";
     };
-    document.getElementById("idHint").innerText 
+    const textHint = document.getElementById("idHint");
+    textHint.getElementById("idHint").value 
       = `youtube-dl --extract-audio --audio-format mp3 --audio-quality 7 -o ${outputFilename} ${videoLink}`; 
+    textHint.select();
+    textHint.setSelectionRange(0, 99999); /*For mobile devices*/
+    document.execCommand("copy");  
   }  
 };
