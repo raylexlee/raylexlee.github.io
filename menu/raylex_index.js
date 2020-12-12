@@ -75,6 +75,7 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player('idIframe', {
     events: {
       'onReady': onPlayerReady,
+      'onError': onPlayerError,
       'onStateChange': onPlayerStateChange
     }
   });
@@ -86,4 +87,8 @@ function onPlayerReady(event) {
 
 function onPlayerStateChange(event) {
   SaveCurrentPlayer();
+}
+
+function onPlayerError(event) {
+  console.log(player.getVideoUrl());
 }
