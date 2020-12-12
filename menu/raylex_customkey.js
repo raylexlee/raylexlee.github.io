@@ -10,7 +10,7 @@ document.onkeydown = (keyDownEvent) => {
         videoLink = `https://www.youtube.com/watch?v=${v[1]}`;
         outputFilename = "'%(title)s.%(ext)s'";
     } else {
-        vidoeLink = `https://www.youtube.com/playlist?list=${m[1]}`;
+        videoLink = `https://www.youtube.com/playlist?list=${m[1]}`;
         outputFilename = "'%(playlist_index)s-%(title)s.%(ext)s'";
     };
     document.getElementById("idHint").innerText 
