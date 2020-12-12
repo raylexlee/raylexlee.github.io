@@ -3,7 +3,7 @@ document.onkeydown = (keyDownEvent) => {
   keyDownEvent.preventDefault();  
   if (keyPressed === 'q') {
     const url = player.getVideoUrl();
-    const m = url.match(/list=([^&]+)&v=/);
+    const m = url.match(/list=([^&]+)&/);
     let videoLink, outputFilename;
     if (m === null) {
         const v = url.match(/v=([^=]+)$/);

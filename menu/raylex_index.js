@@ -58,7 +58,7 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 function SaveCurrentPlayer() {
   const url = player.getVideoUrl();
-  const m = url.match(/list=([^&]+)&v=/);
+  const m = url.match(/list=([^&]+)&/);
   if (m !== null) {
     localStorage.setItem(lsTime(m[1]), player.getCurrentTime());
     localStorage.setItem(lsIndex(m[1]), player.getPlaylistIndex());
