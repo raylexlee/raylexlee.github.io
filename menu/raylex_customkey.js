@@ -1,7 +1,7 @@
 document.onkeydown = (keyDownEvent) => {
+  const keyPressed = keyDownEvent.key;  
   keyDownEvent.preventDefault();  
-  const keyPressed = `${keyDownEvent.ctrlKey ? 'ctrl' : ''}${keyDownEvent.key}`;
-  if (keyPressed === 'ctrla') {
+  if (keyPressed === 'a') {
     const url = player.getVideoUrl();
     const m = url.match(/list=([^&]+)&v=/);
     let videoLink, outputFilename;
