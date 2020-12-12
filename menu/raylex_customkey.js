@@ -14,10 +14,13 @@ document.onkeydown = (keyDownEvent) => {
         outputFilename = "'%(playlist_index)s-%(title)s.%(ext)s'";
     };
     const textHint = document.getElementById("idHint");
-    textHint.getElementById("idHint").value 
+    textHint.innerText 
       = `youtube-dl --extract-audio --audio-format mp3 --audio-quality 7 -o ${outputFilename} ${videoLink}`; 
-    textHint.select();
-    textHint.setSelectionRange(0, 99999); /*For mobile devices*/
-    document.execCommand("copy");  
+    const r = document.createRange();
+    r.selectNode(textHint);
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(r);
+    document.execCommand('copy');
+    window.getSelection().removeAllRanges();  
   }  
 };
