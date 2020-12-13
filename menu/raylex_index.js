@@ -86,7 +86,13 @@ function onPlayerReady(event) {
 }
 
 function onPlayerStateChange(event) {
-  SaveCurrentPlayer();
+  switch (event.data) {
+    case 0:
+    case 1:
+    case 2:
+      SaveCurrentPlayer();
+      break;
+  }
 }
 
 function onPlayerError(event) {
