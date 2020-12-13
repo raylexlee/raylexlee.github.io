@@ -51,8 +51,8 @@ function playSongsRandom() {
   }
   const arr = [];
   while (arr.length < 10) {
-    const r = Math.floor(Math.random() * Songs.length;
-      if (arr.indexOf(r) === -1) arr.push(r);
+    const r = Math.floor(Math.random() * Songs.length);
+    if (arr.indexOf(r) === -1) arr.push(r);
   }
   player.loadPlaylist(arr.map(i => Songs[i]));
   player.setShuffle(true);
