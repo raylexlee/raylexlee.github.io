@@ -50,11 +50,9 @@ function playSongsRandom() {
     }
   }
   const arr = [];
-  while (arr.length < 10) {
+  while (arr.length < 20) {
     const r = Math.floor(Math.random() * Songs.length);
     if (arr.indexOf(r) === -1) arr.push(r);
   }
-  player.loadPlaylist(arr.map(i => Songs[i]));
-  player.setShuffle(true);
-  player.playVideo();
+  player.loadPlaylist(arr.map(i => Songs[i]), 0, 0);
 }
