@@ -1,35 +1,33 @@
-<html lang=”en”>
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="x-ua-compatible" content="ie=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script>
+window.onload = async () => {
+  const video = document.getElementById('monitor');
+  const canvas = document.getElementById('photo');
+  const shutter = document.getElementById('shutter');
 
-		<!-- Name of the app -->
-		<title>Camera App</title>
+  try {
+    video.srcObject = await navigator.mediaDevices.getUserMedia({video: true});
 
-		<!-- Link to main style sheet -->
-		<link rel="stylesheet" href="style.css"> 
-	</head>
-	<body>
+    await new Promise((resolve) => video.onloadedmetadata = resolve);
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    document.getElementById('splash').hidden = true;
+    document.getElementById('app').hidden = false;
 
-		<!-- Camera -->
-		<main id="camera">
+    shutter.onclick = () => canvas.getContext('2d').drawImage(video, 0, 0);
+  } catch (err) {
+    console.error(err);
+  }
+};
+</script>
 
-		    <!-- Camera sensor -->
-		    <canvas id="camera--sensor"></canvas>
-		    
-		    <!-- Camera view -->
-		    <video id="camera--view" autoplay playsinline></video>
-		    
-		    <!-- Camera output -->
-		    <img src="//:0" alt="" id="camera--output">
+<h1>Snapshot Kiosk</h1>
 
-		    <!-- Camera trigger -->
-		    <button id="camera--trigger">Take a picture</button>
+<section id="splash">
+  <p id="errorMessage">Loading...</p>
+</section>
 
-		</main>
-
-		<!-- Reference to your JavaScript file -->
-		<script src="app.js"></script> 
-	</body>
-</html>
+<section id="app" hidden>
+  <video id="monitor" autoplay></video>
+  <button id="shutter">&#x1F4F7;</button>
+  <canvas id="photo"></canvas>
+</section>
