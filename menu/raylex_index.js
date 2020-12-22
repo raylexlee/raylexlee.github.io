@@ -57,17 +57,26 @@ tag.src = 'https://www.youtube.com/iframe_api';
 const firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-function SaveCurrentPlayer() {
+function SaveCurrentPlayer(startOver = false) {
   const url = player.getVideoUrl();
   const m = url.match(/list=([^&]+)&/);
   if (m !== null) {
     localStorage.setItem(lsTime(m[1]), player.getCurrentTime());
     localStorage.setItem(lsIndex(m[1]), player.getPlaylistIndex());
+    if (startOver) {
+      localStorage.setItem(lsTime(m[1]), 0);
+      localStorage.setItem(lsIndex(m[1]), 0);
+      player.playVideo();
+    }
     return;
     }
   const v = url.match(/v=([^=]+)$/);
   if (v !== null) {
     localStorage.setItem(lsTime(v[1]), player.getCurrentTime());
+    if (startOver) {
+      localStorage.setItem(lsTime(v[1]), 0);
+      player.playVideo();
+    }
     return;
     } 
 }
@@ -91,7 +100,7 @@ function onPlayerStateChange(event) {
     case 0:
     case 1:
     case 2:
-      SaveCurrentPlayer();
+      SaveCurrentPlayer(event.data === 0);
       break;
   }
 }
