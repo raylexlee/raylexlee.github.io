@@ -31,6 +31,7 @@ function _outputHTML(playlistId) {
                      listType: 'playlist',
                      index: Index,
                      startSeconds: Time});
+    player.setLoop(true);                 
   }  else {
     if (!localStorage.getItem(lsTime(playlistId))) {
       localStorage.setItem(lsTime(playlistId), 0.0);
@@ -66,7 +67,7 @@ function SaveCurrentPlayer(startOver = false) {
     if (startOver) {
       localStorage.setItem(lsTime(m[1]), 0);
       localStorage.setItem(lsIndex(m[1]), 0);
-      player.playVideo();
+      // player.playVideoAt(0);
     }
     return;
     }
@@ -75,7 +76,8 @@ function SaveCurrentPlayer(startOver = false) {
     localStorage.setItem(lsTime(v[1]), player.getCurrentTime());
     if (startOver) {
       localStorage.setItem(lsTime(v[1]), 0);
-      player.playVideo();
+      // player.playVideo();
+      player.loadVideoById(v[1], 0);
     }
     return;
     } 
@@ -112,6 +114,7 @@ function onPlayerError(event) {
 function playSongsRandom() {
   if (Songs.length === 0) fillUpSongs();
   player.loadPlaylist(getRandomsWithin(Songs.length, 20).map(i => Songs[i]), 0, 0);
+  player.setLoop(true);                 
 }
 
 function fillUpSongs() {
