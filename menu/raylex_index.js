@@ -76,8 +76,8 @@ function SaveCurrentPlayer(startOver = false) {
     localStorage.setItem(lsTime(v[1]), player.getCurrentTime());
     if (startOver) {
       localStorage.setItem(lsTime(v[1]), 0);
-      // player.playVideo();
-      player.loadVideoById(v[1], 0);
+      //player.playVideo();
+      if (player.getPlaylist() === null) player.loadVideoById(v[1], 0);
     }
     return;
     } 
