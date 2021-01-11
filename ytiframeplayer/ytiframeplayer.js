@@ -45,9 +45,21 @@ function outputHTML(playlistId) {
   SaveCurrentPlayer();
   _outputHTML(playlistId);
 }
-let videoId = document.getElementById('videoId').value;
-if (videoId === "") videoId = 'Z13vOA7s0FI';
-genIframeHTML(videoId);
+function PlayYT() {
+  const pasteText = document.getElementById('videoId');
+  const url = pasteText.value;
+  const m = url.match(/^https:\/\/youtube\.com\/playlist\?list=(.*)$/);
+  let videoId = '';
+  if (m !== null) {
+    videoId = m[1]; 
+  } else {
+    const v = url.match(/^https:\/\/youtu\.be\/(.*)$/);
+    if (v !== null) videoId = v[1];    
+  }
+  if (videoId === "") videoId = 'Z13vOA7s0FI';
+  genIframeHTML(videoId);
+}
+playYT();
 const tag = document.createElement('script');
 tag.id = 'iframe-demo';
 tag.src = 'https://www.youtube.com/iframe_api';
