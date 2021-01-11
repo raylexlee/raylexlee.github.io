@@ -59,7 +59,7 @@ function PlayYT() {
   if (videoId === "") videoId = 'Z13vOA7s0FI';
   genIframeHTML(videoId);
 }
-playYT();
+PlayYT();
 const tag = document.createElement('script');
 tag.id = 'iframe-demo';
 tag.src = 'https://www.youtube.com/iframe_api';
