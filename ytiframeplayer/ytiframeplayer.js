@@ -56,10 +56,10 @@ function PlayYT() {
     const v = url.match(/^https:\/\/youtu\.be\/(.*)$/);
     if (v !== null) videoId = v[1];    
   }
-  if (videoId === "") videoId = 'Z13vOA7s0FI';
+  if (videoId === "") videoId = 'pRXdZ1Ajo-w';
   genIframeHTML(videoId);
 }
-PlayYT();
+genIframeHTML('pRXdZ1Ajo-w');
 const tag = document.createElement('script');
 tag.id = 'iframe-demo';
 tag.src = 'https://www.youtube.com/iframe_api';
