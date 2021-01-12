@@ -1,5 +1,6 @@
 let player;
 let Songs = [];
+const howtoId = ['oHJZPYzpRRo', 'pRXdZ1Ajo-w']
 
 const lsTime = ytId => `${ytId}Time`;
 const lsIndex = ytId => `${ytId}Index`;
@@ -56,10 +57,10 @@ function PlayYT() {
     const v = url.match(/^https:\/\/youtu\.be\/(.*)$/);
     if (v !== null) videoId = v[1];    
   }
-  if (videoId === "") videoId = 'pRXdZ1Ajo-w';
+  if (videoId === "") videoId = howtoId[getRandomIntInclusive(0,1)];
   genIframeHTML(videoId);
 }
-genIframeHTML('pRXdZ1Ajo-w');
+genIframeHTML(howtoId[getRandomIntInclusive(0,1)]);
 const tag = document.createElement('script');
 tag.id = 'iframe-demo';
 tag.src = 'https://www.youtube.com/iframe_api';
