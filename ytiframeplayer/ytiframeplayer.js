@@ -10,18 +10,18 @@ function getRandomIntInclusive(min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
 }
-const IframeHTML = playlistId =>
+const IframeHTML = (playlistId, isList = false) =>
   '<iframe id="idIframe" width="560" height="315" src="https://www.youtube-nocookie.com/embed/' +
-  (playlistId.startsWith("PL") ?
+  (isList ?
     ('playlistseries?enablejsapi=1&list=' + playlistId) :
     (playlistId + '?enablejsapi=1')) +
   '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
 
-function genIframeHTML(playlistId) {
-  document.querySelector(".videoWrapper").innerHTML = IframeHTML(playlistId);
+function genIframeHTML(playlistId, isList) {
+  document.querySelector(".videoWrapper").innerHTML = IframeHTML(playlistId, isList);
 }
-function _outputHTML(playlistId) {
-  if (playlistId.startsWith('PL')) {
+function _outputHTML(playlistId, isList) {
+  if (isList) {
     if (!localStorage.getItem(lsTime(playlistId))) {
       localStorage.setItem(lsTime(playlistId), 0.0);
       localStorage.setItem(lsIndex(playlistId), "0");
@@ -42,23 +42,25 @@ function _outputHTML(playlistId) {
                       startSeconds: Time});  
   }
 }
-function outputHTML(playlistId) {
+function outputHTML(playlistId, isList) {
   SaveCurrentPlayer();
-  _outputHTML(playlistId);
+  _outputHTML(playlistId, isList);
 }
 function PlayYT() {
   const pasteText = document.getElementById('videoId');
   const url = pasteText.value;
+  let isAlist=false;
   const m = url.match(/^https:\/\/youtube\.com\/playlist\?list=(.*)$/);
   let videoId = '';
   if (m !== null) {
-    videoId = m[1]; 
+    videoId = m[1];
+    isAlist = true; 
   } else {
     const v = url.match(/^https:\/\/youtu\.be\/(.*)$/);
     if (v !== null) videoId = v[1];    
   }
   if (videoId === "") videoId = howtoId[getRandomIntInclusive(0,1)];
-  genIframeHTML(videoId);
+  genIframeHTML(videoId, isAlist);
 }
 genIframeHTML(howtoId[getRandomIntInclusive(0,1)]);
 const tag = document.createElement('script');
@@ -103,7 +105,7 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-  _outputHTML(mOpeningVideoId[1]);
+  // _outputHTML(mOpeningVideoId[1]);
 }
 
 function onPlayerStateChange(event) {
