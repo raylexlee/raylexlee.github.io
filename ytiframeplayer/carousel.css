@@ -11,3 +11,9 @@
 	width: 100%;
 	height: 100%;
 }
+  @media screen and (orientation: portrait) {
+    img { width: 95vw; }
+  }
+  @media screen and (orientation: landscape) {
+    img { width: 45vw}
+  }
