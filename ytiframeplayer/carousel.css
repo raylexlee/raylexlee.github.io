@@ -20,16 +20,22 @@
 		grid-column: 2;
 		text-align: left;
 		text-align-last: right;
-	     padding: 200px 0;
-	
 	}
+  img {
+	  width: 100%;
+	  max-width: 100%;
+  }	
   @media screen and (orientation: portrait) {
-	  .installation {grid-template-columns: 400px, auto;}
-	  img {width: 400px}
-	  .item2 {font-size: 25px}
+	  .installation {grid-template-columns: minmax(150px, 1fr), 2.5fr ;}
+	  .item2 {
+		font-size: 100%;
+		padding: 10% 0;
+	  }
   }
   @media screen and (orientation: landscape) {
-	.installation {grid-template-columns: 500px, auto;}
-	img {width: 500px}
-	.item2 {font-size: 40px}
+	.installation {grid-template-columns: minmax(150px, 1fr), 3fr;}
+	.item2 {
+		font-size: 120%;
+	    padding: 20% 0;
+	}
   }
