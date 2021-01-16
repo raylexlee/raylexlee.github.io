@@ -1,6 +1,6 @@
 let player;
 let Songs = [];
-const howtoId = ['oHJZPYzpRRo', 'pRXdZ1Ajo-w']
+const howtoId = ['cg7OJWTGnaY', 'cg7OJWTGnaY']
 
 const lsTime = ytId => `${ytId}Time`;
 const lsIndex = ytId => `${ytId}Index`;
