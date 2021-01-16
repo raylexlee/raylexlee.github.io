@@ -26,7 +26,7 @@
 	  max-width: 100%;
   }	
   @media screen and (orientation: portrait) {
-	  .installation {grid-template-columns: minmax(350px, 1fr), 2fr ;}
+	  .installation {grid-template-columns: minmax(350px, 1fr), 1.5fr ;}
 	  .item2 {
 		font-size: 100%;
 		padding: 3% 0;
@@ -36,6 +36,6 @@
 	.installation {grid-template-columns: minmax(450px, 1fr), 3fr;}
 	.item2 {
 		font-size: 120%;
-	    padding: 8% 0;
+	    padding: 5% 0;
 	}
   }
