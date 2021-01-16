@@ -11,9 +11,25 @@
 	width: 100%;
 	height: 100%;
 }
+	.installation {
+		display: grid;
+		grid-template-columns: auto, auto;
+	}
+	.item1 {grid-column: 1} 
+	.item2 {
+		grid-column: 2;
+		text-align: left;
+		text-align-last: right;
+	     padding: 200px 0;
+	
+	}
   @media screen and (orientation: portrait) {
-    img { width: 500; }
+	  .installation {grid-template-columns: 400px, auto;}
+	  img {width: 400px}
+	  .item2 {font-size: 25px}
   }
   @media screen and (orientation: landscape) {
-    img { width: 400}
+	.installation {grid-template-columns: 500px, auto;}
+	img {width: 500px}
+	.item2 {font-size: 40px}
   }
