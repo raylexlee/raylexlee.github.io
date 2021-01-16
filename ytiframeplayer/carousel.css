@@ -12,8 +12,8 @@
 	height: 100%;
 }
   @media screen and (orientation: portrait) {
-    img { width: 45vw; }
+    img { width: 500; }
   }
   @media screen and (orientation: landscape) {
-    img { width: 25vw}
+    img { width: 400}
   }
