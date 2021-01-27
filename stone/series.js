@@ -75,8 +75,6 @@ function eventHandler(){
   }
   function FillPlaylist() {
     const maxEpisode = radiodrama.episodes;
-    document.querySelector("span").innerText 
-      = maxEpisode.toString().padStart(radiodrama.digit, '0');
     let i;
     for (i=1; i<=maxEpisode; i++) { 	
       var div_ = document.createElement('DIV');
