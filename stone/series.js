@@ -74,7 +74,7 @@ function eventHandler(){
     audio.currentTime = currentTime;
   }
   function FillPlaylist() {
-    document.getElementById("idEpisode").innerText 
+    document.querySelector("span").innerText 
       = radiodrama.episodes.toString().padStart(radiodrama.digit, '0');
     let i;
     for (i=1; i<=radiodrama.episodes; i++) { 	
