@@ -74,12 +74,12 @@ function eventHandler(){
     audio.currentTime = currentTime;
   }
   function FillPlaylist() {
-    const maxEpisode = radiodrama.episodes;
+    document.querySelector('span').innerText = episodes.toString().padStart(3, '0');
     let i;
-    for (i=1; i<=maxEpisode; i++) { 	
+    for (i=1; i <= episodes; i++) { 	
       var div_ = document.createElement('DIV');
       var a_ = document.createElement('A');
-      const pad = radiodrama.digit;
+      const pad = 3;
       a_.setAttribute('href', `${i.toString().padStart(pad, '0')}.mp3`);
       var i_ = document.createTextNode(i.toString());
       a_.appendChild(i_);
@@ -95,7 +95,7 @@ function eventHandler(){
   }
   function SetGridColumn() {
     var colNum = 10;
-    const n = radiodrama.episodes;
+    const n = episodes;
     switch (n) {
     case 1: case 2: case 3: case 4: case 5: case 6: case 7: case 8: case 9:
       colNum = n;
