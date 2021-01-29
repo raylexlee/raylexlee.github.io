@@ -81,6 +81,7 @@ function eventHandler(){
       var a_ = document.createElement('A');
       const pad = 3;
       a_.setAttribute('href', `${i.toString().padStart(pad, '0')}.mp3`);
+      if (i >= 100) a_.setAttribute('style', 'font-size: 75%');
       var i_ = document.createTextNode(i.toString());
       a_.appendChild(i_);
       div_.appendChild(a_);
