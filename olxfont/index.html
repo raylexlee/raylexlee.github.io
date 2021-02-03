@@ -13,7 +13,11 @@
     >SHOW</button>
     <img src=""  align=absmiddle border=0><br><br>
     <div></div>
-    <button type="button" onlick="Javascript:CopyCodes()">Copy Codes</button>
+    <button type="button" onlick=
+    "document.getElementById('idHint').value =Object.keys(x).filter(e => document.getElementsByName(e)[0].checked)
+    .map(e => 
+      `.replace(/<img src=\/mpf\/${e.substr(0,1).toLowerCase()}\/${e}\.BMP align=absmiddle border=0>/gm, '${x[e]}')`)
+    .join('\n');">Copy Codes</button>
     <textarea name="codes" id="idHint" cols="90" rows="15" value=""></textarea><br><br>
 </body>
 <script>
