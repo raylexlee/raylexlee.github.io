@@ -15,11 +15,11 @@ function CopyCodes() {
     .map(e => 
       `.replace(/<img src=\/mpf\/${e.substr(0,1).toLowerCase()}\/${e}\.BMP align=absmiddle border=0>/gm, '${x[e]}')`)
     .join('\n');
-  // const r = document.createRange();
-  // r.selectNode(textHint);
-  // window.getSelection().removeAllRanges();
-  // window.getSelection().addRange(r);
-  // document.execCommand('copy');
-  // window.getSelection().removeAllRanges();
+  const r = document.createRange();
+  r.selectNode(textHint);
+  window.getSelection().removeAllRanges();
+  window.getSelection().addRange(r);
+  document.execCommand('copy');
+  window.getSelection().removeAllRanges();
 }
         
