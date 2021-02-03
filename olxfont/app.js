@@ -4,7 +4,22 @@ const imgElement = c =>
 document.querySelector('div').innerHTML = ` <table> <tr>
 ${ Object.keys(x)
   .map(key => `<td>${key}</td>
+  <td><input type="checkbox" name="${key}" value="${x[key]}"></td>
   <td>${imgElement(key)}</td>
   <td>${x[key]}</td>`)
   .join('</tr><tr>') }
         </tr></table>`;
+function CopyCodes() {
+  const textHint = document.getElementById('idHint');
+  textHint.value = Object.keys(x).filter(e => document.getElementsByName(e)[0].checked)
+    .map(e => 
+      `.replace(/<img src=\/mpf\/${e.substr(0,1).toLowerCase()}\/${e}\.BMP align=absmiddle border=0>/gm, '${x[e]}')`)
+    .join('\n');
+  // const r = document.createRange();
+  // r.selectNode(textHint);
+  // window.getSelection().removeAllRanges();
+  // window.getSelection().addRange(r);
+  // document.execCommand('copy');
+  // window.getSelection().removeAllRanges();
+}
+        
