@@ -13,7 +13,7 @@ function CopyCodes() {
   const textHint = document.getElementById('idHint');
   textHint.value = Object.keys(x).filter(e => document.getElementsByName(e)[0].checked)
     .map(e => 
-      `.replace(/<img src=\/mpf\/${e.substr(0,1).toLowerCase()}\/${e}\.BMP align=absmiddle border=0>/gm, '${x[e]}')`)
+      `.replace(/<img src=\\/mpf\\/${e.substr(0,1).toLowerCase()}\\/${e}\\.BMP align=absmiddle border=0>/gm, '${x[e]}')`)
     .join('\n');
   const r = document.createRange();
   r.selectNode(textHint);
