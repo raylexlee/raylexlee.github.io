@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+<script type="module">
+import * as id3 from './js/id3.js';
+
+id3.fromUrl('009.mp3').then((tags) => {
+  // tags now contains v1, v2 and merged tags
+  console.log(tags);
+});
+</script>
+</body>
+</html>
