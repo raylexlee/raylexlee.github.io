@@ -1,0 +1,10 @@
+#!/bin/bash
+cat index_html_front.txt > index.html
+for book in $(ls audio)
+do
+mapfile -t < <(ls -l audio/$book/*mp3)
+START=$(echo ${MAPFILE[0]} | sed 's/.*\([0-9]\)\.mp3$/\1/')
+sed -e "s/157/${#MAPFILE[@]}/" -e "s/李潤明/$book/" -e "s/raylex/$START/" < audiobook.html.template.txt > $book.html
+echo \<li\>\<a href="\""$book.html"\""\>$book\</a\>\</li\> >> index.html
+done
+echo \</ul\>\</body\>\</html\> >> index.html

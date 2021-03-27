@@ -72,9 +72,9 @@ function eventHandler(){
     document.title = title + ' - ' + activeEpisode;
     audio.load();
     id3.fromUrl(link.href).then( tags => {
-      document.getElementById('chapter').innerHTML=`${tags.title}<br>`;
+      document.getElementById('chapter').innerHTML=`${tags.title ? tags.title+'<br>' : ''}`;
       document.getElementById('artistalbum').innerHTML=
-            `${tags.artist}${tags.album}<br>${tags.comments ? tags.comments+'<br>' : ''}
+            `${tags.artist} | ${tags.album}<br>${tags.comments ? tags.comments+'<br>' : ''}
              Recorded in ${tags["recording-time"]}
             `;
     });
@@ -83,7 +83,8 @@ function eventHandler(){
   }
   function FillPlaylist() {
     let i;
-    for (i=1; i <= episodes; i++) { 	
+    const last_episode = episodes + start_episode - 1;
+    for (i=start_episode; i <= last_episode; i++) { 	
       var div_ = document.createElement('DIV');
       var a_ = document.createElement('A');
       const pad = 3;
@@ -98,9 +99,9 @@ function eventHandler(){
         audio.firstElementChild.setAttribute('src', a_.attributes[0].value);     
 	audio.load();     
         id3.fromUrl(`/audio/${title}/${i.toString().padStart(pad, '0')}.mp3`).then( tags => {
-          document.getElementById('chapter').innerHTML=`${tags.title}<br>`;
+          document.getElementById('chapter').innerHTML=`${tags.title ? tags.title+'<br>' : ''}`;
           document.getElementById('artistalbum').innerHTML=
-            `${tags.artist}${tags.album}<br>${tags.comments ? tags.comments+'<br>' : ''}
+            `${tags.artist} | ${tags.album}<br>${tags.comments ? tags.comments+'<br>' : ''}
              Recorded in ${tags["recording-time"]}
             `;
         });
@@ -120,7 +121,7 @@ function eventHandler(){
       break;
     case 13: case 14:
     case 21:
-      colNUm = 7;
+      colNum = 7;
       break;
     case 15: case 16:
     case 22: case 23: case 24:

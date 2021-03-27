@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Primary Meta Tags -->
+  <title>李潤明</title>
+
+  <!-- Custom styles for this template -->
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<audio id="audio" preload="auto" tabindex="0" controls="" type="audio/mpeg">
+<source type="audio/mp3" src="">
+Sorry, your browser does not support HTML5 audio.
+</audio>
+<div id="playlist"> </div>
+<div id="chapter"></div>
+<div id="artistalbum"></div>
+<script type="text/javascript">
+const episodes = 157;
+const start_episode = raylex;
+</script>
+<script type="module" src="audiobook.js"></script>
+</body>
+</html>
