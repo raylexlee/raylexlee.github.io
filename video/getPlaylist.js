@@ -10,7 +10,7 @@ const Category = {
   "drama":"Video Drama", 
   "book":"Audio-book"
 };
-Playliest = {
+Playlist = {
   "scqLliarGpM": {
     "linktitle": "1984 Audiobook by George Orwell",
     "title": "1984 by George Orwell",
