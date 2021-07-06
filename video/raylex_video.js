@@ -45,15 +45,25 @@ const IframeHTML = playlistId =>  playlistId.startsWith("PL")
   : `<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${playlistId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`; 
 function outputHTML(playlistId) {
     document.getElementById('myPlaylist').value = playlistId;
-    try {
-       document.getElementById('ytVideo').innerHTML = IframeHTML(playlistId);
-    } catch(err) {
-      document.getElementById('errMessage').innerText = err.message;
-    }  
+    document.getElementById('ytVideo').innerHTML = IframeHTML(playlistId);
 } 
-function gotoPlaylist() {
-    const playlistId = document.getElementById("myPlaylist").value;
-    outputHTML(playlistId);
+function _outputHTML(playlistId) {
+    document.getElementById('myPlaylist').value = playlistId;
+} 
+function _outputHTML(playlistId) {
+  const playlistId = document.getElementById("myPlaylist").value;
+  if (playlistId.startsWith('PL')) {
+    const Time = 0;
+    const Index = 0;
+    player.loadPlaylist({list: playlistId,
+                     listType: 'playlist',
+                     index: Index,
+                     startSeconds: Time});
+  }  else {
+    const Time = 0;
+    player.loadVideoById({videoId: playlistId,
+                      startSeconds: Time});  
+  }
 }
 const optPlaylist = id => {
   const fullTitle = `${Playlist[id].title}(${Playlist[id].videoCount})`;
@@ -67,7 +77,7 @@ function handleClick() {
   const i = getRandomIntInclusive(0, videoIds.length - 1);
   document.getElementById("myPlaylist").innerHTML = videoIds
     .map(id => optPlaylist(id)).join('\n');
-  outputHTML(videoIds[i]);  
+  _outputHTML(videoIds[i]);  
 }
 function handleResize() {
   GetTextLengths();
