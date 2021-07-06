@@ -1,16 +1,4 @@
 let player;
-var Playlist, playlistIds, videoIds, englishLength, chineseLength ;
-const EnglishName = "raylex@HK.";
-const ChineseName = "香港李潤明";
-const Category = {
-  "song":"Single Song", 
-  "album":"Album", 
-  "game":"Gaming Tutorial", 
-  "code":"Coding Tutorial", 
-  "radio":"Radio Drama", 
-  "drama":"Video Drama", 
-  "book":"Audio-book"
-};
 /**
  * Uses canvas.measureText to compute and return the width of the given text of given font in pixels.
  * 
@@ -93,20 +81,6 @@ tag.id = 'iframe-demo';
 tag.src = 'https://www.youtube.com/iframe_api';
 const firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-fetch('video.json')
-    .then(response => response.json())
-    .then(data => { 
-      Playlist = data;
-      document.getElementById("category").innerHTML = Object.keys(Category)
-        .map(id => optCategory(id)).join('\n');
-      playlistIds = Object.keys(Playlist);
-      const i = getRandomIntInclusive(0, playlistIds.length - 1);
-      GetTextLengths();
-      document.getElementById("category").value = Playlist[playlistIds[i]].category;
-      videoIds = playlistIds .filter(id => Playlist[id].category === Playlist[playlistIds[i]].category)
-      document.getElementById("myPlaylist").innerHTML = videoIds
-        .map(id => optPlaylist(id)).join('\n');
-    });
 
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('idIframe', {
@@ -124,6 +98,7 @@ function onPlayerReady(event) {
 }
 
 function onPlayerStateChange(event) {
+  document.getElementById('errMessage').innerText = "Video ok!";
   switch (event.data) {
     case 0:
     case 1:
