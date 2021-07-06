@@ -62,6 +62,10 @@ function _outputHTML(playlistId) {
                       startSeconds: Time});  
   }
 }
+function gotoPlaylist() {
+    const playlistId = document.getElementById("myPlaylist").value;
+    _outputHTML(playlistId);
+}
 const optPlaylist = id => {
   const fullTitle = `${Playlist[id].title}(${Playlist[id].videoCount})`;
   const length = (fullTitle.charCodeAt(0) > 255) ? chineseLength : englishLength;
