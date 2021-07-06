@@ -48,7 +48,7 @@ function outputHTML(playlistId) {
     document.getElementById('ytVideo').innerHTML = IframeHTML(playlistId);
 } 
 function _outputHTML(playlistId) {
-  const playlistId = document.getElementById("myPlaylist").value;
+  document.getElementById('myPlaylist').value = playlistId;
   if (playlistId.startsWith('PL')) {
     const Time = 0;
     const Index = 0;
