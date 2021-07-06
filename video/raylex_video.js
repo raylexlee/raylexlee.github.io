@@ -110,7 +110,7 @@ function onPlayerReady(event) {
 }
 
 function onPlayerStateChange(event) {
-  document.getElementById('errMessage').innerText = "Video ok!";
+ // document.getElementById('errMessage').innerText = "Video ok!";
   switch (event.data) {
     case 0:
     case 1:
