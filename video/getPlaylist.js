@@ -2130,12 +2130,3 @@ Playlist = {
     "category": "code"
   }
 };
-document.getElementById("category").innerHTML = Object.keys(Category)
-        .map(id => optCategory(id)).join('\n');
-playlistIds = Object.keys(Playlist);
-const i = getRandomIntInclusive(0, playlistIds.length - 1);
-GetTextLengths();
-document.getElementById("category").value = Playlist[playlistIds[i]].category;
-videoIds = playlistIds .filter(id => Playlist[id].category === Playlist[playlistIds[i]].category)
-document.getElementById("myPlaylist").innerHTML = videoIds
-        .map(id => optPlaylist(id)).join('\n');
