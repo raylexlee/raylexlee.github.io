@@ -30,7 +30,7 @@ function getRandomIntInclusive(min, max) {
 }
 const IframeHTML = playlistId =>  playlistId.startsWith("PL") 
   ? `<iframe id="idIframe" width="560" height="315" src="https://www.youtube-nocookie.com/embed/playlistseries?list=${playlistId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>` 
-  : `<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${playlistId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`; 
+  : `<iframe id="idIframe" width="560" height="315" src="https://www.youtube-nocookie.com/embed/${playlistId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`; 
 function outputHTML(playlistId) {
     document.getElementById('myPlaylist').value = playlistId;
     document.getElementById('ytVideo').innerHTML = IframeHTML(playlistId);
