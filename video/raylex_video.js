@@ -1,4 +1,6 @@
 let player;
+let playlistId;
+playlistId = 'IamAString';
 /**
  * Uses canvas.measureText to compute and return the width of the given text of given font in pixels.
  * 
