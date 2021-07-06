@@ -83,6 +83,12 @@ function handleResize() {
   myPlaylist.innerHTML = videoIds.map(id => optPlaylist(id)).join('\n');
   myPlaylist.value = oldValue;
 }
+document.getElementById('ytVideo').innerHTML = IframeHTML('Ko3Z5aYF8x8');
+const tag = document.createElement('script');
+tag.id = 'iframe-demo';
+tag.src = 'https://www.youtube.com/iframe_api';
+const firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 fetch('video.json')
     .then(response => response.json())
     .then(data => { 
@@ -96,12 +102,6 @@ fetch('video.json')
       videoIds = playlistIds .filter(id => Playlist[id].category === Playlist[playlistIds[i]].category)
       document.getElementById("myPlaylist").innerHTML = videoIds
         .map(id => optPlaylist(id)).join('\n');
-      outputHTML(playlistIds[i]);
-      const tag = document.createElement('script');
-      tag.id = 'iframe-demo';
-      tag.src = 'https://www.youtube.com/iframe_api';
-      const firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     });
 
 function onYouTubeIframeAPIReady() {
