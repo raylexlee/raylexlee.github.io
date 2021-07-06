@@ -109,6 +109,7 @@ function onPlayerStateChange(event) {
 
 function onPlayerError(event) {
   console.log(player.getVideoUrl());
+  document.getElementById('idError').value += `\n${player.getVideoUrl()}`;
 }
 
 function playSongsRandom() {
