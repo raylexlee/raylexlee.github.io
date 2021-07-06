@@ -44,7 +44,11 @@ const IframeHTML = playlistId =>  playlistId.startsWith("PL")
   : `<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/${playlistId}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`; 
 function outputHTML(playlistId) {
     document.getElementById('myPlaylist').value = playlistId;
-    document.getElementById('ytVideo').innerHTML = IframeHTML(playlistId);
+    try {
+       document.getElementById('ytVideo').innerHTML = IframeHTML(playlistId);
+    } catch(err) {
+      document.getElementById('errMessage').innerText = err.message;
+    }  
 } 
 function gotoPlaylist() {
     const playlistId = document.getElementById("myPlaylist").value;
