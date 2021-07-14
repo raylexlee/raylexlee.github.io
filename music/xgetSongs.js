@@ -13,11 +13,6 @@ const xgetsongs = arg => {
         const r = objR ? objR : {};
         r.h = r.h ? r.h : '';
         const hour = hasHour ? r.h.replace(/:$/,'') : '0';
-        r.m = r.m ? r.m : '';
-        r.s = r.s ? r.s : '';
-        r.t = r.t ? r.t : '';
-        r.y = r.y ? r.y : '';
-        r.a = r.a ? r.a : '';
         const Time = hasTime ? `${60*hour + 1*r.m}.${r.s}` : '';
         const Start = hasTime ? (3600*hour + 60*r.m + 1*r.s) : 0;
         const Title = r.t.replace(escapePattern, '\\$&');
