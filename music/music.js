@@ -20,6 +20,7 @@ function outputHTML(arg) {
     document.getElementById("mySong").innerHTML = r.TimeTitles.map(id => optSong(id)).join('\n')
     document.getElementById('myAlbum').value = link;
     document.getElementById('musicvideo').innerHTML = IframeHTML(link);
+    document.getElementById('myScript').value = r;
 } 
 function gotoAlbum() {
     const videoId = document.getElementById("myAlbum").value;
