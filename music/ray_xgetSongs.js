@@ -10,12 +10,14 @@ const xgetsongs = arg => {
     const hasYear = /\(\?<y>/.test(album.regex);
     const TimeTitles = album.timetitles.map(timetitle => {
         const r = XRegExp.exec(timetitle, pattern);
-        const hour = hasHour ? r.h.replace(/:$/,'') : '0';
-        const Time = hasTime ? `${60*hour + 1*r.m}.${r.s}` : '';
-        const Start = hasTime ? (3600*hour + 60*r.m + 1*r.s) : 0;
-        const Title = r.t.replace(escapePattern, '\\$&');
-        const Artist = hasArtist ? r.a.replace(escapePattern, '\\$&') : '';
-        const Year = hasYear ? r.y : '';
+        const k = Object.keys(r);
+        const v = (fld = 'y', isStr = true) => (k.indexOf(fld) == -1) ? (isStr ? '' : '0') :  r[fld];
+        const hour = hasHour ? v('h').replace(/:$/,'') : '0';
+        const Time = hasTime ? `${60*hour + 1*v('m', false)}.${v('s', false)}` : '';
+        const Start = hasTime ? (3600*hour + 60*v('m', false) + 1*v('s', false)) : 0;
+        const Title = v('t').replace(escapePattern, '\\$&');
+        const Artist = hasArtist ? v('a').replace(escapePattern, '\\$&') : '';
+        const Year = hasYear ? v('y') : '';
         return hasTime 
             ? {Start: Start, Time: Time, Title: Title, Artist: Artist, Year: Year}
             : {Time: Time, Title: Title, Artist: Artist, Year: Year};
