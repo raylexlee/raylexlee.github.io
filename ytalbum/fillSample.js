@@ -1,4 +1,4 @@
-document.getElementById(mySample).value=`(.*)
+document.getElementById('mySample').value=`(.*)
 \"(.*)\"
 \"\"(.*)\"\"\"
 (\\d:|)(\\d{1,2}):(\\d\\d)\\s+(.*)
