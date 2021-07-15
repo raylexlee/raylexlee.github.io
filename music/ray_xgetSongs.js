@@ -10,6 +10,7 @@ const xgetsongs = arg => {
     const hasYear = /\(\?<y>/.test(album.regex);
     const TimeTitles = album.timetitles.map(timetitle => {
         const r = XRegExp.exec(timetitle, pattern);
+        console.log(r);
         const k = Object.keys(r);
         const v = (fld = 'y', isStr = true) => (k.indexOf(fld) == -1) ? (isStr ? '' : '0') :  r[fld];
         const hour = hasHour ? v('h').replace(/:$/,'') : '0';
