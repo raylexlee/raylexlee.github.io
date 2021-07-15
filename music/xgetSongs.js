@@ -9,7 +9,8 @@ const xgetsongs = arg => {
     const hasArtist = /\(\?<a>/.test(album.regex);
     const hasYear = /\(\?<y>/.test(album.regex);
     const TimeTitles = album.timetitles.map(timetitle => {
-        const r = XRegExp.exec(timetitle, pattern);
+        const raylex = XRegExp.exec(timetitle, pattern);
+        const r = raylex.groups;
         const hour = hasHour ? r.h.replace(/:$/,'') : '0';
         const Time = hasTime ? `${60*hour + 1*r.m}.${r.s}` : '';
         const Start = hasTime ? (3600*hour + 60*r.m + 1*r.s) : 0;
