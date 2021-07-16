@@ -25,7 +25,7 @@ a:hover {
   .wrapper {
 		display: grid;
     grid-gap: 10px;
-		grid-template-columns: 3fr 2fr;
+		grid-template-columns: 1fr 1fr;
 		background-color: #fff;
 		color: #444;
 	}
@@ -33,7 +33,7 @@ a:hover {
     grid-column: 1;
   }
   .myForm > * {
-   font: 1.3em  sans-serif; 
+   font: 1em  sans-serif; 
   }
   .myForm {
     grid-column: 2;

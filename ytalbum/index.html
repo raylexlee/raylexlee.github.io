@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,21 +10,30 @@
     <script src="./getSongs.js"></script>
     <script src="./xgetSongs.js"></script>
 </head>
+
 <body>
     <div class="wrapper">
         <div class="myTube">
-            <div class="videoWrapper" id="musicvideo"></div>    
+            Paste
+            <input type="text" name="videoId" id="videoId">
+            <button type="button" onclick="PlayYT();">GO</button>
+            <button type="button" onclick="document.getElementById('videoId').value = '';">CLEAR</button>
+            <div class="videoWrapper" id="musicvideo"></div>
             <br><br>
             <textarea name="codes" id="myScript" cols="90" rows="15" value=""></textarea>
             <br><br>
             <textarea name="sample_regex" id="mySample" cols="90" rows="15" value=""></textarea>
         </div>
         <form class="myForm">
-            <select name="myAlbum" id="myAlbum" size="20" onchange="gotoAlbum()"></select>
+            Regex
+            <input type="text" name="regex" id="myRegex">
+            <button type="button" onclick="Compile();">COMPILE</button>
+            <textarea name="timetitles" id="myTimetiles" cols="90" rows="15" value=""></textarea>
             <select name="mySong" id="mySong" size="10" onchange="gotoSong()"></select>
         </form>
     </div>
 </body>
-    <script src="fillSample.js"></script>
-    <script src="music.js"></script>
+<script src="fillSample.js"></script>
+<script src="ytiframeplayer.js"></script>
+
 </html>
