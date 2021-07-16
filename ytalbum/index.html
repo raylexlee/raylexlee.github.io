@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collection of Raylex Lee</title>
+    <title>Split YT Album</title>
     <link rel="stylesheet" href="music.css">
     <script src="https://unpkg.com/xregexp/xregexp-all.js"></script>
     <script src="./getSongs.js"></script>
@@ -20,9 +20,9 @@
             <button type="button" onclick="document.getElementById('videoId').value = '';">CLEAR</button>
             <div class="videoWrapper" id="musicvideo"></div>
             <br><br>
-            <textarea name="codes" id="myScript" cols="90" rows="15" value=""></textarea>
+            <textarea name="codes" id="myScript" cols="90" rows="10" value=""></textarea>
             <br><br>
-            <textarea name="sample_regex" id="mySample" cols="90" rows="15" value=""></textarea>
+            <textarea name="sample_regex" id="mySample" cols="90" rows="10" value=""></textarea>
         </div>
         <form class="myForm">
             Album
@@ -32,7 +32,7 @@
             Regex
             <input type="text" name="regex" id="myRegex">
             <button type="button" onclick="Compile();">COMPILE</button>
-            <textarea name="timetitles" id="myTimetitles" cols="60" rows="15" value=""></textarea>
+            <textarea name="timetitles" id="myTimetitles" cols="60" rows="10" value=""></textarea>
             <select name="mySong" id="mySong" size="10" onchange="gotoSong()"></select>
         </form>
     </div>
