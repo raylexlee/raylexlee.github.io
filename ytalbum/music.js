@@ -6,7 +6,7 @@ const optSong = timeTitle => {
       ? `<option value="${start}">${timestamp(timeTitle.Time)} ${song.replace(/\\/g, '')}`
       : `<option value="">${song.replace(/\\/g, '')}`;
 };
-function CompileRegex() {
+function Compile() {
     const pasteText = document.getElementById('videoId');
     const url = pasteText.value;
     let videoId = '';
@@ -15,11 +15,24 @@ function CompileRegex() {
     if (videoId === '') return;    
     const regex = document.getElementById('myRegex').value;
     if (regex === '') return;
+    const album = document.getElementById('myAlbum').value;
+    if (album === '') return;
+    const artist = document.getElementById('myArtist').value;
+    if (artist === '') return;
+    const timetitles = document.getElementById('myTimetitles').value;
+    if (timetitles === '') return;
+    const arg = { 
+                   link: videoId,
+                   albumObj : {
+                                 album: album,
+                                 singer: artist,
+                                 regex: regex,
+                                 timetitles: timetitles.replace(/\n+$/, "").split("\n")
+                              }
+                };
     const GetShScriptFunc = /\(\?<t>/.test(regex) ? xgetsongs : getsongs;
     const r = GetShScriptFunc(arg);
     document.getElementById("mySong").innerHTML = r.TimeTitles.map(id => optSong(id)).join('\n')
-    document.getElementById('myAlbum').value = link;
-    document.getElementById('musicvideo').innerHTML = IframeHTML(link);
     document.getElementById('myScript').value = r.shscript;
 } 
 function gotoSong() {
