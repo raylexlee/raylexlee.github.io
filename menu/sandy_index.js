@@ -51,8 +51,8 @@ while (mOpeningVideoId === null) {
   i = getRandomIntInclusive(0, b.length - 1);
   mOpeningVideoId = b[i].href.match(/\('(.*)'\)/);
 }
-// genIframeHTML(mOpeningVideoId[1]);
-genIframeHTML('PLKcsMLvQGJzNNYQD9F30VXzahexGN0SeW');
+mOpeningVideoId[1] = 'PLKcsMLvQGJzNNYQD9F30VXzahexGN0SeW';
+genIframeHTML(mOpeningVideoId[1]);
 const tag = document.createElement('script');
 tag.id = 'iframe-demo';
 tag.src = 'https://www.youtube.com/iframe_api';
