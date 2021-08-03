@@ -47,12 +47,12 @@ function outputHTML(playlistId) {
 }
 const b = document.getElementsByTagName('a');
 let mOpeningVideoId = null;
-mOpeningVideoId = 'PLKcsMLvQGJzNNYQD9F30VXzahexGN0SeW';
 while (mOpeningVideoId === null) {
   i = getRandomIntInclusive(0, b.length - 1);
   mOpeningVideoId = b[i].href.match(/\('(.*)'\)/);
 }
-genIframeHTML(mOpeningVideoId[1]);
+// genIframeHTML(mOpeningVideoId[1]);
+genIframeHTML('PLKcsMLvQGJzNNYQD9F30VXzahexGN0SeW');
 const tag = document.createElement('script');
 tag.id = 'iframe-demo';
 tag.src = 'https://www.youtube.com/iframe_api';
