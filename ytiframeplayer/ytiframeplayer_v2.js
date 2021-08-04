@@ -60,10 +60,10 @@ function PlayYT() {
     if (v !== null) videoId = v[1];    
   }
   if (videoId === "") {
-    if (!localStorage.getItem(last_playlistId)) {
-      localStorage.setItem(last_playlistId, howtoId[getRandomIntInclusive(0,1)]);
+    if (!localStorage.getItem("last_playlistId")) {
+      localStorage.setItem("last_playlistId", howtoId[getRandomIntInclusive(0,1)]);
     } 
-    videoId = localStorage.getItem(last_playlistId);
+    videoId = localStorage.getItem("last_playlistId");
     isAlist = videoId.startsWith("PL") || videoId.startsWith("OL");
   }
   genIframeHTML(videoId, isAlist);
@@ -77,8 +77,10 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 function SaveCurrentPlayer(startOver = false) {
   const url = player.getVideoUrl();
+  console.log(url);
   const m = url.match(/list=([^&]+)&/);
   if (m !== null) {
+    localStorage.setItem("last_playlistId", m[1]);
     localStorage.setItem(lsTime(m[1]), player.getCurrentTime());
     localStorage.setItem(lsIndex(m[1]), player.getPlaylistIndex());
     if (startOver) {
@@ -90,6 +92,7 @@ function SaveCurrentPlayer(startOver = false) {
     }
   const v = url.match(/v=([^=]+)$/);
   if (v !== null) {
+    localStorage.setItem("last_playlistId", v[1]);
     localStorage.setItem(lsTime(v[1]), player.getCurrentTime());
     if (startOver) {
       localStorage.setItem(lsTime(v[1]), 0);
