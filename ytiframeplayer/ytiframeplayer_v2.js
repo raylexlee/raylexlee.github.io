@@ -67,7 +67,7 @@ function PlayYT() {
     isAlist = videoId.startsWith("PL") || videoId.startsWith("OL");
   }
   localStorage.setItem("last_playlistId", videoId);
-  genIframeHTML(videoId, isAlist);
+  _outputHTML(videoId, isAlist);
 }
 if (!localStorage.getItem("last_playlistId")) {
   localStorage.setItem("last_playlistId", howtoId[getRandomIntInclusive(0,1)]);
