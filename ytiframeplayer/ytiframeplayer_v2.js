@@ -119,7 +119,7 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-  // _outputHTML(mOpeningVideoId[1]);
+  PlayYT();
 }
 
 function onPlayerStateChange(event) {
