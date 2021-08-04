@@ -83,7 +83,6 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 function SaveCurrentPlayer(startOver = false) {
   const url = player.getVideoUrl();
-  console.log(url);
   const m = url.match(/list=([^&]+)&/);
   if (m !== null) {
     localStorage.setItem("last_playlistId", m[1]);
