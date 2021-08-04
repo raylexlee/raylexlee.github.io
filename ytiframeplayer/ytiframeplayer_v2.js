@@ -66,9 +66,15 @@ function PlayYT() {
     videoId = localStorage.getItem("last_playlistId");
     isAlist = videoId.startsWith("PL") || videoId.startsWith("OL");
   }
+  localStorage.setItem("last_playlistId", videoId);
   genIframeHTML(videoId, isAlist);
 }
-genIframeHTML(howtoId[getRandomIntInclusive(0,1)]);
+if (!localStorage.getItem("last_playlistId")) {
+  localStorage.setItem("last_playlistId", howtoId[getRandomIntInclusive(0,1)]);
+} 
+const init_videoId = localStorage.getItem("last_playlistId");
+const init_isAlist = init_videoId.startsWith("PL") || init_videoId.startsWith("OL");
+genIframeHTML(init_videoId, init_isAlist);
 const tag = document.createElement('script');
 tag.id = 'iframe-demo';
 tag.src = 'https://www.youtube.com/iframe_api';
