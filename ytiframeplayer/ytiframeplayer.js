@@ -26,8 +26,10 @@ function _outputHTML(playlistId, isList) {
       localStorage.setItem(lsTime(playlistId), 0.0);
       localStorage.setItem(lsIndex(playlistId), "0");
       }
-    const Time = localStorage.getItem(lsTime(playlistId));
-    const Index = localStorage.getItem(lsIndex(playlistId));
+    const strTime = localStorage.getItem(lsTime(playlistId));
+    const Time = parseFloat(Time);
+    const strIndex = localStorage.getItem(lsIndex(playlistId));
+    const Index = parseInt(strIndex);
     player.loadPlaylist({list: playlistId,
                      listType: 'playlist',
                      index: Index,
@@ -37,7 +39,8 @@ function _outputHTML(playlistId, isList) {
     if (!localStorage.getItem(lsTime(playlistId))) {
       localStorage.setItem(lsTime(playlistId), 0.0);
       }
-    const Time = localStorage.getItem(lsTime(playlistId));
+    const strTime = localStorage.getItem(lsTime(playlistId));
+    const Time = parseFloat(strTime);
     player.loadVideoById({videoId: playlistId,
                       startSeconds: Time});  
   }
@@ -59,10 +62,22 @@ function PlayYT() {
     const v = url.match(/^https:\/\/youtu\.be\/(.*)$/);
     if (v !== null) videoId = v[1];    
   }
-  if (videoId === "") videoId = howtoId[getRandomIntInclusive(0,1)];
-  genIframeHTML(videoId, isAlist);
+  if (videoId === "") {
+    if (!localStorage.getItem("last_playlistId")) {
+      localStorage.setItem("last_playlistId", howtoId[getRandomIntInclusive(0,1)]);
+    } 
+    videoId = localStorage.getItem("last_playlistId");
+    isAlist = videoId.startsWith("PL") || videoId.startsWith("OL");
+  }
+  localStorage.setItem("last_playlistId", videoId);
+  _outputHTML(videoId, isAlist);
 }
-genIframeHTML(howtoId[getRandomIntInclusive(0,1)]);
+if (!localStorage.getItem("last_playlistId")) {
+  localStorage.setItem("last_playlistId", howtoId[getRandomIntInclusive(0,1)]);
+} 
+const init_videoId = localStorage.getItem("last_playlistId");
+const init_isAlist = init_videoId.startsWith("PL") || init_videoId.startsWith("OL");
+genIframeHTML(init_videoId, init_isAlist);
 const tag = document.createElement('script');
 tag.id = 'iframe-demo';
 tag.src = 'https://www.youtube.com/iframe_api';
@@ -73,6 +88,7 @@ function SaveCurrentPlayer(startOver = false) {
   const url = player.getVideoUrl();
   const m = url.match(/list=([^&]+)&/);
   if (m !== null) {
+    localStorage.setItem("last_playlistId", m[1]);
     localStorage.setItem(lsTime(m[1]), player.getCurrentTime());
     localStorage.setItem(lsIndex(m[1]), player.getPlaylistIndex());
     if (startOver) {
@@ -84,6 +100,7 @@ function SaveCurrentPlayer(startOver = false) {
     }
   const v = url.match(/v=([^=]+)$/);
   if (v !== null) {
+    localStorage.setItem("last_playlistId", v[1]);
     localStorage.setItem(lsTime(v[1]), player.getCurrentTime());
     if (startOver) {
       localStorage.setItem(lsTime(v[1]), 0);
@@ -105,7 +122,7 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-  // _outputHTML(mOpeningVideoId[1]);
+  PlayYT();
 }
 
 function onPlayerStateChange(event) {
