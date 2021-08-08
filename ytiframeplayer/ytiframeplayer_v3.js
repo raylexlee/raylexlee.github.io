@@ -101,7 +101,7 @@ function SaveCurrentPlayer(startOver = false) {
 }
 
 function onYouTubeIframeAPIReady() {
-//    <div class="videoWrapper" id="ytVideo"></div>
+// <div class="videoWrapper"><div id="ytVideo"></div></div>
   player = new YT.Player('ytVideo', {
     height: '315',
     width: '560',
