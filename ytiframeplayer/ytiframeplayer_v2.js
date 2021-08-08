@@ -26,7 +26,8 @@ function _outputHTML(playlistId, isList) {
       localStorage.setItem(lsTime(playlistId), 0.0);
       localStorage.setItem(lsIndex(playlistId), "0");
       }
-    const Time = localStorage.getItem(lsTime(playlistId));
+    const strTime = localStorage.getItem(lsTime(playlistId));
+    const Time = parseFloat(Time);
     const Index = localStorage.getItem(lsIndex(playlistId));
     player.loadPlaylist({list: playlistId,
                      listType: 'playlist',
