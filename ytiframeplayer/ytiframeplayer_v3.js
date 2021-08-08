@@ -10,16 +10,6 @@ function getRandomIntInclusive(min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
 }
-const IframeHTML = (playlistId, isList = false) =>
-  '<iframe id="idIframe" width="560" height="315" src="https://www.youtube-nocookie.com/embed/' +
-  (isList ?
-    ('playlistseries?enablejsapi=1&list=' + playlistId) :
-    (playlistId + '?enablejsapi=1')) +
-  '" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
-
-function genIframeHTML(playlistId, isList) {
-  document.querySelector(".videoWrapper").innerHTML = IframeHTML(playlistId, isList);
-}
 function _outputHTML(playlistId, isList) {
   if (isList) {
     if (!localStorage.getItem(lsTime(playlistId))) {
@@ -77,7 +67,6 @@ if (!localStorage.getItem("last_playlistId")) {
 } 
 const init_videoId = localStorage.getItem("last_playlistId");
 const init_isAlist = init_videoId.startsWith("PL") || init_videoId.startsWith("OL");
-genIframeHTML(init_videoId, init_isAlist);
 const tag = document.createElement('script');
 tag.id = 'iframe-demo';
 tag.src = 'https://www.youtube.com/iframe_api';
@@ -112,7 +101,11 @@ function SaveCurrentPlayer(startOver = false) {
 }
 
 function onYouTubeIframeAPIReady() {
-  player = new YT.Player('idIframe', {
+//    <div class="videoWrapper" id="ytVideo"></div>
+  player = new YT.Player('ytVideo', {
+    height: '315',
+    width: '560',
+    videoId: init_videoId,
     events: {
       'onReady': onPlayerReady,
       'onError': onPlayerError,
@@ -122,7 +115,7 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-  PlayYT();
+  _outputHTML(init_videoId, init_isAlist);
 }
 
 function onPlayerStateChange(event) {
