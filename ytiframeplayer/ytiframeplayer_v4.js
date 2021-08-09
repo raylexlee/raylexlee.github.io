@@ -1,5 +1,4 @@
 let player;
-let Songs = [];
 const howtoId = ['VyaYyItkoGU', 'cg7OJWTGnaY']
 
 const lsTime = ytId => `${ytId}Time`;
@@ -130,34 +129,4 @@ function onPlayerStateChange(event) {
 
 function onPlayerError(event) {
   console.log(player.getVideoUrl());
-}
-
-function playSongsRandom() {
-  if (Songs.length === 0) fillUpSongs();
-  player.loadPlaylist(getRandomsWithin(Songs.length, 20).map(i => Songs[i]), 0, 0);
-  player.setLoop(true);                 
-}
-
-function fillUpSongs() {
-  const b = document.getElementsByTagName('a');
-  let m = null;
-  let i = -1;
-  while (m === null) {
-    i++;
-    m = b[i].href.match(/\('(.*)'\)/);
-  }
-  while (m !== null) {
-    Songs.push(m[1]);
-    i++;
-    m = b[i].href.match(/\('(.*)'\)/);
-  }
-}
-
-function getRandomsWithin(Length, Number) {
-  const arr = [];
-  while (arr.length < Number) {
-    const r = Math.floor(Math.random() * Length);
-    if (arr.indexOf(r) === -1) arr.push(r);
-  }
-  return arr;
 }
