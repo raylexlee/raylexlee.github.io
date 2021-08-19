@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+book=${1?"missing group name !"}
+sed  "s/李潤明/$book/" < group_template_html.txt > $book.html
