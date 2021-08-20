@@ -38,10 +38,17 @@
         </div>
       </section>
       <section>
-        <audio id="audio" preload="auto" tabindex="0" controls="" type="audio/mpeg">
-          <source type="audio/mp3" src="">
-          Sorry, your browser does not support HTML5 audio.
-        </audio>
+        <div class="grid-container">
+          <div>
+            <input type="range" name="mySpeed" id="mySpeed" min="0" max="15" value="15">
+          </div>
+          <div>
+            <audio id="audio" preload="auto" tabindex="0" controls="" type="audio/mpeg">
+              <source type="audio/mp3" src="">
+              Sorry, your browser does not support HTML5 audio.
+            </audio>
+          </div>
+        </div>
       </section>
     </div>
     <div class="remainingDiv">

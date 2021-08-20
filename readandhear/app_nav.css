@@ -13,10 +13,18 @@ span {
   margin:0;
   padding: 0;
 }
+.grid-container {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  grid-gap: 10px;
+  margin-left: 10px;
+  background-color: black;
+  padding: 0px;
+}
 #audio { 
-  position: absolute;
+  position: absolute; 
   background:#666;
-  width:94%;
+  width: 55%;
 }
 .viewportDiv {
   display: flex;

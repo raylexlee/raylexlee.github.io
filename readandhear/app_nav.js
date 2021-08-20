@@ -1,4 +1,5 @@
 let title, myContent, audio, myChapterList, myRange, myBook, myAutoplay;
+let mySpeed;
 let chapters;
 let mySync;
 let activeEpisode;
@@ -14,6 +15,7 @@ function myInit() {
   audio = document.getElementById('audio');
   myChapterList = document.getElementById('myChapterList');
   myRange = document.getElementById('myRange'); 
+  mySpeed = document.getElementById('mySpeed'); 
   myBook = document.getElementById('myBook');
   myAutoplay = document.getElementById('myAutoplay');
   const optChapter = chapter => `<li><a href="javascript:gotoChapter('${chapter}')">${chapter.substring(4)}</a></li>`;
@@ -22,6 +24,10 @@ function myInit() {
     const v = myRange.value;
     myContent.style.fontSize = `${20 + parseInt(v)}px`;
   };
+  mySpeed.oninput = function() {
+    const v = mySpeed.value;
+    audio.playbackRate = (85 + parseInt(v)) / 100;
+  }
   audio.onplay = function (e) { 
     if (currentTime > audio.currentTime) {
       audio.currentTime = currentTime;
