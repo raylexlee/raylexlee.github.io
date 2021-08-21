@@ -60,6 +60,7 @@
     <button>分享</button>
   </div>
   <script>
+  function init() {
     let shareData = {
       title: document.title,
       text: document.getElementById('item2').innerText,
@@ -79,7 +80,13 @@
     });
   } else {
     btn.style="background: transparent; border: none !important; font-size:0;"
-  }  
+  }
+}
+document.onreadystatechange = function () {
+  if (document.readyState === 'complete') {
+    init();
+  }
+}  
   </script>
 
 </body>
