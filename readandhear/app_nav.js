@@ -1,5 +1,4 @@
 let title, myContent, audio, myChapterList, myRange, myBook, myAutoplay;
-let mySpeed;
 let chapters;
 let mySync;
 let activeEpisode;
@@ -7,8 +6,8 @@ let currentTime;
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
 });
+const soundUrl = chapter => `audio/${title}/${chapter.substring(0,3)}.mp3`;
 const soundUrl = chapter => `https://www.tingshucantonese.net/audio/${title}/${chapter.substring(0,3)}.mp3`;
-const contentUrl = chapter => `text/${title}/${chapter.substring(0,3)}.txt`;
 function myInit() {
   title = document.title;
   myContent = document.getElementById('myContent');
@@ -32,10 +31,10 @@ function myInit() {
     if (currentTime > audio.currentTime) {
       audio.currentTime = currentTime;
     }
-    const pageTime = myContent.offsetHeight / myContent.scrollHeight * audio.duration;
+    const pageTime = myContent.offsetHeight / myContent.scrollHeight * audio.duration / audio.playbackRate;
     console.log(pageTime);
     SyncAudioWithContent();
-    mySync = setInterval(SyncAudioWithContent, Math.round(pageTime*400));
+    mySync = setInterval(SyncAudioWithContent, Math.round(pageTime*700));
   };
   audio.onpause = function (e) {
     localStorage.setItem('currentTime'+title, audio.currentTime);
@@ -68,6 +67,11 @@ function myInit() {
       gotoChapter(chapter); 
     });
 }    
+ function SyncAudioWithContent() {
+    const adjustment = 0.3;
+    const portion = audio.currentTime / audio.duration ;
+    myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
+  }
 function gotoChapter(chapter) {
    audio.firstElementChild.setAttribute('src', soundUrl(chapter));
    audio.load();
@@ -107,9 +111,6 @@ function ProcessMenu() {
   document.documentElement.onclick = function () {
     document.querySelectorAll('.nav-dropdown').forEach(el => el.style.display = 'none');
   };
-}
-function SyncAudioWithContent() {
-  myContent.scrollTop = audio.currentTime / audio.duration * myContent.scrollHeight;
 }
 function getLastChapter() {
   if (!localStorage.getItem('activeEpisode'+title)) {
