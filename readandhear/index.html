@@ -60,15 +60,15 @@
     <button>分享</button>
   </div>
   <script>
+  let shareData;
   function init() {
-    let shareData = {
+    shareData = {
       title: document.title,
       text: document.getElementById('item2').innerText,
       url: '',
     }
 
     const btn = document.querySelector('button');
-  if (navigator.canShare(data)) {  
     btn.addEventListener('click', () => {
       navigator.share(shareData)
         .then(() =>
@@ -78,9 +78,6 @@
           console.log(e)
         )
     });
-  } else {
-    btn.style="background: transparent; border: none !important; font-size:0;"
-  }
 }
 document.onreadystatechange = function () {
   if (document.readyState === 'complete') {
