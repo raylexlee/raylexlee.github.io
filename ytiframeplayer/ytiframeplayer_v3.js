@@ -63,10 +63,13 @@ function PlayYT() {
   _outputHTML(videoId, isAlist);
 }
 const querystring = location.search;
-const raylexVideo = querystring.startsWith('?videoid=') ? querystring.substring(9) : howtoId[getRandomIntInclusive(0,1)];
-if (!localStorage.getItem("last_playlistId")) {
-  localStorage.setItem("last_playlistId", raylexVideo);
-} 
+if (querystring.startsWith('?videoid=')) {
+  localStorage.setItem("last_playlistId", querystring.substring(9));
+} else {
+    if (!localStorage.getItem("last_playlistId")) {
+      localStorage.setItem("last_playlistId", howtoId[getRandomIntInclusive(0,1)]);
+    }
+}   
 const init_videoId = localStorage.getItem("last_playlistId");
 const init_isAlist = init_videoId.startsWith("PL") || init_videoId.startsWith("OL");
 const tag = document.createElement('script');
