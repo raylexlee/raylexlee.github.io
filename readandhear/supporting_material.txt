@@ -1,0 +1,19 @@
+getComputedStyle(myContent).fontFamily
+getComputedStyle(myContent).fontSize
+getComputedStyle(myContent).marginTop
+getComputedStyle(myContent).paddingTop
+getComputedStyle(myContent).marginBottom
+getComputedStyle(myContent).paddingBottom
+getComputedStyle(myContent).marginLeft
+getComputedStyle(myContent).paddingLeft
+getComputedStyle(myContent).marginRight
+getComputedStyle(myContent).paddingRight
+myContent.offsetHeight
+myContent.offsetWidth
+
+console.log(
+    "hello! 42 我的中文不好。我是意大利人。你知道吗？"
+        .split("")
+        .filter(char => /\p{Script=Han}/u.test(char))
+        .join("")
+);
