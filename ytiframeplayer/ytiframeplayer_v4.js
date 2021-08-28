@@ -10,9 +10,10 @@ const shareLink = queryString => `https://raylexlee.github.io/ytiframeplayer/${q
 function ShareIframe() {
   const last_playlistId = localStorage.getItem("last_playlistId");
   const queryStr = last_playlistId ? `?videoid=${last_playlistId}` : ''; 
+  const shareTitle = last_playlistId ? `The link starts iframe with the youtube id ${last_playlistId} .` : ''; 
   const shareData = {
       title: document.title,
-      text: document.getElementById('item2').innerText,
+      text: `Thanks for using iframe to watch youtube with minimal and quiet advertisement. ${shareTitle}`,
       url: shareLink(queryStr)
     };
   document.getElementById('shareLink').innerText = shareData.url;  
