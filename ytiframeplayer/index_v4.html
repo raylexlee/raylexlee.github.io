@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Primary Meta Tags -->
+  <title>iframe</title>
+  <meta name="title" content="iframe">
+  <meta name="description" content="Watch Youtube video with minimal and quiet advertisement.">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:url" content="https://raylexlee.github.io/ytiframeplayer/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="iframe" />
+  <meta property="og:description" content="Watch Youtube video with minimal and quiet advertisement." />
+  <meta property="og:image" content="https://raylexlee.github.io/ytiframeplayer/iframe_cover.png" />
+  <meta property="og:image:width" content="1157" />
+  <meta property="og:image:height" content="666" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="iframe player">
+  <meta property="twitter:url" content="https://raylexlee.github.io/ytiframeplayer/">
+  <meta property="twitter:title" content="iframe">
+  <meta property="twitter:description" content="Watch Youtube video with minimal and quiet advertisement.">
+  <meta property="twitter:image" content="https://raylexlee.github.io/ytiframeplayer/iframe_cover.png">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="iframe">
+  <link rel="apple-touch-icon" sizes="152x152" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+
+  <!-- Custom styles for this template -->
+  <link rel='stylesheet' id='carousel' href='carousel_v4.css' type='text/css' media='all'>
+</head>
+
+<body>
+  Paste
+  <input type="text" name="videoId" id="videoId">
+  <button type="button" onclick="PlayYT();">GO</button>
+  <button type="button" onclick="document.getElementById('videoId').value = '';">CLEAR</button>
+  <section>
+    <div class="videoWrapper"><div id="ytVideo"></div></div>
+  </section>
+  <section>
+    <div class="installation">
+      <div class="item1"><img src="iframeQR.svg" alt=""></div>
+      <div id="item2">
+        Use the webpage <i>iframe</i> <b>https://raylexlee.github.io/ytiframeplayer/</b> to watch YouTube video with
+        minimal and quiet advertisement.
+      </div>
+      <button onclick="ShareIframe()">分享</button>
+    </div>
+    <p>Last updated : HKT Sunday 00:26 AM, 29 August 2021</p>
+  </section>
+
+</body>
+
+<script src="ytiframeplayer_v4.js"></script>
+
+</html>

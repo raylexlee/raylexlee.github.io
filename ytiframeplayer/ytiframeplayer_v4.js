@@ -1,8 +1,28 @@
 let player;
+let Songs = [];
 const howtoId = ['VyaYyItkoGU', 'cg7OJWTGnaY']
 
 const lsTime = ytId => `${ytId}Time`;
 const lsIndex = ytId => `${ytId}Index`;
+const shareLink = queryString => `https://raylexlee.github.io/ytiframeplayer/${queryString}`;
+
+
+function ShareIframe() {
+  const last_playlistId = localStorage.getItem("last_playlistId");
+  const queryStr = last_playlistId ? `?videoid=${last_playlistId}` : ''; 
+  const shareData = {
+      title: document.title,
+      text: document.getElementById('item2').innerText,
+      url: shareLink(queryStr)
+    };
+  navigator.share(shareData)
+    .then(() =>
+          console.log('ok')
+        )
+        .catch((e) =>
+          console.log(e)
+        )
+}
 
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
@@ -61,9 +81,14 @@ function PlayYT() {
   localStorage.setItem("last_playlistId", videoId);
   _outputHTML(videoId, isAlist);
 }
-if (!localStorage.getItem("last_playlistId")) {
-  localStorage.setItem("last_playlistId", howtoId[getRandomIntInclusive(0,1)]);
-} 
+const querystring = location.search;
+if (querystring.startsWith('?videoid=')) {
+  localStorage.setItem("last_playlistId", querystring.substring(9));
+} else {
+    if (!localStorage.getItem("last_playlistId")) {
+      localStorage.setItem("last_playlistId", howtoId[getRandomIntInclusive(0,1)]);
+    }
+}   
 const init_videoId = localStorage.getItem("last_playlistId");
 const init_isAlist = init_videoId.startsWith("PL") || init_videoId.startsWith("OL");
 const tag = document.createElement('script');
@@ -129,4 +154,34 @@ function onPlayerStateChange(event) {
 
 function onPlayerError(event) {
   console.log(player.getVideoUrl());
+}
+
+function playSongsRandom() {
+  if (Songs.length === 0) fillUpSongs();
+  player.loadPlaylist(getRandomsWithin(Songs.length, 20).map(i => Songs[i]), 0, 0);
+  player.setLoop(true);                 
+}
+
+function fillUpSongs() {
+  const b = document.getElementsByTagName('a');
+  let m = null;
+  let i = -1;
+  while (m === null) {
+    i++;
+    m = b[i].href.match(/\('(.*)'\)/);
+  }
+  while (m !== null) {
+    Songs.push(m[1]);
+    i++;
+    m = b[i].href.match(/\('(.*)'\)/);
+  }
+}
+
+function getRandomsWithin(Length, Number) {
+  const arr = [];
+  while (arr.length < Number) {
+    const r = Math.floor(Math.random() * Length);
+    if (arr.indexOf(r) === -1) arr.push(r);
+  }
+  return arr;
 }
