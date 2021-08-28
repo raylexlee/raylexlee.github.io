@@ -15,6 +15,7 @@ function ShareIframe() {
       text: document.getElementById('item2').innerText,
       url: shareLink(queryStr)
     };
+  document.getElementById('shareLink').innerText = shareData.url;  
   navigator.share(shareData)
     .then(() =>
           console.log('ok')
