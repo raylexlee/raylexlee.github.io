@@ -2,9 +2,9 @@ let player;
 let Songs = [];
 const legend = {
 "en":"Thanks for using iframe to watch YouTube video with minimal and quiet advertisement. The following link starts with youtube id",
-"zh-CN":"感谢您使用 iframe 以最少且安静的广告观看 YouTube 视频。以下链接以 youtube id 开头",
-"zh-HK":"感謝您使用 iframe 以最少且安靜的廣告觀看 YouTube 視頻。以下鏈接以 youtube id 開頭",
-"zh-TW":"感謝您使用 iframe 以最少且安靜的廣告觀看 YouTube 視頻。以下鏈接以 youtube id 開頭",
+"zh-cn":"感谢您使用 iframe 以最少且安静的广告观看 YouTube 视频。以下链接以 youtube id 开头",
+"zh-hk":"感謝您使用 iframe 以最少且安靜的廣告觀看 YouTube 視頻。以下鏈接以 youtube id 開頭",
+"zh-tw":"感謝您使用 iframe 以最少且安靜的廣告觀看 YouTube 視頻。以下鏈接以 youtube id 開頭",
 "ja":"最小限の静かな広告でYouTubeビデオを視聴するためにiframeを使用していただきありがとうございます。次のリンクはyoutube idで始まります",
 "ko":"iframe을 사용하여 최소한의 조용한 광고로 YouTube 동영상을 시청해주셔서 감사합니다. 다음 링크는 youtube id로 시작합니다.",
 "ru":"Благодарим за использование iframe для просмотра видео на YouTube с минимальной и тихой рекламой. Следующая ссылка начинается с идентификатора YouTube",
@@ -40,7 +40,7 @@ const shareLink = queryString => `https://raylexlee.github.io/ytiframeplayer/${q
 function ShareIframe() {
   const last_playlistId = localStorage.getItem("last_playlistId");
   const queryStr = last_playlistId ? `?videoid=${last_playlistId}` : ''; 
-  let language = navigator.language;
+  let language = navigator.language.toLowerCase();
   language = language.startsWith('zh') ? language : language.substring(0,2);
   language = (Object.keys(legend).indexOf(language) === -1) ? 'en' : language;
   const shareData = {
