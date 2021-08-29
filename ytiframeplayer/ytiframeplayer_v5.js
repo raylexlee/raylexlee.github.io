@@ -48,13 +48,16 @@ function ShareIframe() {
       text: `${legend[language]} ${last_playlistId}`,
       url: shareLink(queryStr)
     };
-  document.getElementById('shareLink').innerText = shareData.url;  
   navigator.share(shareData)
-    .then(() =>
+    .then(() => {
+          document.getElementById('shareLink').innerText = navigator.language;  
           console.log('ok')
+          }
         )
-        .catch((e) =>
+        .catch((e) => {
+          document.getElementById('shareLink').innerText = shareData.url;  
           console.log(e)
+        }
         )
 }
 
