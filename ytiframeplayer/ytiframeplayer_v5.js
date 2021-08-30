@@ -120,7 +120,8 @@ function PlayYT() {
 }
 const querystring = location.search;
 if (querystring.startsWith('?videoid=')) {
-  localStorage.setItem("last_playlistId", querystring.substring(9));
+  const params = (new URL(document.location)).searchParams;
+  localStorage.setItem("last_playlistId", params.get('videoid'));
 } else {
     if (!localStorage.getItem("last_playlistId")) {
       localStorage.setItem("last_playlistId", howtoId[getRandomIntInclusive(0,1)]);
