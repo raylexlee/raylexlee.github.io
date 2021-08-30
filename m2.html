@@ -11,25 +11,29 @@
       background-color: black;
       color:#f1f1f1;
     }
-    .flex-container {
-      display: flex;
-      flex-wrap: wrap;
+    .grids-container {
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        grid-gap: 10px;
+        padding: 10px;
     }
 
-    .flex-container>div {
-      width: 87px;
-      margin: 5px;
+    .grids-container>div {
+      padding: 20px 10px;
       text-align: center;
-      font-size: 50px;
+      font-size: 45px;
     }
-
+    .item {
+      grid-area: 2 / 2 / 6 / 4;
+    }
+    
     img {
       border: 0;
-      border-radius: 4px;
+      border-radius: 2px;
       padding: 1px;
-      width: 50px;
-      height: 50px;
-      object-fit: cover;
+      width: 45px;
+      height: 45px;
+      object-fit: fill;
     }
 
     img:hover {
@@ -38,18 +42,11 @@
     a, a:visited {
       text-decoration: none;
     }
-    .grid-container {
-      display: grid;
-      grid-template-columns: 2fr 3fr;
-      grid-gap: 10px;
-      margin-left: 10px;
-      padding: 0px;
-    }
   </style>
 </head>
 
 <body>
-  <div class="flex-container">
+  <div class="grids-container">
     <div><a href="menu">&#127926;</a> </div>
     <div><a href="ytiframeplayer/?videoid=PLJrt_9xl0rNHF1iEEuZdCLn33IyJi6S4O">&#127916;</a> </div>
     <div><a href="ytiframeplayer/?videoid=PLJrt_9xl0rNE2TD5v_DVJFiiTUtf7Dzvz">&#128187;</a> </div>
@@ -60,19 +57,21 @@
     <div><a href="radiodrama/rthk/">📻</a> </div>
     <div><a href="podcast/rthk/people/"><img src="podcast/rthk/people/apple-touch-icon.png" /></a></div>
     <div><a href="podcast/rthk/worldriver/"><img src="podcast/rthk/worldriver/apple-touch-icon.png" /></a></div>
-    <div><a href="podcast/rthk/cantonesefilm/"><img src="podcast/rthk/cantonesefilm/apple-touch-icon.png" /></a>
-    </div>
+    <div><a href="podcast/rthk/cantonesefilm/"><img src="podcast/rthk/cantonesefilm/apple-touch-icon.png" /></a></div>
     <div><a href="podcast/rthk/university/"><img src="podcast/rthk/university/apple-touch-icon.png" /></a></div>
+    <div class="item">
+      <p style="font-size: 25px; padding-top: 120px; color: yellow; line-height: 40px;">
+        Projects of Raylex since September 2018. 
+      </p>
+    </div>
     <div><a href="podcast/rthk/chances/"><img src="podcast/rthk/chances/apple-touch-icon.png" /></a></div>
     <div><a href="podcast/rthk/tv_history/"><img src="podcast/rthk/tv_history/apple-touch-icon.png" /></a></div>
     <div><a href="podcast/rthk/broadcast/"><img src="podcast/rthk/broadcast/apple-touch-icon.png" /></a></div>
+    <div ><img src="image/my.svg" alt=""></div>
   </div>
-  <div class="grid-container">
-    <div class="item1"><img src="image/my.svg" alt=""></div>
-    <div id="item2">
-These are the products of my self amusement since September 2018.
-    </div>
-  </div>
+  <p style="text-align: center; font-size:small; color: lightgray;">
+    Last updated on HKT Tuesday 00:10 AM, 31 August 2021
+  </p>
 </body>
 
 </html>
