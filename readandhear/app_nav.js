@@ -20,7 +20,7 @@ function myInit() {
   const optChapter = chapter => `<li><a href="javascript:gotoChapter('${chapter}')">${chapter.substring(4)}</a></li>`;
   let backto = 'index';
   const querystring = location.search;
-  if querystring {
+  if (querystring != '') {
     const params = (new URL(document.location)).searchParams;
     const caller =  params.get('caller');
     backto = caller ? caller : backto;
