@@ -18,7 +18,14 @@ function myInit() {
   myBook = document.getElementById('myBook');
   myAutoplay = document.getElementById('myAutoplay');
   const optChapter = chapter => `<li><a href="javascript:gotoChapter('${chapter}')">${chapter.substring(4)}</a></li>`;
-  const optIndexHtml = '<li><a href="index.html">返　回　前　目　錄</a></li>';
+  let backto = 'index';
+  const querystring = location.search;
+  if querystring {
+    const params = (new URL(document.location)).searchParams;
+    const caller =  params.get('caller');
+    backto = caller ? caller : backto;
+  }
+  const optIndexHtml = `<li><a href="${backto}.html">返　回　前　目　錄</a></li>`;
   myRange.oninput = function() {
     const v = myRange.value;
     myContent.style.fontSize = `${20 + parseInt(v)}px`;
