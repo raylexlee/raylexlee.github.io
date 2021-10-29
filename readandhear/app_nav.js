@@ -49,13 +49,7 @@ function myInit() {
   };
   audio.onended = function (e) {
     if (myAutoplay.checked) {
-      const m = audio.firstElementChild.src.match(/\/([0-9]{3})\.mp3$/);
-      let i = 1 + chapters.findIndex(c => c.startsWith(m[1]));
-      i = (i === chapters.length) ? 0 : i;
-      const chapter = chapters[i];
-      currentTime = 0.0;
-      localStorage.setItem('currentTime'+title, 0.0);
-      gotoChapter(chapter);
+      nextChapter();
     }
   }
   fetch(`text/${title}/coverparameters.txt`)
@@ -74,7 +68,16 @@ function myInit() {
       gotoChapter(chapter); 
     });
 }    
- function SyncAudioWithContent() {
+function nextChapter() {
+    const m = audio.firstElementChild.src.match(/\/([0-9]{3})\.mp3$/);
+    let i = 1 + chapters.findIndex(c => c.startsWith(m[1]));
+    i = (i === chapters.length) ? 0 : i;
+    const chapter = chapters[i];
+    currentTime = 0.0;
+    localStorage.setItem('currentTime'+title, 0.0);
+    gotoChapter(chapter);
+}
+function SyncAudioWithContent() {
     const adjustment = 0.3;
     const portion = audio.currentTime / audio.duration ;
     myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
@@ -84,8 +87,8 @@ function gotoChapter(chapter) {
    audio.load();
    activeEpisode = parseInt(chapter.substring(0,3));
    localStorage.setItem('activeEpisode'+title, activeEpisode);
-   myBook.innerText=`${title} ${chapter.substring(4)}`;
-   document.title = myBook.innerText;
+   myBook.innerHTML=`${title} <a href="javascript:nextChapter()">&rArr;</a> ${chapter.substring(4)}`;
+   document.title = `${title} ${chapter.substring(4)}`;
    fetch(contentUrl(chapter))
      .then(response => response.text())
      .then(data => {
