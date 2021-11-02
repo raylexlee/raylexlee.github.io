@@ -68,6 +68,15 @@ function myInit() {
       gotoChapter(chapter); 
     });
 }    
+function prevChapter() {
+    const m = audio.firstElementChild.src.match(/\/([0-9]{3})\.mp3$/);
+    let i = chapters.findIndex(c => c.startsWith(m[1])) - 1;
+    i = (i === -1) ? (chapters.length - 1) : i;
+    const chapter = chapters[i];
+    currentTime = 0.0;
+    localStorage.setItem('currentTime'+title, 0.0);
+    gotoChapter(chapter);
+}
 function nextChapter() {
     const m = audio.firstElementChild.src.match(/\/([0-9]{3})\.mp3$/);
     let i = 1 + chapters.findIndex(c => c.startsWith(m[1]));
@@ -87,7 +96,11 @@ function gotoChapter(chapter) {
    audio.load();
    activeEpisode = parseInt(chapter.substring(0,3));
    localStorage.setItem('activeEpisode'+title, activeEpisode);
-   myBook.innerHTML=`${title} <a href="javascript:nextChapter()">&rArr;</a> ${chapter.substring(4)}`;
+   myBook.innerHTML=`${title} 
+     <a href="javascript:prevChapter()" style="color:cyan;">&lArr;</a> 
+     ${chapter.substring(4)}
+     <a href="javascript:nextChapter()" style="color:cyan;">&rArr;</a> 
+     `;
    document.title = `${title} ${chapter.substring(4)}`;
    fetch(contentUrl(chapter))
      .then(response => response.text())
