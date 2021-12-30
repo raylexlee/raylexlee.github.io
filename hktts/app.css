@@ -1,0 +1,50 @@
+@charset "UTF-8";
+html,body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+  background-color: black;
+  color:cornsilk;
+  font-size: 20px;
+}
+span {
+  color: yellow;
+  text-align: left;
+  margin:0;
+  padding: 0;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  grid-gap: 10px;
+  margin-left: 10px;
+  background-color: black;
+  padding: 0px;
+}
+#audio { 
+  position: absolute; 
+  background:#666;
+  width: 55%;
+}
+.viewportDiv {
+  display: flex;
+  flex-direction: column;
+  height: 99vh;
+}
+.div1{
+  background-color: black;
+  height: 130px;
+}
+.remainingDiv{
+  flex-grow: 1;
+}
+.remainingDiv textarea {
+  font-size: 23px;
+  color:cornsilk;
+  border: none;
+  background-color: transparent;
+  resize: none;
+  outline: none;
+  width: 97%;
+  height: 97%;
+}

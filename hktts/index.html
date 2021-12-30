@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>廣東話讀出文字</title>
+  <link rel="stylesheet" href="app.css">
+  </link>
+</head>
+
+<body>
+  <div class="viewportDiv">
+    <div class="div1">
+      <button type="button" id="btnSpeak" onclick="speak();">SPEAK</button>
+      <span id='myVoice'></span>
+      <button type="button" id="btnStop" onclick="stop();">STOP</button>
+
+    </div>
+    <div class="remainingDiv">
+      <textarea name="myContent" id="myContent" ></textarea>
+    </div>
+  </div>
+</body>
+<script src="app.js"></script>
+
+</html>
