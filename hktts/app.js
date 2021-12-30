@@ -13,8 +13,6 @@ function myInit() {
  myVoice.innerText = hkspeaker.name;
 }
 
-myInit();
-
 
 function speak(){
     if (synth.speaking) {
