@@ -6,6 +6,7 @@ const myContent = document.getElementById('myContent');
 const rate = document.querySelector('#rate');
 let voices = [];
 let hkvoices, hkspeaker;
+let utterThis;
 
 function myInit() {
  voices = synth.getVoices();
@@ -20,8 +21,15 @@ function myInit() {
  hkspeaker = hkvoices[0];
  console.log(hkspeaker.name);
  myVoice.innerText = `${hkspeaker.localService ? '本機' : '雲端'}廣東話`;
- btnStop.innerText = '暫停\繼續';
+ btnStop.innerText = '暫停';
  btnStop.onclick = pauseResume;
+ utterThis = new SpeechSynthesisUtterance('Create utter this');
+ utterThis.onend = function (event) {
+   console.log('SpeechSynthesisUtterance.onend');
+ }
+ utterThis.onerror = function (event) {
+   console.error('SpeechSynthesisUtterance.onerror');
+ }
 }
 
 if (speechSynthesis.onvoiceschanged !== undefined) {
@@ -34,13 +42,7 @@ function speak(){
         return;
     }
     if (myContent.value !== '') {
-    var utterThis = new SpeechSynthesisUtterance(myContent.value);
-    utterThis.onend = function (event) {
-        console.log('SpeechSynthesisUtterance.onend');
-    }
-    utterThis.onerror = function (event) {
-        console.error('SpeechSynthesisUtterance.onerror');
-    }
+    utterThis.text = myContent.value;
     utterThis.voice = hkspeaker;
     utterThis.pitch = 1;
     utterThis.rate = rate.value;
@@ -50,11 +52,7 @@ function speak(){
 
 function pauseResume() {
   if (synth.speaking) {
-    synth.pause();
+    synth.cancel();
     return;
   }
-  if (synth.paused) {
-    synth.resume();
-    return;
-  }    
 }
