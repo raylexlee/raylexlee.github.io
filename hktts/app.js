@@ -55,12 +55,12 @@ function speak(){
 }
 
 function pauseResume() {
-  if (!synth.speaking) {
+  if (synth.speaking !== true) {
     return;
   }
   if (synth.paused) {
     synth.resume();
-  } else {
-    synth.pause();
-    }
+    return;
+  }
+  synth.pause();
 }
