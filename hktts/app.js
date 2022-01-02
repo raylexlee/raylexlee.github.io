@@ -59,6 +59,7 @@ function pauseResume() {
     return;
   }
   if (synth.paused) {
+    utterThis.rate = rate.value;
     synth.resume();
     return;
   }
