@@ -24,8 +24,12 @@ function myInit() {
  btnStop.innerText = '暫停';
  btnStop.onclick = pauseResume;
  utterThis = new SpeechSynthesisUtterance('Create utter this');
- utterThis.onend = function (event) {
+ utterThis.voice = hkspeaker;
+ utterThis.onpause = function (event) {
    console.log(event.charIndex);
+   console.log('SpeechSynthesisUtterance.onpause');
+ }
+ utterThis.onend = function (event) {
    console.log('SpeechSynthesisUtterance.onend');
  }
  utterThis.onerror = function (event) {
@@ -44,7 +48,6 @@ function speak(){
     }
     if (myContent.value !== '') {
     utterThis.text = myContent.value;
-    utterThis.voice = hkspeaker;
     utterThis.pitch = 1;
     utterThis.rate = rate.value;
     synth.speak(utterThis);
@@ -52,8 +55,12 @@ function speak(){
 }
 
 function pauseResume() {
-  if (synth.speaking) {
-    synth.cancel();
+  if (!synth.speaking) {
     return;
   }
+  if (synth.paused) {
+    synth.resume();
+  } else {
+    synth.pause();
+    }
 }
