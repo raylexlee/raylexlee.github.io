@@ -25,6 +25,7 @@ function myInit() {
  btnStop.onclick = pauseResume;
  utterThis = new SpeechSynthesisUtterance('Create utter this');
  utterThis.onend = function (event) {
+   console.log(event.charIndex);
    console.log('SpeechSynthesisUtterance.onend');
  }
  utterThis.onerror = function (event) {
