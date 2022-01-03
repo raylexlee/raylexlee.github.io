@@ -64,4 +64,5 @@ function pauseResume() {
     return;
   }
   synth.pause();
+  if (synth.paused !== true) synth.cancel();
 }
