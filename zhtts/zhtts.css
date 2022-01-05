@@ -21,6 +21,11 @@ span {
   background-color: black;
   padding: 0px;
 }
+.grid-container a,
+.grid-container a:visited {
+    color: red;
+    text-decoration: none; 
+}
 #audio { 
   position: absolute; 
   background:#666;
