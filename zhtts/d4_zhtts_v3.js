@@ -50,7 +50,7 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
 });
-const contentUrl = chapter => `text/${title}/${chapter.substring(0,3)}.txt`;
+const contentUrl = chapter => `text/${title}/${chapter.substring(0,4)}.txt`;
 function myInit() {
   title = document.title;
   myContent = document.getElementById('myContent');
@@ -58,7 +58,7 @@ function myInit() {
   myRange = document.getElementById('myRange'); 
   myBook = document.getElementById('myBook');
   myAutoplay = document.getElementById('myAutoplay');
-  const optChapter = chapter => `<li><a href="javascript:gotoChapter('${chapter}')">${chapter.substring(4)}</a></li>`;
+  const optChapter = chapter => `<li><a href="javascript:gotoChapter('${chapter}')">${chapter.substring(5)}</a></li>`;
   let backto = 'index';
   const querystring = location.search;
   if (querystring != '') {
