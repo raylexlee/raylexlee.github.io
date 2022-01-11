@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+START=${1-'index'}
+for i in $(grep \</a\>\</li\> $START.html | sed 's#.*>\(.*\)</a.*#\1#')
+do
+[  "$i" != "回到主目錄" ] && echo $i
+done 
