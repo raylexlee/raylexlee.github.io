@@ -65,7 +65,6 @@ function gotoChapter(chapter) {
      .then(response => response.text())
      .then(data => {
        myContent.value = data;
-       window.open(contentUrl(chapter), 'readaloud');
      });
 }
 function toggle(elem) {
