@@ -107,7 +107,7 @@ function gotoChapter(chapter) {
    localStorage.setItem('wspa_activeEpisode'+title, activeEpisode);
    const loadchapterUrl = `loadchapter.html?book=${title}&episode=${activeEpisode}`;
    myBook.innerHTML=`
-     <a href="window.open('${loadchapterUrl}','readaloud');" style="color:cyan;">&#128220;</a> 
+     <a href="javascript:window.open('${loadchapterUrl}','readaloud');" style="color:cyan;">&#128220;</a> 
      ${title} 
      <a href="javascript:prevChapter()" style="color:cyan;">&lArr;</a> 
      ${chapter.substring(4)}
