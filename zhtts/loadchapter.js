@@ -15,6 +15,7 @@ function myInit() {
     chapter = episode ? episode : chapter;
     title = book ? book : title;
   }
+  document.title = `${title}-${chapter}`
   fetch(contentUrl(title, chapter))
     .then(response => response.text())
     .then(data => {
