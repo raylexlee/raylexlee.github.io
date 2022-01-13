@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+GRANDPA=${1-'index'}
+FATHER=$(./children $GRANDPA)
+echo {
+echo  "\""$GRANDPA"\"" : [
+for PA in $FATHER 
+do
+  echo "\""$PA"\"",
+done
+echo ],
+for PA in $FATHER
+do
+  CHILD=$(./children $PA)
+  if [ "$CHILD" ]; then
+     echo "\""$PA"\"" : [
+     for SON in $CHILD
+     do
+       echo "\""$SON"\"",
+     done
+     echo ],
+  fi
+done
+echo }

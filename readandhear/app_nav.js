@@ -96,7 +96,10 @@ function gotoChapter(chapter) {
    audio.load();
    activeEpisode = parseInt(chapter.substring(0,3));
    localStorage.setItem('activeEpisode'+title, activeEpisode);
-   myBook.innerHTML=`${title} 
+   const loadchapterUrl = `loadchapter.html?book=${title}&episode=${chapter.substring(0,3)}`;
+   myBook.innerHTML=`
+     <a href="javascript:window.open('${loadchapterUrl}','readaloud');" style="color:cyan;">&#128220;</a> 
+     ${title} 
      <a href="javascript:prevChapter()" style="color:cyan;">&lArr;</a> 
      ${chapter.substring(4)}
      <a href="javascript:nextChapter()" style="color:cyan;">&rArr;</a> 
