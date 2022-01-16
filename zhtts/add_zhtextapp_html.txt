@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+for i in $(ls -l text | grep "$(date +%b\ %e)" | awk '{print $9;}')
+do
+./make_zhtextapp_html.txt $i
+done
