@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+TITLE=${1?'missing group name'}
+HTML=$TITLE.html
+sed "s/李潤明/$TITLE/" < head_group_template.txt > $HTML
+grep "^$TITLE" pairs.txt \
+ | awk '{printf("<li><a href='"'%s.html'"'>%s</a></li>\n",$2,$2);}' \
+ >> $HTML
+cat tail_group_template.txt >> $HTML
