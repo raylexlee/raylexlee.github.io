@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>七劍十三俠</title>
-  <link rel="stylesheet" href="zhtts.css">
+  <link rel="stylesheet" href="zhtts_v4.css">
   </link>
 </head>
 
@@ -19,7 +19,7 @@
             <div class="subtitle">
               <input type="checkbox" id="myAutoplay" name="autoplay" value="autoplay" checked>
               <label for="autoplay">自動播</label>
-              <input type="range" min="0" max="10" value="2" id="myRange">
+              <input type="range" min="0" max="10" value="2" id="myRange" class="slider">
               <span id='myBook'></span>
             </div>
           </div>
@@ -40,9 +40,10 @@
       <section>
         <div class="grid-container">
      <a href="javascript:speak()" style="color:red;">&#9654;</a> 
-      <input type="range" min="0.5" max="2" value="1" step="0.1" id="rate">
+      <input type="range" min="0.5" max="2" value="0.75" step="0.1" id="rate" >
      <a href="javascript:pauseResume()" style="color:red;">&#9208;</a> 
       <select id='myVoice'></select>
+      <input type="range" min="0.1" max="1" value="0.1" step="0.1" id="volume">
         </div>
       </section>
     </div>
@@ -51,6 +52,6 @@
     </div>
   </div>
 </body>
-<script src="zhtts_v3.js"></script>
+<script src="zhtts_v4.js"></script>
 
 </html>
