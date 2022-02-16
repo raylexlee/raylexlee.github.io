@@ -4,11 +4,11 @@ let activeEpisode;
 const synth = window.speechSynthesis;
 const myVoice = document.getElementById('myVoice');
 const rate = document.querySelector('#rate');
-const volume = document.querySelector('#volume');
 let voices = [];
 let mySpeaker = [];
 let utterThis;
 let justCancel = false;
+let pausing = false;
 
 function myTTSinit() {
  if (mySpeaker.length !== 0) return;
@@ -72,6 +72,9 @@ function myInit() {
     const v = myRange.value;
     myContent.style.fontSize = `${20 + parseInt(v)}px`;
   };
+  document.body.onunload = function() {
+    if (synth.speaking) synth.cancel();
+  };
   fetch(`text/${title}/coverparameters.txt`)
     .then(response => response.text())
     .then(data => {
@@ -120,6 +123,8 @@ function gotoChapter(chapter) {
      .then(data => {
        myContent.value = data;
        if (myAutoplay.checked) {
+         if (synth.speaking) synth.cancel();
+         justCancel = false;
          speak();
        }
      });
@@ -159,11 +164,11 @@ function speak(){
         return;
     }
     if (myContent.value !== '') {
+    pausing = false;  
     utterThis.voice = mySpeaker.filter(e => e.lang === myVoice.value)[0];
     utterThis.text = myContent.value;
     utterThis.pitch = 1;
     utterThis.rate = rate.value;
-    utterThis.volume = volume.value;
     synth.speak(utterThis);
   }
 }
@@ -175,10 +180,14 @@ function pauseResume() {
   if (synth.speaking !== true) {
     return;
   }
-  if (synth.paused) {
-    utterThis.rate = rate.value;
-    utterThis.volume = volume.value;
-    synth.resume();
+  if (utterThis.voice.localService) {
+    if (pausing) {
+      utterThis.rate = rate.value;
+      synth.resume();
+      } else {
+        synth.pause();  
+    }
+    pausing = !pausing;
     return;
   }
   synth.pause();
