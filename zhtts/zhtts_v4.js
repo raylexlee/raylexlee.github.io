@@ -4,6 +4,7 @@ let activeEpisode;
 const synth = window.speechSynthesis;
 const myVoice = document.getElementById('myVoice');
 const rate = document.querySelector('#rate');
+let completed_myinit = false;
 let voices = [];
 let mySpeaker = [];
 let utterThis;
@@ -43,6 +44,7 @@ function myTTSinit() {
  utterThis.onerror = function (event) {
    console.error('SpeechSynthesisUtterance.onerror');
  }
+ if (completed_myinit && myAutoplay.checked && myVoice.value.startsWith('zh')) speak(); 
 }
 myTTSinit();
 if (speechSynthesis.onvoiceschanged !== undefined) {
@@ -122,10 +124,11 @@ function gotoChapter(chapter) {
      .then(response => response.text())
      .then(data => {
        myContent.value = data;
+      completed_myinit = true;
        if (myAutoplay.checked) {
          if (synth.speaking) synth.cancel();
          justCancel = false;
-         speak();
+         if (myVoice.value.startsWith('zh')) speak();
        }
      });
 }
