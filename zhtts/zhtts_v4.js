@@ -75,7 +75,10 @@ function myInit() {
     myContent.style.fontSize = `${20 + parseInt(v)}px`;
   };
   document.body.onunload = function() {
-    if (synth.speaking) synth.cancel();
+    if (synth.speaking) {
+      justCancel = true;
+      synth.cancel();
+    }
   };
   fetch(`text/${title}/coverparameters.txt`)
     .then(response => response.text())
@@ -126,8 +129,10 @@ function gotoChapter(chapter) {
        myContent.value = data;
       completed_myinit = true;
        if (myAutoplay.checked) {
-         if (synth.speaking) synth.cancel();
-         justCancel = false;
+         if (synth.speaking) { 
+           justCancel = true;
+           synth.cancel();
+         }
          if (myVoice.value.startsWith('zh')) speak();
        }
      });
@@ -172,7 +177,10 @@ function speak(){
     utterThis.text = myContent.value;
     utterThis.pitch = 1;
     utterThis.rate = rate.value;
+    justCancel = true;
+    synth.cancel();
     synth.speak(utterThis);
+    justCancel = false;
   }
 }
 myVoice.onchange = function(){
@@ -195,7 +203,7 @@ function pauseResume() {
   }
   synth.pause();
   if (synth.paused !== true) {
-     synth.cancel();
      justCancel = true;
+     synth.cancel();
   }
 }
