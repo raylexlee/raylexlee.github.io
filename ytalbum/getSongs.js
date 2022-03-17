@@ -1,5 +1,5 @@
 const getsongs = arg => {
-    const link = `https://www.youtube.com/watch?v=${arg.link}`;
+    const link = `https://youtu.be/${arg.link}`;
     const album = arg.albumObj;
     const bashEscapePattern = /[\]\['&!?,\s()]/g;
     const escapePattern = bashEscapePattern;
