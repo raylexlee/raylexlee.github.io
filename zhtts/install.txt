@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+sudo dpkg --add-architecture i386
+sudo apt-get update
+sudo apt-get install wine32
+sudo apt-get install winetricks
+export WINEPREFIX="$HOME/prefix32"
+export WINEARCH=win32
+winetricks msxml3
+wine msiexec /i ~/mstts/SpeechPlatformRuntime.msi
+wine msiexec /i ~/mstts/MSSpeech_TTS_en-US_ZiraPro.msi
+wine msiexec /i ~/mstts/MSSpeech_TTS_zh-CN_HuiHui.msi 
+wine msiexec /i ~/mstts/MSSpeech_TTS_zh-HK_HunYee.msi
+cp -r ~/mstts/balcon ~/prefix32/drive_c/
+# chsbrkr.dll  chtbrkr.dll from c:\windows\system32\ of Windows 7
+cp ~/mstts/*dll ~/prefix32/drive_c/Program\ Files/Common\ Files/Microsoft\ Shared/Speech/TTS/v11.0/
+wine ~/prefix32/drive_c/balcon/balcon.exe -l
+#Ignore the top few error messages. At the bottom, it should show :
+#Microsoft Speech Platform:
+#  Microsoft Server Speech Text to Speech Voice (en-US, ZiraPro)
+#  Microsoft Server Speech Text to Speech Voice (zh-CN, HuiHui)
+#  Microsoft Server Speech Text to Speech Voice (zh-HK, HunYee)
+ 
