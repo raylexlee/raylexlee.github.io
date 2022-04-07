@@ -6,7 +6,7 @@ let currentTime;
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
 });
-const soundUrl = chapter => `https://www.tingshucantonese.net/audio/${title}/${chapter.substring(0,3)}.mp3`;
+const soundUrl = chapter => `https://raylex.rhkcloud.com/audio/${title}/${chapter.substring(0,3)}.mp3`;
 const contentUrl = chapter => `text/${title}/${chapter.substring(0,3)}.txt`;
 function myInit() {
   title = document.title;
