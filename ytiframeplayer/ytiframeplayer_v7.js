@@ -91,10 +91,13 @@ function _outputHTML(playlistId, isList) {
     player.loadVideoById({videoId: playlistId,
                       startSeconds: Time});  
   }
+}
+function ComposeCode() {
   txtExportModule = `module.export = {
   playlistId : ${player.getPlaylistId()},
   videoIds : ${player.getPlaylist()}
 }`; 
+  getElementById('myScript').value = txtExportModule;
 }
 function outputHTML(playlistId, isList) {
   SaveCurrentPlayer();
