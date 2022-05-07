@@ -97,7 +97,7 @@ function ComposeCode() {
   playlistId : ${player.getPlaylistId()},
   videoIds : ${player.getPlaylist()}
 }`; 
-  getElementById('myScript').value = txtExportModule;
+  document.getElementById('myScript').value = txtExportModule;
 }
 function outputHTML(playlistId, isList) {
   SaveCurrentPlayer();
