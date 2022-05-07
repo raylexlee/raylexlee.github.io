@@ -91,6 +91,10 @@ function _outputHTML(playlistId, isList) {
     player.loadVideoById({videoId: playlistId,
                       startSeconds: Time});  
   }
+  txtExportModule = `module.export = {
+  playlistId : ${player.getPlaylistId()},
+  videoIds : ${player.getPlaylist()}
+}`; 
 }
 function outputHTML(playlistId, isList) {
   SaveCurrentPlayer();
@@ -184,10 +188,6 @@ function onYouTubeIframeAPIReady() {
 }
 
 function onPlayerReady(event) {
-  txtExportModule = `module.export = {
-  playlistId : ${player.getPlaylistId()},
-  videoIds : ${player.getPlaylist()}
-}`; 
   _outputHTML(init_videoId, init_isAlist);
 }
 
