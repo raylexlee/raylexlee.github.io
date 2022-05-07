@@ -94,8 +94,8 @@ function _outputHTML(playlistId, isList) {
 }
 function ComposeCode() {
   txtExportModule = `module.export = {
-  playlistId : ${player.getPlaylistId()},
-  videoIds : ${player.getPlaylist()}
+  playlistId : '${player.getPlaylistId()}',
+  videoIds : [${player.getPlaylist()}]
 }`; 
   document.getElementById('myScript').value = txtExportModule;
 }
