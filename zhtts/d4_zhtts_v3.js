@@ -13,6 +13,14 @@ function myTTSinit() {
  if (mySpeaker.length !== 0) return;
  voices = synth.getVoices();
  let voice;
+ voice = voices.findIndex(e => e.lang === 'zh_HK_#Hant' && e.localService === true);
+ if (voice !== -1) mySpeaker.push(voices[voice]);
+ voice = voices.findIndex(e => e.lang === 'zh_CN_#Hans' && e.localService === true);
+ if (voice !== -1) mySpeaker.push(voices[voice]);
+ voice = voices.findIndex(e => e.lang === 'zh_HK_#Hant' && e.localService === false);
+ if (voice !== -1) mySpeaker.push(voices[voice]);
+ voice = voices.findIndex(e => e.lang === 'zh_CN_#Hans' && e.localService === false);
+ if (voice !== -1) mySpeaker.push(voices[voice]);
  voice = voices.findIndex(e => e.lang === 'zh-HK' && e.localService === true);
  if (voice !== -1) mySpeaker.push(voices[voice]);
  voice = voices.findIndex(e => e.lang === 'zh-CN' && e.localService === true);
