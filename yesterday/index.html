@@ -1,0 +1,7 @@
+<script>
+    const today = new Date()
+    const yesterday = new Date(today)
+    yesterday.setDate(yesterday.getDate() - 1)
+    const pdf = `https://www.chp.gov.hk/files/pdf/ctn_${yesterday.toLocaleDateString('en-GB').split('/').reverse().join('')}.pdf`;
+    window.location = pdf
+</script>
