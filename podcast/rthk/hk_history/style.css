@@ -2,7 +2,7 @@
   --colNum: 10;
 }
 p , pre  {font-size: 20px;}    
-#audio{background:#666;width:94%;padding:20px;}
+#audio{background:black;width:100%;}
 .active a{color:#5DB0E6;text-decoration:none;}
 div a{color:black;}
 div a:hover{text-decoration:none;}

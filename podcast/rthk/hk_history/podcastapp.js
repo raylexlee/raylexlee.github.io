@@ -41,7 +41,7 @@ function init(){
             current.classList.add('active');
 	        audio.firstElementChild.setAttribute("src", link.href);     
             audio.load();
-            audio.volume = .10;
+            audio.volume = .90;
         }	
     }
     audio.addEventListener('ended',function(e){
