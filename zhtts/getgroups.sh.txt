@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+grep group.js *html | sed 's#\(.*\)\.html.*#\1#'

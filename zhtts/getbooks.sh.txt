@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+AUTHOR=${1?'missing author ...'}
+grep '<li>' $AUTHOR.html | grep 'href=.\(.*\)\.html.*\1' | sed 's#.*href=.\(.*\)\.html.*#\1#'
