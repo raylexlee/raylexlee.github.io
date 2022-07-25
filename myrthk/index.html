@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Q計劃</title>
+  <link rel="stylesheet" href="rthkpodcast.css">
+</head>
+
+<body>
+  <div class="grids-container"></div>
+  <p style="margin-top: 0; padding: 0; text-align: center; font-size:small; color: lightgray;">
+    Last updated on HKT Monday 10:50 p.m., 25 July 2022
+  </p>
+</body>
+<script src="index.js"></script>
+<script>
+document.getElementsByClassName("grids-container")[0].innerHTML
+=pid.map(p => `<div>
+<a href="podcast.html?prog=${p}">
+<img src="https://podcast.rthk.hk/podcast/upload_photo/item_photo/1400x1400_${p}.jpg">
+</a>
+</div>`).join('\n');
+</script>
+</html>
