@@ -80,13 +80,13 @@ Sorry, your browser does not support HTML5 audio.
 `;
 function myInitChapters() {
   const optChapter = (chapter, index) => `<li><a href="javascript:gotoChapter(${index})">${chapter.caption}</a></li>`;
-  const parentPage = (Programme.pages.length === 1) ? 'index.html' : `podcast.html?prog=${prog}`;
-  const optIndexHtml = `<li><a href="${parentPage}">返　回　前　目　錄</a></li>`;
   fetch(`${prog}.json`)
     .then(response => response.json())
     .then(data => {
       Programme = data;
       Page = Programme.pages.filter(page => page.title === pageTitle)[0]; 
+      const parentPage = (Programme.pages.length === 1) ? 'index.html' : `podcast.html?prog=${prog}`;
+      const optIndexHtml = `<li><a href="${parentPage}">返　回　前　目　錄</a></li>`;
       chapters = Page.podcasts;
       document.title = Page.title;
       document.getElementById('myChapterList').innerHTML=`${optIndexHtml}\n${chapters.map((c,i) => optChapter(c,i)).join('\n')}`; 
