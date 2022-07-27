@@ -52,6 +52,9 @@ function myInitIndexPage() {
         window.location = `podcast.html?prog=${prog}&page=${Programme.pages[0].title}`;
       }
       document.title = Programme.name;
+      document.getElementById('myContent').value = `
+
+${Programme.name} 最新播岀 ${Programme.latest}`;
       document.getElementById('navigation').innerHTML = indexpage(Programme, prog);
       ProcessMenu();
       document.getElementById('nav-toggle').onclick = function () {
@@ -89,6 +92,11 @@ function myInitChapters() {
       const optIndexHtml = `<li><a href="${parentPage}">返　回　前　目　錄</a></li>`;
       chapters = Page.podcasts;
       document.title = Page.title;
+      document.getElementById('myContent').value = `
+
+${(Page.title === Programme.name) ? '' : Page.title} 首播日期 ${Page.broadcast_date}
+
+${(Page.title === Programme.name) ? '' : Programme.name} 最新播岀 ${Programme.latest}`;
       document.getElementById('myChapterList').innerHTML=`${optIndexHtml}\n${chapters.map((c,i) => optChapter(c,i)).join('\n')}`; 
       document.getElementById('media').innerHTML = `${media[chapters[0].url.slice(-3)]}`;
       ProcessMenu();
