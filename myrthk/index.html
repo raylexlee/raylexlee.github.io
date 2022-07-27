@@ -6,46 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>My RTHK</title>
-    <style>
-    body {
-      background-color: black;
-      color:#f1f1f1;
-      margin: 0;
-    }
-img {
-  border: 0;
-  border-radius: 2vmin;
-  padding: 1px;
-  width: 30vmin;
-  height: 30vmin;
-  object-fit: cover;
-}
-
-img:hover {
-  box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
-}
-div {
-  text-align: center;
-  font-size: 30vmin;
-}
-    a, a:visited {
-      text-decoration: none;
-    }
-    </style>
+  <link rel="stylesheet" href="rthkpodcast.css">
 </head>
 
 <body>
   <div class="grids-container"></div>
   <p style="margin-top: 0; padding: 0; text-align: center; font-size:small; color: lightgray;">
-    Last updated on HKT Wednesday 12:35.m., 27 July 2022
+    Last updated on HKT Wednesday 10:35a.m., 27 July 2022
   </p>
 </body>
 <script src="index.js"></script>
 <script>
 document.getElementsByClassName("grids-container")[0].innerHTML
-=pid.map(p => `
+=pid.map(p => `<div>
 <a href="podcast.html?prog=${p}">
-<img src="https://podcast.rthk.hk/podcast/upload_photo/item_photo/1400x1400_${p}.jpg"></a> `).join('\n')+
-    '<a href="radiodrama/rthk/">📻</a>';
+<img src="https://podcast.rthk.hk/podcast/upload_photo/item_photo/1400x1400_${p}.jpg"></a></div>`).join('\n')+
+    '<div><a href="/radiodrama/rthk/">📻</a></div>';
 </script>
 </html>

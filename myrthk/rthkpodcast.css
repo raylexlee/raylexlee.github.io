@@ -7,26 +7,26 @@
         display: grid;
         align-content: center;
         height: 90vh;
-        padding: 10px;
+        padding: 3vmin;
     }
 
     .grids-container>div {
-      padding: 10px;
+      padding: 3vmin;
       text-align: center;
-      font-size: 150px;
+      font-size: 20vmin;
     }
     
     img {
       border: 0;
-      border-radius: 3px;
-      padding: 1px;
-      width: 80px;
-      height: 80px;
+      border-radius: 1vmin;
+      padding: .3vmin;
+      width: 20vmin;
+      height: 20vmin;
       object-fit: fill;
     }
 
     img:hover {
-      box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+      box-shadow: 0 0 .6vmin .3vmin rgba(0, 140, 186, 0.5);
     }
     a, a:visited {
       text-decoration: none;
