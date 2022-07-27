@@ -27,7 +27,20 @@ span {
     text-decoration: none; 
 }
 audio {background:#666;width:94%;padding:20px;}
-video {background:black;width:100%;height:56.25%;}
+video {background:black;}
+.videoWrapper {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 25px;
+	height: 0;
+}
+.videoWrapper video {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
 #audio {position:absolute;}
 .viewportDiv {
   display: flex;

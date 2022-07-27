@@ -63,10 +63,10 @@ function myInitIndexPage() {
      });
 }
 const media = {};
-media['mp4'] = `<video id="audio"   width="640" height="480" controls>
+media['mp4'] = `<div class="videoWrapper"><video id="audio"   width="640" height="480" controls>
   <source src="" type="video/mp4">
   Your browser does not support the video tag.
-  </video>
+  </video></div>
 `;
 media['mp3'] = `<audio id="audio" preload="auto" tabindex="0" controls="">
 <source type="audio/mp3" src="">
