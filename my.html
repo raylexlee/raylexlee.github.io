@@ -5,74 +5,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>My Projects</title>
-  <style>
-    body {
-      background-color: black;
-      color:#f1f1f1;
-    }
-    .flex-container {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    .flex-container>div {
-      width: 87px;
-      margin: 5px;
-      text-align: center;
-      font-size: 50px;
-    }
-
-    img {
-      border: 0;
-      border-radius: 4px;
-      padding: 1px;
-      width: 50px;
-      height: 50px;
-      object-fit: cover;
-    }
-
-    img:hover {
-      box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
-    }
-    a, a:visited {
-      text-decoration: none;
-    }
-    .grid-container {
-      display: grid;
-      grid-template-columns: 2fr 3fr;
-      grid-gap: 10px;
-      margin-left: 10px;
-      padding: 0px;
-    }
-  </style>
+  <title>Q計劃</title>
+  <link rel="stylesheet" href="css/main3.css">
 </head>
 
 <body>
-  <div class="flex-container">
-    <div><a href="menu">&#127926;</a> </div>
+  <div class="grids-container">
+    <div><a href="zhtts"><img src="zhtts/apple-touch-icon.png" /></a></div>
     <div><a href="ytiframeplayer/?videoid=PLJrt_9xl0rNHF1iEEuZdCLn33IyJi6S4O">&#127916;</a> </div>
     <div><a href="ytiframeplayer/?videoid=PLJrt_9xl0rNE2TD5v_DVJFiiTUtf7Dzvz">&#128187;</a> </div>
     <div><a href="ytiframeplayer"><img src="ytiframeplayer/apple-touch-icon.png" /></a></div>
     <div><a href="ytiframeplayer/?videoid=PLJrt_9xl0rNH_RNH8xsNPcj1Yyj3ZACkP">&#127925;</a></div>
     <div><a href="ytiframeplayer/?videoid=PLJrt_9xl0rNHsohKnkTWwB9sGTQRhILxB">&#127911;</a></div>
     <div><a href="readandhear"><img src="readandhear/apple-touch-icon.png" /></a></div>
-    <div><a href="radiodrama/rthk/">📻</a> </div>
-    <div><a href="podcast/rthk/people/"><img src="podcast/rthk/people/apple-touch-icon.png" /></a></div>
-    <div><a href="podcast/rthk/worldriver/"><img src="podcast/rthk/worldriver/apple-touch-icon.png" /></a></div>
-    <div><a href="podcast/rthk/cantonesefilm/"><img src="podcast/rthk/cantonesefilm/apple-touch-icon.png" /></a>
-    </div>
-    <div><a href="podcast/rthk/university/"><img src="podcast/rthk/university/apple-touch-icon.png" /></a></div>
-    <div><a href="podcast/rthk/chances/"><img src="podcast/rthk/chances/apple-touch-icon.png" /></a></div>
-    <div><a href="podcast/rthk/tv_history/"><img src="podcast/rthk/tv_history/apple-touch-icon.png" /></a></div>
-    <div><a href="podcast/rthk/broadcast/"><img src="podcast/rthk/broadcast/apple-touch-icon.png" /></a></div>
   </div>
-  <div class="grid-container">
-    <div class="item1"><img src="image/my.svg" alt=""></div>
-    <div id="item2">
-These are the products of my self amusement since September 2018.
-    </div>
-  </div>
+  <p style="margin-top: 0; padding: 0; text-align: center; font-size:small; color: lightgray;">
+    Last updated on HKT Saturday 10:36 pm, 30 July 2022
+  </p>
 </body>
+<script src="myrthk/index.js"></script>
+<script>
+document.getElementsByClassName("grids-container")[0].innerHTML
++=pid.map(p => `<div>
+<a href="myrthk/podcast.html?prog=${p}">
+<img src="https://podcast.rthk.hk/podcast/upload_photo/item_photo/1400x1400_${p}.jpg"></a></div>`).join('\n')+
+    `<div><a href="/radiodrama/rthk/">📻</a></div>
+    <div><img src="image/index.svg" alt=""></div>
+`;
+</script>
 
 </html>
