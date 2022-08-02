@@ -20,7 +20,12 @@ function myTTSinit() {
  let i;
  for (i=0; i < voices.length; i++) if (voices[i].lang.startsWith('zh')) mySpeaker.push(voices[i]);
 let voice = mySpeaker.findIndex(e => nameSpeaker(e.name) === 'WanLung');
-if (voice !== -1) [mySpeaker[0], mySpeaker[voice]] = [mySpeaker[voice], mySpeaker[0]];
+if (voice !== -1) {
+   [mySpeaker[0], mySpeaker[voice]] = [mySpeaker[voice], mySpeaker[0]];
+ } else {
+   voice = mySpeaker.findIndex(e => e.lang.substr(3,2) === HK);
+   if (voice >= 1) [mySpeaker[0], mySpeaker[voice]] = [mySpeaker[voice], mySpeaker[0]];
+   }
  const option = e => `<option value="${e.name}">
    ${nameSpeaker(e.name)} ${e.lang.substr(3,2)}</option>
    `;
