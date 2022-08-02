@@ -23,7 +23,7 @@ let voice = mySpeaker.findIndex(e => nameSpeaker(e.name) === 'WanLung');
 if (voice !== -1) {
    [mySpeaker[0], mySpeaker[voice]] = [mySpeaker[voice], mySpeaker[0]];
  } else {
-   voice = mySpeaker.findIndex(e => e.lang.substr(3,2) === HK);
+   voice = mySpeaker.findIndex(e => e.lang.substr(3,2) === 'HK');
    if (voice >= 1) [mySpeaker[0], mySpeaker[voice]] = [mySpeaker[voice], mySpeaker[0]];
    }
  const option = e => `<option value="${e.name}">
