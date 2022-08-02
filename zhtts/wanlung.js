@@ -182,6 +182,8 @@ function speak(){
   }
 }
 myVoice.onchange = function(){
+  justCancel = true;
+  synth.cancel();
   speak();
 }
 
