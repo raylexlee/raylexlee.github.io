@@ -26,10 +26,15 @@ if (voice !== -1) {
    voice = mySpeaker.findIndex(e => e.lang.substr(3,2) === 'HK');
    if (voice >= 1) [mySpeaker[0], mySpeaker[voice]] = [mySpeaker[voice], mySpeaker[0]];
    }
- const option = e => `<option value="${e.name}">
+  if (!localStorage.getItem('zhttsVoice')) {
+    const start_voice = 0;
+    localStorage.setItem('zhttsVoice',start_voice);
+  }
+ const lastVoice = parseInt(localStorage.getItem('zhttsVoice'));
+ const option = (e,v) => `<option value="${e.name}" ${(v === lastVoice) ? 'selected' : ''}>
    ${nameSpeaker(e.name)} ${e.lang.substr(3,2)}</option>
    `;
- myVoice.innerHTML = mySpeaker.map(e => option(e)).join('\n');
+ myVoice.innerHTML = mySpeaker.map((e,v) => option(e,v)).join('\n');
  utterThis = new SpeechSynthesisUtterance('Create utter this');
  utterThis.onpause = function (event) {
    console.log(event.charIndex);
@@ -187,6 +192,7 @@ function speak(){
   }
 }
 myVoice.onchange = function(){
+  localStorage.setItem('zhttsVoice',myVoice.selectedIndex);
   justCancel = true;
   synth.cancel();
   speak();
