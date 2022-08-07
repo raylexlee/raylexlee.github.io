@@ -1,4 +1,5 @@
 let title, myContent, myChapterList, myRange, myBook, myAutoplay;
+let myPauseCancel;
 let chapters;
 let activeEpisode;
 const synth = window.speechSynthesis;
@@ -14,6 +15,9 @@ const nameSpeaker = name => {
    const firstPart = name.split('(')[0].trim();
    return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
 };
+function updatePauseCancel() {
+  myPauseCancel.innerHTML = mySpeaker[myVoice.selectedIndex].localService ? '&#9208;' : '&#9632;';
+}
 function myTTSinit() {
  mySpeaker = [];
  voices = synth.getVoices();
@@ -100,6 +104,9 @@ function myInit() {
       document.getElementById('nav-toggle').addEventListener('click', function () {
         document.querySelectorAll('nav ul').forEach(el => toggle(el));
         });
+      const links = document.getElementsByTagName('a');
+      myPauseCancel = links[links.length - 1];
+      updatePauseCancel();
       const chapter = getLastChapter();
       gotoChapter(chapter, false); 
     });
@@ -195,6 +202,7 @@ myVoice.onchange = function(){
   localStorage.setItem('zhttsVoice',myVoice.selectedIndex);
   justCancel = true;
   synth.cancel();
+  updatePauseCancel();
   speak();
 }
 
