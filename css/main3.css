@@ -6,23 +6,21 @@
     .grids-container {
         display: grid;
         align-content: center;
-        height: 90vh;
-        padding: 2vmin;
+        height: 95vh;
+        padding: 0.4vh;
     }
 
     .grids-container>div {
-      padding: 2vmin;
+      padding: 0.4vmin;
       text-align: center;
-      font-size: 16vmin;
+      font-size: 15vmin;
     }
     
     img {
       border: 0;
       border-radius: 1vmin;
       padding: .3vmin;
-      width: 16vmin;
-      height: 16vmin;
-      object-fit: fill;
+      object-fit: contain;
     }
 
     img:hover {
@@ -36,6 +34,10 @@
      grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
      grid-template-rows: 1fr 1fr 1fr 1fr;
      }
+    img {
+      width: 15vw;
+      height: 20vh;
+    }
 }
 
 @media (orientation: portrait) {
@@ -43,4 +45,8 @@
      grid-template-columns: 1fr 1fr 1fr 1fr;
      grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
      }
+    img {
+      width: 24vw;
+      height: 13vh;
+    }
 }
