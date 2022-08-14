@@ -1,30 +1,32 @@
 const synth = window.speechSynthesis;
 const btnSpeak = document.getElementById('btnSpeak');
 const btnStop = document.getElementById('btnStop');
-const myVoice = document.getElementById('myVoice');
+const voiceSelect = document.getElementById('myVoice');
 const myContent = document.getElementById('myContent');
 const rate = document.querySelector('#rate');
 let voices = [];
-let hkvoices, hkspeaker;
 let utterThis;
 
-function myInit() {
- voices = synth.getVoices();
- hkvoices = voices.filter(e => e.lang === 'zh-HK');
- if (hkvoices.length === 0) {
-     btnSpeak.remove();
-     btnStop.remove();
-     myContent.remove();
-     rate.remove();
-     myVoice.innerText = '唔好意思,  我唔識講廣東話';
- }
- hkspeaker = hkvoices[0];
- console.log(hkspeaker.name);
- myVoice.innerText = `${hkspeaker.localService ? '本機' : '雲端'}廣東話`;
+function populateVoiceList() {
+  voices = synth.getVoices().filter(v => v.lang.startsWith('zh'));
+  var selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
+  voiceSelect.innerHTML = '';
+  for(i = 0; i < voices.length ; i++) {
+    var option = document.createElement('option');
+    option.textContent = voices[i].name + ' (' + voices[i].lang + ')';
+    
+    if(voices[i].default) {
+      option.textContent += ' -- DEFAULT';
+    }
+
+    option.setAttribute('data-lang', voices[i].lang);
+    option.setAttribute('data-name', voices[i].name);
+    voiceSelect.appendChild(option);
+  }
+  voiceSelect.selectedIndex = selectedIndex;
  btnStop.innerText = '暫停';
  btnStop.onclick = pauseResume;
  utterThis = new SpeechSynthesisUtterance('Create utter this');
- utterThis.voice = hkspeaker;
  utterThis.onpause = function (event) {
    console.log(event.charIndex);
    console.log('SpeechSynthesisUtterance.onpause');
@@ -37,8 +39,9 @@ function myInit() {
  }
 }
 
+populateVoiceList();
 if (speechSynthesis.onvoiceschanged !== undefined) {
-  speechSynthesis.onvoiceschanged = myInit;
+  speechSynthesis.onvoiceschanged = populateVoiceList;
 }
 
 function speak(){
@@ -48,10 +51,21 @@ function speak(){
     }
     if (myContent.value !== '') {
     utterThis.text = myContent.value;
+    const selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
+    for(i = 0; i < voices.length ; i++) {
+      if(voices[i].name === selectedOption) {
+        utterThis.voice = voices[i];
+        break;
+      }
+    }
     utterThis.pitch = 1;
     utterThis.rate = rate.value;
     synth.speak(utterThis);
   }
+}
+
+voiceSelect.onchange = function(){
+  speak();
 }
 
 function pauseResume() {
