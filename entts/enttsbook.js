@@ -4,9 +4,9 @@ let chapters;
 let activeEpisode;
 const querystring = location.search;
 const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
-if (params === 'none') window.location = 'enttsbook.html?title=PrideAndPrejudice';
+if (params === 'none') window.location = 'enttsbook.html?title=Pride_and_Prejudice';
 title =  params.get('title');
-title = title ? title : 'PrideAndPrejudice';
+title = title ? title : 'Pride_and_Prejudice';
 const synth = window.speechSynthesis;
 const myVoice = document.getElementById('myVoice');
 const rate = document.querySelector('#rate');
@@ -71,11 +71,11 @@ function myInit() {
   myRange = document.getElementById('myRange'); 
   myBook = document.getElementById('myBook');
   myAutoplay = document.getElementById('myAutoplay');
-  const optChapter = chapter => `<li><a href="javascript:gotoChapter('${chapter}')">${chapter.substring(4)}</a></li>`;
+  const optChapter = chapter => `<li><a href="javascript:gotoChapter('${chapter}')">${chapter.substring(4).replace(/_/g," ")}</a></li>`;
   let backto = 'index';
   const caller =  params.get('caller');
   backto = caller ? caller : backto;
-  const optIndexHtml = `<li><a href="${backto}.html">Back to Index</a></li>`;
+  const optIndexHtml = `<li><a href="group.html?author=${backto}">Back to Index</a></li>`;
   myRange.oninput = function() {
     const v = myRange.value;
     myContent.style.fontSize = `${20 + parseInt(v)}px`;
@@ -126,9 +126,9 @@ function gotoChapter(chapter, PleaseSpeak = true) {
    const loadchapterUrl = `loadchapter.html?book=${title}&episode=${activeEpisode}`;
    myBook.innerHTML=`
      <a href="javascript:window.open('${loadchapterUrl}','readaloud');" style="color:cyan;">&#128220;</a> 
-     ${title} 
+     ${title.replace(/_/g," ")} 
      <a href="javascript:prevChapter()" style="color:cyan;">&lArr;</a> 
-     ${chapter.substring(4)}
+     ${chapter.substring(4).replace(/_/g," ")}
      <a href="javascript:nextChapter()" style="color:cyan;">&rArr;</a> 
      `;
    document.title = `${title} ${chapter.substring(4)}`;

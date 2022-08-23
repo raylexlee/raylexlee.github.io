@@ -1,0 +1,11 @@
+001 The_Adventure_of_"The_Western_Star"
+002 The_Tragedy_at_Marsdon_Manor
+003 The_Adventure_of_the_Cheap_Flat
+004 The_Mystery_of_Hunter's_Lodge
+005 The_Million_Dollar_Bond_Robbery
+006 The_Adventure_of_the_Egyptian_Tomb
+007 Jewel_Robbery_at_the_Grand_Metropolitan
+008 The_Kidnapped_Prime_Minister
+009 The_Disappearance_of_Mr._Davenheim
+010 The_Adventure_of_the_Italian_Nobleman
+011 The_Case_of_the_Missing_Will

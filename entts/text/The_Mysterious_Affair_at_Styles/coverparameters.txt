@@ -1,0 +1,13 @@
+001 I_Go_to_Styles
+002 The_16th_and_17th_of_July
+003 The_Night_of_the_Tragedy
+004 Poirot_Investigates
+005 "It_isn't_Strychnine,_is_it?"
+006 The_Inquest
+007 Poirot_Pays_His_Debts
+008 Fresh_Suspicions
+009 Dr._Bauerstein
+010 The_Arrest
+011 The_Case_for_the_Prosecution
+012 The_Last_Link
+013 Poirot_Explains
