@@ -100,7 +100,6 @@ function myInit() {
         });
       const links = document.getElementsByTagName('a');
       myPauseCancel = links[links.length - 1];
-      updatePauseCancel();
       const chapter = getLastChapter();
       gotoChapter(chapter, false); 
     });
@@ -183,6 +182,7 @@ function speak(){
     if (myContent.value !== '') {
     pausing = false;  
     utterThis.voice = mySpeaker.filter(e => e.name === myVoice.value)[0];
+    updatePauseCancel();
     utterThis.text = myContent.value;
     utterThis.pitch = 1;
     utterThis.rate = rate.value;
@@ -196,7 +196,6 @@ myVoice.onchange = function(){
   localStorage.setItem('enttsVoice',myVoice.selectedIndex);
   justCancel = true;
   synth.cancel();
-  updatePauseCancel();
   speak();
 }
 
