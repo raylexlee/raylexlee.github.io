@@ -1,4 +1,4 @@
-let title, myContent, audio, myChapterList, myRange, myBook, myAutoplay;
+
 let chapters;
 // let mySync;
 let activeEpisode;
