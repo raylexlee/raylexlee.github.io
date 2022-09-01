@@ -15,6 +15,12 @@ const nameSpeaker = name => {
    const firstPart = name.split('(')[0].trim();
    return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
 };
+function SyncAudioWithContent(e) {
+    if ((e.charIndex >= 2) && (myContent.value[e.charIndex - 1] !== '　')) return;
+    const adjustment = 0.6;
+    const portion = e.charIndex / myContent.value.length;
+    myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
+}
 function updatePauseCancel() {
   myPauseCancel.innerHTML = mySpeaker[myVoice.selectedIndex].localService ? '&#9208;' : '&#9632;';
 }
@@ -56,6 +62,7 @@ if (voice !== -1) {
  utterThis.onerror = function (event) {
    console.error('SpeechSynthesisUtterance.onerror');
  }
+ utterThis.onboundary = SyncAudioWithContent;
  // if (completed_myinit && myAutoplay.checked && myVoice.value.startsWith('zh')) speak(); 
 }
 myTTSinit();
