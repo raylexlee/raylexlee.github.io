@@ -144,7 +144,7 @@ function gotoChapter(chapter, PleaseSpeak = true) {
    fetch(contentUrl(chapter))
      .then(response => response.text())
      .then(data => {
-       myContent.value = data;
+       myContent.value = data.replace(/_/g, '');
       completed_myinit = true;
        if (myAutoplay.checked) {
          if (synth.speaking) { 
