@@ -20,6 +20,15 @@ const nameSpeaker = name => {
    const firstPart = name.split('(')[0].trim();
    return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
 };
+function SyncAudioWithContent(e) {
+    //console.log(myContent.value.substring(0,e.charIndex), '->', myContent.value[e.charIndex]);
+    //return;
+    if (e.charIndex < 30) return;
+    if ( myContent.value[e.charIndex - 2] !== '.') return;
+    const adjustment = 0.5;
+    const portion = e.charIndex / myContent.value.length;
+    myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
+}
 function updatePauseCancel() {
   myPauseCancel.innerHTML = mySpeaker[myVoice.selectedIndex].localService ? '&#9208;' : '&#9632;';
 }
@@ -54,6 +63,7 @@ function myTTSinit() {
  utterThis.onerror = function (event) {
    console.error('SpeechSynthesisUtterance.onerror');
  }
+ utterThis.onboundary = SyncAudioWithContent;
  // if (completed_myinit && myAutoplay.checked && myVoice.value.startsWith('en')) speak(); 
 }
 myTTSinit();
