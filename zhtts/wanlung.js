@@ -16,7 +16,8 @@ const nameSpeaker = name => {
    return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
 };
 function SyncAudioWithContent(e) {
-    if ((e.charIndex >= 2) && (myContent.value[e.charIndex - 1] !== '　')) return;
+    if (e.charIndex < 30) return;
+    if ((myContent.value[e.charIndex - 2] !== '。') && (myContent.value[e.charIndex - 1] !== '。')) return;
     const adjustment = 0.6;
     const portion = e.charIndex / myContent.value.length;
     myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
