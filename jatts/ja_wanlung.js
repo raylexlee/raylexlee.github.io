@@ -1,4 +1,5 @@
 let title, myContent, myChapterList, myRange, myBook, myAutoplay;
+let myPauseCancel;
 let chapters;
 let activeEpisode;
 const synth = window.speechSynthesis;
@@ -14,6 +15,16 @@ const nameSpeaker = name => {
    const firstPart = name.split('(')[0].trim();
    return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
 };
+function SyncAudioWithContent(e) {
+    if (e.charIndex < 30) return;
+    if ((myContent.value[e.charIndex - 2] !== '。') && (myContent.value[e.charIndex - 1] !== '。')) return;
+    const adjustment = 0.6;
+    const portion = e.charIndex / myContent.value.length;
+    myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
+}
+function updatePauseCancel() {
+  myPauseCancel.innerHTML = mySpeaker[myVoice.selectedIndex].localService ? '&#9208;' : '&#9632;';
+}
 function myTTSinit() {
  mySpeaker = [];
  voices = synth.getVoices();
@@ -47,6 +58,7 @@ function myTTSinit() {
  utterThis.onerror = function (event) {
    console.error('SpeechSynthesisUtterance.onerror');
  }
+ utterThis.onboundary = SyncAudioWithContent;
  // if (completed_myinit && myAutoplay.checked && myVoice.value.startsWith('ja')) speak(); 
 }
 myTTSinit();
@@ -95,6 +107,8 @@ function myInit() {
       document.getElementById('nav-toggle').addEventListener('click', function () {
         document.querySelectorAll('nav ul').forEach(el => toggle(el));
         });
+      const links = document.getElementsByTagName('a');
+      myPauseCancel = links[links.length - 1];
       const chapter = getLastChapter();
       gotoChapter(chapter, false); 
     });
@@ -177,6 +191,7 @@ function speak(){
     if (myContent.value !== '') {
     pausing = false;  
     utterThis.voice = mySpeaker.filter(e => e.name === myVoice.value)[0];
+    updatePauseCancel();
     utterThis.text = myContent.value;
     utterThis.pitch = 1;
     utterThis.rate = rate.value;
