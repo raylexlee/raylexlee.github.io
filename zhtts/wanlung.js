@@ -1,4 +1,5 @@
 let title, myContent, myChapterList, myRange, myBook, myAutoplay;
+let nDigits = 3;
 let myPauseCancel;
 let chapters;
 let activeEpisode;
@@ -73,7 +74,7 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
 });
-const contentUrl = chapter => `text/${title}/${chapter.substring(0,3)}.txt`;
+const contentUrl = chapter => `text/${title}/${chapter.substring(0,nDigits)}.txt`;
 function myInit() {
   title = document.title;
   myContent = document.getElementById('myContent');
@@ -81,7 +82,7 @@ function myInit() {
   myRange = document.getElementById('myRange'); 
   myBook = document.getElementById('myBook');
   myAutoplay = document.getElementById('myAutoplay');
-  const optChapter = chapter => `<li><a href="javascript:gotoChapter('${chapter}')">${chapter.substring(4)}</a></li>`;
+  const optChapter = chapter => `<li><a href="javascript:gotoChapter('${chapter}')">${chapter.substring(1 + nDigits)}</a></li>`;
   let backto = 'index';
   const querystring = location.search;
   if (querystring != '') {
@@ -104,6 +105,7 @@ function myInit() {
     .then(response => response.text())
     .then(data => {
       chapters = data.replace(/\n+$/, "").split('\n');
+      nDigits = chapters[0].indexOf(' ');      
       myChapterList.innerHTML=`${optIndexHtml}\n${chapters.map(c => optChapter(c)).join('\n')}`; 
       ProcessMenu();
       document.getElementById('nav-toggle').onclick = function () {
@@ -134,17 +136,17 @@ function nextChapter() {
 }
 function gotoChapter(chapter, PleaseSpeak = true) {
    //activeEpisode = parseInt(chapter.substring(0,3));
-   activeEpisode = chapter.substring(0,3);
+   activeEpisode = chapter.substring(0,nDigits);
    localStorage.setItem('wspa_activeEpisode'+title, activeEpisode);
    const loadchapterUrl = `loadchapter.html?book=${title}&episode=${activeEpisode}`;
    myBook.innerHTML=`
      <a href="javascript:window.open('${loadchapterUrl}','readaloud');" style="color:cyan;">&#128220;</a> 
      ${title} 
      <a href="javascript:prevChapter()" style="color:cyan;">&lArr;</a> 
-     ${chapter.substring(4)}
+     ${chapter.substring(1 + nDigits)}
      <a href="javascript:nextChapter()" style="color:cyan;">&rArr;</a> 
      `;
-   document.title = `${title} ${chapter.substring(4)}`;
+   document.title = `${title} ${chapter.substring(1 + nDigits)}`;
    fetch(contentUrl(chapter))
      .then(response => response.text())
      .then(data => {
@@ -182,7 +184,7 @@ function ProcessMenu() {
 }
 function getLastChapter() {
   if (!localStorage.getItem('wspa_activeEpisode'+title)) {
-    const start_episode = chapters[0].substring(0,3);
+    const start_episode = chapters[0].substring(0,nDigits);
     localStorage.setItem('wspa_activeEpisode'+title,start_episode);
   }
   activeEpisode = localStorage.getItem('wspa_activeEpisode'+title);
