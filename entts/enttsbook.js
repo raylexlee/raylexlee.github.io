@@ -24,8 +24,8 @@ const nameSpeaker = name => {
 function SyncAudioWithContent(e) {
     //console.log(myContent.value.substring(0,e.charIndex), '->', myContent.value[e.charIndex]);
     //return;
-    if (e.charIndex < 30) return;
-    if ( myContent.value[e.charIndex - 2] !== '.') return;
+//    if (e.charIndex < 30) return;
+//    if ( myContent.value[e.charIndex - 2] !== '.') return;
     const adjustment = 0.5;
     const portion = e.charIndex / myContent.value.length;
     myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
