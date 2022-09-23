@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-book=${1?"missing book name!"}
-SHOW=$(echo $book | sed -e 's/_/ /g' -e 's/\([a-z]\)\([A-Z]\)/\1 \2/g')
-sed  "s/李潤明/$book/" < jatextapp.html.template.txt > $book.html
-echo \<li\>\<a href="\""$book.html"\""\>$SHOW\</a\>\</li\>

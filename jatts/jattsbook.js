@@ -1,7 +1,13 @@
 let title, myContent, myChapterList, myRange, myBook, myAutoplay;
+let nDigits = 3;
 let myPauseCancel;
 let chapters;
 let activeEpisode;
+const querystring = location.search;
+const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
+if (params === 'none') window.location = 'jattsbook.html?title=Pride_and_Prejudice';
+title =  params.get('title');
+title = title ? title : 'Pride_and_Prejudice';
 const synth = window.speechSynthesis;
 const myVoice = document.getElementById('myVoice');
 const rate = document.querySelector('#rate');
@@ -16,9 +22,7 @@ const nameSpeaker = name => {
    return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
 };
 function SyncAudioWithContent(e) {
-//    if (e.charIndex < 30) return;
-//    if ((myContent.value[e.charIndex - 2] !== '。') && (myContent.value[e.charIndex - 1] !== '。')) return;
-    const adjustment = 0.6;
+    const adjustment = 0.5;
     const portion = e.charIndex / myContent.value.length;
     myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
 }
@@ -30,17 +34,15 @@ function myTTSinit() {
  voices = synth.getVoices();
  let i;
  for (i=0; i < voices.length; i++) if (voices[i].lang.startsWith('ja')) mySpeaker.push(voices[i]);
-//let voice = mySpeaker.findIndex(e => nameSpeaker(e.name) === 'WanLung');
-//if (voice !== -1) {
-//   [mySpeaker[0], mySpeaker[voice]] = [mySpeaker[voice], mySpeaker[0]];
-// } else {
-//   voice = mySpeaker.findIndex(e => e.lang.substr(3,2) === 'HK');
-//   if (voice >= 1) [mySpeaker[0], mySpeaker[voice]] = [mySpeaker[voice], mySpeaker[0]];
-//   }
- const option = e => `<option value="${e.name}">
+  if (!localStorage.getItem('jattsVoice')) {
+    const start_voice = 0;
+    localStorage.setItem('jattsVoice',start_voice);
+  }
+ const lastVoice = parseInt(localStorage.getItem('jattsVoice'));
+ const option = (e,v) => `<option value="${e.name}" ${(v === lastVoice) ? 'selected' : ''}>
    ${nameSpeaker(e.name)} ${e.lang.substr(3,2)}</option>
    `;
- myVoice.innerHTML = mySpeaker.map(e => option(e)).join('\n');
+ myVoice.innerHTML = mySpeaker.map((e,v) => option(e,v)).join('\n');
  utterThis = new SpeechSynthesisUtterance('Create utter this');
  utterThis.onpause = function (event) {
    console.log(event.charIndex);
@@ -59,7 +61,7 @@ function myTTSinit() {
    console.error('SpeechSynthesisUtterance.onerror');
  }
  utterThis.onboundary = SyncAudioWithContent;
- // if (completed_myinit && myAutoplay.checked && myVoice.value.startsWith('ja')) speak(); 
+ // if (completed_myinit && myAutoplay.checked && myVoice.value.startsWith('en')) speak(); 
 }
 myTTSinit();
 if (speechSynthesis.onvoiceschanged !== undefined) {
@@ -68,23 +70,19 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
 });
-const contentUrl = chapter => `text/${title}/${chapter.substring(0,3)}.txt`;
+const contentUrl = chapter => `text/${title}/${chapter.substring(0,nDigits)}.txt`;
 function myInit() {
-  title = document.title;
+  document.title = title;
   myContent = document.getElementById('myContent');
   myChapterList = document.getElementById('myChapterList');
   myRange = document.getElementById('myRange'); 
   myBook = document.getElementById('myBook');
   myAutoplay = document.getElementById('myAutoplay');
-  const optChapter = chapter => `<li><a href="javascript:gotoChapter('${chapter}')">${chapter.substring(4)}</a></li>`;
+  const optChapter = chapter => `<li><a href="javascript:gotoChapter('${chapter}')">${chapter.substring(1 + nDigits).replace(/_/g," ")}</a></li>`;
   let backto = 'index';
-  const querystring = location.search;
-  if (querystring != '') {
-    const params = (new URL(document.location)).searchParams;
-    const caller =  params.get('caller');
-    backto = caller ? caller : backto;
-  }
-  const optIndexHtml = `<li><a href="${backto}.html">返　回　前　目　錄</a></li>`;
+  const caller =  params.get('caller');
+  backto = caller ? caller : backto;
+  const optIndexHtml = `<li><a href="group.html?author=${backto}">Back to Index</a></li>`;
   myRange.oninput = function() {
     const v = myRange.value;
     myContent.style.fontSize = `${20 + parseInt(v)}px`;
@@ -99,6 +97,7 @@ function myInit() {
     .then(response => response.text())
     .then(data => {
       chapters = data.replace(/\n+$/, "").split('\n');
+      nDigits = chapters[0].indexOf(' ');      
       myChapterList.innerHTML=`${optIndexHtml}\n${chapters.map(c => optChapter(c)).join('\n')}`; 
       ProcessMenu();
       document.getElementById('nav-toggle').onclick = function () {
@@ -129,21 +128,21 @@ function nextChapter() {
 }
 function gotoChapter(chapter, PleaseSpeak = true) {
    //activeEpisode = parseInt(chapter.substring(0,3));
-   activeEpisode = chapter.substring(0,3);
+   activeEpisode = chapter.substring(0,nDigits);
    localStorage.setItem('wspa_activeEpisode'+title, activeEpisode);
    const loadchapterUrl = `loadchapter.html?book=${title}&episode=${activeEpisode}`;
    myBook.innerHTML=`
      <a href="javascript:window.open('${loadchapterUrl}','readaloud');" style="color:cyan;">&#128220;</a> 
-     ${title} 
+     ${title.replace(/_/g," ")} 
      <a href="javascript:prevChapter()" style="color:cyan;">&lArr;</a> 
-     ${chapter.substring(4)}
+     ${chapter.substring(1 + nDigits).replace(/_/g," ")}
      <a href="javascript:nextChapter()" style="color:cyan;">&rArr;</a> 
      `;
-   document.title = `${title} ${chapter.substring(4)}`;
+   document.title = `${title} ${chapter.substring(1 + nDigits)}`;
    fetch(contentUrl(chapter))
      .then(response => response.text())
      .then(data => {
-       myContent.value = data;
+       myContent.value = data.replace(/_/g, '');
       completed_myinit = true;
        if (myAutoplay.checked) {
          if (synth.speaking) { 
@@ -177,7 +176,7 @@ function ProcessMenu() {
 }
 function getLastChapter() {
   if (!localStorage.getItem('wspa_activeEpisode'+title)) {
-    const start_episode = chapters[0].substring(0,3);
+    const start_episode = chapters[0].substring(0,nDigits);
     localStorage.setItem('wspa_activeEpisode'+title,start_episode);
   }
   activeEpisode = localStorage.getItem('wspa_activeEpisode'+title);
@@ -202,6 +201,7 @@ function speak(){
   }
 }
 myVoice.onchange = function(){
+  localStorage.setItem('jattsVoice',myVoice.selectedIndex);
   justCancel = true;
   synth.cancel();
   speak();

@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-TRANS=trans\ -b\ -no-auto\ -s\ ja-JP\ -t\ zh-TW
-ZHPATH=$(pwd | sed 's/jatts/zhtts/')
-[ -d $ZHPATH ] || mkdir $ZHPATH
-for f in $(ls [0-9]*)
-do
-$TRANS -i $f -o $ZHPATH/$f
-done
-cp coverparameters.txt $ZHPATH/
