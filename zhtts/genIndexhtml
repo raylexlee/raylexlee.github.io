@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-TITLE=雙語文學
-cp head_index_template.txt index.html
-grep ^雙語文學 pairs.txt \
- | awk '{printf("<li><a href='"'%s.html'"'>%s</a></li>\n",$2,$2);}' \
- >> index.html
-cat tail_index_template.txt >> index.html

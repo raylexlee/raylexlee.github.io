@@ -1,104 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta property="og:description" content="全本可看，可聽廣東話或普通話照讀，四大名著，三言兩拍及其他經典文學" />
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <title>雙語文學</title>
-  <style>
-    .flex-container {
-      display: flex;
-      flex-wrap: wrap;
-      background-color: #d14124;
-    }
-
-    .flex-container>li {
-      background-color: #f1f1f1;
-      width: 100px;
-      margin: 10px;
-      text-align: center;
-    }
-
-    ul {
-      list-style-type: none;
-    }
-
-    .grid-container {
-      display: grid;
-      grid-template-columns: 2fr 3fr;
-      grid-gap: 10px;
-      margin-left: 10px;
-      padding: 0px;
-    }
-  </style>
-</head>
-
-<body>
-  <ul class="flex-container">
-<li><a href="新約.html">新約</a></li>
-<li><a href="舊約.html">舊約</a></li>
-<li><a href="梶井基次郎.html">梶井基次郎</a></li>
-<li><a href="夏目漱石.html">夏目漱石</a></li>
-
-<li><a href='魯迅.html'>魯迅</a></li>
-<li><a href='資治通鍳.html'>資治通鍳</a></li>
-<li><a href='春秋左氏傳.html'>春秋左氏傳</a></li>
-<li><a href='詩經.html'>詩經</a></li>
-<li><a href='全唐詩_全部詩文.html'>全唐詩_全部詩文</a></li>
-<li><a href='唐詩三百首.html'>唐詩三百首</a></li>
-<li><a href='諸子百家.html'>諸子百家</a></li>
-<li><a href='二十四史.html'>二十四史</a></li>
-<li><a href='徐霞客遊記.html'>徐霞客遊記</a></li>
-<li><a href='世紀百強.html'>世紀百強</a></li>
-<li><a href='才子佳人.html'>才子佳人</a></li>
-<li><a href='江湖俠義.html'>江湖俠義</a></li>
-<li><a href='風花雪月.html'>風花雪月</a></li>
-<li><a href='社會奇情.html'>社會奇情</a></li>
-<li><a href='神鬼仙俠.html'>神鬼仙俠</a></li>
-<li><a href='歷史演義.html'>歷史演義</a></li>
-<li><a href='歷代筆記.html'>歷代筆記</a></li>
-<li><a href='歷代話本.html'>歷代話本</a></li>
-<li><a href='推理探案.html'>推理探案</a></li>
-<li><a href='英雄傳奇.html'>英雄傳奇</a></li>
-<li><a href='諷刺警世.html'>諷刺警世</a></li>
-  </ul>
-  <div class="grid-container">
-    <div class="item1"><img src="zhtts.svg" alt=""></div>
-    <div id="item2">
-      全本可看，可聽廣東話或普通話照讀，四大名著，三言兩拍及其他經典文學
-    </div>
-    <button>分享</button>
-  </div>
-  <script>
-  let shareData;
-  function init() {
-    shareData = {
-      title: document.title,
-      text: document.getElementById('item2').innerText,
-      url: '',
-    }
-
-    const btn = document.querySelector('button');
-    btn.addEventListener('click', () => {
-      navigator.share(shareData)
-        .then(() =>
-          console.log('ok')
-        )
-        .catch((e) =>
-          console.log(e)
-        )
-    });
+  <title>明之選</title>
+<style>
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: magenta;
 }
-document.onreadystatechange = function () {
-  if (document.readyState === 'complete') {
-    init();
-  }
-}  
-  </script>
-<p>為獲得最佳語音效果，請使用最新版本的 Microsoft Edge。其他瀏覽器可能適用, 特別是 ios 和 android 設備。詳情請參考 Web Speech API 的 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API#speechsynthesis_2">SpeechSynthesis</a>。</p>
-</body>
 
+.flex-container > li {
+  background-color: #f1f1f1;
+  width: 100px;
+  margin: 10px;
+  text-align: center;
+}
+ul { list-style-type: none; }
+</style>
+</head>
+<body>
+<ul class="flex-container">
+</ul>
+</body>
+<script>
+  fetch(`pairs.txt`)
+    .then(response => response.text())
+    .then(data => {
+      const AuthorBooks = data.replace(/\n+$/, "").split('\n');
+      const book = {};
+      AuthorBooks.forEach(AuthorBook => {
+        const [Author, Book] = AuthorBook.split(" ");
+        if (Author in book) {
+          book[Author].push(Book);
+        } else {  
+            book[Author] = [ Book ];
+          }
+      });
+      const li_a = a => `<li><a href='zhgroup.html?author=${a}'>${a.replace(/_/g," ")}</a></li>`;
+      const li_b = a => `<li><a href='zhttsbook.html?title=${a}'>${a.replace(/_/g," ")}</a></li>`;
+      document.querySelector('ul').innerHTML = Object.keys(book)
+        .map(e => (book[e].length === 1) ? li_b(book[e][0]) : li_a(e)).join('\n');
+    });
+</script>
+<p>為獲得最佳語音效果，請使用最新版本的 Microsoft Edge。其他瀏覽器可能適用, 特別是 ios 和 android 設備。詳情請參考 Web Speech API 的 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API#speechsynthesis_2">SpeechSynthesis</a>。</p>
 </html>
