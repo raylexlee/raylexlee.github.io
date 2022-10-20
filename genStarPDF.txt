@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+LINK=${1?'missing link ...'}
+STAR=$(echo $LINK | sed 's#.*/\([^/]*\)/[^\]*\.html$#\1#')
+JPGROOT=$(echo $LINK | sed 's#[^/]*\.html#files/mobile#')
+echo $STAR $JPGROOT
+rm *jpg
+for i in $(seq 1000)
+do
+wget $JPGROOT/$i.jpg
+retVal=$?
+if [ $retVal -ne 0 ]; then
+break
+fi
+done
+/mnt/c/Program\ Files/ImageMagick-7.1.0-Q16-HDRI/convert.exe $(ls -v *jpg) $STAR.pdf
