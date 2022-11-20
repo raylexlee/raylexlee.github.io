@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>明之選</title>
+<style>
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: magenta;
+}
+
+.flex-container > li {
+  background-color: #f1f1f1;
+  width: 100px;
+  margin: 10px;
+  text-align: center;
+}
+ul { list-style-type: none; }
+</style>
+</head>
+<body>
+<ul class="flex-container">
+</ul>
+<p>For the best audio effect, please use the latest version of Microsoft Edge. Other browsers may work for mobile devices. Please refer to the Web Speech API at <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API#speechsynthesis_2">SpeechSynthesis</a>。</p>
+</body>
+<script>
+  fetch(`triples.txt`)
+    .then(response => response.text())
+    .then(data => {
+      const AuthorBooks = data.replace(/\n+$/, "").split('\n');
+      const book = {};
+      AuthorBooks.forEach(AuthorBook => {
+        const [Lang, Author, Book] = AuthorBook.split(" ");
+        if (Author in book) {
+          book[Author].push([Lang, Book]);
+        } else {  
+            book[Author] = [ [Lang, Book] ];
+          }
+      });
+      const li_a = a => `<li><a href='group.html?author=${a}'>${a.replace(/_/g," ")}</a></li>`;
+      const li_b = a => `<li><a href='ttsbook.html?title=${a[1]}&lang=${a[0]}'>${a[1].replace(/_/g," ")}</a></li>`;
+      document.querySelector('ul').innerHTML = Object.keys(book)
+        .map(e => (book[e].length === 1) ? li_b(book[e][0]) : li_a(e)).join('\n');
+    });
+</script>
+</html>
