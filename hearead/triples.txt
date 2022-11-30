@@ -12,3 +12,4 @@ ru переводчик_неизвестен Жизнь_и_приключени�
 th ไม่ปรากฏชื่อผู้แปล ลักษณอาญาจีนสมัยเก่า
 pl Edmund_Krüger Ludzie_elektryczn
 el Πηνελόπη_Δέλτα Παραμύθι_χωρίς_όνομα
+da Hans_Christian_Andersen Hans_Christian_Andersen
