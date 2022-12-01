@@ -13,3 +13,4 @@ th ไม่ปรากฏชื่อผู้แปล ลักษณอา�
 pl Edmund_Krüger Ludzie_elektryczn
 el Πηνελόπη_Δέλτα Παραμύθι_χωρίς_όνομα
 da Hans_Christian_Andersen Hans_Christian_Andersen
+hi Jaishankar_Prasad आकाश-दीप 
