@@ -15,3 +15,4 @@ el Πηνελόπη_Δέλτα Παραμύθι_χωρίς_όνομα
 da Hans_Christian_Andersen Hans_Christian_Andersen
 hi Jaishankar_Prasad आकाश-दीप 
 sv Ernst_Meyer Svenska_Parnassen_II
+id Jules_Verne Mengelilingi_Doenia_Dalam_80_Hari
