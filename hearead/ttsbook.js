@@ -85,8 +85,10 @@ function myInit() {
   myContent = document.getElementById('myContent');
   rtl.includes(lang) && myContent.dir = 'rtl';
   myChapterList = document.getElementById('myChapterList');
+  rtl.includes(lang) && myChapterList.dir = 'rtl';
   myRange = document.getElementById('myRange'); 
   myBook = document.getElementById('myBook');
+  rtl.includes(lang) && myBook.dir = 'rtl';
   myAutoplay = document.getElementById('myAutoplay');
   const optChapter = chapter => `<li><a href="javascript:gotoChapter('${chapter}')">${chapter.substring(1 + nDigits).replace(/_/g," ")}</a></li>`;
   let backto = 'index.html';
