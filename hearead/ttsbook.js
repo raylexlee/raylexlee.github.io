@@ -143,7 +143,7 @@ function gotoChapter(chapter, PleaseSpeak = true) {
    //activeEpisode = parseInt(chapter.substring(0,3));
    activeEpisode = chapter.substring(0,nDigits);
    localStorage.setItem('wspa_activeEpisode'+title, activeEpisode);
-   const loadchapterUrl = `loadchapter.html?book=${title}&episode=${activeEpisode}`;
+   const loadchapterUrl = `loadchapter.html?book=${title}&episode=${activeEpisode}&lang=${lang}`;
    myBook.innerHTML=`
      <a href="javascript:window.open('${loadchapterUrl}','readaloud');" style="color:cyan;">&#128220;</a> 
      ${title.replace(/_/g," ")} 

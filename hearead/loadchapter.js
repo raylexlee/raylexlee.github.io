@@ -1,4 +1,5 @@
 let myContent;
+const rtl = ['ar', 'he', 'ur', 'fa','ps'];
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
 });
@@ -7,14 +8,19 @@ function myInit() {
   myContent = document.getElementById('myContent');
   let chapter = '001';
   let title = '金瓶梅';
+  let lang = 'zh';
   const querystring = location.search;
   if (querystring != '') {
     const params = (new URL(document.location)).searchParams;
     const episode =  params.get('episode');
     const book =  params.get('book');
+    lang =  params.get('lang');
+    lang = lang ? lang : 'en';
     chapter = episode ? episode : chapter;
     title = book ? book : title;
   }
+  if (rtl.includes(lang)) {
+    myContent.dir = 'rtl'; }
   document.title = `${title}-${chapter}`
   fetch(contentUrl(title, chapter))
     .then(response => response.text())
