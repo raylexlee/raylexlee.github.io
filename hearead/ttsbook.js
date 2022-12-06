@@ -4,6 +4,7 @@ let nDigits = 3;
 let myPauseCancel;
 let chapters;
 let activeEpisode;
+const rtl = ['ar', 'he', 'ur', 'fa','ps'];
 const querystring = location.search;
 const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
 if (params === 'none') window.location = 'ttsbook.html?title=Pride_and_Prejudice&lang=en';
@@ -82,6 +83,7 @@ const contentUrl = chapter => `text/${title}/${chapter.substring(0,nDigits)}.txt
 function myInit() {
   document.title = title;
   myContent = document.getElementById('myContent');
+  rtl.includes(lang) && myContent.dir = 'rtl';
   myChapterList = document.getElementById('myChapterList');
   myRange = document.getElementById('myRange'); 
   myBook = document.getElementById('myBook');
