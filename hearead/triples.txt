@@ -19,3 +19,4 @@ id Jules_Verne Mengelilingi_Doenia_Dalam_80_Hari
 pt Irmãos_Grimm Contos_de_Grimm
 bn অবনীন্দ্রনাথ_ঠাকুর বাগেশ্বরী_শিল্প-প্রবন্ধাবলী
 ar ألف_ليلة_وليلة ألف_ليلة_وليلة
+ur ﺍﯾﮏ_ﮨﺰﺍﺭ_ﺍﻭﺭ_ﺍﯾﮏ_ﺭﺍﺕ ﺍﯾﮏ_ﮨﺰﺍﺭ_ﺍﻭﺭ_ﺍﯾﮏ_ﺭﺍﺕ
