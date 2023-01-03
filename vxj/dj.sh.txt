@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+wget $2
+EXT=$(echo $2 | sed 's#.*\(\..*\)#\1#')
+FILE=$(echo $2 | sed 's#.*/\([^/]*\)#\1#')
+if [ "$EXT" = ".webp" ]; then
+dwebp $FILE -o "$1".jpg
+rm $FILE
+else
+mv $FILE "$1"$EXT
+fi

@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+PLAYLISTURL=${1-PLJrt_9xl0rNEO1I3CW3jYTtmDk34ie4Ab}
+youtube-dl -s --get-id --get-thumbnail --get-title  --yes-playlist $PLAYLISTURL

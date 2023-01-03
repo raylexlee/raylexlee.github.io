@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+grep ^https vxj.txt | nl -v 0 -n rz -w 2 -s " " | awk '{print "./dj.sh.txt",$1,$2;}' > raylex.sh
+sh raylex.sh
