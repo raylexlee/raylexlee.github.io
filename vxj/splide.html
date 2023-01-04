@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VXJ</title>
+    <title>VXJ Splide</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.6.12/dist/css/splide.min.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-video@0.5.14/dist/css/splide-extension-video.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@3.6.12/dist/js/splide.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-video@0.5.14/dist/js/splide-extension-video.min.js"></script>
 <style>
 .vxjTitle {
     color: green;
@@ -17,6 +15,19 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 75ch;
+}
+.videoWrapper {
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	padding-top: 25px;
+	height: 0;
+}
+.videoWrapper iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
 }
 </style>
 </head>
@@ -29,6 +40,12 @@
 </section>
 </body>
 <script>
+const IframeHTML = playlistId =>
+  '<iframe id="idIframe" width="560" height="315" src="https://www.youtube-nocookie.com/embed/' +
+  (( playlistId.startsWith("PL") || playlistId.startsWith("OL")) ?
+    ('playlistseries?enablejsapi=1&list=' + playlistId) :
+    (playlistId + '?enablejsapi=1')) +
+  '" frameborder="0" allow="accelerometer;  clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
 document.addEventListener( 'DOMContentLoaded', function() {
   fetch(`vxj.txt`)
     .then(response => response.text())
@@ -38,20 +55,14 @@ document.addEventListener( 'DOMContentLoaded', function() {
       for (let i=0; i < tip.length; i += 3) video.push(tip.slice(i,i+3));
       document.querySelector('ul').innerHTML =video.slice(0,15).map((e,i) => `
 <li class="splide__slide" data-splide-youtube="${e[1]}">
-  <div class="splide__slide__container">
-    <img src="${e[2]}">
+  <div class="videoWrapper">
+   ${IframeHTML(e[1])} 
   </div>
-  <div class="vxjTitle">
-   ${e[0]}
-  </div>
-      </li>
+</li>
 `).join('\n');
 const splide = new Splide( '.splide', {
   heightRatio: 0.5625,
-  cover      : true,
-  video      : {
-    loop: true,
-  },
+  cover      : false,
 } );
 splide.mount(window.splide.Extensions);
     });
