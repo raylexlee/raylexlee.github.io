@@ -53,7 +53,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
       const tip = data.replace(/\n+$/, "").split('\n');
       const video = [];
       for (let i=0; i < tip.length; i += 3) video.push(tip.slice(i,i+3));
-      document.querySelector('ul').innerHTML =video.slice(0,15).map((e,i) => `
+      document.querySelector('ul').innerHTML =video.map((e,i) => `
 <li class="splide__slide" data-splide-youtube="${e[1]}">
   <div class="videoWrapper">
    ${IframeHTML(e[1])} 
