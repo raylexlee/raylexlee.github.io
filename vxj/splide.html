@@ -37,6 +37,10 @@
 	<ul class="splide__list">
 	</ul>
   </div>
+  <button class="splide__toggle" type="button">
+	  <span class="splide__toggle__play">Play</span>
+	  <span class="splide__toggle__pause">Pause</span>
+  </button>
 </section>
 </body>
 <script>
@@ -62,6 +66,9 @@ document.addEventListener( 'DOMContentLoaded', function() {
 `).join('\n');
 const splide = new Splide( '.splide', {
   heightRatio: 0.5625,
+  type    : 'loop',
+  autoplay: 'pause',
+  perPage : 1,
   cover      : false
 } );
 splide.mount();
