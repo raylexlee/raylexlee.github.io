@@ -6,8 +6,188 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Raylex Lee</title>
-  <link rel="stylesheet" href="ttsbook.css">
-  </link>
+<style>
+@charset "UTF-8";
+html,body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+  background-color: black;
+  color:cornsilk;
+  font-size: 20px;
+}
+span {
+  color: yellow;
+  text-align: left;
+  margin:0;
+  padding: 0;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 2fr;
+  grid-gap: 10px;
+  margin-left: 10px;
+  background-color: black;
+  padding: 0px;
+}
+.grid-container a,
+.grid-container a:visited {
+    color: red;
+    text-decoration: none; 
+}
+#audio { 
+  position: absolute; 
+  background:#666;
+}
+.viewportDiv {
+  display: flex;
+  flex-direction: column;
+  height: 99vh;
+}
+.div1{
+  background-color: black;
+  height: 130px;
+}
+.remainingDiv{
+  flex-grow: 1;
+}
+.remainingDiv textarea {
+  font-size: 23px;
+  color:cornsilk;
+  border: none;
+  background-color: transparent;
+  resize: none;
+  outline: none;
+  width: 97%;
+  height: 97%;
+}
+nav {
+  font-size: 0.9em;	
+  float: right; }
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+    nav ul li {
+      float: left;
+      position: relative; }
+      nav ul li a {
+        display: block;
+        padding: 0 20px;
+        line-height: 70px;
+        background: #262626;
+        color: #ffffff;
+        text-decoration: none; }
+        nav ul li a:hover {
+          background: #2581DC;
+          color: #ffffff; }
+        nav ul li a:not(:only-child):after {
+          padding-left: 4px;
+          content: ' ▾'; }
+      nav ul li ul li {
+        min-width: 190px; }
+        nav ul li ul li a {
+          padding: 15px;
+          line-height: 20px;
+          z-index: 1; }
+
+.nav-dropdown {
+  position: absolute;
+  display: none;
+  z-index: 1;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15); }
+
+.nav-mobile {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #262626;
+  height: 70px;
+  width: 70px; }
+
+#nav-toggle {
+  position: absolute;
+  left: 18px;
+  top: 22px;
+  cursor: pointer;
+  padding: 10px 35px 16px 0px; }
+  #nav-toggle span,
+  #nav-toggle span:before,
+  #nav-toggle span:after {
+    cursor: pointer;
+    border-radius: 1px;
+    height: 5px;
+    width: 35px;
+    background: #ffffff;
+    position: absolute;
+    display: block;
+    content: '';
+    transition: all 300ms ease-in-out; }
+  #nav-toggle span:before {
+    top: -10px; }
+  #nav-toggle span:after {
+    bottom: -10px; }
+  #nav-toggle.active span {
+    background-color: transparent; }
+    #nav-toggle.active span:before, #nav-toggle.active span:after {
+      top: 0; }
+    #nav-toggle.active span:before {
+      transform: rotate(45deg); }
+    #nav-toggle.active span:after {
+      transform: rotate(-45deg); }
+
+@media only screen {  /*  and (max-width: 1400px)  */
+  .nav-mobile {
+    display: block; }
+
+  nav {
+    width: 100%;
+    padding: 70px 0 15px; }
+    nav ul {
+      display: none; }
+      nav ul li {
+        z-index: 2;
+        float: none; }
+        nav ul li a {
+          padding: 15px;
+          line-height: 20px; }
+        nav ul li ul li a {
+          padding-left: 30px; }
+
+  .nav-dropdown {
+    position: static; } }
+.navigation {
+  height: 70px;
+  background: #262626; }
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto; }
+
+.brand {
+  position: absolute;
+  top: 0;
+  left: 10px;
+  margin: 5px;
+  float: left;
+  }
+  .brand a,
+  .brand a:visited {
+    color: #ffffff;
+    text-decoration: none; }
+.subtitle {
+  display: inline-block;
+  float: right;
+  color: #ffffff;
+  font-size: 0.85em; 
+  font-weight: 400;
+  line-height: 1.1em;
+  margin: 5px;
+  margin-right: 70px;
+  padding-top: 5px;
+}
+</style>
 </head>
 
 <body>
@@ -51,6 +231,246 @@
     </div>
   </div>
 </body>
-<script src="ttsbook.js"></script>
+<script>
+let lang, title, myContent, myChapterList, myRange, myBook, myAutoplay;
+let langttsVoice;
+let nDigits = 3;
+let myPauseCancel;
+let chapters;
+let activeEpisode;
+const rtl = ['ar', 'he', 'ur', 'fa','ps'];
+const querystring = location.search;
+const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
+if (params === 'none') window.location = 'ttsbook.html?title=Pride_and_Prejudice&lang=en';
+title =  params.get('title');
+title = title ? title : 'Pride_and_Prejudice';
+lang =  params.get('lang');
+lang = lang ? lang : 'en';
+langttsVoice = `${lang}ttsVoice`;
+const synth = window.speechSynthesis;
+const myVoice = document.getElementById('myVoice');
+const rate = document.querySelector('#rate');
+let completed_myinit = false;
+let voices = [];
+let mySpeaker = [];
+let utterThis;
+let justCancel = false;
+let pausing = false;
+const nameSpeaker = name => {
+   const firstPart = name.split('(')[0].trim();
+   return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
+};
+function SyncAudioWithContent(e) {
+    //console.log(myContent.value.substring(0,e.charIndex), '->', myContent.value[e.charIndex]);
+    //return;
+//    if (e.charIndex < 30) return;
+//    if ( myContent.value[e.charIndex - 2] !== '.') return;
+    const adjustment = 0.5;
+    const portion = e.charIndex / myContent.value.length;
+    myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
+}
+function updatePauseCancel() {
+  myPauseCancel.innerHTML = mySpeaker[myVoice.selectedIndex].localService ? '&#9208;' : '&#9632;';
+}
+function myTTSinit() {
+ mySpeaker = [];
+ voices = synth.getVoices();
+ let i;
+ for (i=0; i < voices.length; i++) if (voices[i].lang.startsWith(lang)) mySpeaker.push(voices[i]);
+  if (!localStorage.getItem(langttsVoice)) {
+    const start_voice = 0;
+    localStorage.setItem(langttsVoice,start_voice);
+  }
+ const lastVoice = parseInt(localStorage.getItem(langttsVoice));
+ const option = (e,v) => `<option value="${e.name}" ${(v === lastVoice) ? 'selected' : ''}>
+   ${nameSpeaker(e.name)} ${e.lang.substr(3,2)}</option>
+   `;
+ myVoice.innerHTML = mySpeaker.map((e,v) => option(e,v)).join('\n');
+ utterThis = new SpeechSynthesisUtterance('Create utter this');
+ utterThis.onpause = function (event) {
+   console.log(event.charIndex);
+   console.log('SpeechSynthesisUtterance.onpause');
+ }
+ utterThis.onend = function (e) {
+   if (justCancel) {
+     justCancel = false;
+     return;
+   }
+   if (myAutoplay.checked) {
+     nextChapter();
+   }
+ }
+ utterThis.onerror = function (event) {
+   console.error('SpeechSynthesisUtterance.onerror');
+ }
+ utterThis.onboundary = SyncAudioWithContent;
+ // if (completed_myinit && myAutoplay.checked && myVoice.value.startsWith('en')) speak(); 
+}
+myTTSinit();
+if (speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = myTTSinit;
+}
+document.addEventListener("DOMContentLoaded", function(event) {
+  myInit();
+});
+const contentUrl = chapter => `text/${title}/${chapter.substring(0,nDigits)}.txt`;
+function myInit() {
+  document.title = title;
+  myContent = document.getElementById('myContent');
+  myChapterList = document.getElementById('myChapterList');
+  myRange = document.getElementById('myRange'); 
+  myBook = document.getElementById('myBook');
+  if (rtl.includes(lang)) {
+    myBook.dir = 'rtl';
+    myChapterList.dir = 'rtl';
+    myContent.dir = 'rtl'; }
+  myAutoplay = document.getElementById('myAutoplay');
+  const optChapter = chapter => `<li><a href="javascript:gotoChapter('${chapter}')">${chapter.substring(1 + nDigits).replace(/_/g," ")}</a></li>`;
+  let backto = 'index.html';
+  const caller =  params.get('caller');
+  backto = caller ? `group.html?author=${caller}` : backto;
+  const optIndexHtml = `<li><a href="${backto}">Back to Index</a></li>`;
+  myRange.oninput = function() {
+    const v = myRange.value;
+    myContent.style.fontSize = `${20 + parseInt(v)}px`;
+  };
+  document.body.onunload = function() {
+    if (synth.speaking) {
+      justCancel = true;
+      synth.cancel();
+    }
+  };
+  fetch(`text/${title}/coverparameters.txt`)
+    .then(response => response.text())
+    .then(data => {
+      chapters = data.replace(/\n+$/, "").split('\n');
+      nDigits = chapters[0].indexOf(' ');      
+      myChapterList.innerHTML=`${optIndexHtml}\n${chapters.map(c => optChapter(c)).join('\n')}`; 
+      ProcessMenu();
+      document.getElementById('nav-toggle').onclick = function () {
+        this.classList.toggle('active');
+      };
+      document.getElementById('nav-toggle').addEventListener('click', function () {
+        document.querySelectorAll('nav ul').forEach(el => toggle(el));
+        });
+      const links = document.getElementsByTagName('a');
+      myPauseCancel = links[links.length - 1];
+      const chapter = getLastChapter();
+      gotoChapter(chapter, false); 
+    });
+}    
+function prevChapter() {
+    const idx =chapters.findIndex(c => c.startsWith(activeEpisode));
+    let i = idx - 1;
+    i = (i === -1) ? (chapters.length - 1) : i;
+    const chapter = chapters[i];
+    gotoChapter(chapter);
+}
+function nextChapter() {
+    const idx =chapters.findIndex(c => c.startsWith(activeEpisode));
+    let i = idx + 1;
+    i = (i === chapters.length) ? 0 : i;
+    const chapter = chapters[i];
+    gotoChapter(chapter);
+}
+function gotoChapter(chapter, PleaseSpeak = true) {
+   //activeEpisode = parseInt(chapter.substring(0,3));
+   activeEpisode = chapter.substring(0,nDigits);
+   localStorage.setItem('wspa_activeEpisode'+title, activeEpisode);
+   myBook.innerHTML=`
+     ${title.replace(/_/g," ")} 
+     <a href="javascript:prevChapter()" style="color:cyan;">&lArr;</a> 
+     ${chapter.substring(1 + nDigits).replace(/_/g," ")}
+     <a href="javascript:nextChapter()" style="color:cyan;">&rArr;</a> 
+     `;
+   document.title = `${title} ${chapter.substring(1 + nDigits)}`;
+   fetch(contentUrl(chapter))
+     .then(response => response.text())
+     .then(data => {
+       myContent.value = data.replace(/_/g, '');
+      completed_myinit = true;
+       if (myAutoplay.checked) {
+         if (synth.speaking) { 
+           justCancel = true;
+           synth.cancel();
+         }
+         if (PleaseSpeak) speak();
+       }
+     });
+}
+function toggle(elem) {
+  elem.style.display = (elem.style.display === 'none') ? 'block' : 'none';
+}
 
+function ProcessMenu() {
+  document.querySelectorAll('nav ul li > a:not(:only-child)')
+    .forEach(el => el.onclick = function (e) {
+      const nd = this.nextElementSibling;
+      document.querySelectorAll('.nav-dropdown')
+        .forEach(function(elem) { 
+          if (elem === nd) {
+            toggle(nd);
+          } else {
+            elem.style.display = 'none';
+          }});
+      e.stopPropagation();
+    });
+  document.documentElement.onclick = function () {
+    document.querySelectorAll('.nav-dropdown').forEach(el => el.style.display = 'none');
+  };
+}
+function getLastChapter() {
+  if (!localStorage.getItem('wspa_activeEpisode'+title)) {
+    const start_episode = chapters[0].substring(0,nDigits);
+    localStorage.setItem('wspa_activeEpisode'+title,start_episode);
+  }
+  activeEpisode = localStorage.getItem('wspa_activeEpisode'+title);
+  return chapters.find(c => c.startsWith(activeEpisode)); 
+}
+function speak(){
+    if (synth.speaking) {
+        console.error('speechSynthesis.speaking');
+        return;
+    }
+    if (myContent.value !== '') {
+    pausing = false;  
+    utterThis.voice = mySpeaker.filter(e => e.name === myVoice.value)[0];
+    updatePauseCancel();
+    utterThis.text = myContent.value;
+    utterThis.pitch = 1;
+    utterThis.rate = rate.value;
+    justCancel = true;
+    synth.cancel();
+    synth.speak(utterThis);
+    justCancel = false;
+  }
+}
+myVoice.onchange = function(){
+  localStorage.setItem(langttsVoice,myVoice.selectedIndex);
+  justCancel = true;
+  synth.cancel();
+  speak();
+}
+
+function pauseResume() {
+  if (synth.speaking !== true) {
+    return;
+  }
+  if (utterThis.voice && utterThis.voice.localService) {
+    if (pausing) {
+      utterThis.rate = rate.value;
+      synth.resume();
+      } else {
+        synth.pause();  
+    }
+    pausing = !pausing;
+    return;
+  }
+  synth.pause();
+  if (synth.paused !== true) {
+     justCancel = true;
+     synth.cancel();
+  }
+}
+</script>
 </html>
