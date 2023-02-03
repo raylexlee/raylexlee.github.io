@@ -2,6 +2,7 @@ en Jane_Austen Pride_and_Prejudice
 en Jane_Austen Persuasion
 zh 社會奇情 紅樓夢
 ja 夏目漱石 それから
+ja 松尾芭蕉 芭蕉俳句全集
 fr Alexandre_Dumas_fils La_Dame_aux_camélias
 ko 권환 목화와_콩
 de Max_Schraut Das_Schlangenhaupt_der_Medusa
