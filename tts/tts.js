@@ -4,6 +4,7 @@ const btnStop = document.getElementById('btnStop');
 const voiceSelect = document.getElementById('myVoice');
 const myContent = document.getElementById('myContent');
 const rate = document.querySelector('#rate');
+const narrators=[];
 let voices = [];
 let utterThis;
 
@@ -85,3 +86,19 @@ function pauseResume() {
   synth.pause();
   if (synth.paused !== true) synth.cancel();
 }
+
+function GetNarrators() {
+  for (i=0; i<voices.length; i++) { 
+    const narrator={}
+    narrator.langCode=voices[i].lang.split('-')[0];
+    narrator.locCode=voices[i].lang.split('-')[1];
+    narrator.local=voices[i].localService;
+    narrator.name=voices[i].voiceURI.replace(/\w+\s(\w+).*\s-\s(\w+)\s\((.*)\)/,'$1')
+    narrator.langName=voices[i].voiceURI.replace(/\w+\s(\w+).*\s-\s(\w+)\s\((.*)\)/,'$2')
+    narrator.locName=voices[i].voiceURI.replace(/\w+\s(\w+).*\s-\s(\w+)\s\((.*)\)/,'$3')
+    narrators.push(narrator) 
+  }
+  console.log(narrators);
+  myContent.value = narrators.map(e => `${e.name} ${e.local ? 'local' : 'cloud'} ${e.langName} ${e.langCode} ${e.locName.replace(/ /g,'_')} ${e.locCode}`).join('\n');
+}
+
