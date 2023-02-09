@@ -99,6 +99,6 @@ function GetNarrators() {
     narrators.push(narrator) 
   }
   console.log(narrators);
-  myContent.value = narrators.map(e => `${e.name} ${e.local ? 'local' : 'cloud'} ${e.langName} ${e.langCode} ${e.locName.replace(/ /g,'_')} ${e.locCode}`).join('\n');
+  myContent.value = narrators.map(e => `${e.name} ${e.local ? 'local' : 'remote'} ${e.langName} ${e.langCode} ${e.locName.replace(/ /g,'_')} ${e.locCode}`).join('\n');
 }
 
