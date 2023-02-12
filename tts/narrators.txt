@@ -297,6 +297,6 @@ Aleksandar Macedonian Republic_of_North_Macedonia mk MK
 Fatima Arabic United_Arab_Emirates ar AE
 Finn Norwegian Bokmål_Norway nb NO
 Hamdan Arabic United_Arab_Emirates ar AE
-Marija Macedonian Republic_of_North Macedonia mk MK
+Marija Macedonian Republic_of_North_Macedonia mk MK
 Pernille Norwegian Bokmål,_Norway nb NO
 Xiaoni Chinese Zhongyuan_Mandarin_Shaanxi zh CN-shaanxi
