@@ -1,6 +1,6 @@
 let title, myContent, audio, myChapterList, myRange, myBook, myAutoplay;
 let chapters;
-// let mySync;
+let mySync;
 let activeEpisode;
 let currentTime;
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -41,11 +41,11 @@ function myInit() {
     const pageTime = myContent.offsetHeight / myContent.scrollHeight * audio.duration / audio.playbackRate;
     console.log(pageTime);
     SyncAudioWithContent();
-    // mySync = setInterval(SyncAudioWithContent, Math.round(pageTime*700));
+    mySync = setInterval(SyncAudioWithContent, Math.round(pageTime*700));
   };
   audio.onpause = function (e) {
     localStorage.setItem('currentTime'+title, audio.currentTime);
-//    clearInterval(mySync);
+    clearInterval(mySync);
   };
   audio.onended = function (e) {
     if (myAutoplay.checked) {
