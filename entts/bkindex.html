@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>English Version</title>
+<style>
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: cyan;
+}
+
+.flex-container > li {
+  background-color: #f1f1f1;
+  width: 100px;
+  margin: 10px;
+  text-align: center;
+}
+ul { list-style-type: none; }
+</style>
+</head>
+<body>
+<ul class="flex-container">
+</ul>
+</body>
+<script src="entts.js"></script>
+<script>
+      const li_a = a => `<li><a href='bkgroup.html?author=${a}'>${a.replace(/_/g," ")}</a></li>`;
+      const li_b = a => `<li><a href='book.html?title=${a}'>${a.replace(/_/g," ")}</a></li>`;
+      document.querySelector('ul').innerHTML = Object.keys(book)
+        .map(e => (book[e].length === 1) ? li_b(book[e][0]) : li_a(e)).join('\n');
+</script>
+<p>For best voice effect, use the latest version of Microsoft Edge。</p>
+<p><a href="index.html">Voice Version</a></p>
+</html>
