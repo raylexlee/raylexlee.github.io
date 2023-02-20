@@ -14,7 +14,7 @@ html,body {
 	padding: 0;
   background-color: black;
   color:cornsilk;
-  font-size: 20px;
+  font-size: 25px;
 }
 a,
 a:visited {
@@ -69,11 +69,11 @@ function nextChapter() {
 function gotoChapter(chapter) {
    activeEpisode = chapter.substring(0,nDigits);
    localStorage.setItem('book_activeEpisode'+title, activeEpisode);
-   const headline=isHead => `<h1>
+   const headline=isHead => `<h5>
      <a href="javascript:prevChapter()" style="color:cyan;">&lArr;</a> 
      ${isHead ? chapter.substring(1 + nDigits).replace("_"," ") : '&nbsp'}
      <a href="javascript:nextChapter()" style="color:cyan;">&rArr;</a> 
-     </h1>`;
+     </h5>`;
    document.title = `${title} ${chapter.substring(1 + nDigits)}`;
    fetch(contentUrl(chapter))
      .then(response => response.text())
