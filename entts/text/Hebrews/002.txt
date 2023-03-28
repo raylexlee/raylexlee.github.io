@@ -1,0 +1,18 @@
+1 We ought, then, to turn our minds more attentively than before to what we have been taught, so that we do not drift away.
+2 If a message that was spoken through angels proved to be so reliable that every infringement and disobedience brought its own proper punishment,
+3 then we shall certainly not go unpunished if we neglect such a great salvation. It was first announced by the Lord himself, and is guaranteed to us by those who heard him;
+4 God himself confirmed their witness with signs and marvels and miracles of all kinds, and by distributing the gifts of the Holy Spirit in the various ways he wills.
+5 It was not under angels that he put the world to come, about which we are speaking.
+6 Someone witnesses to this somewhere with the words: What are human beings that you spare a thought for them, a child of Adam that you care for him?
+7 For a short while you have made him less than the angels; you have crowned him with glory and honour,
+8 put all things under his feet. For in putting all things under him he made no exceptions. At present, it is true, we are not able to see that all things are under him,
+9 but we do see Jesus, who was for a short while made less than the angels, now crowned with glory and honour because he submitted to death; so that by God's grace his experience of death should benefit all humanity.
+10 It was fitting that God, for whom and through whom everything exists, should, in bringing many sons to glory, make perfect through suffering the leader of their salvation.
+11 For consecrator and consecrated are all of the same stock; that is why he is not ashamed to call them brothers
+12 in the text: I shall proclaim your name to my brothers, praise you in full assembly; or in the text:
+13 I shall put my hope in him; followed by Look, I and the children whom God has given me.
+14 Since all the children share the same human nature, he too shared equally in it, so that by his death he could set aside him who held the power of death, namely the devil,
+15 and set free all those who had been held in slavery all their lives by the fear of death.
+16 For it was not the angels that he took to himself; he took to himself the line of Abraham.
+17 It was essential that he should in this way be made completely like his brothers so that he could become a compassionate and trustworthy high priest for their relationship to God, able to expiate the sins of the people.
+18 For the suffering he himself passed through while being put to the test enables him to help others when they are being put to the test.
