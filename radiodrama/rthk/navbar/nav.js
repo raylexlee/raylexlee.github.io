@@ -15,8 +15,4 @@
   $('#nav-toggle').click(function() {
     $('nav ul').toggle();
   });
-  $('#camera_index').camera({
-    height: '45%',
-    thumbnails: true
-  });
 })(jQuery);
