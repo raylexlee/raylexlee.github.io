@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+GETLINKJS=$HOME/wspa2zhfiction/getlinks.js
+$GETLINKJS $1  | grep list=PL | grep ^[A-Z].*pp=.* | sed -e 's/ /_/g' -e 's/_https:/ https:/' \
+ | sed 's/\(.*\)\shttps.*list=\(PL.*\).pp=.*/\1 \2/'
