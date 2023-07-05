@@ -1,0 +1,52 @@
+    body {
+      background-color: black;
+      color:#f1f1f1;
+      margin: 0;
+    }
+    .grids-container {
+        display: grid;
+        align-content: center;
+        height: 95vh;
+        padding: 0.4vh;
+    }
+
+    .grids-container>div {
+      padding: 0.4vmin;
+      text-align: center;
+      font-size: 15vmin;
+    }
+    
+    img {
+      border: 0;
+      border-radius: 3vmin;
+      padding: .3vmin;
+      object-fit: contain;
+    }
+
+    img:hover {
+      transform: scaleX(-1);
+    }
+    a, a:visited {
+      text-decoration: none;
+    }
+@media (orientation: landscape) {
+  .grids-container {
+     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+     grid-template-rows: 1fr 1fr 1fr 1fr;
+     }
+    img {
+      width: 15vw;
+      height: 19vh;
+    }
+}
+
+@media (orientation: portrait) {
+  .grids-container {
+     grid-template-columns: 1fr 1fr 1fr 1fr;
+     grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+     }
+    img {
+      width: 24vw;
+      height: 13vh;
+    }
+}
