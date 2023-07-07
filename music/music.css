@@ -23,6 +23,7 @@ a:hover {
 	height: 100%;
 }
   .wrapper {
+    max-width: 99vw;
 		display: grid;
     grid-gap: 10px;
 		grid-template-columns: 3fr 2fr;
@@ -38,12 +39,9 @@ a:hover {
   .myForm {
     grid-column: 2;
     display: grid;
-    grid-template-columns: [labels] auto [controls] 1fr;
     grid-auto-flow: row;
-    grid-gap: .8em .5em;
     background: beige;
     padding: 1.2em;
-    width: 42em;
   }
   .myForm > label,
   .myForm > fieldset  {
