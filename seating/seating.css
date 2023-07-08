@@ -1,0 +1,66 @@
+    body {
+      background-color: black;
+      color:#f1f1f1;
+      margin: 0;
+    }
+    .grids-container {
+        display: grid;
+        align-content: center;
+        height: 95vh;
+        padding: 0.4vh;
+    }
+
+    .grids-container>div {
+      padding: 0.4vmin;
+      text-align: center;
+      font-size: small;
+    }
+    
+figure {
+  border: 0;
+  padding: 0;
+  margin: auto;
+}
+
+figcaption {
+  background-color: black;
+  color: white;
+  padding: 0;
+  text-align: center;
+  white-space: nowrap;
+}
+    img {
+      border: 0;
+      border-radius: 3vmin;
+      width: 100%;
+      padding: .3vmin;
+      object-fit: contain;
+    }
+
+    img:hover {
+      transform: scaleX(-1);
+    }
+    a, a:visited {
+      text-decoration: none;
+    }
+@media (orientation: landscape) {
+  .grids-container {
+     grid-template-columns: repeat(6, 1fr);
+     grid-template-rows: repeat(5, 1fr);
+     }
+    figure, img {
+      width: 15vw;
+      height: 15vh;
+    }
+}
+
+@media (orientation: portrait) {
+  .grids-container {
+     grid-template-columns: repeat(5, 1fr);
+     grid-template-rows: repeat(6, 1fr);
+     }
+    figure, img  {
+      width: 16vw;
+      height: 15vh;
+    }
+}

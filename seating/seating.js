@@ -20,11 +20,12 @@ function handleClick(element) {
 const container = document.getElementsByClassName("grids-container")[0];
 const status = document.querySelector('p');
 const statusDateTime = status.innerText;
-const images = Object.keys(podcasts).sort(() => .5 - Math.random()).slice(0,24);
+const images = Object.keys(podcasts).sort(() => .5 - Math.random()).slice(0,30);
 const refresh = () => {
-const grids = images.map((p, i) => `<div>
-<img onclick="handleClick(this)" src="https://podcast.rthk.hk/podcast/upload_photo/item_photo/1400x1400_${p}.jpg" alt="${i}">
-</div>`).join("\n");
+const grids = images.map((p, i) => `<div><figure>
+<img onclick="handleClick(this)" src="https://podcast.rthk.hk/podcast/upload_photo/item_photo/1400x1400_${p}.jpg" alt="${i}" \>
+<figcaption>${podcasts[images[i]]}</figcaption>
+</figure></div>`).join("\n");
 container.innerHTML=grids;
 };
 refresh();
