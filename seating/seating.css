@@ -23,6 +23,7 @@ figure {
 }
 
 figcaption {
+  display: none;
   background-color: black;
   color: white;
   padding: 0;
@@ -46,7 +47,7 @@ figcaption {
 @media (orientation: landscape) {
   .grids-container {
      grid-template-columns: repeat(6, 1fr);
-     grid-template-rows: repeat(5, 1fr);
+     grid-template-rows: repeat(6, 1fr);
      }
     figure, img {
       width: 15vw;
@@ -56,11 +57,11 @@ figcaption {
 
 @media (orientation: portrait) {
   .grids-container {
-     grid-template-columns: repeat(5, 1fr);
+     grid-template-columns: repeat(6, 1fr);
      grid-template-rows: repeat(6, 1fr);
      }
     figure, img  {
-      width: 16vw;
+      width: 15vw;
       height: 15vh;
     }
 }
