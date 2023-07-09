@@ -10,7 +10,7 @@
       height: 297mm; 
       margin: 0;
     }
-p { diplay: none; }
+p { display: none; }
     .grids-container {
         display: grid;
         align-content: center;
