@@ -7,7 +7,7 @@ function handleClick(element) {
   }
   if (lastclick === undefined) {
     lastclick = element.alt;
-    status.innerHTML = podcasts[images[lastclick]];
+    status.innerHTML = imgCap(lastclick);
     return;
   }
   const a = lastclick;
