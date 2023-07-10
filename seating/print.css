@@ -15,11 +15,11 @@ p { display: none; }
         display: grid;
         align-content: center;
         height: 282mm;
-        padding: 10mm;
+        padding: 5mm;
     }
 
     .grids-container>div {
-      padding: 10mm;
+      padding: 5mm;
       text-align: center;
       font-size: small;
     }
@@ -51,7 +51,7 @@ figcaption {
      grid-template-rows: repeat(6, 1fr);
      }
     figure, img {
-      width: 31.5mm;
-      height: 44.5mm;
+      width: 25mm;
+      height: 37mm;
     }
 }
