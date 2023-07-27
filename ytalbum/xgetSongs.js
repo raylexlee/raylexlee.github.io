@@ -33,12 +33,12 @@ const xgetsongs = arg => {
     }); 
     const TimeArg = `${Times.join(" ")} EOF`;
     const TitleArg = Titles.join('');
-    const mkdirLine = `mkdir /smbshare/${artist}`;
+    const mkdirLine = `mkdir /mnt/d/NewMusic/${artist}`;
     const dlmp3Line = `youtube-dl --extract-audio --audio-format mp3 --audio-quality 5 -o '${artist}.%(ext)s' ${link}`;
     const albumFile = `${artist}.mp3`;
     const spltLine = hasTime 
-      ? `mp3splt -o @a-@t -d /smbshare/${artist} -g ${TitleArg} ${albumFile} ${TimeArg}`
-      : `mp3splt -s -o @a-@t -d /smbshare/${artist} -g ${TitleArg} ${albumFile}`;
+      ? `mp3splt -o @a-@t -d /mnt/d/NewMusic/${artist} -g ${TitleArg} ${albumFile} ${TimeArg}`
+      : `mp3splt -s -o @a-@t -d /mnt/d/NewMusic/${artist} -g ${TitleArg} ${albumFile}`;
     return {shscript: `${mkdirLine}\n${dlmp3Line}\n${spltLine}\n`,
             TimeTitles: TimeTitles} ;  
 }
