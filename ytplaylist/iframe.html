@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <title>RaylexLee</title>
+<style>
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: green;
+}
+
+.flex-container > li {
+  background-color: #f1f1f1;
+  width: 100%;
+  margin: 1vw;
+  font-size: 2.4vw;
+  text-align: justify;
+}
+ul { list-style-type: none; }
+</style>
+</head>
+<body>
+<ul class="flex-container">
+</ul>
+</body>
+<script>
+let channel="RaylexLee";
+const querystring = location.search;
+if (querystring != '') {
+    const params = (new URL(document.location)).searchParams;
+    const pgProg =  params.get('channel');
+    channel=pgProg ? pgProg : channel;
+    document.title = channel;
+};  
+  fetch(`${channel}.txt`)
+    .then(response => response.text())
+    .then(data => {
+      const Playlists = data.replace(/\n+$/, "").split('\n');
+      const li_a = (t,a) => 
+        `<li>
+            <a href='https://raylexlee.github.io/ytiframeplayer/?videoid=${a}'>
+               ${t.replace(/_/g," ")}</a></li>`;
+      document.querySelector('ul').innerHTML = Playlists
+        .map(e =>  { 
+                     [t,a]=e.split(" ");
+                     return li_a(t,a);
+                   }).join('\n');
+    });
+</script>
+</html>

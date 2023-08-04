@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <title>Tutorial</title>
+  <title>Q iFrame</title>
 <style>
 .flex-container {
   display: flex;
   flex-wrap: wrap;
-  background-color: green;
+  background-color: cyan;
 }
 
 .flex-container > li {
@@ -27,20 +27,13 @@ ul { list-style-type: none; }
 <ul class="flex-container">
 </ul>
 </body>
+<script src="channel.js"></script>
 <script>
-  fetch(`playlist.txt`)
-    .then(response => response.text())
-    .then(data => {
-      const Playlists = data.replace(/\n+$/, "").split('\n');
-      const li_a = (t,a) => 
+      const li_a = c => 
         `<li>
-            <a href='https://raylexlee.github.io/ytiframeplayer/?videoid=${a}'>
-               ${t.replace(/_/g," ")}</a></li>`;
-      document.querySelector('ul').innerHTML = Playlists
-        .map(e =>  { 
-                     [t,a]=e.split(" ");
-                     return li_a(t,a);
-                   }).join('\n');
-    });
+            <a href='iframe.html?channel=${c}'>
+               ${c}</a></li>`;
+      document.querySelector('ul').innerHTML = channels
+        .map( c => li_a(c)).join('\n');
 </script>
 </html>
