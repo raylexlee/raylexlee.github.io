@@ -1,5 +1,6 @@
 const channels = [
 "RaylexLee",
+"Fireship",
 "ChrisCourses",
 "DaveGray",
 "EVEonline",
