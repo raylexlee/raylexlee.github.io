@@ -3,6 +3,7 @@ const channels = [
 "DKclassicII",
 "DKclassicIII",
 "RetrospectiveMovies",
+"CultCinemaClassics",
 "Fireship",
 "ChrisCourses",
 "DaveGray",
