@@ -43,7 +43,7 @@ const getsongs = arg => {
     const TimeArg = `${Times.join(" ")} EOF`;
     const TitleArg = Titles.join('');
     const mkdirLine = `mkdir /mnt/d/NewMusic/${artist}`;
-    const dlmp3Line = `youtube-dl --extract-audio --audio-format mp3 --audio-quality 5 -o '${artist}.%(ext)s' ${link}`;
+    const dlmp3Line = `yt-dlp --extract-audio --audio-format mp3 --audio-quality 5 -o '${artist}.%(ext)s' ${link}`;
     const albumFile = `${artist}.mp3`;
     const spltLine = hasTime 
       ? `mp3splt -o @a-@t -d /mnt/d/NewMusic/${artist} -g ${TitleArg} ${albumFile} ${TimeArg}`
