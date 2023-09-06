@@ -44,6 +44,21 @@ figcaption {
     a, a:visited {
       text-decoration: none;
     }
+  img[title]:hover:after {
+    content: attr(title);
+    padding: 4px 8px;
+    color: #fff;
+    background-color: #000;
+    position: absolute;
+    z-index: 9999;
+    white-space: nowrap;
+    opacity: 0.8;
+    font-size: 14px;
+    border-radius: 4px;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 @media (orientation: landscape) {
   .grids-container {
      grid-template-columns: repeat(6, 1fr);
