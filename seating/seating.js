@@ -28,7 +28,7 @@ const imgSrc= p => (p === "empty") ? "empty.svg" : `https://podcast.rthk.hk/podc
 const imgCap= i => (images[i] === "empty") ? "empty" : `${podcasts[images[i]]}`;
 const refresh = () => {
 const grids = images.map((p, i) => `<div><figure>
-<img onclick="handleClick(this)" src="${imgSrc(p)}" alt="${i}" \>
+<img onclick="handleClick(this)" src="${imgSrc(p)}" alt="${i}" title="${imgCap(i)}" \>
 <figcaption>${imgCap(i)}</figcaption>
 </figure></div>`).join("\n");
 container.innerHTML=grids;
