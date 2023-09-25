@@ -1,26 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>My RTHK</title>
-  <link rel="stylesheet" href="rthkpodcast.css">
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podcasts</title>
+<script src="programmes.js"></script>
+<style>
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: black;
+}
 
+.flex-container > li {
+  background-color: black;
+  width: 280px;
+  margin: 10px;
+  text-align: left;
+}
+ul { list-style-type: none; }
+    img {
+      border: 0;
+      border-radius: 3vmin;
+      padding: .3vmin;
+      object-fit: contain;
+    }
+
+    img:hover {
+      transform: scaleX(-1);
+    }
+    a, a:visited {
+      text-decoration: none;
+      color: cyan;
+    }
+</style>
+</head>
 <body>
-  <div class="grids-container"></div>
-  <p style="margin-top: 0; padding: 0; text-align: center; font-size:small; color: lightgray;">
-    Last updated on HKT Wednesday 10:35a.m., 27 July 2022
-  </p>
+<ul class="flex-container">
+</ul>
 </body>
-<script src="index.js"></script>
 <script>
-document.getElementsByClassName("grids-container")[0].innerHTML
-=pid.map(p => `<div>
-<a href="podcast.html?prog=${p}">
-<img src="https://podcast.rthk.hk/podcast/upload_photo/item_photo/1400x1400_${p}.jpg"></a></div>`).join('\n')+
-    '<div><a href="/radiodrama/rthk/">📻</a></div>';
+const cover = p => `https://podcast.rthk.hk/podcast/upload_photo/item_photo/1400x1400_${p}.jpg`;   
+const li_a = e => `
+<li><a href="podcast.html?prog=${e[0]}"><img src="${cover(e[0])}" style="float:left;width:70px;height:70px;"> ${e[1]}<br />${e[2]}</a></li>
+`;    
+document.querySelector('ul').innerHTML= programme
+.sort((a, b) => (a[2] > b[2]) ? -1 : ((a[2] == b[2]) ? 0 : 1))
+.map(e => li_a(e)).join('\n');
 </script>
 </html>
