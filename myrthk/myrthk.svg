@@ -6,6 +6,5 @@
     </linearGradient>
   </defs>
   <ellipse cx="200" cy="200" rx="200" ry="125" fill="url(#grad1)" />
-  <text fill="#ffffff" font-size="80
-  " font-family="Verdana" x="40" y="216">港台精選</text>
+  <text fill="#0" font-size="80" font-family="Verdana" x="40" y="216">港台精選</text>
 </svg>
