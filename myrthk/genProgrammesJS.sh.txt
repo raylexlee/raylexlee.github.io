@@ -9,3 +9,6 @@ LATEST=$(jq '.["latest"]' $i)
 echo [$PID,$NAME,$LATEST],>> $JS
 done
 echo ] >> $JS
+git add $JS
+git commit -m "Update latest"
+git push origin master
