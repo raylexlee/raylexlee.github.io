@@ -39,6 +39,18 @@
     <div class="remainingDiv">
       <textarea name="myContent" id="myContent" readonly></textarea>
     </div>
+  <div id="qrcode"></div>
+<script src="qrcode.js"></script> 
+<script type="text/javascript">
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: window.location.href,
+	width: 128,
+	height: 128,
+	colorDark : "#ffffff",
+	colorLight : "#000000",
+	correctLevel : QRCode.CorrectLevel.H
+});
+</script>  
   </div>
 </body>
 <script src="podcast_nav.js"></script>
