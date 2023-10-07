@@ -50,18 +50,21 @@
     <div class="videoWrapper"><div id="ytVideo"></div></div>
   </section>
   <section>
-    <div class="installation">
-      <div class="item1"><img src="iframeQR.svg" alt=""></div>
-      <div id="item2">
-        Thanks for using <i>iframe</i>  to watch YouTube video with
-        minimal and quiet advertisement.
-      </div>
-    </div>
+   <p>Thanks for using <i>iframe</i>  to watch YouTube video with minimal and quiet advertisement.</p>
     
-    <p><a href="javascript:ShareIframe()"><span style="font-size:50px;">&#128256;</span></a><span id="shareLink"></span></p>
-    <p>Last updated : HKT Sunday, 6:00 AM, 8 May 2022
-    <p><a href="javascript:ComposeCode()"><span style="font-size:50px;">&#9997;</span></a><span id="shareLink"></span></p>
-    <textarea name="codes" id="myScript" cols="90" rows="10" value=""></textarea>  
+  <div id="qrcode"></div>
+<script src="qrcode.js"></script> 
+<script type="text/javascript">
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: window.location.href,
+	width: 128,
+	height: 128,
+	colorDark : "#ffffff",
+	colorLight : "#000000",
+	correctLevel : QRCode.CorrectLevel.H
+});
+</script>  
+    <p>Last updated : HKT Saturday 5:35 pm, 7 October 2023</p>
   </section>
 
 </body>
