@@ -35,6 +35,18 @@ Sorry, your browser does not support HTML5 audio.
 曾月娥   飾　胡小姐
 朱曼子   飾　利
 </pre>
+  <div id="qrcode"></div>
+<script src="qrcode.js"></script> 
+<script type="text/javascript">
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: window.location.href,
+	width: 128,
+	height: 128,
+	colorDark : "#000000",
+	colorLight : "#ffffff",
+	correctLevel : QRCode.CorrectLevel.H
+});
+</script>  
 <a href="index.html">回到目錄</a>
 <script type="text/javascript">
 var radiodrama = {

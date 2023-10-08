@@ -25,6 +25,18 @@ Sorry, your browser does not support HTML5 audio.
 編劇：楊婉媚　　
 監製：李安求
 </pre>
+  <div id="qrcode"></div>
+<script src="qrcode.js"></script> 
+<script type="text/javascript">
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: window.location.href,
+	width: 128,
+	height: 128,
+	colorDark : "#000000",
+	colorLight : "#ffffff",
+	correctLevel : QRCode.CorrectLevel.H
+});
+</script>  
 <a href="index.html">回到目錄</a>
 <script type="text/javascript">
 var radiodrama = {
