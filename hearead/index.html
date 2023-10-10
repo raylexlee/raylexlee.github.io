@@ -26,6 +26,18 @@ ul { list-style-type: none; }
 <body>
 <ul class="flex-container">
 </ul>
+  <div id="qrcode"></div>
+<script src="qrcode.js"></script> 
+<script type="text/javascript">
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: window.location.href,
+	width: 128,
+	height: 128,
+	colorDark : "#000000",
+	colorLight : "#ffffff",
+	correctLevel : QRCode.CorrectLevel.H
+});
+</script>  
 <p>For the best audio effect, please use the latest version of Microsoft Edge. Other browsers may work for mobile devices. Please refer to the Web Speech API at <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API#speechsynthesis_2">SpeechSynthesis</a>。</p>
 <p><a href="bookindex.html">Text Version</a></p>
 </body>
