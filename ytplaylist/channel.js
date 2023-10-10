@@ -1,4 +1,5 @@
 const channels = [
+"MovieConNet",
 "BLACKPINK",
 "RaylexLee",
 "DKclassicII",
