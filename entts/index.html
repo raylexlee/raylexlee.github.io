@@ -37,6 +37,18 @@
 <body>
   <ul class="flex-container">
   </ul>
+  <div id="qrcode"></div>
+<script src="qrcode.js"></script> 
+<script type="text/javascript">
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: window.location.href,
+	width: 128,
+	height: 128,
+	colorDark : "#000000",
+	colorLight : "#ffffff",
+	correctLevel : QRCode.CorrectLevel.H
+});
+</script>  
   <div class="grid-container">
     <div class="item1"><span style='font-size:120px;'>&#128218;</span></div>
     <div id="item2">
