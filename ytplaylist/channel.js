@@ -8,6 +8,7 @@ const channels = [
 "RetrospectiveMovies",
 "CultCinemaClassics",
 "Fireship",
+"freecodecamp",
 "ChrisCourses",
 "DaveGray",
 "EVEonline",
