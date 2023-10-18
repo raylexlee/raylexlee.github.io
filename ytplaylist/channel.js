@@ -1,5 +1,5 @@
 const channels = [
-"正午阳光",
+"OldFilmsRevivalProject",
 "MovieConNet",
 "BLACKPINK",
 "RaylexLee",
@@ -15,6 +15,7 @@ const channels = [
 "RTHK",
 "古今東西昔昔今今",
 "国语好剧大赏",
+"正午阳光",
 "最深日本",
 "追剧指南",
 "粵語長片台",
