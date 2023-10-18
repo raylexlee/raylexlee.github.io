@@ -41,6 +41,11 @@ const shareLink = queryString => `https://raylexlee.github.io/ytiframeplayer/${q
 function ShareIframe() {
   const last_playlistId = localStorage.getItem("last_playlistId");
   const queryStr = last_playlistId ? `?videoid=${last_playlistId}` : ''; 
+  const url = shareLink(queryStr);
+  if (url !== window.location.href) {
+    qrcode.clear(); // clear the code.
+    qrcode.makeCode(url); // make another code.
+  }
   let language = navigator.language.toLowerCase();
   language = language.startsWith('zh') ? language : language.substring(0,2);
   language = (Object.keys(legend).indexOf(language) === -1) ? 'en' : language;
