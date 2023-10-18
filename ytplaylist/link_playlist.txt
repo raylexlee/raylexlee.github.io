@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+CHANNEL=${1?'missing channel use...'}
+LINK=${2?'missing full youtube playlist link ...'}
+GETLINKJS=$HOME/wspa2zhfiction/getlinks.js
+$GETLINKJS $LINK  | grep list=PL | grep '^[^1-9华現查已]' | grep ^[^[:space:]] | sed -e 's/ /_/g' -e 's/_https:/ https:/' | sed 's/\(.*\)\shttps.*list=\(PL.*\).pp=.*/\1 \2/'  
+rm -rf 'C:\U'*
