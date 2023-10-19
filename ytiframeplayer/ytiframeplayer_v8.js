@@ -42,7 +42,8 @@ function ShareIframe() {
   const last_playlistId = localStorage.getItem("last_playlistId");
   const queryStr = last_playlistId ? `?videoid=${last_playlistId}` : ''; 
   const url = shareLink(queryStr);
-  if (url !== window.location.href) {
+  const QR = document.getElementById('qrcode');
+  if (url !== QR.title) {
     qrcode.clear(); // clear the code.
     qrcode.makeCode(url); // make another code.
   }
