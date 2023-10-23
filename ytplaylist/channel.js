@@ -1,4 +1,5 @@
 const channels = [
+"TheMidnightScreening",
 "MeetMeAtTheOpera",
 "OldFilmsRevivalProject",
 "MovieConNet",
