@@ -201,7 +201,7 @@ function speak(){
     pausing = false;  
     utterThis.voice = mySpeaker.filter(e => e.name === myVoice.value)[0];
     updatePauseCancel();
-    utterThis.text = myContent.value;
+    utterThis.text = document.title.substring(title.length+1)+myContent.value;
     utterThis.pitch = 1;
     utterThis.rate = rate.value;
     justCancel = true;
