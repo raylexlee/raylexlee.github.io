@@ -1,8 +1,10 @@
 function raylex() {
-b=document.getElementsByTagName('a') 
+b=document.getElementsByTagName('a'); 
 for (i=0; i<b.length; i++) {
-t=b[i].innerText; h=b[i].href;
-if (!t.match(/《/)) continue;
-s=h.indexOf('PL'); e=h.indexOf('&pp');
-c=t.replaceAll(' ','_')+' '+h.slice(s,e)
+t=b[i].innerText.replaceAll(' ','_'); h=b[i].href;
+if (t.startsWith('\n')) continue;
+if (/list=PL/.test(h) == false) continue;
+if (/^[1-9华現查已_]/.test(t)) continue;
+s=h.indexOf('PL'); h=h.substr(s); e=h.indexOf('&');
+c=t+' '+h.slice(0,e);
 console.log(c); } }
