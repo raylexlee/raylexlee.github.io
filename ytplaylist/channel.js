@@ -5,7 +5,6 @@ const channels = [
 "ColorCodeio",
 "TheMidnightScreening",
 "MeetMeAtTheOpera",
-"OldFilmsRevivalProject",
 "MovieConNet",
 "BLACKPINK",
 "RaylexLee",
