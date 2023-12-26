@@ -42,8 +42,10 @@ function myInitChapters() {
       document.title = pageTitle;
       document.getElementById('myContent').value = `
 
-To be filledd later !!!
 
+本網頁轉自香港電台網上中華五千年純文字版而來, 
+
+主要提供連續播放功能
 `;
       document.getElementById('myChapterList').innerHTML=`${optIndexHtml}\n${chapters.map((c,i) => optChapter(c,i)).join('\n')}`; 
       document.getElementById('media').innerHTML = `${media[chapters[0].url.slice(-3)]}`;
