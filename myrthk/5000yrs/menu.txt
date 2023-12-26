@@ -12,5 +12,5 @@
 元 https://www.rthk.hk/chiculture/fivethousandyears/textversion/12yuen.htm
 明 https://www.rthk.hk/chiculture/fivethousandyears/textversion/13ming.htm
 清 https://www.rthk.hk/chiculture/fivethousandyears/textversion/14ching.htm
-民國 https://www.rthk.hk/chiculture/fivethousandyears/textversion/15mung.htm
-民國大事曆第二部份 https://www.rthk.hk/chiculture/fivethousandyears/textversion/16mung2.htm
+民國上半部份 https://www.rthk.hk/chiculture/fivethousandyears/textversion/15mung.htm
+民國下半部份 https://www.rthk.hk/chiculture/fivethousandyears/textversion/16mung2.htm
