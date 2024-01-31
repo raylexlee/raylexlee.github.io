@@ -22,6 +22,7 @@ const nameSpeaker = name => {
    return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
 };
 const punctuationRegex = /[　\u4e00-\u9fa5]{2}$/;
+const notAndroid=navigator.userAgent.toLowerCase().indexOf('android')==-1;
 function SyncAudioWithContent(e) {
 //    if (e.charIndex < 2) return;
 //    if ((myContent.value[e.charIndex - 2] !== '。') && (myContent.value[e.charIndex - 1] !== '。')) return;
@@ -30,7 +31,7 @@ function SyncAudioWithContent(e) {
     myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
 }
 function updatePauseCancel() {
-  myPauseCancel.innerHTML = mySpeaker[myVoice.selectedIndex].localService ? '&#9208;' : '&#9632;';
+  myPauseCancel.innerHTML = (mySpeaker[myVoice.selectedIndex].localService && notAndroid) ? '&#9208;' : '&#9632;';
 }
 function myTTSinit() {
  mySpeaker = [];
@@ -221,7 +222,7 @@ function pauseResume() {
   if (synth.speaking !== true) {
     return;
   }
-  if (utterThis.voice && utterThis.voice.localService) {
+  if (utterThis.voice && notAndroid && utterThis.voice.localService) {
     if (pausing) {
       utterThis.rate = rate.value;
       synth.resume();
