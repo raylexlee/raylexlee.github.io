@@ -1,4 +1,5 @@
 const channels = [
+"BroCodez",
 "atvhongkong",
 "lindaronstadtmusic",
 "燃燈之音",
