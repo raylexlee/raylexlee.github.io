@@ -21,7 +21,7 @@ const nameSpeaker = name => {
    const firstPart = name.split('(')[0].trim();
    return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
 };
-const punctuationRegex = /[　\u4e00-\u9fa5]{2}$/;
+const punctuationRegex = '：，。！？';
 const notAndroid=navigator.userAgent.toLowerCase().indexOf('android')==-1;
 function SyncAudioWithContent(e) {
 //    if (e.charIndex < 2) return;
@@ -29,6 +29,14 @@ function SyncAudioWithContent(e) {
     const adjustment = 0.6;
     const portion = e.charIndex / myContent.value.length;
     myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
+    let start = e.charIndex + 1;
+    if ( -1 === punctuationRegex.indexOf(myContent.value[start])) return;
+    start++;
+    if ( start === myContent.value.length ) return;
+    const bound = myContent.value.substring(start).search(/[：，。！？]/);
+    if ( bound === -1 ) return;
+    myContent.select();
+    myContent.setSelectionRange(start, start+bound);
 }
 function updatePauseCancel() {
   myPauseCancel.innerHTML = (mySpeaker[myVoice.selectedIndex].localService && notAndroid) ? '&#9208;' : '&#9632;';
@@ -202,7 +210,8 @@ function speak(){
     pausing = false;  
     utterThis.voice = mySpeaker.filter(e => e.name === myVoice.value)[0];
     updatePauseCancel();
-    utterThis.text = document.title.substring(title.length+1)+myContent.value;
+    //utterThis.text = document.title.substring(title.length+1)+myContent.value;
+    utterThis.text = myContent.value;
     utterThis.pitch = 1;
     utterThis.rate = rate.value;
     justCancel = true;
