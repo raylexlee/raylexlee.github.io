@@ -17,26 +17,27 @@ let mySpeaker = [];
 let utterThis;
 let justCancel = false;
 let pausing = false;
+let punctuationPosition=[];
+let punctuationArray=[];
+let positionIndex = 0;
 const nameSpeaker = name => {
    const firstPart = name.split('(')[0].trim();
    return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
 };
-const punctuationRegex = '：，。！？';
+const punctuationRegex = /[。！？!?]/gm;
 const notAndroid=navigator.userAgent.toLowerCase().indexOf('android')==-1;
 function SyncAudioWithContent(e) {
 //    if (e.charIndex < 2) return;
 //    if ((myContent.value[e.charIndex - 2] !== '。') && (myContent.value[e.charIndex - 1] !== '。')) return;
     const adjustment = 0.6;
     const portion = e.charIndex / myContent.value.length;
+    // console.log(e.charIndex);
     myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
-    let start = e.charIndex + 1;
-    if ( -1 === punctuationRegex.indexOf(myContent.value[start])) return;
-    start++;
-    if ( start === myContent.value.length ) return;
-    const bound = myContent.value.substring(start).search(/[：，。！？]/);
-    if ( bound === -1 ) return;
-    myContent.select();
-    myContent.setSelectionRange(start, start+bound);
+    if (e.charIndex > punctuationPosition[positionIndex]) {
+      positionIndex++;
+      myContent.select();
+      myContent.setSelectionRange(e.charIndex, punctuationPosition[positionIndex]);
+    }
 }
 function updatePauseCancel() {
   myPauseCancel.innerHTML = (mySpeaker[myVoice.selectedIndex].localService && notAndroid) ? '&#9208;' : '&#9632;';
@@ -162,6 +163,14 @@ function gotoChapter(chapter, PleaseSpeak = true) {
      .then(response => response.text())
      .then(data => {
        myContent.value = data;
+       punctuationArray = myContent.value.match(punctuationRegex);
+       punctuationPosition=[];
+       let punctuationIndex = 0;
+       for (let valueIndex=0; valueIndex < data.length; valueIndex++) 
+         if (data[valueIndex] === punctuationArray[punctuationIndex]) {
+           punctuationPosition.push(valueIndex);
+           punctuationIndex++;
+         }
       completed_myinit = true;
        if (myAutoplay.checked) {
          if (synth.speaking) { 
@@ -218,6 +227,9 @@ function speak(){
     synth.cancel();
     synth.speak(utterThis);
     justCancel = false;
+    positionIndex = 0;
+    myContent.select();
+    myContent.setSelectionRange(0, punctuationPosition[positionIndex]);
   }
 }
 myVoice.onchange = function(){
