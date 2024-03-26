@@ -24,7 +24,7 @@ const nameSpeaker = name => {
    const firstPart = name.split('(')[0].trim();
    return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
 };
-const punctuationRegex = /[。！？!?]/gm;
+const punctuationRegex = /[；。！？;!?]/gm;
 const notAndroid=navigator.userAgent.toLowerCase().indexOf('android')==-1;
 function SyncAudioWithContent(e) {
 //    if (e.charIndex < 2) return;
