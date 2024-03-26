@@ -52,6 +52,10 @@ span {
   width: 97%;
   height: 97%;
 }
+textarea::selection {
+    color: white;
+    background: blue;
+}
 nav {
   font-size: 0.9em;	
   float: right; }
