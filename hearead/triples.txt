@@ -1,5 +1,4 @@
 en Roland_Pertwee Men_of_Affairs
-en Jane_Austen Pride_and_Prejudice
 en Jane_Austen Persuasion
 zh 社會奇情 紅樓夢
 ja 夏目漱石 それから
