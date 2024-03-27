@@ -17,18 +17,27 @@ let mySpeaker = [];
 let utterThis;
 let justCancel = false;
 let pausing = false;
+let punctuationPosition=[];
+let punctuationArray=[];
+let positionIndex = 0;
 const nameSpeaker = name => {
    const firstPart = name.split('(')[0].trim();
    return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
 };
+const punctuationRegex = /[；。！？;.!?]/gm;
 function SyncAudioWithContent(e) {
     //console.log(myContent.value.substring(0,e.charIndex), '->', myContent.value[e.charIndex]);
     //return;
 //    if (e.charIndex < 30) return;
 //    if ( myContent.value[e.charIndex - 2] !== '.') return;
+    if (e.charIndex > punctuationPosition[positionIndex]) {
     const adjustment = 0.5;
     const portion = e.charIndex / myContent.value.length;
     myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
+      positionIndex++;
+      myContent.select();
+      myContent.setSelectionRange(e.charIndex, punctuationPosition[positionIndex]);
+    }
 }
 function updatePauseCancel() {
   myPauseCancel.innerHTML = mySpeaker[myVoice.selectedIndex].localService ? '&#9208;' : '&#9632;';
@@ -147,6 +156,14 @@ function gotoChapter(chapter, PleaseSpeak = true) {
      .then(response => response.text())
      .then(data => {
        myContent.value = data.replace(/_/g, '');
+       punctuationArray = myContent.value.match(punctuationRegex);
+       punctuationPosition=[];
+       let punctuationIndex = 0;
+       for (let valueIndex=0; valueIndex < data.length; valueIndex++) 
+         if (data[valueIndex] === punctuationArray[punctuationIndex]) {
+           punctuationPosition.push(valueIndex);
+           punctuationIndex++;
+         }
       completed_myinit = true;
        if (myAutoplay.checked) {
          if (synth.speaking) { 
@@ -202,6 +219,9 @@ function speak(){
     synth.cancel();
     synth.speak(utterThis);
     justCancel = false;
+    positionIndex = 0;
+    myContent.select();
+    myContent.setSelectionRange(0, punctuationPosition[positionIndex]);
   }
 }
 myVoice.onchange = function(){
