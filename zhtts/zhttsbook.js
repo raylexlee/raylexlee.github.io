@@ -162,11 +162,12 @@ function gotoChapter(chapter, PleaseSpeak = true) {
      .then(response => response.text())
      .then(data => {
        myContent.value = data;
+       myContent.value = myContent.value.split('\n').filter(e => e.length >= 1).join('\n');
        punctuationArray = myContent.value.match(punctuationRegex);
        punctuationPosition=[];
        let punctuationIndex = 0;
-       for (let valueIndex=0; valueIndex < data.length; valueIndex++) 
-         if (data[valueIndex] === punctuationArray[punctuationIndex]) {
+       for (let valueIndex=0; valueIndex < myContent.value.length; valueIndex++) 
+         if (myContent.value[valueIndex] === punctuationArray[punctuationIndex]) {
            punctuationPosition.push(valueIndex);
            punctuationIndex++;
          }
