@@ -214,7 +214,7 @@ function getLastChapter() {
     localStorage.setItem('wspa_positionIndex'+title,0);
   }
   positionIndex = parseInt(localStorage.getItem('wspa_positionIndex'+title));
-  if (!localStorage.getItem('wspa_positionIndex'+title)) {
+  if (!localStorage.getItem('wspa_activeEpisode'+title)) {
     const start_episode = chapters[0].substring(0,nDigits);
     localStorage.setItem('wspa_activeEpisode'+title,start_episode);
   }
