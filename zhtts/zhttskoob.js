@@ -24,7 +24,8 @@ const nameSpeaker = name => {
    const firstPart = name.split('(')[0].trim();
    return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
 };
-const punctuationRegex = /[；。！？;.!?]/gm;
+let punctuationRegex = /[；。！？;.!?]/gm;
+const googleRegex = /[；。！？，,;.!?]/gm;
 //const notAndroid=navigator.userAgent.toLowerCase().indexOf('android')==-1;
 const notAndroid = false;
 function SyncAudioWithContent(e) {
@@ -141,6 +142,7 @@ function myInit() {
         });
       const links = document.getElementsByTagName('a');
       myPauseCancel = links[links.length - 1];
+      if (mySpeaker.filter(s => s.voiceURI.startsWith('Google')).length >= 1) punctuationRegex = googleRegex;
       const chapter = getLastChapter();
       gotoChapter(chapter, false); 
     });
