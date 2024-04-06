@@ -107,6 +107,15 @@ function myInit() {
   const caller =  params.get('caller');
   backto = caller ? caller : backto;
   const optIndexHtml = `<li><a href="${backto}.html">返　回　前　目　錄</a></li>`;
+  myContent.onselect = e => {
+    for (let i = 0; i < punctuationPosition.length; i++) {
+      if (punctuationPosition[i] >= myContent.selectionStart) {
+         positionIndex = i;
+         speak();
+         break;
+      }
+    }
+  }
   myRange.oninput = function() {
     const v = myRange.value;
     myContent.style.fontSize = `${20 + parseInt(v)}px`;
