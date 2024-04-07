@@ -1,3 +1,4 @@
+let adjustment = 0.4;
 let title, myContent, myChapterList, myRange, myBook, myAutoplay;
 let nDigits = 3;
 let myPauseCancel;
@@ -28,18 +29,6 @@ let punctuationRegex = /[；。！？;.!?]/gm;
 const googleRegex = /[；。！？，,;.!?]/gm;
 //const notAndroid=navigator.userAgent.toLowerCase().indexOf('android')==-1;
 const notAndroid = false;
-function SyncAudioWithContent(e) {
-//    if (e.charIndex < 2) return;
-//    if ((myContent.value[e.charIndex - 2] !== '。') && (myContent.value[e.charIndex - 1] !== '。')) return;
-    if (e.charIndex > punctuationPosition[positionIndex]) {
-    const adjustment = 0.6;
-    const portion = e.charIndex / myContent.value.length;
-    myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
-      positionIndex++;
-      myContent.select();
-      myContent.setSelectionRange(e.charIndex, punctuationPosition[positionIndex]);
-    }
-}
 function updatePauseCancel() {
   myPauseCancel.innerHTML = (mySpeaker[myVoice.selectedIndex].localService && notAndroid) ? '&#9208;' : '&#9632;';
 }
@@ -250,7 +239,6 @@ function speak(){
     synth.cancel();
     synth.speak(utterThis);
     justCancel = false;
-    const adjustment = 0.4;
     const portion = start / myContent.value.length;
     myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
     myContent.select();
