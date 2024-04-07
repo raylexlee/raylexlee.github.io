@@ -234,7 +234,7 @@ function getLastChapter() {
 }
 function speak(){
     if (synth.speaking) {
-        console.error('speechSynthesis.speaking');
+    //    console.error('speechSynthesis.speaking');
         return;
     }
     if (myContent.value !== '') {
