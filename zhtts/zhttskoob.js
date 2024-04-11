@@ -90,6 +90,7 @@ const contentUrl = chapter => `text/${title}/${chapter.substring(0,nDigits)}.txt
 function myInit() {
   document.title = title;
   myContent = document.getElementById('myContent');
+  myContent.style.lineHeight=2;
   myChapterList = document.getElementById('myChapterList');
   myRange = document.getElementById('myRange'); 
   myBook = document.getElementById('myBook');
