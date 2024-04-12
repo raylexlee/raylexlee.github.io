@@ -177,6 +177,7 @@ function gotoChapter(chapter, PleaseSpeak = true) {
        myContent.value = data;
        myContent.value = myContent.value.split('\n').filter(e => e.length >= 1).join('\n');
        numCharsLine=myContent.value.split('\n').map(e => e.length);
+       rowsLine = Array(numCharsLine.length);
        CalculateScrollData(); // for rowsLine[], lineHeight, nCharsRow
        new ResizeObserver(CalculateScrollData).observe(myContent);
        crPosition=[];
@@ -291,10 +292,10 @@ function ScrollText(charIndex)  {
 function CalculateScrollData() {
   const fontSize = parseFloat(window.getComputedStyle(myContent).fontSize)
   nCharsRow = Math.floor(myContent.clientWidth / fontSize)
-  rowsLine=[Math.ceil(numCharsLine[0] / nCharsRow)];
+  rowsLine[0] = Math.ceil(numCharsLine[0] / nCharsRow);
   let lineIndex = 1;
   while (lineIndex < numCharsLine.length) {
-    rowsLine.push(rowsLine[lineIndex - 1] + Math.ceil(numCharsLine[lineIndex] / nCharsRow));
+    rowsLine[lineIndex] = rowsLine[lineIndex - 1] + Math.ceil(numCharsLine[lineIndex] / nCharsRow);
     lineIndex++;
   }
   lineHeight = myContent.scrollHeight / rowsLine[rowsLine.length - 1];
