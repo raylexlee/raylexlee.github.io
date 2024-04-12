@@ -19,6 +19,8 @@ let utterThis;
 let justCancel = false;
 let pausing = false;
 let crPosition=[];
+let nCharsRow, lineHeight; 
+let rowsLine=[]; 
 let numCharsLine=[];
 let punctuationPosition=[];
 let punctuationArray=[];
@@ -112,6 +114,7 @@ function myInit() {
   myRange.oninput = function() {
     const v = myRange.value;
     myContent.style.fontSize = `${20 + parseInt(v)}px`;
+    CalculateScrollData(); // for rowsLine[], lineHeight, nCharsRow
   };
   document.body.onunload = function() {
     if (synth.speaking) {
@@ -174,6 +177,8 @@ function gotoChapter(chapter, PleaseSpeak = true) {
        myContent.value = data;
        myContent.value = myContent.value.split('\n').filter(e => e.length >= 1).join('\n');
        numCharsLine=myContent.value.split('\n').map(e => e.length);
+       CalculateScrollData(); // for rowsLine[], lineHeight, nCharsRow
+       new ResizeObserver(CalculateScrollData).observe(myContent);
        crPosition=[];
        for (let valueIndex=0; valueIndex < myContent.value.length; valueIndex++) 
          if (myContent.value[valueIndex] === '\n') {
@@ -270,16 +275,27 @@ function pauseResume() {
   localStorage.setItem('wspa_positionIndex'+title, positionIndex);
 }
 function ScrollText(charIndex)  {
-  const fontSize = parseFloat(window.getComputedStyle(myContent).fontSize)
-  const nCharsRow = Math.floor(myContent.clientWidth / fontSize)
-  const lineHeight = myContent.scrollHeight / numCharsLine.map(e => Math.ceil(e / nCharsRow)).reduce((a,b) => a + b);
+//  const fontSize = parseFloat(window.getComputedStyle(myContent).fontSize)
+//  const nCharsRow = Math.floor(myContent.clientWidth / fontSize)
+//  const lineHeight = myContent.scrollHeight / numCharsLine.map(e => Math.ceil(e / nCharsRow)).reduce((a,b) => a + b);
   let lineIndex;
   for (lineIndex=0; lineIndex < crPosition.length; lineIndex++)
     if (charIndex <= crPosition[lineIndex]) break;
   let topRow = 0;
   if (lineIndex >=1)
-    topRow = numCharsLine.slice(0, lineIndex).map(e => Math.ceil(e / nCharsRow)).reduce((a,b) => a + b);
+    topRow = rowsLine[lineIndex - 1];
+    // topRow = numCharsLine.slice(0, lineIndex).map(e => Math.ceil(e / nCharsRow)).reduce((a,b) => a + b);
   const lastRow = Math.ceil(((lineIndex === 0) ? charIndex : (charIndex - crPosition[lineIndex-1])) / nCharsRow);
-  //console.log(charIndex,fontSize,nCharsRow,lineHeight,lineIndex,topRow,lastRow);  
   myContent.scrollTop = (lineHeight * (topRow + lastRow)) - (adjustment * myContent.clientHeight);
+}
+function CalculateScrollData() {
+  const fontSize = parseFloat(window.getComputedStyle(myContent).fontSize)
+  nCharsRow = Math.floor(myContent.clientWidth / fontSize)
+  rowsLine=[Math.ceil(numCharsLine[0] / nCharsRow)];
+  let lineIndex = 1;
+  while (lineIndex < numCharsLine.length) {
+    rowsLine.push(rowsLine[lineIndex - 1] + Math.ceil(numCharsLine[lineIndex] / nCharsRow));
+    lineIndex++;
+  }
+  lineHeight = myContent.scrollHeight / rowsLine[rowsLine.length - 1];
 }
