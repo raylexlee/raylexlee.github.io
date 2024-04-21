@@ -158,7 +158,7 @@ function gotoChapter(chapter, PleaseSpeak = true) {
    const loadchapterUrl = `loadchapter.html?book=${title}&episode=${activeEpisode}`;
    myBook.innerHTML=`
      <a href="javascript:window.open('${loadchapterUrl}','readaloud');" style="color:cyan;">&#128220;</a> 
-     ${title} 
+     ${title.replace(/_/g," ")} 
      <a href="javascript:prevChapter()" style="color:cyan;">&lArr;</a> 
      ${chapter.substring(1 + nDigits)}
      <a href="javascript:nextChapter()" style="color:cyan;">&rArr;</a> 
