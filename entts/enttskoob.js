@@ -1,4 +1,4 @@
-let adjustment = 0.4;
+let adjustment = 0.6;
 let title, myContent, myChapterList, myRange, myBook, myAutoplay;
 let nDigits = 3;
 let myPauseCancel;
