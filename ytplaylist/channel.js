@@ -1,4 +1,5 @@
 const channels = [
+"电影大剧院1905MovieTheater",
 "BroCodez",
 "atvhongkong",
 "lindaronstadtmusic",
