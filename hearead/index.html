@@ -51,7 +51,7 @@ var qrcode = new QRCode(document.getElementById("qrcode"), {
         book.push([Lang, Book]);
       });
       const li_b = a => `<li>${a[0]} ${Language[a[0]].join(" ")} 
-<a href='ttsbook.html?title=${a[1]}&lang=${a[0]}'>ttsbook.html?title=${a[1]}&lang=${a[0]}</a></li>`;
+<a href='qmttskoob.html?title=${a[1]}&lang=${a[0]}'>qmttskoob.html?title=${a[1]}&lang=${a[0]}</a></li>`;
       document.querySelector('ul').innerHTML = book
         .map(e =>   li_b(e)).join('\n');
     });
