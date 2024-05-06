@@ -19,7 +19,7 @@ function myInit() {
             book[Author] = [ Book ];
           }
       });
-      const li_a = a => `<li><a href='jattsbook.html?title=${a}'>${a.replace(/_/g," ")}</a></li>`;
+      const li_a = a => `<li><a href='jattskoob.html?title=${a}'>${a.replace(/_/g," ")}</a></li>`;
       document.querySelector('ul').innerHTML = book[document.title].map(e => li_a(e)).join('\n');
       const b = document.getElementsByTagName('a');
       for (i=0; i < b.length; i++) {
