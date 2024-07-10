@@ -1,0 +1,19 @@
+const tiles=[
+f1,f2,f3,f4,s1,s2,s3,s4,
+d1,d2,d3,d4,l1,l2,l3,
+m1,m2,m3,m4,m5,m6,m7,m8,m9,
+c1,c2,c3,c4,c5,c6,c7,c8,c9,
+t1,t2,t3,t4,t5,t6,t7,t8,t9,
+d1,d2,d3,d4,l1,l2,l3,
+m1,m2,m3,m4,m5,m6,m7,m8,m9,
+c1,c2,c3,c4,c5,c6,c7,c8,c9,
+t1,t2,t3,t4,t5,t6,t7,t8,t9,
+d1,d2,d3,d4,l1,l2,l3,
+m1,m2,m3,m4,m5,m6,m7,m8,m9,
+c1,c2,c3,c4,c5,c6,c7,c8,c9,
+t1,t2,t3,t4,t5,t6,t7,t8,t9,
+d1,d2,d3,d4,l1,l2,l3,
+m1,m2,m3,m4,m5,m6,m7,m8,m9,
+c1,c2,c3,c4,c5,c6,c7,c8,c9,
+t1,t2,t3,t4,t5,t6,t7,t8,t9
+]
