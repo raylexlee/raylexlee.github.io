@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Primary Meta Tags -->
+  <title>iframe</title>
+  <meta name="title" content="Display Mahjong">
+  <meta name="description" content="Display mahjong tiles">
+
+  <!-- Custom styles for this template -->
+<style>
+body { 
+  color: white;
+  background: black;
+
+</style>
+<script>
+const mj = (m) => `<img src="./images/${m}.png" height="60" width="40">`;
+const tiles = (mjs) => Array(mjs.length/2).fill().map((x,i)=>mj(mjs.substring(2*i,2*i+2))).join(''); 
+function Display() {
+  const mjinput = document.getElementById('videoId').value;
+  document.getElementById('mahjong').innerHTML = tiles(mjinput)
+}
+</script>
+</head>
+
+<body>
+  Input
+  <input type="text" name="videoId" id="videoId">
+  <button type="button" onclick="Display();">GO</button>
+  <button type="button" onclick="document.getElementById('videoId').value = '';">CLEAR</button>
+  <section>
+    <p id='mahjong'></p>
+  </section>
+
+</body>
+</html>
