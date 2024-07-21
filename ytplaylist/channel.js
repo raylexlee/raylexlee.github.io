@@ -1,5 +1,5 @@
 const channels = [
-"GrandmaCan",
+"theAIsearch",
 "listenwatchlearn",
 "ExcelGoogleSheets",
 "电影大剧院1905MovieTheater",
