@@ -225,6 +225,12 @@ function ProcessMenu() {
   };
 }
 function getLastChapter() {
+  const c = params.get('chapter');
+  const s = params.get('sentence');
+  if (c && s) {
+    localStorage.setItem('wspa_activeEpisode'+title,c);
+    localStorage.setItem('wspa_positionIndex'+title,s);
+  }
   if (!localStorage.getItem('wspa_positionIndex'+title)) {
     localStorage.setItem('wspa_positionIndex'+title,0);
   }
@@ -274,6 +280,11 @@ function pauseResume() {
   }
   synth.cancel();
   localStorage.setItem('wspa_positionIndex'+title, positionIndex);
+  updateQR(title, activeEpisode, positionIndex);
+}
+function updateQR(t,c,s) {
+  const base = document.location.href.split('?')[0];
+  qrcode.makeCode(`${base}?title=${t}&chapter=${c}&sentence=${s}`);
 }
 function ScrollText(charIndex)  {
 //  const fontSize = parseFloat(window.getComputedStyle(myContent).fontSize)
