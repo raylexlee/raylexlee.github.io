@@ -80,7 +80,7 @@ function eventHandler(){
       var div_ = document.createElement('DIV');
       var a_ = document.createElement('A');
       const pad = 3;
-      a_.setAttribute('href', `https://65.49.109.252/audio/%E7%B4%85%E6%A8%93%E5%A4%A2/${i.toString().padStart(pad, '0')}.mp3`);
+      a_.setAttribute('href', `https://www.tingshucantonese.net/audio/%E7%B4%85%E6%A8%93%E5%A4%A2/${i.toString().padStart(pad, '0')}.mp3`);
       if (i >= 100) a_.setAttribute('style', 'font-size: 75%');
       var i_ = document.createTextNode(i.toString());
       a_.appendChild(i_);
