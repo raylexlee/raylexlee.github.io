@@ -6,13 +6,11 @@ let chapters = {};
 let prog = 'NONE';
 let pageTitle = 'ALL';
 const querystring = location.search;
-if (querystring != '') {
-    const params = (new URL(document.location)).searchParams;
-    const pgProg =  params.get('prog');
-    prog = pgProg ? pgProg : prog;
-    const pgPage =  params.get('page');
-    pageTitle = pgPage ? pgPage : pageTitle;
-}
+const params = (new URL(document.location)).searchParams;
+const pgProg =  params.get('prog');
+prog = pgProg ? pgProg : prog;
+const pgPage =  params.get('page');
+pageTitle = pgPage ? pgPage : pageTitle;
 const li_podcasts = (podcasts, pid) => podcasts
 .map(podcast => `			   <li><a href="podcast.html?prog=${pid}&page=${podcast.title}">${podcast.title} (${podcast.episodes})</a></li>`).join('\n');
 const li_years = (years, pid) => years.map(year => li_podcasts(year.podcasts, pid)).join('\n');
@@ -110,6 +108,7 @@ ${(Page.title === Programme.name) ? '' : Programme.name} 最新播岀 ${Programm
       audio = document.getElementById('audio');
       audio.onpause = function (e) {
         localStorage.setItem('currentTime'+pageTitle, audio.currentTime);
+        updateQR(prog, pageTitle, activeEpisode, audio.currentTime);
         };
       audio.onended = nextChapter;
       const chapter = getLastChapter();
@@ -169,7 +168,17 @@ function ProcessMenu() {
     document.querySelectorAll('.nav-dropdown').forEach(el => el.style.display = 'none');
   };
 }
+function updateQR(g,p,e,t) {
+  const base = document.location.href.split('?')[0];
+  qrcode.makeCode(`${base}?prog=${g}&page=${p}&episode=${e}&time=${t}`);
+}
 function getLastChapter() {
+  const e = params.get('episode');
+  const t = params.get('time');
+  if (e && t) {
+    localStorage.setItem('activeEpisode'+pageTitle,e);
+    localStorage.setItem('currentTime'+pageTitle, t);
+  }
   if (!localStorage.getItem('activeEpisode'+pageTitle)) {
     const start_episode = 1;
     localStorage.setItem('activeEpisode'+pageTitle,start_episode);
