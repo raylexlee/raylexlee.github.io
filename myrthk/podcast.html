@@ -43,7 +43,7 @@
 <script src="qrcode.js"></script> 
 <script type="text/javascript">
 var qrcode = new QRCode(document.getElementById("qrcode"), {
-	text: window.location.href,
+	text: decodeURI(window.location.href),
 	width: 128,
 	height: 128,
 	colorDark : "#ffffff",
