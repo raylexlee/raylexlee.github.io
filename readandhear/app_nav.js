@@ -8,8 +8,15 @@ document.addEventListener("DOMContentLoaded", function(event) {
 });
 const soundUrl = chapter => `https://www.tingshucantonese.net/audio/${title}/${chapter.substring(0,3)}.mp3`;
 const contentUrl = chapter => `text/${title}/${chapter.substring(0,3)}.txt`;
+const params = (new URL(document.location)).searchParams;
+title = document.title;
+  const e = params.get('episode');
+  const t = params.get('time');
+  if (e && t) {
+    localStorage.setItem('activeEpisode'+title,e);
+    localStorage.setItem('currentTime'+title, t);
+  }
 function myInit() {
-  title = document.title;
   myContent = document.getElementById('myContent');
   audio = document.getElementById('audio');
   myChapterList = document.getElementById('myChapterList');
@@ -45,6 +52,7 @@ function myInit() {
   };
   audio.onpause = function (e) {
     localStorage.setItem('currentTime'+title, audio.currentTime);
+    updateQR(activeEpisode, audio.currentTime);
     clearInterval(mySync);
   };
   audio.onended = function (e) {
@@ -68,6 +76,10 @@ function myInit() {
       gotoChapter(chapter); 
     });
 }    
+function updateQR(e,t) {
+  const base = decodeURI(document.location.href.split('?')[0]);
+  qrcode.makeCode(`${base}?episode=${e}&time=${t}`);
+}
 function prevChapter() {
     const m = audio.firstElementChild.src.match(/\/([0-9]{3})\.mp3$/);
     let i = chapters.findIndex(c => c.startsWith(m[1])) - 1;
