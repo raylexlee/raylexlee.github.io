@@ -5,7 +5,14 @@ var current;
 var title;
 var activeEpisode;
 var currentTime;
+const params = (new URL(document.location)).searchParams;
 title = document.title;
+  const e = params.get('episode');
+  const t = params.get('time');
+  if (e && t) {
+    localStorage.setItem('activeEpisode'+title,e);
+    localStorage.setItem('currentTime'+title, t);
+  }
 if (!localStorage.getItem('activeEpisode'+title)) {
   localStorage.setItem('activeEpisode'+title, '1');
   localStorage.setItem('currentTime'+title, 0.0);
@@ -17,6 +24,10 @@ if (document.readyState !== 'loading' ) {
 } else {
   document.addEventListener( 'DOMContentLoaded', eventHandler);  
 }  
+function updateQR(e,t) {
+  const base = decodeURI(document.location.href.split('?')[0]);
+  qrcode.makeCode(`${base}?episode=${e}&time=${t}`);
+}
 function eventHandler(){
 
   init();
@@ -27,7 +38,7 @@ function eventHandler(){
     playlist = document.getElementById('playlist');
     FillPlaylist();	
     tracks = playlist.querySelectorAll('a');
-    audio.volume = .10;
+    audio.volume = 1;
     for (var link of tracks) {
       link.addEventListener('click', function(e){ 
         e.preventDefault();
@@ -59,6 +70,7 @@ function eventHandler(){
     });
     audio.addEventListener('pause',function(e){
       localStorage.setItem('currentTime'+title, audio.currentTime);
+      updateQR(activeEpisode, audio.currentTime);
     });
     document.title = title + ' - ' + activeEpisode;
     audio.play();
