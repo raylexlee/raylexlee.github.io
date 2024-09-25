@@ -50,6 +50,7 @@ function myInit() {
   };
   audio.onpause = function (e) {
     localStorage.setItem('currentTime'+title, audio.currentTime);
+    updateQR(activeEpisode, audio.currentTime);
     clearInterval(mySync);
   };
   audio.onended = function (e) {
@@ -73,6 +74,10 @@ function myInit() {
       gotoChapter(chapter); 
     });
 }    
+function updateQR(e,t) {
+  const base = decodeURI(document.location.href.split('?')[0]);
+  qrcode.makeCode(`${base}?title=${title}&episode=${e}&time=${t}`);
+}
 function prevChapter() {
     const m = audio.firstElementChild.src.match(/\/([0-9]{3})\.mp3$/);
     let i = chapters.findIndex(c => c.startsWith(m[1])) - 1;
@@ -144,6 +149,12 @@ function ProcessMenu() {
   };
 }
 function getLastChapter() {
+  const e = params.get('episode');
+  const t = params.get('time');
+  if (e && t) {
+    localStorage.setItem('activeEpisode'+title,e);
+    localStorage.setItem('currentTime'+title, t);
+  }
   if (!localStorage.getItem('activeEpisode'+title)) {
     const start_episode = parseInt(chapters[0].substring(0,3));
     localStorage.setItem('activeEpisode'+title,start_episode);
