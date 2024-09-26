@@ -230,6 +230,7 @@ function getLastChapter() {
   if (c && s) {
     localStorage.setItem('wspa_activeEpisode'+title,c);
     localStorage.setItem('wspa_positionIndex'+title,s);
+    window.location = `${window.location.href.split('?')[0]}?title=${title}&lang=${lang}`;
   }
   if (!localStorage.getItem('wspa_positionIndex'+title)) {
     localStorage.setItem('wspa_positionIndex'+title,0);
