@@ -178,6 +178,7 @@ function getLastChapter() {
   if (e && t) {
     localStorage.setItem('activeEpisode'+pageTitle,e);
     localStorage.setItem('currentTime'+pageTitle, t);
+    window.location = `${window.location.href.split('?')[0]}?prog=${prog}&page=${pageTitle}`;
   }
   if (!localStorage.getItem('activeEpisode'+pageTitle)) {
     const start_episode = 1;
