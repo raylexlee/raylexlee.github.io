@@ -12,6 +12,7 @@ title = document.title;
   if (e && t) {
     localStorage.setItem('activeEpisode'+title,e);
     localStorage.setItem('currentTime'+title, t);
+    window.location = window.location.href.split('?')[0];
   }
 if (!localStorage.getItem('activeEpisode'+title)) {
   localStorage.setItem('activeEpisode'+title, '1');
