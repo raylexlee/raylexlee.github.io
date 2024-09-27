@@ -1,14 +1,9 @@
 let type;
-const querystring = location.search;
-const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
-if (params === 'none') window.location = '/';
+const params =  (new URL(document.location)).searchParams;
 type =  params.get('type');
 type = type ? type : 'audiobook.html';
 document.title =  params.get('author');
-document.addEventListener("DOMContentLoaded", function(event) {
-  myInit();
-});
-function myInit() {
+document.body.onload = () => {
   insertRadioAtTopOfBody();
   fetch(`pairs.txt`)
     .then(response => response.text())
