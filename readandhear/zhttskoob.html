@@ -5,8 +5,8 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>歷史通俗演義-唐史</title>
-  <link rel="stylesheet" href="app_nav.css">
+  <title>李潤明</title>
+  <link rel="stylesheet" href="zhttskoob.css">
   </link>
 </head>
 
@@ -39,15 +39,10 @@
       </section>
       <section>
         <div class="grid-container">
-          <div>
-            <input type="range" name="mySpeed" id="mySpeed" min="0" max="15" value="15">
-          </div>
-          <div>
-            <audio id="audio" preload="auto" tabindex="0" controls="" type="audio/mpeg">
-              <source type="audio/mp3" src="">
-              Sorry, your browser does not support HTML5 audio.
-            </audio>
-          </div>
+     <a href="javascript:speak()" style="color:red;">&#9654;</a> 
+      <input type="range" min="0.5" max="2" value="0.9" step="0.1" id="rate">
+     <a href="javascript:pauseResume()" style="color:red;">&#9208;</a> 
+      <select id='myVoice'></select>
         </div>
       </section>
     </div>
@@ -68,6 +63,6 @@ var qrcode = new QRCode(document.getElementById("qrcode"), {
 });
 </script>  
 </body>
-<script src="app_nav.js"></script>
+<script src="zhttskoob.js"></script>
 
 </html>

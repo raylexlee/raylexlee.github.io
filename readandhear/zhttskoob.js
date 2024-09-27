@@ -1,3 +1,4 @@
+let adjustment = 0.4;
 let title, myContent, myChapterList, myRange, myBook, myAutoplay;
 let nDigits = 3;
 let myPauseCancel;
@@ -5,7 +6,7 @@ let chapters;
 let activeEpisode;
 const querystring = location.search;
 const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
-if (params === 'none') window.location = 'zhttsbook.html?title=阿Q正傳';
+if (params === 'none') window.location = 'zhttskoob.html?title=阿Q正傳';
 title =  params.get('title');
 title = title ? title : '阿Q正傳';
 const synth = window.speechSynthesis;
@@ -17,20 +18,23 @@ let mySpeaker = [];
 let utterThis;
 let justCancel = false;
 let pausing = false;
+let crPosition=[];
+let nCharsRow, lineHeight; 
+let rowsLine=[]; 
+let numCharsLine=[];
+let punctuationPosition=[];
+let punctuationArray=[];
+let positionIndex = 0;
 const nameSpeaker = name => {
    const firstPart = name.split('(')[0].trim();
    return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
 };
-const punctuationRegex = /[　\u4e00-\u9fa5]{2}$/;
-function SyncAudioWithContent(e) {
-//    if (e.charIndex < 2) return;
-//    if ((myContent.value[e.charIndex - 2] !== '。') && (myContent.value[e.charIndex - 1] !== '。')) return;
-    const adjustment = 0.6;
-    const portion = e.charIndex / myContent.value.length;
-    myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
-}
+let punctuationRegex = /[；。！？;.!?]/gm;
+const googleRegex = /[；。！？，,;.!?]/gm;
+//const notAndroid=navigator.userAgent.toLowerCase().indexOf('android')==-1;
+const notAndroid = false;
 function updatePauseCancel() {
-  myPauseCancel.innerHTML = mySpeaker[myVoice.selectedIndex].localService ? '&#9208;' : '&#9632;';
+  myPauseCancel.innerHTML = (mySpeaker[myVoice.selectedIndex].localService && notAndroid) ? '&#9208;' : '&#9632;';
 }
 function myTTSinit() {
  mySpeaker = [];
@@ -63,15 +67,19 @@ if (voice !== -1) {
      justCancel = false;
      return;
    }
-   if (myAutoplay.checked) {
-     nextChapter();
+   positionIndex++;
+   if (positionIndex === punctuationPosition.length) {
+     positionIndex = 0;
+     if (myAutoplay.checked) {
+       nextChapter();
+     } 
    }
+   speak();
  }
  utterThis.onerror = function (event) {
    console.error('SpeechSynthesisUtterance.onerror');
  }
- utterThis.onboundary = SyncAudioWithContent;
- // if (completed_myinit && myAutoplay.checked && myVoice.value.startsWith('zh')) speak(); 
+// utterThis.onboundary = SyncAudioWithContent;
 }
 myTTSinit();
 if (speechSynthesis.onvoiceschanged !== undefined) {
@@ -84,6 +92,7 @@ const contentUrl = chapter => `text/${title}/${chapter.substring(0,nDigits)}.txt
 function myInit() {
   document.title = title;
   myContent = document.getElementById('myContent');
+  myContent.style.lineHeight=2;
   myChapterList = document.getElementById('myChapterList');
   myRange = document.getElementById('myRange'); 
   myBook = document.getElementById('myBook');
@@ -93,9 +102,19 @@ function myInit() {
   const caller =  params.get('caller');
   backto = caller ? caller : backto;
   const optIndexHtml = `<li><a href="${backto}.html">返　回　前　目　錄</a></li>`;
+  myContent.onselect = e => {
+    for (let i = 0; i < punctuationPosition.length; i++) {
+      if (punctuationPosition[i] >= myContent.selectionStart) {
+         positionIndex = i;
+         speak();
+         break;
+      }
+    }
+  }
   myRange.oninput = function() {
     const v = myRange.value;
     myContent.style.fontSize = `${20 + parseInt(v)}px`;
+    CalculateScrollData(); // for rowsLine[], lineHeight, nCharsRow
   };
   document.body.onunload = function() {
     if (synth.speaking) {
@@ -118,6 +137,7 @@ function myInit() {
         });
       const links = document.getElementsByTagName('a');
       myPauseCancel = links[links.length - 1];
+      if (mySpeaker.filter(s => s.voiceURI.startsWith('Google')).length >= 1) punctuationRegex = googleRegex;
       const chapter = getLastChapter();
       gotoChapter(chapter, false); 
     });
@@ -127,6 +147,7 @@ function prevChapter() {
     let i = idx - 1;
     i = (i === -1) ? (chapters.length - 1) : i;
     const chapter = chapters[i];
+    positionIndex = 0;
     gotoChapter(chapter);
 }
 function nextChapter() {
@@ -134,6 +155,7 @@ function nextChapter() {
     let i = idx + 1;
     i = (i === chapters.length) ? 0 : i;
     const chapter = chapters[i];
+    positionIndex = 0;
     gotoChapter(chapter);
 }
 function gotoChapter(chapter, PleaseSpeak = true) {
@@ -153,6 +175,24 @@ function gotoChapter(chapter, PleaseSpeak = true) {
      .then(response => response.text())
      .then(data => {
        myContent.value = data;
+       myContent.value = myContent.value.split('\n').filter(e => e.length >= 1).join('\n');
+       numCharsLine=myContent.value.split('\n').map(e => e.length);
+       rowsLine = Array(numCharsLine.length);
+       CalculateScrollData(); // for rowsLine[], lineHeight, nCharsRow
+       new ResizeObserver(CalculateScrollData).observe(myContent);
+       crPosition=[];
+       for (let valueIndex=0; valueIndex < myContent.value.length; valueIndex++) 
+         if (myContent.value[valueIndex] === '\n') {
+           crPosition.push(valueIndex);
+         }
+       punctuationArray = myContent.value.match(punctuationRegex);
+       punctuationPosition=[];
+       let punctuationIndex = 0;
+       for (let valueIndex=0; valueIndex < myContent.value.length; valueIndex++) 
+         if (myContent.value[valueIndex] === punctuationArray[punctuationIndex]) {
+           punctuationPosition.push(valueIndex);
+           punctuationIndex++;
+         }
       completed_myinit = true;
        if (myAutoplay.checked) {
          if (synth.speaking) { 
@@ -185,6 +225,17 @@ function ProcessMenu() {
   };
 }
 function getLastChapter() {
+  const c = params.get('chapter');
+  const s = params.get('sentence');
+  if (c && s) {
+    localStorage.setItem('wspa_activeEpisode'+title,c);
+    localStorage.setItem('wspa_positionIndex'+title,s);
+    window.location = `${window.location.href.split('?')[0]}?title=${title}`;
+  }
+  if (!localStorage.getItem('wspa_positionIndex'+title)) {
+    localStorage.setItem('wspa_positionIndex'+title,0);
+  }
+  positionIndex = parseInt(localStorage.getItem('wspa_positionIndex'+title));
   if (!localStorage.getItem('wspa_activeEpisode'+title)) {
     const start_episode = chapters[0].substring(0,nDigits);
     localStorage.setItem('wspa_activeEpisode'+title,start_episode);
@@ -194,20 +245,27 @@ function getLastChapter() {
 }
 function speak(){
     if (synth.speaking) {
-        console.error('speechSynthesis.speaking');
+    //    console.error('speechSynthesis.speaking');
         return;
     }
     if (myContent.value !== '') {
     pausing = false;  
+    const start = (positionIndex >= 1) ? (punctuationPosition[positionIndex - 1] + 1) : 0;
+    const stop = punctuationPosition[positionIndex];
     utterThis.voice = mySpeaker.filter(e => e.name === myVoice.value)[0];
     updatePauseCancel();
-    utterThis.text = myContent.value;
+    utterThis.text = myContent.value.substring(start, stop);
     utterThis.pitch = 1;
     utterThis.rate = rate.value;
     justCancel = true;
     synth.cancel();
     synth.speak(utterThis);
     justCancel = false;
+//    const portion = start / myContent.value.length;
+//    myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
+    ScrollText(start);
+    myContent.select();
+    myContent.setSelectionRange(start, stop);
   }
 }
 myVoice.onchange = function(){
@@ -221,19 +279,36 @@ function pauseResume() {
   if (synth.speaking !== true) {
     return;
   }
-  if (utterThis.voice && utterThis.voice.localService) {
-    if (pausing) {
-      utterThis.rate = rate.value;
-      synth.resume();
-      } else {
-        synth.pause();  
-    }
-    pausing = !pausing;
-    return;
+  synth.cancel();
+  localStorage.setItem('wspa_positionIndex'+title, positionIndex);
+  updateQR(title, activeEpisode, positionIndex);
+}
+function updateQR(t,c,s) {
+  const base = document.location.href.split('?')[0];
+  qrcode.makeCode(`${base}?title=${t}&chapter=${c}&sentence=${s}`);
+}
+function ScrollText(charIndex)  {
+//  const fontSize = parseFloat(window.getComputedStyle(myContent).fontSize)
+//  const nCharsRow = Math.floor(myContent.clientWidth / fontSize)
+//  const lineHeight = myContent.scrollHeight / numCharsLine.map(e => Math.ceil(e / nCharsRow)).reduce((a,b) => a + b);
+  let lineIndex;
+  for (lineIndex=0; lineIndex < crPosition.length; lineIndex++)
+    if (charIndex <= crPosition[lineIndex]) break;
+  let topRow = 0;
+  if (lineIndex >=1)
+    topRow = rowsLine[lineIndex - 1];
+    // topRow = numCharsLine.slice(0, lineIndex).map(e => Math.ceil(e / nCharsRow)).reduce((a,b) => a + b);
+  const lastRow = Math.ceil(((lineIndex === 0) ? charIndex : (charIndex - crPosition[lineIndex-1])) / nCharsRow);
+  myContent.scrollTop = (lineHeight * (topRow + lastRow)) - (adjustment * myContent.clientHeight);
+}
+function CalculateScrollData() {
+  const fontSize = parseFloat(window.getComputedStyle(myContent).fontSize)
+  nCharsRow = Math.floor(myContent.clientWidth / fontSize)
+  rowsLine[0] = Math.ceil(numCharsLine[0] / nCharsRow);
+  let lineIndex = 1;
+  while (lineIndex < numCharsLine.length) {
+    rowsLine[lineIndex] = rowsLine[lineIndex - 1] + Math.ceil(numCharsLine[lineIndex] / nCharsRow);
+    lineIndex++;
   }
-  synth.pause();
-  if (synth.paused !== true) {
-     justCancel = true;
-     synth.cancel();
-  }
+  lineHeight = myContent.scrollHeight / rowsLine[rowsLine.length - 1];
 }

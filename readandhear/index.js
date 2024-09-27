@@ -1,14 +1,10 @@
 let type;
 const querystring = location.search;
 const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
-if (params === 'none') window.location = '/';
+if (params === 'none') window.location = 'index.html?type=audiobook.html';
 type =  params.get('type');
 type = type ? type : 'audiobook.html';
-document.title =  params.get('author');
-document.addEventListener("DOMContentLoaded", function(event) {
-  myInit();
-});
-function myInit() {
+document.body.onload = () => { 
   insertRadioAtTopOfBody();
   fetch(`pairs.txt`)
     .then(response => response.text())
@@ -23,11 +19,9 @@ function myInit() {
             book[Author] = [ Book ];
           }
       });
-      const li_a = a => `<li><a href='${type}?title=${a}'>${a.replace(/_/g," ")}</a></li>`;
-      document.querySelector('ul').innerHTML = book[document.title].map(e => li_a(e)).join('\n');
-      const b = document.getElementsByTagName('a');
-      for (i=0; i < b.length; i++) {
-        b[i].href = `${b[i].href}&caller=${document.title}`;
-      }
+      const li_a = a => `<li><a href='group.html?author=${a}&type=${type}'>${a.replace(/_/g," ")}</a></li>`;
+      const li_b = a => `<li><a href='${type}?title=${a}'>${a.replace(/_/g," ")}</a></li>`;
+      document.querySelector('ul').innerHTML = Object.keys(book)
+        .map(e => (book[e].length === 1) ? li_b(book[e][0]) : li_a(e)).join('\n');
     });
-}
+ };
