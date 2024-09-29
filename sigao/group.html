@@ -10,7 +10,7 @@ body { font-size: 24px; }
 .flex-container {
   display: flex;
   flex-wrap: wrap;
-  background-color: magenta;
+  background-color: #78f542;
 }
 
 .flex-container > li {
@@ -23,13 +23,13 @@ ul { list-style-type: none; }
 </style>
 </head>
 <body>
-<ul class="flex-container">
-</ul>
+<ul class="flex-container"></ul>
   <div id="qrcode"></div>
 <script src="qrcode.js"></script> 
+<p></p>
 <script type="text/javascript">
 var qrcode = new QRCode(document.getElementById("qrcode"), {
-	text: window.location.href,
+	text: decodeURI(window.location.href),
 	width: 128,
 	height: 128,
 	colorDark : "#000000",
@@ -37,8 +37,7 @@ var qrcode = new QRCode(document.getElementById("qrcode"), {
 	correctLevel : QRCode.CorrectLevel.H
 });
 </script>  
+<script src="radiobutton.js"></script>
+<script src="group.js"></script>
 </body>
- <script src="radiobutton.js"> </script>
-<script src="index.js"> </script>
-<p></p>
 </html>
