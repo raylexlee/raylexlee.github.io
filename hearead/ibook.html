@@ -34,7 +34,7 @@ let activeEpisode;
 const rtl = ['ar', 'he', 'ur', 'fa','ps'];
 const querystring = location.search;
 const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
-if (params === 'none') window.location = 'book.html?title=阿Q正傳';
+if (params === 'none') window.location = 'ibook.html?title=阿Q正傳';
 title =  params.get('title');
 title = title ? title : '阿Q正傳';
 lang =  params.get('lang');
