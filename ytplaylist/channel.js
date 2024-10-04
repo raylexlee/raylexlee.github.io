@@ -1,4 +1,5 @@
 const channels = [
+"Firebase",
 "theAIsearch",
 "kentmusic",
 "zhHo",
