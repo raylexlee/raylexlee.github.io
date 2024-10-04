@@ -11,7 +11,6 @@ const channels = [
 "燃燈之音",
 "ColorCodeio",
 "TheMidnightScreening",
-"MeetMeAtTheOpera",
 "MovieConNet",
 "BLACKPINK",
 "RaylexLee",
