@@ -18,7 +18,7 @@ const from_to_years = years => `${years[0].name}-${years[years.length - 1].name}
 const indexpage = (programme, pid) => `
   <div class="nav-container">
     <div class="brand">
-	    <img src="https://podcast.rthk.hk/podcast/upload_photo/item_photo/1400x1400_${pid}.jpg" width="auto" height="70" />
+	    <img src="https://podcast.rthk.hk/podcast/upload_photo/item_photo/170x170_${pid}.jpg" width="auto" height="70" />
 	  <div class="subtitle">${programme.name}<br />收聽優化版</div>
     </div>
     <nav>
