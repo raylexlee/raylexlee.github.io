@@ -20,8 +20,13 @@ document.body.onload = () => {
           }
       });
       const li_a = a => `<li><a href='group.html?author=${a}&type=${type}'>${a.replace(/_/g," ")}</a></li>`;
-      const li_b = a => `<li><a href='${type}?title=${a}'>${a.replace(/_/g," ")}</a></li>`;
+      const li_b = a => `<li>
+    <div class="tooltip">
+<a href='${type}?title=${book[a][0]}'>${book[a][0].replace(/_/g," ")}</a>
+        <span class="tooltiptext">${a.replace("_"," ")}</span>
+    </div>
+</li>`;
       document.querySelector('ul').innerHTML = Object.keys(book)
-        .map(e => (book[e].length === 1) ? li_b(book[e][0]) : li_a(e)).join('\n');
+        .map(e => (book[e].length === 1) ? li_b(e) : li_a(e)).join('\n');
     });
  };
