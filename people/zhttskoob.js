@@ -174,7 +174,7 @@ function gotoChapter(chapter, PleaseSpeak = true) {
    fetch(contentUrl(chapter))
      .then(response => response.text())
      .then(data => {
-       myContent.value = chapter.substring(1 + nDigits)+'\n'+ data;
+       myContent.value = chapter.substring(1 + nDigits)+'\n'+ data + '。';
        myContent.value = myContent.value.split('\n').filter(e => e.length >= 1).join('\n');
        numCharsLine=myContent.value.split('\n').map(e => e.length);
        rowsLine = Array(numCharsLine.length);
