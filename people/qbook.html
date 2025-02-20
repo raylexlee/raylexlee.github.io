@@ -1,14 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title></title>
-<style>
-@charset "UTF-8";
-html,body {
+    <style>
+body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
@@ -16,14 +10,78 @@ html,body {
   color:cornsilk;
   font-size: 25px;
 }
-a,
-a:visited {
-    color: #ffffff;
-    text-decoration: none; }
-</style>
-</head>
+        .copy-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            /* Make the SVG fill match the current text color */
+            filter: invert(1);
+        }
+        
+        /* Rest of the styles remain the same */
+        .copy-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .copy-icon:active {
+            transform: scale(0.95);
+        }
+        
+        .feedback {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .feedback.show {
+            opacity: 1;
+        }
 
+        /* Add this class to test different backgrounds */
+        .dark-mode {
+            background: black;
+            color: white;
+        }
+    </style>
+</head>
 <body>
+    <!-- Add a button to toggle dark mode for testing -->
+    <!--
+    <button onclick="document.body.classList.toggle('dark-mode')">Toggle Dark Mode</button>
+    -->
+    
+    <!-- Embed SVG directly instead of using img tag -->
+    <svg class="copy-icon" viewBox="0 0 24 24" onclick="copyText()">
+        <path d="M20 2H10c-1.103 0-2 .897-2 2v4H4c-1.103 0-2 .897-2 2v10c0 1.103.897 2 2 2h10c1.103 0 2-.897 2-2v-4h4c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zM4 20V10h10l.002 10H4zm16-6h-4v-4c0-1.103-.897-2-2-2h-4V4h10v10z"/>
+    </svg>
+    
+    <div class="feedback">Copied!</div>
+    
+    <script>
+        function copyText() {
+            const icon = document.querySelector('.copy-icon');
+            const fullText = document.body.innerText;
+            const textToCopy = fullText.replace('Toggle Dark Mode', '').replace('Copied!','').trim();
+            
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const feedback = document.querySelector('.feedback');
+                feedback.classList.add('show');
+                setTimeout(() => {
+                    feedback.classList.remove('show');
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                alert('Failed to copy text. Please try again.');
+            });
+        }
+    </script>
 <div id='myContent'></div>
 </body>
 <script src="qbook.js"></script>
