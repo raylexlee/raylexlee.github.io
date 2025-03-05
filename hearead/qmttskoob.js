@@ -35,7 +35,7 @@ const nameSpeaker = name => {
    return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
 };
 let punctuationRegex = /[；。！？;.!?]/gm;
-const googleRegex = /[；。！？，,;.!?]/gm;
+const googleRegex = /[；。！？，、,;.!?]/gm;
 //const notAndroid=navigator.userAgent.toLowerCase().indexOf('android')==-1;
 const notAndroid = false;
 function updatePauseCancel() {
