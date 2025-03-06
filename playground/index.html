@@ -1,15 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>My Playground</title>
-    <script src="https://unpkg.com/xregexp/xregexp-all.js"></script>
-    <script src="app.js"></script>
+  <style>
+    #measure {
+      position: absolute;
+      visibility: hidden;
+      font-size: 25px;
+    }
+  </style>
 </head>
 <body>
-    <a href="http://esda.wyk.edu.hk/status/staff.html">staff</a>
+  <div id="measure">劃</div>
+  <script>
+    // Get the element
+    const measureElement = document.getElementById('measure');
+
+    // Apply the desired font size (25px in this case)
+    measureElement.style.fontSize = '25px';
+    measureElement.style.fontFamily = 'Arial, sans-serif'; // Use your desired font family
+
+    // Measure the width and height
+    const width = measureElement.offsetWidth;
+    const height = measureElement.offsetHeight;
+
+    // Log the dimensions
+    console.log(`Width: ${width}px, Height: ${height}px`);
+  </script>
 </body>
-<body>try again</body>
 </html>
+
