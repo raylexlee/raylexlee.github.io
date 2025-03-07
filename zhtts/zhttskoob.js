@@ -286,7 +286,6 @@ myVoice.onchange = function(){
 }
 
 function pauseResume() {
-  programSelect = 1;
   if (synth.speaking !== true) {
     return;
   }

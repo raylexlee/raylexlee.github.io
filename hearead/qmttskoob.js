@@ -1,4 +1,5 @@
 let adjustment = 0.5;
+let programSelect = 0;
 let lang, title, myContent, myChapterList, myRange, myBook, myAutoplay;
 let langttsVoice;
 let nDigits = 3;
@@ -105,10 +106,15 @@ function myInit() {
   backto = caller ? caller : backto;
   const optIndexHtml = `<li><a href="${backto}.html">Back to Index</a></li>`;
   myContent.onselect = e => {
+    if (programSelect >= 1) {
+       programSelect--;
+       return;
+    }
     for (let i = 0; i < punctuationPosition.length; i++) {
       if (punctuationPosition[i] >= myContent.selectionStart) {
          positionIndex = i;
          speak();
+         console.log('onselect ',i);
          break;
       }
     }
@@ -264,7 +270,9 @@ function speak(){
 //    const portion = start / myContent.value.length;
 //    myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
     ScrollText(start);
+    programSelect = 1;
     myContent.select();
+    programSelect = 2;
     myContent.setSelectionRange(start, stop);
   }
 }
@@ -272,6 +280,7 @@ myVoice.onchange = function(){
   localStorage.setItem(langttsVoice,myVoice.selectedIndex);
   justCancel = true;
   synth.cancel();
+    programSelect = 1;
   speak();
 }
 
