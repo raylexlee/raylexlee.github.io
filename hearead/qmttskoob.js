@@ -1,4 +1,5 @@
 let adjustment = 0.5;
+const googleLimit = 57;
 let programSelect = 0;
 let lang, title, myContent, myChapterList, myRange, myBook, myAutoplay;
 let langttsVoice;
@@ -194,9 +195,18 @@ function gotoChapter(chapter, PleaseSpeak = true) {
        punctuationArray = myContent.value.match(punctuationRegex);
        punctuationPosition=[];
        let punctuationIndex = 0;
+       let lastPunctuationPosition = 0;
        for (let valueIndex=0; valueIndex < myContent.value.length; valueIndex++) 
          if (myContent.value[valueIndex] === punctuationArray[punctuationIndex]) {
+           if (valueIndex > (lastPunctuationPosition + googleLimit)) { 
+               let a = lastPunctuationPosition;
+               while ((a + googleLimit) < valueIndex) {
+                 a += googleLimit;
+                 punctuationPosition.push(a);
+               }
+           }
            punctuationPosition.push(valueIndex);
+           lastPunctuationPosition = valueIndex;
            punctuationIndex++;
          }
       completed_myinit = true;
