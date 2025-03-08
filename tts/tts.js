@@ -12,6 +12,11 @@ let voices = [];
 let currentVoice;
 let punctuationRegex = /[；。！？;.!?]/gm;
 const googleRegex = /[；。！？，、,;.!?]/gm;
+  if (!localStorage.getItem('ttsReadAloudVoice')) {
+    const start_voice = 0;
+    localStorage.setItem('ttsReadAloudVoice',start_voice);
+  }
+const lastVoice = parseInt(localStorage.getItem('ttsReadAloudVoice'));
 function populateVoiceList() {
   voices = synth.getVoices().sort(function (a, b) {
       const aname = a.lang+a.name.toUpperCase(), bname = b.lang+b.name.toUpperCase();
@@ -19,7 +24,6 @@ function populateVoiceList() {
       else if ( aname == bname ) return 0;
       else return +1;
   });
-  var selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
   voiceSelect.innerHTML = '';
   for(i = 0; i < voices.length ; i++) {
     var option = document.createElement('option');
@@ -33,7 +37,7 @@ function populateVoiceList() {
     option.setAttribute('data-name', voices[i].name);
     voiceSelect.appendChild(option);
   }
-  voiceSelect.selectedIndex = selectedIndex;
+  voiceSelect.selectedIndex = lastVoice;
  // currentVoice = nowVoice();
  btnStop.innerText = 'STOP';
  btnStop.onclick = pauseResume;
@@ -64,6 +68,7 @@ function nowVoice(){
 }
 
 voiceSelect.onchange = function() {
+  localStorage.setItem('ttsReadAloudVoice',voiceSelect.selectedIndex);
  currentVoice = nowVoice();
   justCancel = true;
   synth.cancel();

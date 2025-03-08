@@ -1,4 +1,5 @@
 let adjustment = 0.5;
+const googleLimit = 57;
 let crPosition=[];
 let nCharsRow, lineHeight; 
 let rowsLine=[]; 
@@ -66,9 +67,18 @@ function gotoChapter(PleaseSpeak = true) {
        punctuationArray = myContent.value.match(punctuationRegex);
        punctuationPosition=[];
        let punctuationIndex = 0;
+       let lastPunctuationPosition = 0;
        for (let valueIndex=0; valueIndex < myContent.value.length; valueIndex++) 
          if (myContent.value[valueIndex] === punctuationArray[punctuationIndex]) {
+           if (valueIndex > (lastPunctuationPosition + googleLimit)) { 
+               let a = lastPunctuationPosition;
+               while ((a + googleLimit) < valueIndex) {
+                 a += googleLimit;
+                 punctuationPosition.push(a);
+               }
+           }
            punctuationPosition.push(valueIndex);
+           lastPunctuationPosition = valueIndex;
            punctuationIndex++;
          }
          if (synth.speaking) { 
