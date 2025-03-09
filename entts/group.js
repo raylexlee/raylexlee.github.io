@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
 });
 function myInit() {
-  const li_a = a => `<li><a href='enttsbook.html?title=${a}'>${a.replace(/_/g," ")}</a></li>`;
+  const li_a = a => `<li><a href='enttskoob.html?title=${a}'>${a.replace(/_/g," ")}</a></li>`;
   document.querySelector('ul').innerHTML = book[document.title].map(e => li_a(e)).join('\n');
   const b = document.getElementsByTagName('a');
   for (i=0; i < b.length; i++) {
