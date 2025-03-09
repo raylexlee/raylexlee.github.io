@@ -1,4 +1,6 @@
 let adjustment = 0.6;
+const googleLimit = 57;
+let programSelect = 0;
 let title, myContent, myChapterList, myRange, myBook, myAutoplay;
 let nDigits = 3;
 let myPauseCancel;
@@ -96,10 +98,15 @@ function myInit() {
   backto = caller ? caller : backto;
   const optIndexHtml = `<li><a href="${backto}.html">Back to Index</a></li>`;
   myContent.onselect = e => {
+    if (programSelect >= 1) {
+       programSelect--;
+       return;
+    }
     for (let i = 0; i < punctuationPosition.length; i++) {
       if (punctuationPosition[i] >= myContent.selectionStart) {
          positionIndex = i;
          speak();
+         console.log('onselect ',i);
          break;
       }
     }
@@ -181,9 +188,19 @@ function gotoChapter(chapter, PleaseSpeak = true) {
        punctuationArray = myContent.value.match(punctuationRegex);
        punctuationPosition=[];
        let punctuationIndex = 0;
+       let lastPunctuationPosition = 0;
        for (let valueIndex=0; valueIndex < myContent.value.length; valueIndex++) 
          if (myContent.value[valueIndex] === punctuationArray[punctuationIndex]) {
+           if (valueIndex > (lastPunctuationPosition + googleLimit)) { 
+               let a = lastPunctuationPosition;
+               while ((a + googleLimit) < valueIndex) {
+                 a += googleLimit;
+                 while (myContent.value[a] !== ' ') a--;
+                 punctuationPosition.push(a);
+               }
+           }
            punctuationPosition.push(valueIndex);
+           lastPunctuationPosition = valueIndex;
            punctuationIndex++;
          }
       completed_myinit = true;
@@ -256,7 +273,9 @@ function speak(){
 //    const portion = start / myContent.value.length;
 //    myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
     ScrollText(start);
+    programSelect = 1;
     myContent.select();
+    programSelect = 2;
     myContent.setSelectionRange(start, stop);
   }
 }
@@ -264,6 +283,7 @@ myVoice.onchange = function(){
   localStorage.setItem('enttsVoice',myVoice.selectedIndex);
   justCancel = true;
   synth.cancel();
+  programSelect = 1;
   speak();
 }
 
