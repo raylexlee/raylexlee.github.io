@@ -54,6 +54,7 @@ let utterThis = new SpeechSynthesisUtterance('Create utter this');
 function gotoChapter(PleaseSpeak = true) {
        if (myContent.value == '') return;
        currentVoice = nowVoice();
+       const fixA = !hasSpace.includes(currentVoice.lang.substring(0,2));
        myContent.value = myContent.value.split('\n').filter(e => e.length >= 1).join('\n');
        numCharsLine=myContent.value.split('\n').map(e => e.length);
        rowsLine = Array(numCharsLine.length);
@@ -74,6 +75,7 @@ function gotoChapter(PleaseSpeak = true) {
                let a = lastPunctuationPosition;
                while ((a + googleLimit) < valueIndex) {
                  a += googleLimit;
+                 if (fixA) while (myContent.value[a] !== ' ') a--;
                  punctuationPosition.push(a);
                }
            }

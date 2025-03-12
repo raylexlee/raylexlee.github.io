@@ -1,4 +1,5 @@
 const rtl = ['ar', 'he', 'ur', 'fa','ps'];
+const hasSpace = ['zh','ja','ko'];
 let justCancel = false;
 let programSelect = 0;
 const synth = window.speechSynthesis;
@@ -38,7 +39,7 @@ function populateVoiceList() {
     voiceSelect.appendChild(option);
   }
   voiceSelect.selectedIndex = lastVoice;
- // currentVoice = nowVoice();
+ if (voices.length >= 1) currentVoice = nowVoice();
  btnStop.innerText = 'STOP';
  btnStop.onclick = pauseResume;
  btnSpeak.onclick = () => {
