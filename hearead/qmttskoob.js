@@ -1,4 +1,5 @@
 let adjustment = 0.5;
+const hasSpace = ['zh','ja','ko'];
 const googleLimit = 57;
 let programSelect = 0;
 let lang, title, myContent, myChapterList, myRange, myBook, myAutoplay;
@@ -16,6 +17,7 @@ title = title ? title : 'Pride_and_Prejudice';
 lang =  params.get('lang');
 lang = lang ? lang : 'en';
 langttsVoice = `${lang}ttsVoice`;
+const fixA = !hasSpace.includes(lang);
 const synth = window.speechSynthesis;
 const myVoice = document.getElementById('myVoice');
 const rate = document.querySelector('#rate');
@@ -202,6 +204,7 @@ function gotoChapter(chapter, PleaseSpeak = true) {
                let a = lastPunctuationPosition;
                while ((a + googleLimit) < valueIndex) {
                  a += googleLimit;
+                 if (fixA) while (myContent.value[a] !== ' ') a--;
                  punctuationPosition.push(a);
                }
            }
