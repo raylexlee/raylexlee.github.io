@@ -199,7 +199,7 @@ function gotoChapter(chapter, PleaseSpeak = true) {
        let lastPunctuationPosition = 0;
        for (let valueIndex=0; valueIndex < myContent.value.length; valueIndex++) 
          if (myContent.value[valueIndex] === punctuationArray[punctuationIndex]) {
-           if (valueIndex > (lastPunctuationPosition + googleLimit)) { 
+           if ((myVoice.value.startsWith('Google')) && (valueIndex > (lastPunctuationPosition + googleLimit))) { 
                let a = lastPunctuationPosition;
                while ((a + googleLimit) < valueIndex) {
                  a += googleLimit;
