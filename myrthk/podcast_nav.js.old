@@ -12,7 +12,7 @@ prog = pgProg ? pgProg : prog;
 const pgPage =  params.get('page');
 pageTitle = pgPage ? pgPage : pageTitle;
 const li_podcasts = (podcasts, pid) => podcasts
-.map(podcast => `			   <li><a href="podcast.html?prog=${pid}&page=${podcast.title.replace(/ /g,'_')}">${podcast.title} (${podcast.episodes})</a></li>`).join('\n');
+.map(podcast => `			   <li><a href="podcast.html?prog=${pid}&page=${podcast.title}">${podcast.title} (${podcast.episodes})</a></li>`).join('\n');
 const li_years = (years, pid) => years.map(year => li_podcasts(year.podcasts, pid)).join('\n');
 const from_to_years = years => `${years[0].name}-${years[years.length - 1].name}`;
 const indexpage = (programme, pid) => `
@@ -86,7 +86,7 @@ function myInitChapters() {
     .then(response => response.json())
     .then(data => {
       Programme = data;
-      Page = Programme.pages.filter(page => page.title.replace(/ /g,'_') === pageTitle)[0]; 
+      Page = Programme.pages.filter(page => page.title === pageTitle)[0]; 
       const parentPage = (Programme.pages.length === 1) ? 'index.html' : `podcast.html?prog=${prog}`;
       const optIndexHtml = `<li><a href="${parentPage}">返　回　前　目　錄</a></li>`;
       chapters = Page.podcasts;
