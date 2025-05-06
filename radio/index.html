@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Radio Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 50px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .dark-mode {
+            background-color: #333;
+            color: white;
+        }
+        .player {
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            max-width: 90%;
+        }
+        .dark-mode .player {
+            background: #444;
+        }
+        button, select {
+            font-size: 18px;
+            padding: 10px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        .play-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        .stop-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        .toggle-btn {
+            background-color: #007bff;
+            color: white;
+        }
+        @media (max-width: 600px) {
+            .player {
+                width: 100%;
+                padding: 10px;
+            }
+            button, select {
+                font-size: 16px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="player">
+        <h2>Live Radio Stream</h2>
+        <select id="station">
+            <option value="https://lhttp.qingting.fm/live/1278/64k.mp3">中山电台快乐888</option>
+            <option value="https://lhttp.qingting.fm/live/1277/64k.mp3">中山电台新锐967</option>
+            <option value="https://stm.rthk.hk/radio1">香港電台第一台</option>
+            <option value="https://ice.apple-fm.net:8443/apple-fm.mp3">Apple-FM</option>
+        </select>
+        <audio id="radio"></audio>
+        <button class="play-btn" onclick="playRadio()">Play</button>
+        <button class="stop-btn" onclick="stopRadio()">Stop</button>
+        <button class="toggle-btn" onclick="toggleDarkMode()">Dark Mode</button>
+    </div>
+
+    <script>
+        function playRadio() {
+            const radio = document.getElementById("radio");
+            const station = document.getElementById("station").value;
+            radio.src = station;
+            radio.play();
+        }
+
+        function stopRadio() {
+            const radio = document.getElementById("radio");
+            radio.pause();
+            radio.currentTime = 0;
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+        }
+    </script>
+</body>
+</html>
+
