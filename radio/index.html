@@ -78,6 +78,7 @@
         function playRadio() {
             const radio = document.getElementById("radio");
             const station = document.getElementById("station").value;
+            document.title = station;
             radio.src = station;
             radio.play();
         }
