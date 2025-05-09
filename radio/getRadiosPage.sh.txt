@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+PROVINCE=${1?'missing province'}
+PAGE=${2?"missing radiopage"}
+FILE=text/$PROVINCE.txt
+RP=https://www.qtfm.cn/radiopage
+../getlinks.js $RP/$PAGE/1 > start.txt
+cat start.txt | grep \/radios\/ | grep '^[^ ]' | sed 's#\([^ ]*\)\s.*/\([0-9]*\)#\1 \2#' > $FILE
+for i in $(sed -e '1,/^上一页/ d' -e '/^下一页/,$ d' < start.txt | sed '1 d')
+do
+../getlinks.js $RP/$PAGE/$i | grep \/radios\/ | grep '^[^ ]' | sed 's#\([^ ]*\)\s.*/\([0-9]*\)#\1 \2#' >> $FILE
+done
+../CleanUpLighthouseWSL.sh
+echo $FILE

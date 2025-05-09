@@ -61,13 +61,8 @@
 </head>
 <body>
     <div class="player">
-        <h2>Live Radio Stream</h2>
-        <select id="station">
-            <option value="https://lhttp.qingting.fm/live/1278/64k.mp3">中山电台快乐888</option>
-            <option value="https://lhttp.qingting.fm/live/1277/64k.mp3">中山电台新锐967</option>
-            <option value="https://stm.rthk.hk/radio1">香港電台第一台</option>
-            <option value="https://ice.apple-fm.net:8443/apple-fm.mp3">Apple-FM</option>
-        </select>
+        <select id="group"> </select>
+        <select id="station"> </select>
         <audio id="radio"></audio>
         <button class="play-btn" onclick="playRadio()">Play</button>
         <button class="stop-btn" onclick="stopRadio()">Stop</button>
@@ -94,6 +89,7 @@
             document.body.classList.toggle("dark-mode");
         }
     </script>
+<script src="loadstation.js"></script>
 </body>
 </html>
 
