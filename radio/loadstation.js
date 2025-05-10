@@ -14,8 +14,9 @@ async function fetchText(file) {
   const text = await response.text();
   return text;
 }
-const streamUrl = id => `https://lhttp.qingting.fm/live/${id}/64k.mp3`;
-const optionElement = a => `<option value="${streamUrl(a[1])}">${a[0]}</option>`;
+const qingtingUrl = id => `https://lhttp.qingting.fm/live/${id}/64k.mp3`;
+const streamUrl = id => (id[0] === 'h') ? id : qingtingUrl(id);
+const optionElement = a => `<option value="${streamUrl(a[1])}">${a[0].replace(/_/g,' ')}</option>`;
 const groupOptionElement = a => `<option value="${a}" ${(a === title) ? 'selected' : ''}>${a}</option>`;
 async function myInit() {
   station = document.getElementById('station');
