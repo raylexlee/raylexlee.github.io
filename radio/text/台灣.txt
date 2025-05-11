@@ -1,15 +1,15 @@
-中廣新聞網_NewsRadio https://n41a-eu.rcs.revma.com/78fm9wyy2tzuv?rj-ttl=5&rj-tok=AAABlrnPerUAJnR5S5CShVxy2Q
-ICRT https://n05.rcs.revma.com/18pd8tztxp3vv?rj-ttl=5&rj-tok=AAABlrnV5hAAUEAXCHH2bjEVrQ
-佳音電台_FM90.9 https://fm909.hr9d.com/goodnews-fm909
-i-radio 任意門計劃 https://n20a-eu.rcs.revma.com/ndk05tyy2tzuv?rj-ttl=5&rj-tok=AAABlrnvKpEAuJXA5a7WiJUuhQ
-News_98_時時刻刻報新 https://n13a-eu.rcs.revma.com/55tyxsy4qtzuv.m4a?rj-ttl=5&rj-tok=AAABlrnxUPkAiSavIVWt5bTj3g
-I_go_AM531 https://n32a-eu.rcs.revma.com/s7hc9kpy2tzuv?rj-ttl=5&rj-tok=AAABlrnzQa0AuR4d5Xeaj-mCAw
-飛碟聯播網_Ufo_Network https://n24a-eu.rcs.revma.com/4yevzvbeewzuv?rj-ttl=5&rj-tok=AAABlrn1Lg8Atx3vjk76KAteIw
-中廣鄉親網_BCC_Country https://n01.rcs.revma.com/p2e3rfg3qtzuv?rj-ttl=5&rj-tok=AAABlrn3YOwAFHLQc36LRNIENw
+FM_101.7_國立教育廣播電臺_-_高雄分臺 https://cast.ner.gov.tw/5
 GoGoRadio_桃園_FM104.3 https://fm1043.hr9d.com/gogoradio-fm1043
+ICRT https://n05.rcs.revma.com/18pd8tztxp3vv?rj-ttl=5&rj-tok=AAABlrnV5hAAUEAXCHH2bjEVrQ
 IC_之音_FM97.5 https://n11.rcs.revma.com/7mnq8rt7k5zuv?rj-ttl=5&rj-tok=AAABlrn6flkAcmUcGLeMN3URTQ
+I_go_AM531 https://n32a-eu.rcs.revma.com/s7hc9kpy2tzuv?rj-ttl=5&rj-tok=AAABlrnzQa0AuR4d5Xeaj-mCAw
+i-radio 任意門計劃 https://n20a-eu.rcs.revma.com/ndk05tyy2tzuv?rj-ttl=5&rj-tok=AAABlrnvKpEAuJXA5a7WiJUuhQ
+MRadio_-_National_Broadcast_FM_106 https://n08a-eu.rcs.revma.com/044q61ha7a0uv?rj-ttl=5&rj-tok=AAABlrn_mSkAQVhQavel0-XJxw
+News_98_時時刻刻報新 https://n13a-eu.rcs.revma.com/55tyxsy4qtzuv.m4a?rj-ttl=5&rj-tok=AAABlrnxUPkAiSavIVWt5bTj3g
 Taichung_City,_Taiwan https://onair.family977.com.tw:8977/live.mp3
+中廣新聞網_NewsRadio https://n41a-eu.rcs.revma.com/78fm9wyy2tzuv?rj-ttl=5&rj-tok=AAABlrnPerUAJnR5S5CShVxy2Q
+中廣鄉親網_BCC_Country https://n01.rcs.revma.com/p2e3rfg3qtzuv?rj-ttl=5&rj-tok=AAABlrn3YOwAFHLQc36LRNIENw
+佳音電台_FM90.9 https://fm909.hr9d.com/goodnews-fm909
 國立教育廣播電臺_-_臺東分臺_100.5_FM https://cast.ner.gov.tw/7
 國立教育廣播電臺_-_臺東分臺_102.9_FM https://cast.ner.gov.tw/6
-MRadio_-_National_Broadcast_FM_106 https://n08a-eu.rcs.revma.com/044q61ha7a0uv?rj-ttl=5&rj-tok=AAABlrn_mSkAQVhQavel0-XJxw
-FM_101.7_國立教育廣播電臺_-_高雄分臺 https://cast.ner.gov.tw/5
+飛碟聯播網_Ufo_Network https://n24a-eu.rcs.revma.com/4yevzvbeewzuv?rj-ttl=5&rj-tok=AAABlrn1Lg8Atx3vjk76KAteIw
