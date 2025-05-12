@@ -1,3 +1,21 @@
+        function playRadio() {
+            const radio = document.getElementById("radio");
+            const station = document.getElementById("station");
+            const stationValue = station.value;
+            document.title = station[station.selectedIndex].innerText;
+            radio.src = stationValue;
+            radio.play();
+        }
+
+        function stopRadio() {
+            const radio = document.getElementById("radio");
+            radio.pause();
+            radio.currentTime = 0;
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle("dark-mode");
+        }
 let station, group;
 let title, stations;
 let activeEpisode;
