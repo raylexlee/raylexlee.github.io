@@ -1,5 +1,5 @@
 let station, group;
-let title, stream, stations, groups;
+let title, stream, mode, stations, groups;
 let lastTitle, lastStream, lastMode;
 async function fetchText(file) {
   const response = await fetch(file);
@@ -32,7 +32,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
 async function myInit() {
   const gdata = await fetchText('groups.txt');
   groups = gdata.replace(/\n+$/, "").split("\n").map(line => line.split(" ")[0]);
-  if (localStorage.getItem('lastMode')) document.body.classList.toggle('dark-mode'); 
 const querystring = location.search;
 const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
 if (params === 'none') {
@@ -50,6 +49,10 @@ if (groups.includes(title)) {
 stream =  params.get('stream');
 stream = stream ? stream : 'none';
 if ((stream === 'none') && (localStorage.getItem('lastStream'+title))) stream = localStorage.getItem('lastStream'+title);
+mode =  params.get('mode');
+mode = mode ? mode : '';
+if ((mode === '') && (localStorage.getItem('lastMode'))) mode = localStorage.getItem('lastMode');
+if (mode) toggleDarkMode();
 const qingtingUrl = id => `https://lhttp.qingting.fm/live/${id}/64k.mp3`;
 const streamUrl = id => (id[0] === 'h') ? id : qingtingUrl(id);
 const optionElement = a => `<option value="${streamUrl(a[1])}" ${(a[0] === stream) ? 'selected' : ''}>${a[0].replace(/_/g,' ')}</option>`;
