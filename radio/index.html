@@ -68,6 +68,18 @@
         <button class="stop-btn" onclick="stopRadio()">Stop</button>
         <button class="toggle-btn" onclick="toggleDarkMode()">Dark Mode</button>
     </div>
+  <div id="qrcode"></div>
+<script src="qrcode.js"></script> 
+<script type="text/javascript">
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: window.location.href,
+	width: 128,
+	height: 128,
+	colorDark : "#ffffff",
+	colorLight : "#000000",
+	correctLevel : QRCode.CorrectLevel.H
+});
+</script>  
 
 <script src="loadstation.js"></script>
 </body>

@@ -1,6 +1,10 @@
 let station, group;
 let title, stream, mode, stations, groups;
 let lastTitle, lastStream, lastMode;
+function updateQR(t,s,m) {
+  const base = document.location.href.split('?')[0];
+  qrcode.makeCode(`${base}?title=${t}&stream=${s}&mode=${m}`);
+}
 async function fetchText(file) {
   const response = await fetch(file);
   const text = await response.text();
@@ -14,6 +18,7 @@ async function fetchText(file) {
             localStorage.setItem('lastStream'+title,document.title.replace(/ /g,'_'));
             radio.src = stationValue;
             radio.play();
+            updateQR(title, station[station.selectedIndex].innerText.replace(/ /g,'_'), document.body.classList.value);
         }
 
         function stopRadio() {
@@ -25,6 +30,7 @@ async function fetchText(file) {
         function toggleDarkMode() {
             document.body.classList.toggle("dark-mode");
             localStorage.setItem('lastMode',document.body.classList.value);
+            updateQR(title, station[station.selectedIndex].innerText.replace(/ /g,'_'), document.body.classList.value);
         }
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
@@ -52,7 +58,6 @@ if ((stream === 'none') && (localStorage.getItem('lastStream'+title))) stream = 
 mode =  params.get('mode');
 mode = mode ? mode : '';
 if ((mode === '') && (localStorage.getItem('lastMode'))) mode = localStorage.getItem('lastMode');
-if (mode) toggleDarkMode();
 const qingtingUrl = id => `https://lhttp.qingting.fm/live/${id}/64k.mp3`;
 const streamUrl = id => (id[0] === 'h') ? id : qingtingUrl(id);
 const optionElement = a => `<option value="${streamUrl(a[1])}" ${(a[0] === stream) ? 'selected' : ''}>${a[0].replace(/_/g,' ')}</option>`;
@@ -69,4 +74,5 @@ const groupOptionElement = a => `<option value="${a}" ${(a === title) ? 'selecte
   group.onchange = function() {
     window.location = `index.html?title=${group.value}`; 
   }
+  if (mode) toggleDarkMode();
 }
