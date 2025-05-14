@@ -1,0 +1,17 @@
+1940s_Radio http://streaming06.liveboxstream.uk:8256/stream
+Adventure_Stories http://streaming06.liveboxstream.uk:8162/stream
+American_Classics http://streaming05.liveboxstream.uk:8043/stream
+American_Comedy http://streaming04.liveboxstream.uk:8162/stream
+British_Comedy_1 http://streaming04.liveboxstream.uk:8077/stream
+British_Comedy_2 http://streaming05.liveboxstream.uk:8009/stream
+Classical_Radio http://streaming06.liveboxstream.uk:8029/stream
+Comedy_Gold_Radio http://streaming06.liveboxstream.uk:8150/stream
+Crime_Radio_Extra http://streaming05.liveboxstream.uk:8039/stream
+Crime_and_Suspense http://streaming04.liveboxstream.uk:8168/stream
+Drama_Radio http://streaming06.liveboxstream.uk:8174/stream
+Jazz_Central_Radio http://streaming06.liveboxstream.uk:8027/stream
+Mystery_Radio http://streaming06.liveboxstream.uk:8168/stream
+Nostalgia_Lane http://streaming06.liveboxstream.uk:8180/stream
+Old_Time_Gold http://streaming04.liveboxstream.uk:8180/stream
+Saturn_X_Radio http://streaming05.liveboxstream.uk:8122/stream
+Science_Fiction http://streaming05.liveboxstream.uk:8110/stream
