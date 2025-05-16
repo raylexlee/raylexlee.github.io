@@ -4,8 +4,10 @@ American_Classics https://streaming05.liveboxstream.uk/proxy/jondre01/stream
 American_Comedy https://streaming04.liveboxstream.uk/proxy/roksta16/stream
 British_Comedy_1 https://streaming04.liveboxstream.uk/proxy/roksta14/stream
 British_Comedy_2 https://streaming05.liveboxstream.uk/proxy/jondreas/stream
+Classical_Radio https://streaming06.liveboxstream.uk/proxy/rokclassical/stream
 Comedy_Gold_Radio https://streaming06.liveboxstream.uk/proxy/rokstar8/stream
 Crime_and_Suspense https://streaming04.liveboxstream.uk/proxy/roksta17/stream
+Crime_Radio_Extra https://streaming05.liveboxstream.uk/proxy/jondre00/stream
 Drama_Radio https://streaming06.liveboxstream.uk/proxy/roksta10/stream
 Jazz_Central_Radio https://streaming06.liveboxstream.uk/proxy/rrokjazz/stream
 Mystery_Radio https://streaming06.liveboxstream.uk/proxy/rokstar9/stream
