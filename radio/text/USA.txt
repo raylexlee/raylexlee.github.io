@@ -24,6 +24,7 @@ NPR_24_Hour_Program_Stream https://npr-ice.streamguys1.com/live.mp3
 Oldies_103_FM_Boston https://ais-edge09-live365-dal02.cdnstream.com/a88248
 Oldies_103_Pittsburgh https://rbx2.hnux.com/http://e12241.cloudrad.io:8018/live
 Powerhitz_-_Hits_&_Hip_Hop https://live.powerhitz.com/1power
+Psyched_Radio_SF https://us3.internet-radio.com/proxy/psychedradiosf?mp=/stream;
 Sci-Fi_Old_Time_Radio https://s1.voscast.com:8653/stream
 Smooth_Jazz_24/7 https://jking.cdnstream1.com/b75154_128mp3
 Vintage_Obscura_Radio https://radio.vintageobscura.net/stream
