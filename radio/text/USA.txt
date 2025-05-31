@@ -1,3 +1,4 @@
+Sci-Fi_Old_Time_Radio https://s1.voscast.com:8653/stream
 101_Smooth_Jazz https://ais-sa2.cdnstream1.com/2329_128.mp3
 8_Ball_Radio https://eightball.out.airtime.pro/eightball_a
 ABN_Old-Time_Radio_AM_1610 https://s6.yesstreaming.net:18000/listen
@@ -25,7 +26,6 @@ Oldies_103_FM_Boston https://ais-edge09-live365-dal02.cdnstream.com/a88248
 Oldies_103_Pittsburgh https://rbx2.hnux.com/http://e12241.cloudrad.io:8018/live
 Powerhitz_-_Hits_&_Hip_Hop https://live.powerhitz.com/1power
 Psyched_Radio_SF https://us3.internet-radio.com/proxy/psychedradiosf?mp=/stream;
-Sci-Fi_Old_Time_Radio https://s1.voscast.com:8653/stream
 Smooth_Jazz_24/7 https://jking.cdnstream1.com/b75154_128mp3
 Vintage_Obscura_Radio https://radio.vintageobscura.net/stream
 WABC_770_AM https://playerservices.streamtheworld.com/api/livestream-redirect/WABCAM.mp3
