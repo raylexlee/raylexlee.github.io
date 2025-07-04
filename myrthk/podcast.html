@@ -39,6 +39,29 @@
     <div class="remainingDiv">
       <textarea name="myContent" id="myContent" readonly></textarea>
     </div>
+   <p> 
+   <input type="checkbox" id="mySchedule" name="schedule" value="schedule" >
+   <label for="schedule"><span id='sleep'>45</span> min &rarr; 💤</label>
+    <input type="range" min="5" max="75" value="45" step="5" id="stop">
+   </p>
+<script>
+const stop = document.getElementById('stop');
+stop.onchange = () => { document.getElementById('sleep').innerText = stop.value; }
+let scheduleID = -1;
+const mySchedule = document.getElementById('mySchedule');
+mySchedule.onchange = function() {
+  if (this.checked) { 
+    scheduleStop(stop.value);
+    } else {
+    if (scheduleID == -1) return;
+    cleanTimeout(scheduleID);
+    scheduleID = -1;
+  }
+}
+function scheduleStop(duration) {
+  scheduleID = setTimeout(() => { audio.pause(); mySchedule.checked = false; }, duration * 60 * 1000);
+}
+</script>
   <div id="qrcode"></div>
 <script src="qrcode.js"></script> 
 <script type="text/javascript">
