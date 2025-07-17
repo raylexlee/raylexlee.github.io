@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>RTHK Radio Drama</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<audio id="audio" preload="auto" tabindex="0" controls="" type="audio/mpeg">
+<source type="audio/mp3" src="">
+Sorry, your browser does not support HTML5 audio.
+</audio>
+<div id="playlist">
+</div>
+<p></p>
+<pre></pre>
+   <p> 
+   <input type="checkbox" id="mySchedule" name="schedule" value="schedule" >
+   <label for="schedule"><span id='sleep'>45</span> min &rarr; 💤</label>
+    <input type="range" min="5" max="75" value="45" step="5" id="stop">
+   </p>
+<script>
+const stop = document.getElementById('stop');
+stop.onchange = () => { document.getElementById('sleep').innerText = stop.value; }
+let scheduleID = -1;
+const mySchedule = document.getElementById('mySchedule');
+mySchedule.onchange = function() {
+  if (this.checked) { 
+    scheduleStop(stop.value);
+    } else {
+    if (scheduleID == -1) return;
+    cleanTimeout(scheduleID);
+    scheduleID = -1;
+  }
+}
+function scheduleStop(duration) {
+  scheduleID = setTimeout(() => { audio.pause(); mySchedule.checked = false; }, duration * 60 * 1000);
+}
+</script>
+  <div id="qrcode"></div>
+<script src="qrcode.js"></script> 
+<script type="text/javascript">
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: decodeURI(window.location.href),
+	width: 128,
+	height: 128,
+	colorDark : "#000000",
+	colorLight : "#ffffff",
+	correctLevel : QRCode.CorrectLevel.H
+});
+</script>  
+<script src="qmttslib.js"></script>
+<script type='text/javascript' src="app.js"></script>
+</body>
+</html>
