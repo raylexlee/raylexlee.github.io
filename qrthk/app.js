@@ -111,7 +111,7 @@ document.querySelector('pre').innerText = pre;
 	          episode = episode.padStart(pad, '0');
         }
       }       
-      a_.setAttribute('href', 'http://www.rthk.hk/radiodrama/' + base + '/'+ drama + episode + '.mp3');
+      a_.setAttribute('href', 'https://www.rthk.hk/radiodrama/' + base + '/'+ drama + episode + '.mp3');
       var i_ = document.createTextNode(i.toString());
       a_.appendChild(i_);
       div_.appendChild(a_);
