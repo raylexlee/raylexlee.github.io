@@ -31,7 +31,7 @@ if (document.readyState !== 'loading' ) {
 }  
 function updateQR(e,t) {
   const base = decodeURI(document.location.href.split('?')[0]);
-  qrcode.makeCode(`${base}?episode=${e}&time=${t}`);
+  qrcode.makeCode(`${base}?title=${title}&episode=${e}&time=${t}`);
 }
 function eventHandler() {
    staticScript(`Drama/${title}.js`, onloadDrama);
