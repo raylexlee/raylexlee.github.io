@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>精選廣播劇</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 50px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .dark-mode {
+            background-color: #333;
+            color: white;
+        }
+        .player {
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            max-width: 90%;
+        }
+        .dark-mode .player {
+            background: #444;
+        }
+        button, select {
+            font-size: 18px;
+            padding: 10px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        .play-btn {
+            background-color: #28a745;
+            color: white;
+        }
+        .stop-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+        .toggle-btn {
+            background-color: #007bff;
+            color: white;
+        }
+        @media (max-width: 600px) {
+            .player {
+                width: 100%;
+                padding: 10px;
+            }
+            button, select {
+                font-size: 16px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="player">
+        <select id="group"> </select>
+        <select id="drama"> </select>
+        <select id="episode"> </select>
+        <audio id="radio"></audio>
+        <button class="play-btn" onclick="playRadio()">Play</button>
+        <button class="stop-btn" onclick="stopRadio()">Stop</button>
+        <button class="toggle-btn" onclick="toggleDarkMode()">Dark Mode</button>
+   <p> 
+   <input type="checkbox" id="mySchedule" name="schedule" value="schedule" >
+   <label for="schedule"><span id='sleep'>45</span> min &rarr; 💤</label>
+    <input type="range" min="5" max="75" value="45" step="5" id="stop">
+   </p>
+    </div>
+<script>
+const stop = document.getElementById('stop');
+stop.onchange = () => { document.getElementById('sleep').innerText = stop.value; }
+let scheduleID = -1;
+const mySchedule = document.getElementById('mySchedule');
+mySchedule.onchange = function() {
+  if (this.checked) { 
+    scheduleStop(stop.value);
+    } else {
+    if (scheduleID == -1) return;
+    cleanTimeout(scheduleID);
+    scheduleID = -1;
+  }
+}
+function scheduleStop(duration) {
+  scheduleID = setTimeout(() => { stopRadio(); mySchedule.checked = false; }, duration * 60 * 1000);
+}
+</script>
+  <div id="qrcode"></div>
+<script src="qrcode.js"></script> 
+<script type="text/javascript">
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: window.location.href,
+	width: 128,
+	height: 128,
+	colorDark : "#ffffff",
+	colorLight : "#000000",
+	correctLevel : QRCode.CorrectLevel.H
+});
+</script>  
+
+<script type="module" src="loadDrama.js"></script>
+</body>
+</html>
