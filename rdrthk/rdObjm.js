@@ -40,7 +40,6 @@ const radiodrama = {
   episode: 1,
   time: 0.0,
 }
-export { radiodrama };
 // 
 // radiodrama.stepEpisode = 18;
 // console.log(radiodrama.url);

@@ -1,4 +1,3 @@
-import { radiodrama } from './rdObjm.js';
 let episode,drama, group;
 let title, chapter, mode; 
 const Drama = []; 
@@ -43,17 +42,17 @@ async function fetchText(file) {
             const episode = document.getElementById("episode");
             const dramaValue = drama.value;
             const episodeValue = episode.value;
-            document.title = drama[drama.selectedIndex].innerText;
-            localStorage.setItem('lastStream'+title,document.title.replace(/ /g,'_'));
-            radio.src = dramaValue;
+            document.title = `${dramaValue} - ${episodeValue}`;
+            // localStorage.setItem('lastStream'+title,document.title.replace(/ /g,'_'));
+            radio.firstElementChild.setAttribute('src', radiodrama.url);
+            radio.load();
             radio.play();
-            updateQR(title, drama[drama.selectedIndex].innerText.replace(/ /g,'_'), document.body.classList.value);
+            //updateQR(title, drama[drama.selectedIndex].innerText.replace(/ /g,'_'), document.body.classList.value);
         }
 
         function stopRadio() {
             const radio = document.getElementById("radio");
             radio.pause();
-            radio.currentTime = 0;
         }
 
         function toggleDarkMode() {
@@ -82,7 +81,7 @@ mode = mode ? mode : '';
 if ((mode === '') && (localStorage.getItem('lastMode'))) mode = localStorage.getItem('lastMode');
 
 const optionElement = a => `<option value="${a}" ${(a === title) ? 'selected' : ''}>${a}</option>`;
-const episodeOptionElement = a => `<option value="${a}" ${(a === activeEpisode) ? 'selected' : ''}>${a}</option>
+const episodeOptionElement = a => `<option value="${a}" ${(a === parseInt(activeEpisode)) ? 'selected' : ''}>${a}</option>
 `;
 const groupOptionElement = a => `<option value="${a}" ${(Group[a].includes(title)) ? 'selected' : ''}>${a}</option>`;
   drama = document.getElementById('drama');

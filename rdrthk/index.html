@@ -35,14 +35,6 @@
             border: none;
             border-radius: 5px;
         }
-        .play-btn {
-            background-color: #28a745;
-            color: white;
-        }
-        .stop-btn {
-            background-color: #dc3545;
-            color: white;
-        }
         .toggle-btn {
             background-color: #007bff;
             color: white;
@@ -64,33 +56,15 @@
         <select id="group"> </select>
         <select id="drama"> </select>
         <select id="episode"> </select>
-        <audio id="radio"></audio>
-        <button class="play-btn" onclick="playRadio()">Play</button>
-        <button class="stop-btn" onclick="stopRadio()">Stop</button>
+            <audio id="radio" preload="auto" controls="" type="audio/mpeg">
+              <source type="audio/mp3" src="">
+            </audio>
         <button class="toggle-btn" onclick="toggleDarkMode()">Dark Mode</button>
-   <p> 
-   <input type="checkbox" id="mySchedule" name="schedule" value="schedule" >
-   <label for="schedule"><span id='sleep'>45</span> min &rarr; 💤</label>
-    <input type="range" min="5" max="75" value="45" step="5" id="stop">
-   </p>
+      <div id="mySleep"></div>
     </div>
-<script>
-const stop = document.getElementById('stop');
-stop.onchange = () => { document.getElementById('sleep').innerText = stop.value; }
-let scheduleID = -1;
-const mySchedule = document.getElementById('mySchedule');
-mySchedule.onchange = function() {
-  if (this.checked) { 
-    scheduleStop(stop.value);
-    } else {
-    if (scheduleID == -1) return;
-    cleanTimeout(scheduleID);
-    scheduleID = -1;
-  }
-}
-function scheduleStop(duration) {
-  scheduleID = setTimeout(() => { stopRadio(); mySchedule.checked = false; }, duration * 60 * 1000);
-}
+<script type="module">
+  import { Scheduler } from './sleep.mjs';
+  new Scheduler('mySleep', 'radio');
 </script>
   <div id="qrcode"></div>
 <script src="qrcode.js"></script> 
@@ -105,6 +79,7 @@ var qrcode = new QRCode(document.getElementById("qrcode"), {
 });
 </script>  
 
-<script type="module" src="loadDrama.js"></script>
+<script type="text/javascript" src="rdObjm.js"></script>
+<script type="text/javascript" src="loadDrama.js"></script>
 </body>
 </html>

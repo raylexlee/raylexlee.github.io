@@ -31,7 +31,7 @@ mySchedule.onchange = function() {
     scheduleStop(stop.value);
     } else {
     if (scheduleID == -1) return;
-    cleanTimeout(scheduleID);
+    clearTimeout(scheduleID);
     scheduleID = -1;
   }
 }
