@@ -1,4 +1,4 @@
-let episode,drama, group;
+let audio, episode,drama, group;
 let title, chapter, mode; 
 const Drama = []; 
 const Group = {};
@@ -37,28 +37,20 @@ async function fetchText(file) {
   return text;
 }
         function playRadio() {
-            const radio = document.getElementById("radio");
-            const drama = document.getElementById("drama");
-            const episode = document.getElementById("episode");
             const dramaValue = drama.value;
             const episodeValue = episode.value;
             document.title = `${dramaValue} - ${episodeValue}`;
             // localStorage.setItem('lastStream'+title,document.title.replace(/ /g,'_'));
-            radio.firstElementChild.setAttribute('src', radiodrama.url);
-            radio.load();
-            radio.play();
-            //updateQR(title, drama[drama.selectedIndex].innerText.replace(/ /g,'_'), document.body.classList.value);
-        }
-
-        function stopRadio() {
-            const radio = document.getElementById("radio");
-            radio.pause();
+            audio.firstElementChild.setAttribute('src', radiodrama.url);
+            audio.load();
+            audio.play();
+            audio.currentTime = currentTime;
         }
 
         function toggleDarkMode() {
             document.body.classList.toggle("dark-mode");
             localStorage.setItem('lastMode',document.body.classList.value);
-            updateQR(title, drama[drama.selectedIndex].innerText.replace(/ /g,'_'), document.body.classList.value);
+        //    updateQR(title, episode.value, audio.currentTime, document.body.classList.value);
         }
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
@@ -84,6 +76,7 @@ const optionElement = a => `<option value="${a}" ${(a === title) ? 'selected' : 
 const episodeOptionElement = a => `<option value="${a}" ${(a === parseInt(activeEpisode)) ? 'selected' : ''}>${a}</option>
 `;
 const groupOptionElement = a => `<option value="${a}" ${(Group[a].includes(title)) ? 'selected' : ''}>${a}</option>`;
+  audio = document.getElementById("audio");
   drama = document.getElementById('drama');
   group = document.getElementById('group');
   episode = document.getElementById('episode');
@@ -91,14 +84,17 @@ const groupOptionElement = a => `<option value="${a}" ${(Group[a].includes(title
   drama.innerHTML = Group[Object.keys(Group).filter(g => Group[g].includes(title))[0]].map( a => optionElement(a)).join('\n');
   group.innerHTML = Object.keys(Group).map(a => groupOptionElement(a)).join('\n');
   group.onchange = function() {
+    if ((audio.firstElementChild.src !== "") && (audio.paused == false)) audio.pause();
     drama.innerHTML = Group[group.value].map(a => optionElement(a)).join('\n');
     drama.onchange();
   }
   drama.onchange = function() {
+    if ((audio.firstElementChild.src !== "") && (audio.paused == false)) audio.pause();
     const n = Drama.filter(d => d.startsWith(drama.value+' '))[0].split(' ')[2];
     const nn = parseInt(n);
     episode.innerHTML = '';
     for (let i = 1; i <= nn; i++) episode.innerHTML += episodeOptionElement(i); 
   }
   if (mode) toggleDarkMode();
+  playRadio()
 }

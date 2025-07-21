@@ -56,7 +56,7 @@
         <select id="group"> </select>
         <select id="drama"> </select>
         <select id="episode"> </select>
-            <audio id="radio" preload="auto" controls="" type="audio/mpeg">
+            <audio id="audio" preload="auto" controls="" type="audio/mpeg">
               <source type="audio/mp3" src="">
             </audio>
         <button class="toggle-btn" onclick="toggleDarkMode()">Dark Mode</button>
@@ -64,7 +64,7 @@
     </div>
 <script type="module">
   import { Scheduler } from './sleep.mjs';
-  new Scheduler('mySleep', 'radio');
+  new Scheduler('mySleep', 'audio');
 </script>
   <div id="qrcode"></div>
 <script src="qrcode.js"></script> 
