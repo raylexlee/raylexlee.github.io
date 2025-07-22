@@ -12,11 +12,11 @@
 中外經典 聊齋誌異之三生 1classics/rd_thirdlife_ 6 0
 中外經典 李爾王 1classics/rd_king_lear_ 2 0
 懸疑靈幻 沙漠奇女子1970 3terror/rd_desertgal 2 2
-懸疑靈幻
+懸疑靈幻 偷戀1973 3terror/70s_0015_ 6 0
 懸疑靈幻 求醫1977 3terror/ghoststory_healing 3 0
 懸疑靈幻 轉世1977 3terror/ghoststory_reborn 2 0
 懸疑靈幻 異術1977 3terror/ghoststory_magic 5 0
-懸疑靈幻
+懸疑靈幻 恐怖門1977 3terror/ghoststory_door 3 0
 懸疑靈幻 妖鏡春心1976 3terror/rd_mirror_ 5 0
 懸疑靈幻 靈感追兇1998 3terror/rd_murder_hunt_ 4 0
 懸疑靈幻 火星進攻地球 3terror/rd_space_ 20 0
@@ -36,9 +36,9 @@
 都市短篇 深情舞台1996 6contemperary/emotiontheatre/ 5 2
 都市短篇 歲月金蘭1993 6contemperary/goldnan/ 10 2
 都市短篇 愛情雞尾酒 6contemperary/lovecocktail/ 5 2
-都市短篇
-都市短篇
-都市短篇
+都市短篇 千情共抱之情債 6contemperary/lovedebt/ 5 2
+都市短篇 海棠紅 6contemperary/seaflowerred/ 5 2
+都市短篇 共赴一生浪漫 6contemperary/romance 5 2
 都市短篇 搶錢世家1993 6contemperary/moneyfamily/ 5 2
 都市短篇 心結2002 6contemperary/rd_heart_ 5 0
 都市短篇 第一次的親密接觸02 6contemperary/rd_intimate_ 7 0
