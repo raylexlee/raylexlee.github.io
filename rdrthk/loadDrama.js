@@ -1,7 +1,7 @@
 let audio, episode,drama, group;
-let title, chapter, mode; 
-const Drama = []; 
-const Group = {};
+let title, author, chapter, mode; 
+let Drama ; 
+let Group ;
 let lastRadioDramaTitle, lastMode;
 let activeEpisode;
 let currentTime;
@@ -37,9 +37,8 @@ async function fetchText(file) {
   return text;
 }
         function playRadio() {
-            const dramaValue = drama.value;
             const episodeValue = episode.value;
-            document.title = `${dramaValue} - ${episodeValue}`;
+            document.title = `${title} - ${activeEpisode}`;
             // localStorage.setItem('lastStream'+title,document.title.replace(/ /g,'_'));
             audio.firstElementChild.setAttribute('src', radiodrama.url);
             audio.load();
@@ -50,50 +49,90 @@ async function fetchText(file) {
         function toggleDarkMode() {
             document.body.classList.toggle("dark-mode");
             localStorage.setItem('lastMode',document.body.classList.value);
-        //    updateQR(title, episode.value, audio.currentTime, document.body.classList.value);
         }
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
 });
 async function myInit() {
-  const gdata = await fetchText('groups.txt');
-  gdata.replace(/\n+$/, "").split("\n").forEach(line => {
-    const [category, rdrama] = line.split(' ');
-    if (category in Group) { Group[category].push(rdrama) } else { Group[category] = [ rdrama ] }
-  });
-  const ddata = await fetchText('radiodrama.txt');
-  ddata.replace(/\n+$/, "").split("\n").forEach(line => { Drama.push(line) });
-  const filterDrama = Drama.filter(d => d.startsWith(title+' '))
+  const gdata = await fetchText('allGroup.txt');
+  Group = gdata.replace(/\n+$/, "").split("\n");
+  const ddata = await fetchText('allDrama.txt');
+  Drama = ddata.replace(/\n+$/, "").split("\n");
+  const filterDrama = Drama.filter(d => d.split(' ')[1] == title)
    if (filterDrama.length == 0) window.location = `index.html?title=${radiodrama.title}`;
    radiodrama.currentDrama = filterDrama[0];
    radiodrama.currentEpisode = activeEpisode;
    radiodrama.currentTime = currentTime;
+   author = radiodrama.group;
 mode =  params.get('mode');
 mode = mode ? mode : '';
 if ((mode === '') && (localStorage.getItem('lastMode'))) mode = localStorage.getItem('lastMode');
 
-const optionElement = a => `<option value="${a}" ${(a === title) ? 'selected' : ''}>${a}</option>`;
+const optionElement = a => {
+  const [A, t, x, n, D] = a.split(' '); 
+  return `<option value="${a}" ${(t === title) ? 'selected' : ''}>${t} (${n})</option>`;
+  }
 const episodeOptionElement = a => `<option value="${a}" ${(a === parseInt(activeEpisode)) ? 'selected' : ''}>${a}</option>
 `;
-const groupOptionElement = a => `<option value="${a}" ${(Group[a].includes(title)) ? 'selected' : ''}>${a}</option>`;
+const groupOptionElement = a => `<option value="${a}" ${(a == author) ? 'selected' : ''}>${a}</option>`;
   audio = document.getElementById("audio");
   drama = document.getElementById('drama');
   group = document.getElementById('group');
   episode = document.getElementById('episode');
   for (let i=1; i <= radiodrama.episodes; i++) episode.innerHTML += episodeOptionElement(i);
-  drama.innerHTML = Group[Object.keys(Group).filter(g => Group[g].includes(title))[0]].map( a => optionElement(a)).join('\n');
-  group.innerHTML = Object.keys(Group).map(a => groupOptionElement(a)).join('\n');
+  drama.innerHTML = Drama.filter(d => d.startsWith(author+' '))
+    .map( a => optionElement(a)).join('\n');
+
+  group.innerHTML = Group.map(a => groupOptionElement(a)).join('\n');
   group.onchange = function() {
     if ((audio.firstElementChild.src !== "") && (audio.paused == false)) audio.pause();
-    drama.innerHTML = Group[group.value].map(a => optionElement(a)).join('\n');
+    author = group.value;
+    const lastTitle = localStorage.getItem('lastTitleRadioDrama'+author);
+    radiodrama.currentDrama = 
+         Drama.filter(d => d.startsWith(author+' '+(lastTitle ? (lastTitle+' ') : '')))[0];
+    title = radiodrama.title;
+    const lastEpisode = localStorage.getItem('activeEpisode'+title);
+    if (lastEpisode) { radiodrama.currentEpisode = lastEpisode };
+    activeEpisode = radiodrama.episode;
+    const lastTime =localStorage.getItem('currentTime'+title);
+    if (lastTime) { radiodrama.currentTime = lastTime; }
+    currentTime = radiodrama.time;
+    drama.innerHTML = Drama.filter(a => a.startsWith(author+' ')).map(a => optionElement(a)).join('\n');
     drama.onchange();
   }
   drama.onchange = function() {
     if ((audio.firstElementChild.src !== "") && (audio.paused == false)) audio.pause();
-    const n = Drama.filter(d => d.startsWith(drama.value+' '))[0].split(' ')[2];
-    const nn = parseInt(n);
+    radiodrama.currentDrama = drama.value;
+    title = radiodrama.title;
+    const lastEpisode = localStorage.getItem('activeEpisode'+title);
+    if (lastEpisode) { radiodrama.currentEpisode = lastEpisode; }
+    activeEpisode = radiodrama.episode;
+    const lastTime =localStorage.getItem('currentTime'+title);
+    if (lastTime) { radiodrama.currentTime = lastTime; }
+    currentTime = radiodrama.time;
     episode.innerHTML = '';
-    for (let i = 1; i <= nn; i++) episode.innerHTML += episodeOptionElement(i); 
+    for (let i = 1; i <= radiodrama.episodes; i++) episode.innerHTML += episodeOptionElement(i); 
+    playRadio();
+  }
+  episode.onchange = function() {
+    radiodrama.currentEpisode = episode.value;
+    radiodrama.currentTime = 0.0;
+    activeEpisode = radiodrama.episode;
+    currentTime = radiodrama.time;
+    playRadio();
+  }
+  audio.onended = () => {
+    radiodrama.stepEpisode = 1;
+    activeEpisode = radiodrama.episode;
+    episode.value = activeEpisode;
+    radiodrama.currentTime = 0.0;
+    currentTime = radiodrama.time;
+    playRadio();
+  }
+  audio.onpause = () => {
+    radiodrama.currentTime = audio.currentTime;
+    currenTime = radiodrama.time;
+    updateQR(title, episode.value, audio.currentTime, document.body.classList.value);
   }
   if (mode) toggleDarkMode();
   playRadio()

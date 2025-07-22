@@ -1,21 +1,28 @@
 const radiodrama = {
   set currentDrama(drama) {
-    [this.title, this.program_infix, this.episodes, this.digit] = drama.split(' ');
+    [this.group, this.title, this.program_infix, this.episodes, this.digit] = drama.split(' ');
     this.episodes = +this.episodes;
     this.digit = +this.digit;
     this.episode = 1;
     this.time = 0.0;
+    localStorage.setItem('lastRadioDramaTitle', this.title);
+    localStorage.setItem('lastTitleRadioDrama'+this.group, this.title);
+    localStorage.setItem('activeEpisode'+this.title,this.episode);
+    localStorage.setItem('currentTime'+this.title, this.time);
   },
   set stepEpisode(n) {
     this.episode += n;
     if (this.episode > this.episodes) this.episode = 1;
     if (this.episode < 1) this.episode = this.episodes;
+    localStorage.setItem('activeEpisode'+this.title,this.episode);
   },
   set currentTime(t) {
     this.time = +t;
+    localStorage.setItem('currentTime'+this.title, this.time);
   },
   set currentEpisode(e) {
     this.episode = +e;
+    localStorage.setItem('activeEpisode'+this.title,this.episode);
   },
   get url() {
     const infix = this.program_infix;
@@ -33,6 +40,7 @@ const radiodrama = {
     }       
     return `https://www.rthk.hk/radiodrama/${base}/${infix}${episode}.mp3`;
   },
+  group: "中外經典",
   title: "雍正皇帝",
   program_infix: "1classics/king",
   episodes: 75,
