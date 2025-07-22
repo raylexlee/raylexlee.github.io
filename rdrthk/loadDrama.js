@@ -10,17 +10,21 @@ const params = (querystring != '') ? (new URL(document.location)).searchParams :
 if (params === 'none') {
   title = localStorage.getItem('lastRadioDramaTitle');
   if (!title) title = radiodrama.title;
-  window.location = `index.html?title=${title}`;
-}
+} else {
 title =  params.get('title');
 title = title ? title : radiodrama.title;
+  localStorage.setItem('lastRadioDramaTitle',title);
   const e = params.get('episode');
   const t = params.get('time');
   if (e && t) {
     localStorage.setItem('activeEpisode'+title,e);
     localStorage.setItem('currentTime'+title, t);
-    window.location = `index.html?title=${title}`;
   }
+mode =  params.get('mode');
+mode = mode ? mode : '';
+if ((mode === '') && (localStorage.getItem('lastMode'))) mode = localStorage.getItem('lastMode');
+  window.location = 'index.html';
+}
 if (!localStorage.getItem('activeEpisode'+title)) {
   localStorage.setItem('activeEpisode'+title, '1');
   localStorage.setItem('currentTime'+title, 0.0);
@@ -39,7 +43,6 @@ async function fetchText(file) {
         function playRadio() {
             const episodeValue = episode.value;
             document.title = `${title} - ${activeEpisode}`;
-            // localStorage.setItem('lastStream'+title,document.title.replace(/ /g,'_'));
             audio.firstElementChild.setAttribute('src', radiodrama.url);
             audio.load();
             audio.play();
@@ -59,14 +62,11 @@ async function myInit() {
   const ddata = await fetchText('allDrama.txt');
   Drama = ddata.replace(/\n+$/, "").split("\n");
   const filterDrama = Drama.filter(d => d.split(' ')[1] == title)
-   if (filterDrama.length == 0) window.location = `index.html?title=${radiodrama.title}`;
+   if (filterDrama.length == 0) window.location = `index.html`;
    radiodrama.currentDrama = filterDrama[0];
    radiodrama.currentEpisode = activeEpisode;
    radiodrama.currentTime = currentTime;
    author = radiodrama.group;
-mode =  params.get('mode');
-mode = mode ? mode : '';
-if ((mode === '') && (localStorage.getItem('lastMode'))) mode = localStorage.getItem('lastMode');
 
 const optionElement = a => {
   const [A, t, x, n, D] = a.split(' '); 
@@ -132,6 +132,7 @@ const groupOptionElement = a => `<option value="${a}" ${(a == author) ? 'selecte
   audio.onpause = () => {
     radiodrama.currentTime = audio.currentTime;
     currenTime = radiodrama.time;
+    radiodrama.save();
     updateQR(title, episode.value, audio.currentTime, document.body.classList.value);
   }
   if (mode) toggleDarkMode();

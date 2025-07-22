@@ -5,6 +5,8 @@ const radiodrama = {
     this.digit = +this.digit;
     this.episode = 1;
     this.time = 0.0;
+  },
+  save() {
     localStorage.setItem('lastRadioDramaTitle', this.title);
     localStorage.setItem('lastTitleRadioDrama'+this.group, this.title);
     localStorage.setItem('activeEpisode'+this.title,this.episode);
@@ -14,15 +16,12 @@ const radiodrama = {
     this.episode += n;
     if (this.episode > this.episodes) this.episode = 1;
     if (this.episode < 1) this.episode = this.episodes;
-    localStorage.setItem('activeEpisode'+this.title,this.episode);
   },
   set currentTime(t) {
     this.time = +t;
-    localStorage.setItem('currentTime'+this.title, this.time);
   },
   set currentEpisode(e) {
     this.episode = +e;
-    localStorage.setItem('activeEpisode'+this.title,this.episode);
   },
   get url() {
     const infix = this.program_infix;
