@@ -3,8 +3,10 @@ const radiodrama = {
     [this.group, this.title, this.program_infix, this.episodes, this.digit] = drama.split(' ');
     this.episodes = +this.episodes;
     this.digit = +this.digit;
-    this.episode = 1;
-    this.time = 0.0;
+    const lastEpisode = localStorage.getItem('activeEpisode'+this.title);
+    this.episode = lastEpisode ? parseInt(lastEpisode) : 1;
+    const lastTime = localStorage.getItem('currentTime'+this.title);
+    this.time = lastTime ? parseFloat(lastTime) : 0.0;
   },
   save() {
     localStorage.setItem('lastRadioDramaTitle', this.title);
@@ -12,10 +14,18 @@ const radiodrama = {
     localStorage.setItem('activeEpisode'+this.title,this.episode);
     localStorage.setItem('currentTime'+this.title, this.time);
   },
+  set play(audio) {
+    document.title = `${this.title} - ${this.episode}`;
+    audio.firstElementChild.setAttribute('src', this.url);
+    audio.load();
+    audio.play();
+    audio.currentTime = this.time;
+  },
   set stepEpisode(n) {
     this.episode += n;
     if (this.episode > this.episodes) this.episode = 1;
     if (this.episode < 1) this.episode = this.episodes;
+    this.time = 0.0;
   },
   set currentTime(t) {
     this.time = +t;

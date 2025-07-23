@@ -20,17 +20,11 @@ title = title ? title : radiodrama.title;
     localStorage.setItem('activeEpisode'+title,e);
     localStorage.setItem('currentTime'+title, t);
   }
-mode =  params.get('mode');
+ mode =  params.get('mode');
 mode = mode ? mode : '';
 if ((mode === '') && (localStorage.getItem('lastMode'))) mode = localStorage.getItem('lastMode');
-  window.location = 'index.html';
+window.location = 'index.html';
 }
-if (!localStorage.getItem('activeEpisode'+title)) {
-  localStorage.setItem('activeEpisode'+title, '1');
-  localStorage.setItem('currentTime'+title, 0.0);
-}
-activeEpisode = localStorage.getItem('activeEpisode'+title);
-currentTime = localStorage.getItem('currentTime'+title);
 function updateQR(t,e,T,m) {
   const base = document.location.href.split('?')[0];
   qrcode.makeCode(`${base}?title=${t}&episode=${e}&time=${T}&mode=${m}`);
@@ -40,14 +34,6 @@ async function fetchText(file) {
   const text = await response.text();
   return text;
 }
-        function playRadio() {
-            const episodeValue = episode.value;
-            document.title = `${title} - ${activeEpisode}`;
-            audio.firstElementChild.setAttribute('src', radiodrama.url);
-            audio.load();
-            audio.play();
-            audio.currentTime = currentTime;
-        }
 
         function toggleDarkMode() {
             document.body.classList.toggle("dark-mode");
@@ -64,8 +50,6 @@ async function myInit() {
   const filterDrama = Drama.filter(d => d.split(' ')[1] == title)
    if (filterDrama.length == 0) window.location = `index.html`;
    radiodrama.currentDrama = filterDrama[0];
-   radiodrama.currentEpisode = activeEpisode;
-   radiodrama.currentTime = currentTime;
    author = radiodrama.group;
 
 const optionElement = a => {
@@ -91,11 +75,7 @@ const groupOptionElement = a => `<option value="${a}" ${(a == author) ? 'selecte
     radiodrama.currentDrama = 
          Drama.filter(d => d.startsWith(author+' '+(lastTitle ? (lastTitle+' ') : '')))[0];
     title = radiodrama.title;
-    const lastEpisode = localStorage.getItem('activeEpisode'+title);
-    if (lastEpisode) { radiodrama.currentEpisode = lastEpisode };
     activeEpisode = radiodrama.episode;
-    const lastTime =localStorage.getItem('currentTime'+title);
-    if (lastTime) { radiodrama.currentTime = lastTime; }
     currentTime = radiodrama.time;
     drama.innerHTML = Drama.filter(a => a.startsWith(author+' ')).map(a => optionElement(a)).join('\n');
     drama.onchange();
@@ -104,22 +84,18 @@ const groupOptionElement = a => `<option value="${a}" ${(a == author) ? 'selecte
     if ((audio.firstElementChild.src !== "") && (audio.paused == false)) audio.pause();
     radiodrama.currentDrama = drama.value;
     title = radiodrama.title;
-    const lastEpisode = localStorage.getItem('activeEpisode'+title);
-    if (lastEpisode) { radiodrama.currentEpisode = lastEpisode; }
     activeEpisode = radiodrama.episode;
-    const lastTime =localStorage.getItem('currentTime'+title);
-    if (lastTime) { radiodrama.currentTime = lastTime; }
     currentTime = radiodrama.time;
     episode.innerHTML = '';
     for (let i = 1; i <= radiodrama.episodes; i++) episode.innerHTML += episodeOptionElement(i); 
-    playRadio();
+    radiodrama.play = audio;
   }
   episode.onchange = function() {
     radiodrama.currentEpisode = episode.value;
     radiodrama.currentTime = 0.0;
     activeEpisode = radiodrama.episode;
     currentTime = radiodrama.time;
-    playRadio();
+    radiodrama.play = audio;
   }
   audio.onended = () => {
     radiodrama.stepEpisode = 1;
@@ -127,7 +103,7 @@ const groupOptionElement = a => `<option value="${a}" ${(a == author) ? 'selecte
     episode.value = activeEpisode;
     radiodrama.currentTime = 0.0;
     currentTime = radiodrama.time;
-    playRadio();
+    radiodrama.play = audio;
   }
   audio.onpause = () => {
     radiodrama.currentTime = audio.currentTime;
@@ -136,5 +112,5 @@ const groupOptionElement = a => `<option value="${a}" ${(a == author) ? 'selecte
     updateQR(title, episode.value, audio.currentTime, document.body.classList.value);
   }
   if (mode) toggleDarkMode();
-  playRadio()
+  radiodrama.play = audio;
 }
