@@ -47,6 +47,7 @@ const radiodrama = {
          episode = episode.padStart(pad, '0');
       }
     }       
+    if (pad == 5) episode = '';
     return `https://www.rthk.hk/radiodrama/${base}/${infix}${episode}.mp3`;
   },
   group: "中外經典",
