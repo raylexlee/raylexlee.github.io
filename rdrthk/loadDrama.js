@@ -51,14 +51,13 @@ async function myInit() {
    if (filterDrama.length == 0) window.location = `index.html`;
    radiodrama.currentDrama = filterDrama[0];
    author = radiodrama.group;
-
 const optionElement = a => {
   const [A, t, x, n, D] = a.split(' '); 
-  return `<option value="${a}" ${(t === title) ? 'selected' : ''}>${t} (${n})</option>`;
+  return `<option value="${a}" ${(t === radiodrama.title) ? 'selected' : ''}>${t} (${n})</option>`;
   }
-const episodeOptionElement = a => `<option value="${a}" ${(a === parseInt(activeEpisode)) ? 'selected' : ''}>${a}</option>
+const episodeOptionElement = a => `<option value="${a}" ${(a === radiodrama.episode) ? 'selected' : ''}>${a}</option>
 `;
-const groupOptionElement = a => `<option value="${a}" ${(a == author) ? 'selected' : ''}>${a}</option>`;
+const groupOptionElement = a => `<option value="${a}" ${(a == radiodrama.group) ? 'selected' : ''}>${a}</option>`;
   audio = document.getElementById("audio");
   drama = document.getElementById('drama');
   group = document.getElementById('group');
@@ -111,6 +110,7 @@ const groupOptionElement = a => `<option value="${a}" ${(a == author) ? 'selecte
     radiodrama.save();
     updateQR(title, episode.value, audio.currentTime, document.body.classList.value);
   }
-  if (mode) toggleDarkMode();
+  toggleDarkMode();
+  //if (mode) toggleDarkMode();
   radiodrama.play = audio;
 }
