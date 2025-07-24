@@ -53,6 +53,7 @@
 都市短篇 人間有情1998 6contemperary/rd_love_ 5 0
 都市短篇 小男人周記86 6contemperary/rd_mdiary_ 20 0
 都市短篇 無可奉告 6contemperary/rd_silent_ 1 0
+都市短篇 外遇1985 6contemperary/rd_affair_ 1 0
 都市短篇 隔世情劫2000 6contemperary/rd_reincarnation_ 5 0
 都市短篇 真假情人2002 6contemperary/rd_true_false_ 5 0
 都市短篇 琴鍵右角1979 6contemperary/rightangle/ 15 2
@@ -124,3 +125,8 @@
 李碧華 流星雨解毒片 7fwriters/rd_meteor_ 2 0
 李碧華 吃眼睛的女人 7fwriters/rd_eateye_ 2 0
 李碧華 我永不跳舞 7fwriters/rd_nodance_ 1 0
+Songbird BrotherSister 12songbirds/brother 7 2
+Songbird Pipa'sRing 12songbirds/pipasring 2 2
+Songbird CharityBeginsAtHome 12songbirds/charity 6 2
+Songbird DiaryOfDana 12songbirds/diary 3 2
+Songbird 90s 12songbirds/90s_0016_ 37 2
