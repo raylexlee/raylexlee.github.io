@@ -11,6 +11,10 @@
 中外經典 城南舊事1992 1classics/rd_oldstory_ 5 0
 中外經典 聊齋誌異之三生 1classics/rd_thirdlife_ 6 0
 中外經典 李爾王 1classics/rd_king_lear_ 2 0
+希臘神話故事 維納斯與人間 1classics/rd_venus_ 1 0
+希臘神話故事 邱比特和蒲絲基 1classics/rd_cupid_ 1 0
+希臘神話故事 詹遜尋找金羊毛 1classics/rd_argonauts_ 2 0
+希臘神話故事 奧德修斯迷航記 1classics/rd_odysseus_ 2 0
 懸疑靈幻 火星進攻地球 3terror/rd_space_ 20 0
 懸疑靈幻 偷戀 3terror/70s_0015_ 6 0
 懸疑靈幻 靈感追兇 3terror/rd_murder_hunt_ 4 0
