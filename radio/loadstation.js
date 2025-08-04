@@ -1,3 +1,4 @@
+const DEFAULT = '音乐台';
 let station, group;
 let title, stream, mode, stations, groups;
 let lastTitle, lastStream, lastMode;
@@ -41,16 +42,16 @@ async function myInit() {
 const querystring = location.search;
 const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
 if (params === 'none') {
-  lastTitle = '广东';
+  lastTitle = DEFAULT;
   if (localStorage.getItem('lastTitle')) lastTitle = localStorage.getItem('lastTitle');
   window.location =`index.html?title=${lastTitle}`;
 }
 title =  params.get('title');
-title = title ? title : '广东';
+title = title ? title : DEFAULT;
 if (groups.includes(title)) { 
   localStorage.setItem('lastTitle',title)
 } else {
-  title = localStorage.getItem('lastTitle') ? localStorage.getItem('lastTitle') : '广东';  
+  title = localStorage.getItem('lastTitle') ? localStorage.getItem('lastTitle') : DEFAULT;  
 }
 stream =  params.get('stream');
 stream = stream ? stream : 'none';
