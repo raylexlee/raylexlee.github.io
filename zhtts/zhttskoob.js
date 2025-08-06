@@ -1,6 +1,5 @@
 let adjustment = 0.4;
-const googleLimit = 57;
-let programSelect = 0;
+let audio;
 let title, myContent, myChapterList, myRange, myBook, myAutoplay;
 let nDigits = 3;
 let myPauseCancel;
@@ -32,7 +31,6 @@ const nameSpeaker = name => {
    return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
 };
 let punctuationRegex = /[；。！？;.!?]/gm;
-//let punctuationRegex = /[；。！？，,;.!?]/gm;
 const googleRegex = /[；。！？，,;.!?]/gm;
 //const notAndroid=navigator.userAgent.toLowerCase().indexOf('android')==-1;
 const notAndroid = false;
@@ -94,6 +92,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
 const contentUrl = chapter => `text/${title}/${chapter.substring(0,nDigits)}.txt`;
 function myInit() {
   document.title = title;
+  audio = document.getElementById('audio');
+  audio.onended = () => { audio.play(); };
+  audio.onplay = speak;
+  audio.onpause = pauseResume;
+  myContent = document.getElementById('myContent');
   myContent = document.getElementById('myContent');
   myContent.style.lineHeight=2;
   myChapterList = document.getElementById('myChapterList');
@@ -106,15 +109,10 @@ function myInit() {
   backto = caller ? caller : backto;
   const optIndexHtml = `<li><a href="${backto}.html">返　回　前　目　錄</a></li>`;
   myContent.onselect = e => {
-    if (programSelect >= 1) {
-       programSelect--;
-       return;
-    }
     for (let i = 0; i < punctuationPosition.length; i++) {
       if (punctuationPosition[i] >= myContent.selectionStart) {
          positionIndex = i;
          speak();
-         console.log('onselect ',i);
          break;
       }
     }
@@ -182,7 +180,7 @@ function gotoChapter(chapter, PleaseSpeak = true) {
    fetch(contentUrl(chapter))
      .then(response => response.text())
      .then(data => {
-       myContent.value = chapter.substring(1 + nDigits)+'\n'+ data + '。';
+       myContent.value = data;
        myContent.value = myContent.value.split('\n').filter(e => e.length >= 1).join('\n');
        numCharsLine=myContent.value.split('\n').map(e => e.length);
        rowsLine = Array(numCharsLine.length);
@@ -196,18 +194,9 @@ function gotoChapter(chapter, PleaseSpeak = true) {
        punctuationArray = myContent.value.match(punctuationRegex);
        punctuationPosition=[];
        let punctuationIndex = 0;
-       let lastPunctuationPosition = 0;
        for (let valueIndex=0; valueIndex < myContent.value.length; valueIndex++) 
          if (myContent.value[valueIndex] === punctuationArray[punctuationIndex]) {
-           if ((myVoice.value.startsWith('Google')) && (valueIndex > (lastPunctuationPosition + googleLimit))) { 
-               let a = lastPunctuationPosition;
-               while ((a + googleLimit) < valueIndex) {
-                 a += googleLimit;
-                 punctuationPosition.push(a);
-               }
-           }
            punctuationPosition.push(valueIndex);
-           lastPunctuationPosition = valueIndex;
            punctuationIndex++;
          }
       completed_myinit = true;
@@ -247,7 +236,6 @@ function getLastChapter() {
   if (c && s) {
     localStorage.setItem('wspa_activeEpisode'+title,c);
     localStorage.setItem('wspa_positionIndex'+title,s);
-    window.location = `${window.location.href.split('?')[0]}?title=${title}`;
   }
   if (!localStorage.getItem('wspa_positionIndex'+title)) {
     localStorage.setItem('wspa_positionIndex'+title,0);
@@ -277,13 +265,12 @@ function speak(){
     justCancel = true;
     synth.cancel();
     synth.speak(utterThis);
+    audio.play();
     justCancel = false;
 //    const portion = start / myContent.value.length;
 //    myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
     ScrollText(start);
-    programSelect = 1;
     myContent.select();
-    programSelect = 2;
     myContent.setSelectionRange(start, stop);
   }
 }
@@ -291,7 +278,6 @@ myVoice.onchange = function(){
   localStorage.setItem('zhttsVoice',myVoice.selectedIndex);
   justCancel = true;
   synth.cancel();
-  programSelect = 1;
   speak();
 }
 
@@ -299,6 +285,7 @@ function pauseResume() {
   if (synth.speaking !== true) {
     return;
   }
+  audio.pause();
   synth.cancel();
   localStorage.setItem('wspa_positionIndex'+title, positionIndex);
   updateQR(title, activeEpisode, positionIndex);
