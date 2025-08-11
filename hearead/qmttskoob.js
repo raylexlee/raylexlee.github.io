@@ -1,4 +1,5 @@
 let adjustment = 0.5;
+let audio;
 const hasSpace = ['zh','ja','ko'];
 const googleLimit = 57;
 let programSelect = 0;
@@ -93,6 +94,10 @@ document.addEventListener("DOMContentLoaded", function(event) {
 const contentUrl = chapter => `text/${title}/${chapter.substring(0,nDigits)}.txt`;
 function myInit() {
   document.title = title;
+  audio = document.getElementById('audio');
+  audio.onended = () => { audio.play(); };
+  audio.onplay = speak;
+  audio.onpause = pauseResume;
   myContent = document.getElementById('myContent');
   myContent.style.lineHeight=2;
   myChapterList = document.getElementById('myChapterList');
@@ -173,7 +178,9 @@ function gotoChapter(chapter, PleaseSpeak = true) {
    //activeEpisode = parseInt(chapter.substring(0,3));
    activeEpisode = chapter.substring(0,nDigits);
    localStorage.setItem('wspa_activeEpisode'+title, activeEpisode);
+   const loadchapterUrl = `ibook.html?title=${title}&lang=${lang}`;
    myBook.innerHTML=`
+     <a href="javascript:window.open('${loadchapterUrl}','readaloud');" style="color:cyan;">&#128220;</a> 
      ${title.replace(/_/g," ")} 
      <a href="javascript:prevChapter()" style="color:cyan;">&lArr;</a> 
      ${chapter.substring(1 + nDigits)}
@@ -279,6 +286,7 @@ function speak(){
     justCancel = true;
     synth.cancel();
     synth.speak(utterThis);
+    audio.play();
     justCancel = false;
 //    const portion = start / myContent.value.length;
 //    myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
@@ -301,6 +309,7 @@ function pauseResume() {
   if (synth.speaking !== true) {
     return;
   }
+  audio.pause();
   synth.cancel();
   localStorage.setItem('wspa_positionIndex'+title, positionIndex);
   updateQR(title, activeEpisode, positionIndex);
