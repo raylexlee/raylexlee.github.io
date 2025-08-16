@@ -3,7 +3,7 @@ const vtArray = [
 ['book.html','txt', 'cyan']
 ];
 const description = {
-'zhttskoob.html' : `為獲得最佳語音效果，請使用最新版本的 Microsoft Edge。其他瀏覽器可能適用, 特別是 ios 和 android 設備。詳情請參考 Web Speech API 的 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API#speechsynthesis_2">SpeechSynthesis</a>。`,
+'zhttskoob.html' : `為獲得最佳語音效果，請使用最新版本的 Microsoft Edge, 可能需要用Edge的大聲朗讀來激活 (特別是安卓手機)。其他瀏覽器建議用google Chrome。想要支援手機螢幕關閉功能, ios要用safari, 安卓要用microsoft Edge。詳情請參考 Web Speech API 的 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API">SpeechSynthesis</a>。`,
 'book.html' : '請使用最新版本 Microsoft Edge 的大聲朗讀'
 }
 function insertRadioAtTopOfBody() {
