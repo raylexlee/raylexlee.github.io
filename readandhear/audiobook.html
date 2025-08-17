@@ -52,14 +52,14 @@
       </section>
     </div>
     <div class="remainingDiv">
-      <textarea name="myContent" id="myContent" readonly></textarea>
-    </div>
-  </div>
    <p> 
    <input type="checkbox" id="mySchedule" name="schedule" value="schedule" >
    <label for="schedule"><span id='sleep'>45</span> min &rarr; 💤</label>
     <input type="range" min="5" max="75" value="45" step="5" id="stop">
    </p>
+      <textarea name="myContent" id="myContent" readonly></textarea>
+    </div>
+  </div>
 <script>
 const stop = document.getElementById('stop');
 stop.onchange = () => { document.getElementById('sleep').innerText = stop.value; }
@@ -70,7 +70,7 @@ mySchedule.onchange = function() {
     scheduleStop(stop.value);
     } else {
     if (scheduleID == -1) return;
-    cleanTimeout(scheduleID);
+    clearTimeout(scheduleID);
     scheduleID = -1;
   }
 }
