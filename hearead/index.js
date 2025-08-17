@@ -15,6 +15,7 @@ document.body.onload = () => {
         const [Lang, Author, Book] = AuthorBook.split(" ");
         book.push([Lang, Book]);
       });
+      console.log(book.map(e => Language[e[0]][0]).join(", "));
       const li_b = a => `<li>${a[0]} ${Language[a[0]].join(" ")} 
 <a href='qmttskoob.html?title=${a[1]}&lang=${a[0]}'>qmttskoob.html?title=${a[1]}&lang=${a[0]}</a></li>`;
       document.querySelector('ul').innerHTML = book
