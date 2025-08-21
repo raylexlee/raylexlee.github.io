@@ -13,6 +13,9 @@ html,body {
 const params =  (new URL(document.location)).searchParams;
 const title =  params.get('title');
 const name =  params.get('name');
+const cttn = `currentTime${title}${name}`;
+if (!localStorage.getItem(cttn)) { localStorage.setItem(cttn, "0.0") }
+let currentTime = parseFloat(localStorage.getItem(cttn));
 const innerVideo = a => `
   <source src="avs/${a}.mp3" type="audio/mp3">
   <track src="avs/${a}.vtt" kind="subtitles" srclang="zh" label="中文" default>
@@ -29,7 +32,16 @@ video.onclick=() => {
     video.pause() 
   }
 }
-video.onplay = () => { video.poster = '' }
-video.onpause = () => { video.poster = svg(title) }
-video.onended = () => { video.play() }
+video.onplay = () => { 
+  video.poster = ''; 
+  video.currentTime = currentTime;
+
+}
+video.onpause = () => {
+  currentTime = video.currentTime;
+  localStorage.setItem(cttn, currentTime);  
+  video.poster = svg(title) }
+video.onended = () => { 
+  currentTime = 0.0;
+  video.play() }
 </script>
