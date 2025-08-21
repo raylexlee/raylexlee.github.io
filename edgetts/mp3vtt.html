@@ -24,12 +24,12 @@ video.innerHTML = innerVideo(title);
 video.poster = svg(title);
 video.onclick=() => {
   if (video.paused) {
-    video.poster = ""; 
     video.play() 
   } else { 
-    video.poster = svg(title);
     video.pause() 
   }
-video.onended = () => { video.poster = svg(title) }
 }
+video.onplay = () => { video.poster = '' }
+video.onpause = () => { video.poster = svg(title) }
+video.onended = () => { video.play() }
 </script>
