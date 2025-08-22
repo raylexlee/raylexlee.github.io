@@ -16,11 +16,12 @@ export class Scheduler {
   
   renderUI() {
     this.container.innerHTML = `
-      <p> 
+      <div style="display: flex; align-items: center; gap: 15px;">
         <input type="checkbox" id="mySchedule" name="schedule" value="schedule">
-        <label for="mySchedule"><span id='sleep'>45</span> min &rarr; 💤</label>
+        <label for="mySchedule"><span id='sleep'>45</span> min </label>
+        <label for="stop"> &rarr; 💤</label>
         <input type="range" min="5" max="75" value="45" step="5" id="stop">
-      </p>
+      </di>
     `;
     
     this.stopInput = this.container.querySelector('#stop');
