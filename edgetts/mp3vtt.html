@@ -74,14 +74,18 @@ video.onclick=() => {
 }
 video.onplay = () => { 
   video.poster = ''; 
+  video.controls = false;
   video.currentTime = currentTime;
 
 }
 video.onpause = () => {
   currentTime = video.currentTime;
   localStorage.setItem(cttn, currentTime);  
-  video.poster = svg(title) }
+  video.poster = svg(title) 
+  video.controls = true;
+}
 video.onended = () => { 
   currentTime = 0.0;
   video.play() }
+video.onseeked = () => { currentTime = video.currentTime }
 </script>
