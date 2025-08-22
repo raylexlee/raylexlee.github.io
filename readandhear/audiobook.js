@@ -53,6 +53,7 @@ function myInit() {
     updateQR(activeEpisode, audio.currentTime);
     clearInterval(mySync);
   };
+  audio.onseeked = () => { currentTime = audio.currentTime; }
   audio.onended = function (e) {
     if (myAutoplay.checked) {
       nextChapter();
