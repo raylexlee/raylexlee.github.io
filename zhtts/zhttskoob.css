@@ -50,7 +50,7 @@ span {
   resize: none;
   outline: none;
   width: 97%;
-  height: 97%;
+  height: 80%;
 }
 textarea::selection {
     color: white;

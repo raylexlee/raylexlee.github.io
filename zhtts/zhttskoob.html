@@ -8,6 +8,11 @@
   <title>李潤明</title>
   <link rel="stylesheet" href="zhttskoob.css">
   </link>
+  <style>
+::backdrop {
+  backdrop-filter: blur(3px);
+}
+  </style>
 </head>
 
 <body>
@@ -52,17 +57,18 @@
    <input type="checkbox" id="mySchedule" name="schedule" value="schedule" >
    <label for="schedule"><span id='sleep'>45</span> min &rarr; 💤</label>
     <input type="range" min="5" max="75" value="45" step="5" id="stop">
+<button style="background-color: black;" id="showQR" popovertarget="qrcode"><img src="qr_code.svg" /></button>
    </p>
       <textarea name="myContent" id="myContent" readonly></textarea>
     </div>
   </div>
-  <div id="qrcode"></div>
+  <div id="qrcode" popover></div>
 <script src="qrcode.js"></script> 
 <script type="text/javascript">
 var qrcode = new QRCode(document.getElementById("qrcode"), {
 	text: decodeURI(window.location.href),
-	width: 128,
-	height: 128,
+	width: 200,
+	height: 200,
 	colorDark : "#ffffff",
 	colorLight : "#000000",
 	correctLevel : QRCode.CorrectLevel.H
