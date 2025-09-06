@@ -10,7 +10,7 @@
   </link>
   <style>
 ::backdrop {
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(20px);
 }
   </style>
 </head>
@@ -55,9 +55,9 @@
     <div class="remainingDiv">
    <p> 
    <input type="checkbox" id="mySchedule" name="schedule" value="schedule" >
-   <label for="schedule"><span id='sleep'>45</span> min &rarr; 💤</label>
+   <label for="schedule"><span id='sleep'>45</span> &rarr; 💤</label>
     <input type="range" min="5" max="75" value="45" step="5" id="stop">
-<button style="background-color: black;" id="showQR" popovertarget="qrcode"><img src="qr_code.svg" /></button>
+<button style="background-color: black; border=1px solid black;" id="showQR" popovertarget="qrcode"><img src="qr_code.svg" /></button>
    </p>
       <textarea name="myContent" id="myContent" readonly></textarea>
     </div>
@@ -65,10 +65,13 @@
   <div id="qrcode" popover></div>
 <script src="qrcode.js"></script> 
 <script type="text/javascript">
+let qw = window.innerWidth;
+let qh = window.innerHeight;
+const qq = (qw > qh) ? qh : qw;
 var qrcode = new QRCode(document.getElementById("qrcode"), {
 	text: decodeURI(window.location.href),
-	width: 200,
-	height: 200,
+	width: qq * 0.8,
+	height: qq * 0.8,
 	colorDark : "#ffffff",
 	colorLight : "#000000",
 	correctLevel : QRCode.CorrectLevel.H
