@@ -10,18 +10,20 @@ title = title ? title : '阿Q正傳';
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
 });
+async function fetchText(file) {
+  const response = await fetch(file);
+  const text = await response.text();
+  return text;
+}
 const contentUrl = chapter => `text/${title}/${chapter.substring(0,nDigits)}.txt`;
 const coverparametersUrl = `text/${title}/coverparameters.txt`;
-function myInit() {
+async function myInit() {
   myContent = document.getElementById('myContent');
-  fetch(coverparametersUrl)
-    .then(response => response.text())
-    .then(data => {
-      chapters = data.replace(/\n+$/, "").split("\n");
-      nDigits = chapters[0].indexOf(" ");      
-      const chapter = getLastChapter();
-      gotoChapter(chapter); 
-    });
+  const data = await fetchText(coverparametersUrl);
+  chapters = data.replace(/\n+$/, "").split("\n");
+  nDigits = chapters[0].indexOf(" ");      
+  const chapter = getLastChapter();
+  gotoChapter(chapter); 
 }
 function prevChapter() {
     const idx =chapters.findIndex(c => c.startsWith(activeEpisode));
@@ -37,7 +39,7 @@ function nextChapter() {
     const chapter = chapters[i];
     gotoChapter(chapter);
 }
-function gotoChapter(chapter) {
+async function gotoChapter(chapter) {
    activeEpisode = chapter.substring(0,nDigits);
    localStorage.setItem('book_activeEpisode'+title, activeEpisode);
    const headline=isHead => `<h5>
@@ -46,16 +48,13 @@ function gotoChapter(chapter) {
      <a href="javascript:nextChapter()" style="color:cyan;">&rArr;</a> 
      </h5>`;
    document.title = `${title} ${chapter.substring(1 + nDigits)}`;
-   fetch(contentUrl(chapter))
-     .then(response => response.text())
-     .then(data => {
+const data = await fetchText(contentUrl(chapter));
        const paragraphs = data.replace(/\n+$/, "").split('\n');
        myContent.innerHTML = `
 ${headline(true)}
 ${paragraphs.map(e => `<p>${e}</p>`).join('\n')}
 ${headline(false)}
 `;
-     });
 }
 function getLastChapter() {
   if (!localStorage.getItem('book_activeEpisode'+title)) {
