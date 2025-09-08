@@ -1,3 +1,4 @@
+let myHeadline;
 let myContent;
 let nDigits = 3;
 let title, chapters;
@@ -19,6 +20,7 @@ const contentUrl = chapter => `text/${title}/${chapter.substring(0,nDigits)}.txt
 const coverparametersUrl = `text/${title}/coverparameters.txt`;
 async function myInit() {
   myContent = document.getElementById('myContent');
+  myHeadline = document.getElementById('myHeadline');
   const data = await fetchText(coverparametersUrl);
   chapters = data.replace(/\n+$/, "").split("\n");
   nDigits = chapters[0].indexOf(" ");      
@@ -50,11 +52,9 @@ async function gotoChapter(chapter) {
    document.title = `${title} ${chapter.substring(1 + nDigits)}`;
 const data = await fetchText(contentUrl(chapter));
        const paragraphs = data.replace(/\n+$/, "").split('\n');
-       myContent.innerHTML = `
-${headline(true)}
-${paragraphs.map(e => `<p>${e}</p>`).join('\n')}
-${headline(false)}
-`;
+
+       myHeadline.innerHTML = `${headline(true)}`;
+       myContent.value = paragraphs.join('\n');
 }
 function getLastChapter() {
   if (!localStorage.getItem('book_activeEpisode'+title)) {
