@@ -1,5 +1,6 @@
 let myHeadline;
 let myContent;
+let myChapter;
 let nDigits = 3;
 let title, chapters;
 let activeEpisode;
@@ -16,15 +17,19 @@ async function fetchText(file) {
   const text = await response.text();
   return text;
 }
+const optionChapter = c => `<option value="${c}" ${c.startsWith(activeEpisode) ? 'selected' : ''}>${c.substring(1+nDigits)}</option>`;
 const contentUrl = chapter => `text/${title}/${chapter.substring(0,nDigits)}.txt`;
 const coverparametersUrl = `text/${title}/coverparameters.txt`;
 async function myInit() {
   myContent = document.getElementById('myContent');
+  myChapter = document.getElementById('myChapter');
   myHeadline = document.getElementById('myHeadline');
   const data = await fetchText(coverparametersUrl);
   chapters = data.replace(/\n+$/, "").split("\n");
   nDigits = chapters[0].indexOf(" ");      
   const chapter = getLastChapter();
+  myChapter.innerHTML = chapters.map(c => optionChapter(c)).join('\n');
+  myChapter.onchange = () => { gotoChapter(myChapter.value); }
   gotoChapter(chapter); 
 }
 function prevChapter() {
@@ -32,6 +37,7 @@ function prevChapter() {
     let i = idx - 1;
     i = (i === -1) ? (chapters.length - 1) : i;
     const chapter = chapters[i];
+    myChapter.value = chapter;
     gotoChapter(chapter);
 }
 function nextChapter() {
@@ -39,21 +45,16 @@ function nextChapter() {
     let i = idx + 1;
     i = (i === chapters.length) ? 0 : i;
     const chapter = chapters[i];
+    myChapter.value = chapter;
     gotoChapter(chapter);
 }
 async function gotoChapter(chapter) {
    activeEpisode = chapter.substring(0,nDigits);
    localStorage.setItem('book_activeEpisode'+title, activeEpisode);
-   const headline=isHead => `<h5>
-     <a href="javascript:prevChapter()" style="color:cyan;">&lArr;</a> 
-     ${isHead ? chapter.substring(1 + nDigits).replace("_"," ") : '&nbsp'}
-     <a href="javascript:nextChapter()" style="color:cyan;">&rArr;</a> 
-     </h5>`;
    document.title = `${title} ${chapter.substring(1 + nDigits)}`;
 const data = await fetchText(contentUrl(chapter));
        const paragraphs = data.replace(/\n+$/, "").split('\n');
 
-       myHeadline.innerHTML = `${headline(true)}`;
        myContent.value = paragraphs.join('\n');
 }
 function getLastChapter() {

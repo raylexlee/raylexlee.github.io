@@ -20,6 +20,7 @@ a:visited {
   background-color: black;
   flex: 1;
   max-height: 90px;
+  display: flex;
 }
 .remainingDiv{
   flex-grow: 1;
@@ -39,3 +40,23 @@ textarea::selection {
     color: white;
     background: blue;
 }
+.select-wrapper {
+  flex: 1;
+  max-width: 800px;      /* optional: constrain size */
+  overflow: hidden;      /* prevents content spill */
+}
+
+select {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  white-space: nowrap;   /* keeps text on one line */
+  overflow: hidden;
+  text-overflow: ellipsis; /* adds "..." if text is too long */
+  appearance: none;      /* removes default styling (optional) */
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
