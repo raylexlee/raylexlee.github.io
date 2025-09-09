@@ -28,6 +28,10 @@ a:visited {
   overflow: hidden;
   text-overflow: ellipsis; /* adds "..." if text is too long */
 }
+.div1 button {
+  background-color: black; 
+  border=1px solid black;
+}
 .remainingDiv{
   flex-grow: 1;
   display: flex;
@@ -64,5 +68,8 @@ select {
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+::backdrop {
+  backdrop-filter: blur(20px);
 }
 

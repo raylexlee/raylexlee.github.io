@@ -27,10 +27,10 @@
     </div>
     <div id="myFootline" class="div1">
       <div>
-        <button style="background-color: black; border=1px solid black;" id="showQR" popovertarget="setting"><img src="setting.svg" /></button>
+        <button id="showQR" popovertarget="setting"><img src="setting.svg" /></button>
       </div>
       <div>
-        <button style="background-color: black; border=1px solid black;" id="showQR" popovertarget="qrcode"><img src="qr_code.svg" /></button>
+        <button id="showQR" popovertarget="qrcode"><img src="qr_code.svg" /></button>
       </div>
       <div>
       <a href="javascript:speak()" style="color:red;">&#9654;</a>
@@ -38,7 +38,7 @@
       <div>
        <a href="javascript:pauseResume()" style="color:red;">&#9208;</a>
       </div>
-      <div>
+      <div id="myTitle">
       紅樓夢滿紙荒唐言，一把辛酸淚。都云作者癡，誰解其中味？
       </div>
     </div>
@@ -46,6 +46,21 @@
 Last updated : 9 Sep 2025
     </div>
   </div>
+  <div id="qrcode" popover></div>
+<script src="qrcode.js"></script> 
+<script type="text/javascript">
+let qw = window.innerWidth;
+let qh = window.innerHeight;
+const qq = (qw > qh) ? qh : qw;
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: decodeURI(window.location.href),
+	width: qq * 0.8,
+	height: qq * 0.8,
+	colorDark : "#ffffff",
+	colorLight : "#000000",
+	correctLevel : QRCode.CorrectLevel.H
+});
+</script>  
 </body>
 <script src="abook.js"></script>
 </html>
