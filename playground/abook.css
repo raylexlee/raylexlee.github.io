@@ -15,12 +15,18 @@ a:visited {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  width: 100vw;
 }
 .div1{
   background-color: black;
-  flex: 1;
-  max-height: 90px;
+  width: 100vw;
+  min-height: 70px;
   display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  white-space: nowrap;   /* keeps text on one line */
+  overflow: hidden;
+  text-overflow: ellipsis; /* adds "..." if text is too long */
 }
 .remainingDiv{
   flex-grow: 1;
