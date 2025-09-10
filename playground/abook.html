@@ -61,6 +61,49 @@ var qrcode = new QRCode(document.getElementById("qrcode"), {
 	correctLevel : QRCode.CorrectLevel.H
 });
 </script>  
+<audio id='audio' src="1-hour-of-silence.mp3"></audio>
+<div id="setting" popover>
+   <div>
+      <input type="checkbox" id="myAutoplay" name="autoplay" value="autoplay" checked>
+      <label for="autoplay">自動播</label>
+    </div>
+    <div>
+      <input type="range" min="0" max="10" value="2" name="myRange" id="myRange">
+      <label for="myRange"><img src="textscale.svg" /></label>
+    </div>
+    <div>
+      <input name="myRate" type="range" min="0.5" max="2" value="0.9" step="0.1" id="rate">
+      <label for="myRate">Rate</label>
+    </div>
+    <div>
+      <select id='myVoice'></select>
+    </div>
+    <div>
+   <p> 
+   <input type="checkbox" id="mySchedule" name="schedule" value="schedule" >
+   <label for="schedule"><span id='sleep'>45</span> &rarr; 💤</label>
+    <input type="range" min="5" max="75" value="45" step="5" id="stop">
+   </p>
+    </div>
+ </div>
+<script>
+const stop = document.getElementById('stop');
+stop.onchange = () => { document.getElementById('sleep').innerText = stop.value; }
+let scheduleID = -1;
+const mySchedule = document.getElementById('mySchedule');
+mySchedule.onchange = function() {
+  if (this.checked) { 
+    scheduleStop(stop.value);
+    } else {
+    if (scheduleID == -1) return;
+    clearTimeout(scheduleID);
+    scheduleID = -1;
+  }
+}
+function scheduleStop(duration) {
+  scheduleID = setTimeout(() => { pauseResume(); mySchedule.checked = false; }, duration * 60 * 1000);
+}
+</script>
 </body>
 <script src="abook.js"></script>
 </html>
