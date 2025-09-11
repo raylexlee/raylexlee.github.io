@@ -5,61 +5,45 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>李潤明</title>
-  <link rel="stylesheet" href="zhttsaloud.css">
-  </link>
-  <style>
-::backdrop {
-  backdrop-filter: blur(20px);
-}
-  </style>
+  <title></title>
+  <link rel="stylesheet" href="zhttsaloud.css"> </link>
 </head>
 
 <body>
   <div class="viewportDiv">
-    <div class="div1">
-      <section class="navigation">
-        <div class="nav-container">
-          <div class="brand">
-            <div class="subtitle">
-              <input type="checkbox" id="myAutoplay" name="autoplay" value="autoplay" checked>
-              <label for="autoplay">自動播</label>
-              <input type="range" min="0" max="10" value="2" id="myRange">
-              <span id='myBook'></span>
-            </div>
-          </div>
-          <nav>
-            <div class="nav-mobile">
-              <a class='active' id="nav-toggle" href="#!"><span></span></a>
-            </div>
-            <ul class="nav-list">
-              <li>
-                <a href="#">選 取 章 回</a>
-                <ul class="nav-dropdown" id="myChapterList">
-                </ul>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </section>
-      <section>
-        <div class="grid-container">
-        <audio id='audio' src="1-hour-of-silence.mp3"></audio>
-     <a href="javascript:speak()" style="color:red;">&#9654;</a> 
-      <input type="range" min="0.5" max="2" value="0.9" step="0.1" id="rate">
-     <a href="javascript:pauseResume()" style="color:red;">&#9208;</a> 
-      <select id='myVoice'></select>
-        </div>
-      </section>
+    <div id="myHeadline" class="div1">
+      <div>
+        <a href="javascript:prevChapter()" style="color:cyan;">&lArr;</a> 
+      </div>
+      <div class="select-wrapper">
+        <select id="myChapter"> </select>
+      </div>
+      <div>
+        <a href="javascript:nextChapter()" style="color:cyan;">&rArr;</a> 
+      </div>
     </div>
     <div class="remainingDiv">
-   <p> 
-   <input type="checkbox" id="mySchedule" name="schedule" value="schedule" >
-   <label for="schedule"><span id='sleep'>45</span> &rarr; 💤</label>
-    <input type="range" min="5" max="75" value="45" step="5" id="stop">
-<button style="background-color: black; border=1px solid black;" id="showQR" popovertarget="qrcode"><img src="qr_code.svg" /></button>
-   </p>
       <textarea name="myContent" id="myContent" readonly></textarea>
+    </div>
+    <div id="myFootline" class="div1">
+      <div>
+        <button id="showQR" popovertarget="setting"><img src="setting.svg" /></button>
+      </div>
+      <div>
+        <button id="showQR" popovertarget="qrcode"><img src="qr_code.svg" /></button>
+      </div>
+      <div>
+      <a href="javascript:speak()" style="color:red;">&#9654;</a>
+      </div>
+      <div>
+       <a href="javascript:pauseResume()" id="myPauseCancel" style="color:red;">&#9208;</a>
+      </div>
+      <div id="myBook">
+      紅樓夢滿紙荒唐言，一把辛酸淚。都云作者癡，誰解其中味？
+      </div>
+    </div>
+    <div id="myFootline" class="div1">
+Last updated : 9 Sep 2025
     </div>
   </div>
   <div id="qrcode" popover></div>
@@ -77,6 +61,31 @@ var qrcode = new QRCode(document.getElementById("qrcode"), {
 	correctLevel : QRCode.CorrectLevel.H
 });
 </script>  
+<audio id='audio' src="1-hour-of-silence.mp3"></audio>
+<div id="setting" popover>
+   <div>
+      <input type="checkbox" id="myAutoplay" name="autoplay" value="autoplay" checked>
+      <label for="autoplay">自動播</label>
+    </div>
+    <div>
+      <input type="range" min="0" max="10" value="2" name="myRange" id="myRange">
+      <label for="myRange"><img src="textscale.svg" /></label>
+    </div>
+    <div>
+      <input name="myRate" type="range" min="0.5" max="2" value="0.9" step="0.1" id="rate">
+      <label for="myRate">Rate</label>
+    </div>
+    <div>
+      <select id='myVoice'></select>
+    </div>
+    <div>
+   <p> 
+   <input type="checkbox" id="mySchedule" name="schedule" value="schedule" >
+   <label for="schedule"><span id='sleep'>45</span> &rarr; 💤</label>
+    <input type="range" min="5" max="75" value="45" step="5" id="stop">
+   </p>
+    </div>
+ </div>
 <script>
 const stop = document.getElementById('stop');
 stop.onchange = () => { document.getElementById('sleep').innerText = stop.value; }
@@ -97,5 +106,4 @@ function scheduleStop(duration) {
 </script>
 </body>
 <script src="zhttsaloud.js"></script>
-
 </html>

@@ -1,7 +1,7 @@
 let type;
 const params =  (new URL(document.location)).searchParams;
 type =  params.get('type');
-type = type ? type : 'zhttskoob.html';
+type = type ? type : 'zhttsaloud.html';
 document.title =  params.get('author');
 document.body.onload = () => {
   insertRadioAtTopOfBody();

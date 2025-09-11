@@ -1,13 +1,13 @@
 let adjustment = 0.4;
 let audio;
-let title, myContent, myChapterList, myRange, myBook, myAutoplay;
+let title, myContent, myChapter, myRange, myBook, myAutoplay;
 let nDigits = 3;
 let myPauseCancel;
 let chapters;
 let activeEpisode;
 const querystring = location.search;
 const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
-if (params === 'none') window.location = 'zhttskoob.html?title=阿Q正傳';
+if (params === 'none') window.location = 'zhttsaloud.html?title=阿Q正傳';
 title =  params.get('title');
 title = title ? title : '阿Q正傳';
 const synth = window.speechSynthesis;
@@ -89,6 +89,7 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
 });
+const optionChapter = c => `<option value="${c}" ${c.startsWith(activeEpisode) ? 'selected' : ''}>${c.substring(1+nDigits)}</option>`;
 const contentUrl = chapter => `text/${title}/${chapter.substring(0,nDigits)}.txt`;
 function myInit() {
   document.title = title;
@@ -99,10 +100,11 @@ function myInit() {
   myContent = document.getElementById('myContent');
   myContent = document.getElementById('myContent');
   myContent.style.lineHeight=2;
-  myChapterList = document.getElementById('myChapterList');
+  myChapter = document.getElementById('myChapter');
   myRange = document.getElementById('myRange'); 
   myBook = document.getElementById('myBook');
   myAutoplay = document.getElementById('myAutoplay');
+  myPauseCancel = document.getElementById('myPauseCancel');
   const optChapter = chapter => `<li><a href="javascript:gotoChapter('${chapter}')">${chapter.substring(1 + nDigits)}</a></li>`;
   let backto = 'index';
   const caller =  params.get('caller');
@@ -133,18 +135,10 @@ function myInit() {
     .then(data => {
       chapters = data.replace(/\n+$/, "").split('\n');
       nDigits = chapters[0].indexOf(' ');      
-      myChapterList.innerHTML=`${optIndexHtml}\n${chapters.map(c => optChapter(c)).join('\n')}`; 
-      ProcessMenu();
-      document.getElementById('nav-toggle').onclick = function () {
-        this.classList.toggle('active');
-      };
-      document.getElementById('nav-toggle').addEventListener('click', function () {
-        document.querySelectorAll('nav ul').forEach(el => toggle(el));
-        });
-      const links = document.getElementsByTagName('a');
-      myPauseCancel = links[links.length - 1];
-      if (mySpeaker.filter(s => s.voiceURI.startsWith('Google')).length >= 1) punctuationRegex = googleRegex;
       const chapter = getLastChapter();
+  myChapter.innerHTML = chapters.map(c => optionChapter(c)).join('\n');
+  myChapter.onchange = () => { gotoChapter(myChapter.value); }
+      if (mySpeaker.filter(s => s.voiceURI.startsWith('Google')).length >= 1) punctuationRegex = googleRegex;
       gotoChapter(chapter, false); 
     });
 }    
@@ -153,6 +147,7 @@ function prevChapter() {
     let i = idx - 1;
     i = (i === -1) ? (chapters.length - 1) : i;
     const chapter = chapters[i];
+    myChapter.value = chapter;
     positionIndex = 0;
     gotoChapter(chapter);
 }
@@ -161,6 +156,7 @@ function nextChapter() {
     let i = idx + 1;
     i = (i === chapters.length) ? 0 : i;
     const chapter = chapters[i];
+    myChapter.value = chapter;
     positionIndex = 0;
     gotoChapter(chapter);
 }
@@ -168,14 +164,7 @@ function gotoChapter(chapter, PleaseSpeak = true) {
    //activeEpisode = parseInt(chapter.substring(0,3));
    activeEpisode = chapter.substring(0,nDigits);
    localStorage.setItem('wspa_activeEpisode'+title, activeEpisode);
-   const loadchapterUrl = `loadchapter.html?book=${title}&episode=${activeEpisode}`;
-   myBook.innerHTML=`
-     <a href="javascript:window.open('${loadchapterUrl}','readaloud');" style="color:cyan;">&#128220;</a> 
-     ${title} 
-     <a href="javascript:prevChapter()" style="color:cyan;">&lArr;</a> 
-     ${chapter.substring(1 + nDigits)}
-     <a href="javascript:nextChapter()" style="color:cyan;">&rArr;</a> 
-     `;
+   myBook.innerHTML = title;
    document.title = `${title} ${chapter.substring(1 + nDigits)}`;
    fetch(contentUrl(chapter))
      .then(response => response.text())
@@ -208,27 +197,6 @@ function gotoChapter(chapter, PleaseSpeak = true) {
          if (PleaseSpeak) speak();
        }
      });
-}
-function toggle(elem) {
-  elem.style.display = (elem.style.display === 'none') ? 'block' : 'none';
-}
-
-function ProcessMenu() {
-  document.querySelectorAll('nav ul li > a:not(:only-child)')
-    .forEach(el => el.onclick = function (e) {
-      const nd = this.nextElementSibling;
-      document.querySelectorAll('.nav-dropdown')
-        .forEach(function(elem) { 
-          if (elem === nd) {
-            toggle(nd);
-          } else {
-            elem.style.display = 'none';
-          }});
-      e.stopPropagation();
-    });
-  document.documentElement.onclick = function () {
-    document.querySelectorAll('.nav-dropdown').forEach(el => el.style.display = 'none');
-  };
 }
 function getLastChapter() {
   const c = params.get('chapter');
