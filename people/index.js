@@ -1,9 +1,9 @@
 let type;
 const querystring = location.search;
 const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
-if (params === 'none') window.location = 'index.html?type=zhttskoob.html';
+if (params === 'none') window.location = 'index.html?type=zhttsaloud.html';
 type =  params.get('type');
-type = type ? type : 'zhttskoob.html';
+type = type ? type : 'zhttsaloud.html';
 document.body.onload = () => { 
   insertRadioAtTopOfBody();
   fetch(`pairs.txt`)

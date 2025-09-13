@@ -2,4 +2,5 @@
 cp zhtts/zhttsaloud* $1/
 cp zhtts/setting.svg $1/
 cp zhtts/textscale.svg $1/
+cp zhtts/qr_code.svg $1/
 cp zhtts/1-hour-of-silence.mp3 $1/
