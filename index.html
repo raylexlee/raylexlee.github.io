@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Q計劃</title>
-  <link rel="stylesheet" href="css/main4.css">
+  <link rel="stylesheet" href="css/main5.css">
 </head>
 
 <body>
@@ -18,12 +18,27 @@
     <div><a href="radio/"><img src="radio/apple-touch-icon.png" /></a></div>
     <div><a href="wow/"><img src="wow/wow.svg" /></a></div>
     <div><a href="readandhear"><img src="readandhear/apple-touch-icon.png" /></a></div>
-    <div></div>
+    <div><button id="showQR" popovertarget="qrcode"><img src="zhtts/qr_code.svg" /></button></div>
     <div><a href="people/"><img src="people/people.svg" /></a></div>
   </div>
   <p style="margin-top: 0; padding: 0; text-align: center; font-size:small; color: lightgray;">
     Last updated on <a href="hk.html">HKT</a> Thursday 8:54 pm, 11 September 2025
   </p>
+  <div id="qrcode" popover></div>
+<script src="zhtts/qrcode.js"></script> 
+<script type="text/javascript">
+let qw = window.innerWidth;
+let qh = window.innerHeight;
+const qq = (qw > qh) ? qh : qw;
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: decodeURI(window.location.href),
+	width: qq * 0.75,
+	height: qq * 0.75,
+	colorDark : "#ffffff",
+	colorLight : "#000000",
+	correctLevel : QRCode.CorrectLevel.H
+});
+</script>  
 </body>
 
 </html>
