@@ -1,9 +1,9 @@
 const vtArray = [ 
-['qmttskoob.html', 'tts','HotPink'], 
+['qmttsaloud.html', 'tts','HotPink'], 
 ['ibook.html','txt', 'cyan']
 ];
 const description = {
-'qmttskoob.html' : `For the best audio effect, please use the latest version of Microsoft Edge and activate by using Read Aloud, especially Android devices. Google Chrome should work in all platform. Safari of ios and MS Edge on Android are the only choices for supporting mobile screen off feature.  Please refer to the Web Speech API at <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API">SpeechSynthesis</a>。`,
+'qmttsaloud.html' : `For the best audio effect, please use the latest version of Microsoft Edge and activate by using Read Aloud, especially Android devices. Google Chrome should work in all platform. Safari of ios and MS Edge on Android are the only choices for supporting mobile screen off feature.  Please refer to the Web Speech API at <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API">SpeechSynthesis</a>。`,
 'ibook.html' : 'Please use the Read Aloud feature of the latest Microsoft Edge.'
 }
 function insertRadioAtTopOfBody() {
