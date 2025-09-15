@@ -1,4 +1,6 @@
 let myHeadline;
+let myFootlineSetting;
+let myFootline;
 let myContent;
 let myChapter;
 let nDigits = 3;
@@ -12,6 +14,10 @@ title = title ? title : '阿Q正傳';
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
 });
+function isEdgeAndroid() {
+  const userAgent = navigator.userAgent.toLowerCase();
+  return userAgent.includes('edg') && userAgent.includes('android');
+}
 async function fetchText(file) {
   const response = await fetch(file);
   const text = await response.text();
@@ -24,6 +30,14 @@ async function myInit() {
   myContent = document.getElementById('myContent');
   myChapter = document.getElementById('myChapter');
   myHeadline = document.getElementById('myHeadline');
+  myFootlineSetting = document.getElementById('myFootlineSetting');
+  myFootline = document.getElementById('myFootline');
+  if (isEdgeAndroid()) {
+    myFootline.style.minHeight = '70px';
+    myFootlineSetting.style.minHeight = '70px';    
+  } else {
+    myFootline.style.display = 'none';
+  }
   const data = await fetchText(coverparametersUrl);
   chapters = data.replace(/\n+$/, "").split("\n");
   nDigits = chapters[0].indexOf(" ");      
