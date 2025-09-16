@@ -11,8 +11,6 @@ if (params === 'none') window.location = 'zhttsaloud.html?title=阿Q正傳';
 title =  params.get('title');
 title = title ? title : '阿Q正傳';
 const synth = window.speechSynthesis;
-const  myFootlineSetting = document.getElementById('myFootlineSetting');
-const  myFootline = document.getElementById('myFootline');
 const myVoice = document.getElementById('myVoice');
 const rate = document.querySelector('#rate');
 let completed_myinit = false;
@@ -116,6 +114,8 @@ async function myInit() {
   myBook = document.getElementById('myBook');
   myAutoplay = document.getElementById('myAutoplay');
   myPauseCancel = document.getElementById('myPauseCancel');
+const  myFootlineSetting = document.getElementById('myFootlineSetting');
+const  myFootline = document.getElementById('myFootline');
   if (isEdgeAndroid()) {
     myFootline.style.minHeight = '70px';
     myFootlineSetting.style.minHeight = '70px';    
@@ -136,6 +136,9 @@ async function myInit() {
     myContent.style.fontSize = `${20 + parseInt(v)}px`;
     CalculateScrollData(); // for rowsLine[], lineHeight, nCharsRow
   };
+  document.getElementById('setting').onbeforetoggle = function() {
+    document.getElementById('yellow').style.display = (isEdgeAndroid() && (myVoice.length == 0)) ? '' : 'none'; 
+  }
   document.body.onunload = function() {
     if (synth.speaking) {
       justCancel = true;
