@@ -31,7 +31,6 @@ a:visited {
 .div1{
   background-color: black;
   width: 100vw;
-  min-height: 70px;
   display: flex;
   flex-wrap: nowrap;
   gap: 20px;
