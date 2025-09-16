@@ -11,6 +11,8 @@ if (params === 'none') window.location = 'zhttsaloud.html?title=阿Q正傳';
 title =  params.get('title');
 title = title ? title : '阿Q正傳';
 const synth = window.speechSynthesis;
+const  myFootlineSetting = document.getElementById('myFootlineSetting');
+const  myFootline = document.getElementById('myFootline');
 const myVoice = document.getElementById('myVoice');
 const rate = document.querySelector('#rate');
 let completed_myinit = false;
@@ -89,6 +91,15 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
 });
+function isEdgeAndroid() {
+  const userAgent = navigator.userAgent.toLowerCase();
+  return userAgent.includes('edg') && userAgent.includes('android');
+}
+async function fetchText(file) {
+  const response = await fetch(file);
+  const text = await response.text();
+  return text;
+}
 const optionChapter = c => `<option value="${c}" ${c.startsWith(activeEpisode) ? 'selected' : ''}>${c.substring(1+nDigits)}</option>`;
 const contentUrl = chapter => `text/${title}/${chapter.substring(0,nDigits)}.txt`;
 function myInit() {
@@ -105,11 +116,12 @@ function myInit() {
   myBook = document.getElementById('myBook');
   myAutoplay = document.getElementById('myAutoplay');
   myPauseCancel = document.getElementById('myPauseCancel');
-  const optChapter = chapter => `<li><a href="javascript:gotoChapter('${chapter}')">${chapter.substring(1 + nDigits)}</a></li>`;
-  let backto = 'index';
-  const caller =  params.get('caller');
-  backto = caller ? caller : backto;
-  const optIndexHtml = `<li><a href="${backto}.html">返　回　前　目　錄</a></li>`;
+  if (isEdgeAndroid()) {
+    myFootline.style.minHeight = '70px';
+    myFootlineSetting.style.minHeight = '70px';    
+  } else {
+    myFootline.style.display = 'none';
+  }
   myContent.onselect = e => {
     for (let i = 0; i < punctuationPosition.length; i++) {
       if (punctuationPosition[i] >= myContent.selectionStart) {
