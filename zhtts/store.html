@@ -10,15 +10,14 @@
 </head>
 <body>
   <div class="viewportDiv">
-    <div id="myHeadline" class="div1">
-      <div>
-        <a href="javascript:prevChapter()" style="color:cyan;">&lArr;</a> 
-      </div>
+    <div id="myGroupline" class="div1">
       <div class="select-wrapper">
-        <select id="myChapter"> </select>
+        <select id="myGroup"> </select>
       </div>
-      <div>
-        <a href="javascript:nextChapter()" style="color:cyan;">&rArr;</a> 
+    </div>
+    <div id="myBookline" class="div1">
+      <div class="select-wrapper">
+        <select id="myBook"> </select>
       </div>
     </div>
     <div class="remainingDiv">
@@ -31,13 +30,7 @@
       <div>
         <button id="showQR" popovertarget="qrcode"><img src="qr_code.svg" /></button>
       </div>
-      <div>
-      <a href="javascript:speak()" style="color:red;">&#9654;</a>
-      </div>
-      <div>
-       <a href="javascript:pauseResume()" id="myPauseCancel" style="color:red;">&#9208;</a>
-      </div>
-      <div id="myBook">
+      <div id="myBookTitle">
       紅樓夢滿紙荒唐言，一把辛酸淚。都云作者癡，誰解其中味？
       </div>
     </div>

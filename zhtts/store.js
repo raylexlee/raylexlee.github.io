@@ -1,27 +1,38 @@
-let type;
-const querystring = location.search;
-const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
-if (params === 'none') window.location = 'index.html?type=zhttsaloud.html';
-type =  params.get('type');
-type = type ? type : 'zhttsaloud.html';
-document.body.onload = () => { 
-  insertRadioAtTopOfBody();
-  fetch(`pairs.txt`)
-    .then(response => response.text())
-    .then(data => {
-      const AuthorBooks = data.replace(/\n+$/, "").split('\n');
-      const book = {};
-      AuthorBooks.forEach(AuthorBook => {
-        const [Author, Book] = AuthorBook.split(" ");
-        if (Author in book) {
-          book[Author].push(Book);
-        } else {  
-            book[Author] = [ Book ];
-          }
-      });
-      const li_a = a => `<li><a href='group.html?author=${a}&type=${type}'>${a.replace(/_/g," ")}</a></li>`;
-      const li_b = a => `<li><a href='${type}?title=${a}'>${a.replace(/_/g," ")}</a></li>`;
-      document.querySelector('ul').innerHTML = Object.keys(book)
-        .map(e => (book[e].length === 1) ? li_b(book[e][0]) : li_a(e)).join('\n');
-    });
- };
+let myGroup, myBook;
+const book = {};
+const lastBookInGroupStored = g => `lastZhttsBookInGroup${g}`
+const lastBookStored = `lastZhttsBook`
+let lastBook;
+let lastGroup;
+const optionGroup = g => `<option value="${g}" ${(g == lastGroup) ? 'selected' : ''}>${g}</option>`;
+const optionBook = b => `<option value="${b}" ${(b == lastBook) ? 'selected' : ''}>${b}</option>`;
+async function fetchText(file) {
+  const response = await fetch(file);
+  const text = await response.text();
+  return text;
+}
+document.addEventListener("DOMContentLoaded", function(event) { myInit(); });
+async function myInit() { 
+  const data = await fetchText(`pairs.txt`);
+  const AuthorBooks = data.replace(/\n+$/, "").split('\n');
+  AuthorBooks.forEach(AuthorBook => {
+    const [Author, Book] = AuthorBook.split(" ");
+    if (Author in book) {
+      book[Author].push(Book);
+    } else {  
+        book[Author] = [ Book ];
+     }
+  });
+  myGroup = document.getElementById('myGroup');
+  myBook = document.getElementById('myBook');
+  lastBook = localStorage.getItem(lastBookStored);
+  lastBook = lastBook ? lastBook : '紅樓夢';
+  lastGroup = Object.keys(book).filter(g => book[g].includes(lastBook))[0];
+  myGroup.innerHTML = Object.keys(book).map(g => optionGroup(g)).join('\n');
+  myBook.innerHTML = book[lastGroup].map(b => optionBook(b)).join('\n');
+  myGroup.onchange = () => {
+    lastBook = localStorage.getItem(lastBookInGroupStored(myGroup.value));
+    lastBook = lastBook ? lastBook : book[myGroup.value][0];
+    myBook.innerHTML = book[myGroup.value].map(b => optionBook(b)).join('\n');
+  }
+}
