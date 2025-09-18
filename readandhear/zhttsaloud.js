@@ -89,6 +89,24 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
 });
+const getDeviceType = () => {
+  const userAgent = navigator.userAgent;
+  const platform = navigator.platform;
+  const maxTouchPoints = navigator.maxTouchPoints;
+
+  // Detect Android
+  if (/android/i.test(userAgent)) {
+    return "Android";
+  }
+
+  // Detect iOS (including iPads running iPadOS 13+ which might report as MacIntel)
+  if (/iPad|iPhone|iPod/.test(platform) || (platform === 'MacIntel' && maxTouchPoints > 1)) {
+    return "iOS";
+  }
+
+  // If neither Android nor iOS, return "Other"
+  return "Other";
+};
 function isEdgeAndroid() {
   const userAgent = navigator.userAgent.toLowerCase();
   return userAgent.includes('edg') && userAgent.includes('android');
@@ -116,7 +134,8 @@ async function myInit() {
   myPauseCancel = document.getElementById('myPauseCancel');
 const  myFootlineSetting = document.getElementById('myFootlineSetting');
 const  myFootline = document.getElementById('myFootline');
-  if (isEdgeAndroid()) {
+  const deviceType = getDeviceType();
+  if (deviceType !== "Other") {
     myFootline.style.minHeight = '70px';
     myFootlineSetting.style.minHeight = '70px';    
   } else {
