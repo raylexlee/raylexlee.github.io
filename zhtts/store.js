@@ -6,6 +6,10 @@ let lastBook;
 let lastGroup;
 const optionGroup = g => `<option value="${g}" ${(g == lastGroup) ? 'selected' : ''}>${g}</option>`;
 const optionBook = b => `<option value="${b}" ${(b == lastBook) ? 'selected' : ''}>${b}</option>`;
+function isEdgeAndroid() {
+  const userAgent = navigator.userAgent.toLowerCase();
+  return userAgent.includes('edg') && userAgent.includes('android');
+}
 async function fetchText(file) {
   const response = await fetch(file);
   const text = await response.text();
@@ -13,6 +17,14 @@ async function fetchText(file) {
 }
 document.addEventListener("DOMContentLoaded", function(event) { myInit(); });
 async function myInit() { 
+const  myFootlineSetting = document.getElementById('myFootlineSetting');
+const  myFootline = document.getElementById('myFootline');
+  if (isEdgeAndroid()) {
+    myFootline.style.minHeight = '70px';
+    myFootlineSetting.style.minHeight = '70px';    
+  } else {
+    myFootline.style.display = 'none';
+  }
   const data = await fetchText(`pairs.txt`);
   const AuthorBooks = data.replace(/\n+$/, "").split('\n');
   AuthorBooks.forEach(AuthorBook => {
