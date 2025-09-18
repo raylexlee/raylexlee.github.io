@@ -36,3 +36,10 @@ async function myInit() {
     myBook.innerHTML = book[myGroup.value].map(b => optionBook(b)).join('\n');
   }
 }
+const ReadAloud = () => { 
+  lastBook = myBook.value;
+  lastGroup = myGroup.value;
+  localStorage.setItem(lastBookStored, lastBook);
+  localStorage.setItem(lastBookInGroupStored(lastGroup), lastBook);
+  window.location = `zhttsaloud.html?title=${myBook.value}`; 
+}

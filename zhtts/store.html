@@ -11,24 +11,27 @@
 <body>
   <div class="viewportDiv">
     <div id="myGroupline" class="div1">
+      <div>Group</div>
       <div class="select-wrapper">
         <select id="myGroup"> </select>
       </div>
     </div>
     <div id="myBookline" class="div1">
+      <div>Book</div>
       <div class="select-wrapper">
         <select id="myBook"> </select>
       </div>
+      <div><button class="play-btn" onclick="ReadAloud()">Read</button></div>
     </div>
     <div class="remainingDiv">
       <textarea name="myContent" id="myContent" readonly></textarea>
     </div>
     <div id="myFootlineSetting" class="div1">
       <div>
-        <button id="showQR" popovertarget="setting"><img src="setting.svg" /></button>
+        <button id="showQR" class="icon" popovertarget="setting"><img src="setting.svg" /></button>
       </div>
       <div>
-        <button id="showQR" popovertarget="qrcode"><img src="qr_code.svg" /></button>
+        <button id="showQR" class="icon" popovertarget="qrcode"><img src="qr_code.svg" /></button>
       </div>
       <div id="myBookTitle">
       紅樓夢滿紙荒唐言，一把辛酸淚。都云作者癡，誰解其中味？

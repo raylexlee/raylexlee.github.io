@@ -25,6 +25,7 @@ a:visited {
 .viewportDiv {
   display: flex;
   flex-direction: column;
+  gap: 30px;
   height: 100vh;
   width: 100vw;
 }
@@ -32,13 +33,26 @@ a:visited {
   background-color: black;
   width: 100vw;
   display: flex;
+  flex-direction: row;
   flex-wrap: nowrap;
   gap: 20px;
   white-space: nowrap;   /* keeps text on one line */
   overflow: hidden;
   text-overflow: ellipsis; /* adds "..." if text is too long */
 }
-.div1 button {
+        button {
+            font-size: 18px;
+            padding: 10px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        .play-btn {
+            background-color: #28a745;
+            color: white;
+        }
+.icon {
   background-color: black; 
   border=1px solid black;
 }
