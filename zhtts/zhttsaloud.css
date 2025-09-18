@@ -79,6 +79,9 @@ select {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+#myBookTitle {
+  color: yellow;
+}
 input[type="checkbox"] {
   transform: scale(3); /* Adjust the scale factor as needed */
   vertical-align: middle;           /* Aligns with the middle of the text */
