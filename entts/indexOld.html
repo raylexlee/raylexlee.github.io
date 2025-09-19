@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:description" content="Read aloud Fictions by Jane Austen, Charles Dickens, H.G. Wells, Agatha Christie " />
+  <title>English Fiction</title>
+  <style>
+    .flex-container {
+      display: flex;
+      flex-wrap: wrap;
+      background-color: #d14124;
+    }
+
+    .flex-container>li {
+      background-color: #f1f1f1;
+      width: 100px;
+      margin: 10px;
+      text-align: center;
+    }
+
+    ul {
+      list-style-type: none;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      grid-gap: 10px;
+      margin-left: 10px;
+      padding: 0px;
+    }
+  </style>
+</head>
+
+<body>
+  <ul class="flex-container">
+  </ul>
+  <div id="qrcode"></div>
+<script src="qrcode.js"></script> 
+<script type="text/javascript">
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: window.location.href,
+	width: 128,
+	height: 128,
+	colorDark : "#000000",
+	colorLight : "#ffffff",
+	correctLevel : QRCode.CorrectLevel.H
+});
+</script>  
+  <div class="grid-container">
+    <div class="item1"><span style='font-size:120px;'>&#128218;</span></div>
+    <div id="item2">
+     Read aloud Fictions by Jane Austen, Charles Dickens, H.G. Wells, Agatha Christie 
+    </div>
+    <button>Share</button>
+  </div>
+<p><a href="bkindex.html">Text Version</a></p>
+<script src="entts.js"></script>
+  <script>
+  const li_a = a => `<li><a href='group.html?author=${a}'>${a.replace(/_/g," ")}</a></li>`;
+  const li_b = a => `<li><a href='enttskoob.html?title=${a}'>${a.replace(/_/g," ")}</a></li>`;
+  document.querySelector('ul').innerHTML = Object.keys(book)
+    .map(e => (book[e].length === 1) ? li_b(book[e][0]) : li_a(e)).join('\n');
+  let shareData;
+  function init() {
+    shareData = {
+      title: document.title,
+      text: document.getElementById('item2').innerText,
+      url: '',
+    }
+
+    const btn = document.querySelector('button');
+    btn.addEventListener('click', () => {
+      navigator.share(shareData)
+        .then(() =>
+          console.log('ok')
+        )
+        .catch((e) =>
+          console.log(e)
+        )
+    });
+}
+document.onreadystatechange = function () {
+  if (document.readyState === 'complete') {
+    init();
+  }
+}  
+  </script>
+<p>For the best audio effect, please use the latest version of Microsoft Edge and activate by using Read Aloud, especially Android devices. Google Chrome should work in all platform. Safari of ios and MS Edge on Android are the only choices for supporting mobile screen off feature.  Please refer to the Web Speech API at <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API">SpeechSynthesis</a>。</p>
+</body>
+
+</html>
