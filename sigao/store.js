@@ -4,8 +4,8 @@ const lastBookInGroupStored = g => `lastSigaoBookInGroup${g}`
 const lastBookStored = `lastSigaoBook`
 let lastBook;
 let lastGroup;
-const optionGroup = g => `<option value="${g}" ${(g == lastGroup) ? 'selected' : ''}>${g}</option>`;
-const optionBook = b => `<option value="${b}" ${(b == lastBook) ? 'selected' : ''}>${b}</option>`;
+const optionGroup = g => `<option value="${g}" ${(g == lastGroup) ? 'selected' : ''}>${g.replaceAll('_',' ')}</option>`;
+const optionBook = b => `<option value="${b}" ${(b == lastBook) ? 'selected' : ''}>${b.replaceAll('_',' ')}</option>`;
 const getDeviceType = () => {
   const userAgent = navigator.userAgent;
   const platform = navigator.platform;
