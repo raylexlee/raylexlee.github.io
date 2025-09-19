@@ -31,7 +31,6 @@ a:visited {
 .div1{
   background-color: black;
   width: 100vw;
-  min-height: 70px;
   display: flex;
   flex-wrap: nowrap;
   gap: 20px;
@@ -79,6 +78,9 @@ select {
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+#myBookTitle {
+  color: yellow;
 }
 input[type="checkbox"] {
   transform: scale(3); /* Adjust the scale factor as needed */

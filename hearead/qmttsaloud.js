@@ -12,7 +12,7 @@ let activeEpisode;
 const rtl = ['ar', 'he', 'ur', 'fa','ps'];
 const querystring = location.search;
 const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
-if (params === 'none') window.location = 'enttskoob.html?title=Pride_and_Prejudice';
+if (params === 'none') window.location = 'qmttsaloud.html?title=Pride_and_Prejudice';
 title =  params.get('title');
 title = title ? title : 'Pride_and_Prejudice';
 lang =  params.get('lang');
@@ -91,9 +91,36 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
 });
+const getDeviceType = () => {
+  const userAgent = navigator.userAgent;
+  const platform = navigator.platform;
+  const maxTouchPoints = navigator.maxTouchPoints;
+
+  // Detect Android
+  if (/android/i.test(userAgent)) {
+    return "Android";
+  }
+
+  // Detect iOS (including iPads running iPadOS 13+ which might report as MacIntel)
+  if (/iPad|iPhone|iPod/.test(platform) || (platform === 'MacIntel' && maxTouchPoints > 1)) {
+    return "iOS";
+  }
+
+  // If neither Android nor iOS, return "Other"
+  return "Other";
+};
+function isEdgeAndroid() {
+  const userAgent = navigator.userAgent.toLowerCase();
+  return userAgent.includes('edg') && userAgent.includes('android');
+}
+async function fetchText(file) {
+  const response = await fetch(file);
+  const text = await response.text();
+  return text;
+}
 const optionChapter = c => `<option value="${c}" ${c.startsWith(activeEpisode) ? 'selected' : ''}>${c.substring(1+nDigits)}</option>`;
 const contentUrl = chapter => `text/${title}/${chapter.substring(0,nDigits)}.txt`;
-function myInit() {
+async function myInit() {
   document.title = title;
   audio = document.getElementById('audio');
   audio.onended = () => { audio.play(); };
@@ -110,11 +137,15 @@ function myInit() {
     myChapter.dir = 'rtl';
     myContent.dir = 'rtl'; }
   myAutoplay = document.getElementById('myAutoplay');
-  const optChapter = chapter => `<li><a href="javascript:gotoChapter('${chapter}')">${chapter.substring(1 + nDigits)}</a></li>`;
-  let backto = 'index';
-  const caller =  params.get('caller');
-  backto = caller ? caller : backto;
-  const optIndexHtml = `<li><a href="${backto}.html">Back to Index</a></li>`;
+const  myFootlineSetting = document.getElementById('myFootlineSetting');
+const  myFootline = document.getElementById('myFootline');
+  const deviceType = getDeviceType();
+  if (deviceType !== "Other") {
+    myFootline.style.minHeight = '70px';
+    myFootlineSetting.style.minHeight = '70px';    
+  } else {
+    myFootline.style.display = 'none';
+  }
   myContent.onselect = e => {
     if (programSelect >= 1) {
        programSelect--;
@@ -134,23 +165,23 @@ function myInit() {
     myContent.style.fontSize = `${20 + parseInt(v)}px`;
     CalculateScrollData(); // for rowsLine[], lineHeight, nCharsRow
   };
+  document.getElementById('setting').onbeforetoggle = function() {
+    document.getElementById('yellow').style.display = (isEdgeAndroid() && (myVoice.length == 0)) ? '' : 'none'; 
+  }
   document.body.onunload = function() {
     if (synth.speaking) {
       justCancel = true;
       synth.cancel();
     }
   };
-  fetch(`text/${title}/coverparameters.txt`)
-    .then(response => response.text())
-    .then(data => {
-      chapters = data.replace(/\n+$/, "").split('\n');
-      nDigits = chapters[0].indexOf(' ');      
-      const chapter = getLastChapter();
+  const data = await fetchText(`text/${title}/coverparameters.txt`);
+  chapters = data.replace(/\n+$/, "").split('\n');
+  nDigits = chapters[0].indexOf(' ');      
+  const chapter = getLastChapter();
   myChapter.innerHTML = chapters.map(c => optionChapter(c)).join('\n');
   myChapter.onchange = () => { gotoChapter(myChapter.value); }
-      if (mySpeaker.filter(s => s.voiceURI.startsWith('Google')).length >= 1) punctuationRegex = googleRegex;
-      gotoChapter(chapter, false); 
-    });
+  if (mySpeaker.filter(s => s.voiceURI.startsWith('Google')).length >= 1) punctuationRegex = googleRegex;
+  gotoChapter(chapter, false); 
 }    
 function prevChapter() {
     const idx =chapters.findIndex(c => c.startsWith(activeEpisode));
@@ -170,53 +201,50 @@ function nextChapter() {
     positionIndex = 0;
     gotoChapter(chapter);
 }
-function gotoChapter(chapter, PleaseSpeak = true) {
+async function gotoChapter(chapter, PleaseSpeak = true) {
    //activeEpisode = parseInt(chapter.substring(0,3));
    activeEpisode = chapter.substring(0,nDigits);
    localStorage.setItem('wspa_activeEpisode'+title, activeEpisode);
    myBook.innerHTML = title;
    document.title = `${title} ${chapter.substring(1 + nDigits)}`;
-   fetch(contentUrl(chapter))
-     .then(response => response.text())
-     .then(data => {
-       myContent.value = data;
-       myContent.value = myContent.value.split('\n').filter(e => e.length >= 1).join('\n');
-       numCharsLine=myContent.value.split('\n').map(e => e.length);
-       rowsLine = Array(numCharsLine.length);
-       CalculateScrollData(); // for rowsLine[], lineHeight, nCharsRow
-       new ResizeObserver(CalculateScrollData).observe(myContent);
-       crPosition=[];
-       for (let valueIndex=0; valueIndex < myContent.value.length; valueIndex++) 
-         if (myContent.value[valueIndex] === '\n') {
-           crPosition.push(valueIndex);
+   const data = await fetchText(contentUrl(chapter))
+   myContent.value = data;
+   myContent.value = myContent.value.split('\n').filter(e => e.length >= 1).join('\n');
+   numCharsLine=myContent.value.split('\n').map(e => e.length);
+   rowsLine = Array(numCharsLine.length);
+   CalculateScrollData(); // for rowsLine[], lineHeight, nCharsRow
+   new ResizeObserver(CalculateScrollData).observe(myContent);
+   crPosition=[];
+   for (let valueIndex=0; valueIndex < myContent.value.length; valueIndex++) 
+     if (myContent.value[valueIndex] === '\n') {
+       crPosition.push(valueIndex);
+     }
+   punctuationArray = myContent.value.match(punctuationRegex);
+   punctuationPosition=[];
+   let punctuationIndex = 0;
+   let lastPunctuationPosition = 0;
+   for (let valueIndex=0; valueIndex < myContent.value.length; valueIndex++) 
+     if (myContent.value[valueIndex] === punctuationArray[punctuationIndex]) {
+       if ((myVoice.value.startsWith('Google')) && (valueIndex > (lastPunctuationPosition + googleLimit))) { 
+         let a = lastPunctuationPosition;
+         while ((a + googleLimit) < valueIndex) {
+           a += googleLimit;
+           if (fixA) while (myContent.value[a] !== ' ') a--;
+           punctuationPosition.push(a);
          }
-       punctuationArray = myContent.value.match(punctuationRegex);
-       punctuationPosition=[];
-       let punctuationIndex = 0;
-       let lastPunctuationPosition = 0;
-       for (let valueIndex=0; valueIndex < myContent.value.length; valueIndex++) 
-         if (myContent.value[valueIndex] === punctuationArray[punctuationIndex]) {
-           if ((myVoice.value.startsWith('Google')) && (valueIndex > (lastPunctuationPosition + googleLimit))) { 
-               let a = lastPunctuationPosition;
-               while ((a + googleLimit) < valueIndex) {
-                 a += googleLimit;
-                 if (fixA) while (myContent.value[a] !== ' ') a--;
-                 punctuationPosition.push(a);
-               }
-           }
-           punctuationPosition.push(valueIndex);
-           lastPunctuationPosition = valueIndex;
-           punctuationIndex++;
-         }
-      completed_myinit = true;
-       if (myAutoplay.checked) {
-         if (synth.speaking) { 
-           justCancel = true;
-           synth.cancel();
-         }
-         if (PleaseSpeak) speak();
        }
-     });
+       punctuationPosition.push(valueIndex);
+       lastPunctuationPosition = valueIndex;
+       punctuationIndex++;
+     }
+   completed_myinit = true;
+   if (myAutoplay.checked) {
+     if (synth.speaking) { 
+       justCancel = true;
+       synth.cancel();
+     }
+     if (PleaseSpeak) speak();
+   }
 }
 function getLastChapter() {
   const c = params.get('chapter');
