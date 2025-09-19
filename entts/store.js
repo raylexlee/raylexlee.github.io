@@ -60,12 +60,12 @@ const deviceType = getDeviceType();
   lastBook = localStorage.getItem(lastBookStored);
   lastBook = lastBook ? lastBook : 'The_Time_Machine';
   lastGroup = Object.keys(book).filter(g => book[g].includes(lastBook))[0];
-  myGroup.innerHTML = Object.keys(book).map(g => optionGroup(g)).join('\n');
-  myBook.innerHTML = book[lastGroup].map(b => optionBook(b)).join('\n');
+  myGroup.innerHTML = Object.keys(book).sort().map(g => optionGroup(g)).join('\n');
+  myBook.innerHTML = book[lastGroup].sort().map(b => optionBook(b)).join('\n');
   myGroup.onchange = () => {
     lastBook = localStorage.getItem(lastBookInGroupStored(myGroup.value));
     lastBook = lastBook ? lastBook : book[myGroup.value][0];
-    myBook.innerHTML = book[myGroup.value].map(b => optionBook(b)).join('\n');
+    myBook.innerHTML = book[myGroup.value].sort().map(b => optionBook(b)).join('\n');
   }
 }
 const ReadAloud = () => { 
