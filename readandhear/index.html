@@ -1,44 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Q之選</title>
- <link rel="stylesheet" href="radiobutton.css">
-<style>
-body { font-size: 24px; }
-.flex-container {
-  display: flex;
-  flex-wrap: wrap;
-  background-color: magenta;
-}
 
-.flex-container > li {
-  background-color: #f1f1f1;
-  width: 135px;
-  margin: 10px;
-  text-align: center;
-}
-ul { list-style-type: none; }
-</style>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>開放古典文學 (mp3)</title>
+  <link rel="stylesheet" href="store.css"> </link>
 </head>
 <body>
-<ul class="flex-container">
-</ul>
-  <div id="qrcode"></div>
+  <div class="viewportDiv">
+    <div id="myGroupline" class="div1">
+      <div>類別</div>
+      <div class="select-wrapper">
+        <select id="myGroup"> </select>
+      </div>
+    </div>
+    <div id="myBookline" class="div1">
+      <div>書籍</div>
+      <div class="select-wrapper">
+        <select id="myBook"> </select>
+      </div>
+      <div><button class="play-btn" onclick="ReadAloud()">聽 讀</button></div>
+    </div>
+    <div class="remainingDiv">
+      <textarea name="myContent" id="myContent" readonly>
+本版所有小說皆已錄製mp3, 大部分由microsoft Azure speech service轉換, 小部分有osx嘅say command轉錄, 適用於所有平台嘅主流瀏覽器,  亦會支援手機螢幕關閉功能
+      </textarea>
+    </div>
+    <div id="myFootlineSetting" class="div1">
+      <div>
+        <button id="showQR" class="icon" popovertarget="qrcode"><img src="qr_code.svg" /></button>
+      </div>
+      <div id="myBookTitle">
+      開放古典文學(mp3)
+      </div>
+    </div>
+    <div id="myFootline" class="div1">
+Last updated : 20 Sep 2025
+    </div>
+  </div>
+  <div id="qrcode" popover></div>
 <script src="qrcode.js"></script> 
 <script type="text/javascript">
+let qw = window.innerWidth;
+let qh = window.innerHeight;
+const qq = (qw > qh) ? qh : qw;
 var qrcode = new QRCode(document.getElementById("qrcode"), {
-	text: window.location.href,
-	width: 128,
-	height: 128,
-	colorDark : "#000000",
-	colorLight : "#ffffff",
+	text: decodeURI(window.location.href),
+	width: qq * 0.8,
+	height: qq * 0.8,
+	colorDark : "#ffffff",
+	colorLight : "#000000",
 	correctLevel : QRCode.CorrectLevel.H
 });
 </script>  
 </body>
- <script src="radiobutton.js"> </script>
-<script src="index.js"> </script>
-<p></p>
+<script src="store.js"></script>
 </html>
