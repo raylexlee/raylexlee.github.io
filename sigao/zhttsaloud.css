@@ -60,6 +60,10 @@ textarea::selection {
     color: white;
     background: blue;
 }
+textarea::-moz-selection {
+  background: blue;
+  color: white;
+}
 .select-wrapper {
   flex: 1;
   max-width: 800px;      /* optional: constrain size */
@@ -78,6 +82,9 @@ select {
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+#myBookTitle {
+  color: yellow;
 }
 input[type="checkbox"] {
   transform: scale(3); /* Adjust the scale factor as needed */

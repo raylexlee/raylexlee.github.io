@@ -60,6 +60,10 @@ textarea::selection {
     color: white;
     background: blue;
 }
+textarea::-moz-selection {
+  background: blue;
+  color: white;
+}
 .select-wrapper {
   flex: 1;
   max-width: 800px;      /* optional: constrain size */
