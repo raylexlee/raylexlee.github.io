@@ -141,8 +141,9 @@ const  myFootlineSetting = document.getElementById('myFootlineSetting');
 const  myFootline = document.getElementById('myFootline');
   const deviceType = getDeviceType();
   if (deviceType !== "Other") {
-    myFootline.style.minHeight = '70px';
-    myFootlineSetting.style.minHeight = '70px';    
+    const minHeight = (deviceType === 'iOS') ? '80px' : '70px';
+    myFootline.style.minHeight = minHeight;
+    myFootlineSetting.style.minHeight = minHeight;    
   } else {
     myFootline.style.display = 'none';
   }

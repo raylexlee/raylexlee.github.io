@@ -116,10 +116,10 @@ async function fetchText(file) {
   const text = await response.text();
   return text;
 }
-const optionChapter = c => `<option value="${c}" ${c.startsWith(activeEpisode) ? 'selected' : ''}>${c.substring(1+nDigits)}</option>`;
+const optionChapter = c => `<option value="${c}" ${c.startsWith(activeEpisode) ? 'selected' : ''}>${c.substring(1+nDigits).replaceAll('_',' ')}</option>`;
 const contentUrl = chapter => `text/${title}/${chapter.substring(0,nDigits)}.txt`;
 async function myInit() {
-  document.title = title;
+  document.title = title.replaceAll('_',' ');
   audio = document.getElementById('audio');
   audio.onended = () => { audio.play(); };
   audio.onplay = speak;
@@ -136,8 +136,9 @@ const  myFootlineSetting = document.getElementById('myFootlineSetting');
 const  myFootline = document.getElementById('myFootline');
   const deviceType = getDeviceType();
   if (deviceType !== "Other") {
-    myFootline.style.minHeight = '70px';
-    myFootlineSetting.style.minHeight = '70px';    
+    const minHeight = (deviceType === 'iOS') ? '80px' : '70px';
+    myFootline.style.minHeight = minHeight;
+    myFootlineSetting.style.minHeight = minHeight;    
   } else {
     myFootline.style.display = 'none';
   }
@@ -195,8 +196,8 @@ async function gotoChapter(chapter, PleaseSpeak = true) {
    //activeEpisode = parseInt(chapter.substring(0,3));
    activeEpisode = chapter.substring(0,nDigits);
    localStorage.setItem('wspa_activeEpisode'+title, activeEpisode);
-   myBook.innerHTML = title;
-   document.title = `${title} ${chapter.substring(1 + nDigits)}`;
+   myBook.innerHTML = title.replaceAll('_',' ');
+   document.title = `${title.replaceAll('_',' ')} ${chapter.substring(1 + nDigits).replaceAll('_',' ')}`;
    const data = await fetchText(contentUrl(chapter))
    myContent.value = data;
    myContent.value = myContent.value.split('\n').filter(e => e.length >= 1).join('\n');
