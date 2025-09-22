@@ -74,5 +74,5 @@ const ReadAloud = () => {
   lastGroup = myGroup.value;
   localStorage.setItem(lastBookStored, lastBook);
   localStorage.setItem(lastBookInGroupStored(lastGroup), lastBook);
-  window.location = `audiobook.html?title=${myBook.value}`; 
+  window.location = `audiokoob.html?title=${myBook.value}`; 
 }
