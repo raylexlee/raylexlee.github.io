@@ -91,9 +91,9 @@ const  myFootline = document.getElementById('myFootline');
   }
   const data = await fetchText(`text/${title}/coverparameters.txt`)
   chapters = data.replace(/\n+$/, "").split('\n');
+  const chapter = getLastChapter();
   myChapter.innerHTML = chapters.map(c => optionChapter(c)).join('\n');
   myChapter.onchange = () => { gotoChapter(myChapter.value); }
-  const chapter = getLastChapter();
   gotoChapter(chapter); 
 }    
 function updateQR(e,t) {
@@ -105,6 +105,7 @@ function prevChapter() {
     let i = chapters.findIndex(c => c.startsWith(m[1])) - 1;
     i = (i === -1) ? (chapters.length - 1) : i;
     const chapter = chapters[i];
+    myChapter.value = chapter;
     currentTime = 0.0;
     localStorage.setItem('currentTime'+title, 0.0);
     gotoChapter(chapter);
@@ -114,6 +115,7 @@ function nextChapter() {
     let i = 1 + chapters.findIndex(c => c.startsWith(m[1]));
     i = (i === chapters.length) ? 0 : i;
     const chapter = chapters[i];
+    myChapter.value = chapter;
     currentTime = 0.0;
     localStorage.setItem('currentTime'+title, 0.0);
     gotoChapter(chapter);
