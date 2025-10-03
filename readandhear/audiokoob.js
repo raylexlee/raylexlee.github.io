@@ -94,6 +94,7 @@ const  myFootline = document.getElementById('myFootline');
   const chapter = getLastChapter();
   myChapter.innerHTML = chapters.map(c => optionChapter(c)).join('\n');
   myChapter.onchange = () => { gotoChapter(myChapter.value); }
+  myChapter.value = chapter;
   gotoChapter(chapter); 
 }    
 function updateQR(e,t) {
