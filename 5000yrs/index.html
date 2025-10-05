@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中華五千年</title>
+  <link rel="stylesheet" href="store.css"> </link>
+</head>
+<body>
+  <div class="viewportDiv">
+    <div id="myGroupline" class="div1">
+      <div>時期</div>
+      <div class="select-wrapper">
+        <select id="myPeriod"> </select>
+      </div>
+    </div>
+    <div class="remainingDiv">
+      <textarea name="myIntro" id="myIntro" readonly></textarea>
+    </div>
+    <div id="myBookline" class="div1">
+      <div>事件</div>
+      <div class="select-wrapper">
+        <select id="myEvent"> </select>
+      </div>
+    </div>
+    <div class="remainingDiv">
+      <textarea name="myContent" id="myContent" readonly></textarea>
+    </div>
+    <div id="myFootlineSetting" class="div1">
+      <div>
+        <button id="showQR" class="icon" popovertarget="qrcode"><img src="qr_code.svg" /></button>
+      </div>
+      <div id="myBookTitle">
+      中華五千年
+      </div>
+    </div>
+    <div id="myFootline" class="div1">
+Last updated : 6 Oct 2025
+    </div>
+  </div>
+  <div id="qrcode" popover></div>
+<script src="qrcode.js"></script> 
+<script type="text/javascript">
+let qw = window.innerWidth;
+let qh = window.innerHeight;
+const qq = (qw > qh) ? qh : qw;
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: decodeURI(window.location.href),
+	width: qq * 0.8,
+	height: qq * 0.8,
+	colorDark : "#ffffff",
+	colorLight : "#000000",
+	correctLevel : QRCode.CorrectLevel.H
+});
+</script>  
+</body>
+<script src="store.js"></script>
+</html>
