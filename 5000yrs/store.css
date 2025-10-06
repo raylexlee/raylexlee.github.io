@@ -41,21 +41,6 @@ a:visited {
   overflow: hidden;
   text-overflow: ellipsis; /* adds "..." if text is too long */
 }
-#myFootlineSetting  {
-  gap: 15px;
-}
-        button {
-            font-size: 18px;
-            padding: 10px;
-            margin: 10px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-        }
-        .play-btn {
-            background-color: #28a745;
-            color: white;
-        }
 .icon {
   background-color: black; 
   border=1px solid black;

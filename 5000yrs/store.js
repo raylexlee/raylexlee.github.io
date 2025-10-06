@@ -1,10 +1,9 @@
-let title, audio, myRange, myAutoplay;
+let audio, myRange, myAutoplay;
 let myPeriod, myEvent, myContent, myIntro;
 let Events = {};
 let periods = [];
 let intro = '';
 let Content = {};
-let activeEpisode;
 let currentTime;
 const lastEventInPeriodStored = g => `last5000yrsEventInPeriod${g}`
 const lastEventStored = `last5000yrsEvent`
@@ -61,8 +60,12 @@ async function myInit() {
     }
   };
   audio.onpause = function (e) {
-    localStorage.setItem('5000yrsCurrentTime'+myEvent.value.split(' ')[3], audio.currentTime);
-    updateQR(activeEpisode, audio.currentTime);
+    const eid = myEvent.value.split(' ')[3];
+    const p = myPeriod.value;
+    localStorage.setItem(lastEventInPeriodStored(p), eid);
+    localStorage.setItem(lastEventStored, eid); 
+    localStorage.setItem('5000yrsCurrentTime'+eid, audio.currentTime);
+    updateQR(eid, audio.currentTime);
   };
   audio.onseeked = () => { currentTime = audio.currentTime; }
   audio.onended = function (e) {
@@ -93,9 +96,7 @@ async function myInit() {
   myEvent = document.getElementById('myEvent');
   myIntro = document.getElementById('myIntro');
   myContent = document.getElementById('myContent');
-  lastEvent = localStorage.getItem(lastEventStored);
-  lastEvent = lastEvent ? lastEvent : '195';
-  lastPeriod = periods.filter(p => Event[p].map(e => e[3]).includes(lastEvent))[0];
+  const event = getLastChapter();
   Content = await fetchJSON(`text/${lastPeriod}.json`);
   myPeriod.innerHTML = periods.map(g => optionPeriod(g)).join('\n');
   myEvent.innerHTML = Event[lastPeriod].map(b => optionEvent(b)).join('\n');
@@ -118,7 +119,7 @@ async function myInit() {
 }
 function updateQR(e,t) {
   const base = decodeURI(document.location.href.split('?')[0]);
-  qrcode.makeCode(`${base}?title=${title}&episode=${e}&time=${t}`);
+  qrcode.makeCode(`${base}?episode=${e}&time=${t}`);
 }
 function prevChapter() {
     const eid = myEvent.value.split(' ')[3];
@@ -150,8 +151,6 @@ function gotoChapter(chapter) {
    const [E,T,B,I] = chapter.split(' ');
    audio.firstElementChild.setAttribute('src', soundUrl(B,I));
    audio.load();
-   activeEpisode = I;
-   localStorage.setItem('5000yrsActiveEpisode', activeEpisode);
    document.title = `${E}-${myPeriod.value}`;
    myContent.value = (E in Content) ? Content[E] : `#${I} ${E} ${T}`;
    if (myAutoplay.checked) {
@@ -160,19 +159,24 @@ function gotoChapter(chapter) {
    }
 }
 function getLastChapter() {
+const querystring = location.search;
+const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
+if (params !== 'none') {
   const e = params.get('episode');
   const t = params.get('time');
   if (e && t) {
-    localStorage.setItem('5000yrsActiveEpisode',e);
+    localStorage.setItem(lastEventStored, e);
     localStorage.setItem('5000yrsCurrentTime'+e, t);
   }
-  if (!localStorage.getItem('5000yrsActiveEpisode')) {
-    localStorage.setItem('5000yrsActiveEpisode',lastEvent);
-    localStorage.setItem('5000yrsCurrentTime'+lastEvent, 0.0);
+}
+  if (!localStorage.getItem(lastEventStored)) {
+    localStorage.setItem(lastEventStored, '195');
+    localStorage.setItem('5000yrsCurrentTime'+'195', 0.0);
   }
-  activeEpisode = localStorage.getItem('5000yrsActiveEpisode');
+  lastEvent = localStorage.getItem(lastEventStored);
   currentTime = localStorage.getItem('5000yrsCurrentTime'+lastEvent);
-  return Event[laastPeriod].filter(e => e[3] === activeEpisode)[0];
+  lastPeriod = periods.filter(p => Event[p].map(e => e[3]).includes(lastEvent))[0];
+  return Event[lastPeriod].filter(e => e[3] === lastEvent)[0];
 }
 function speak() { audio.play(); }
 function pauseResume() { audio.pause(); }
