@@ -41,6 +41,9 @@ a:visited {
   overflow: hidden;
   text-overflow: ellipsis; /* adds "..." if text is too long */
 }
+#myFootlineSetting  {
+  gap: 15px;
+}
         button {
             font-size: 18px;
             padding: 10px;
