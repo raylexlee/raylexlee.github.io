@@ -1,16 +1,14 @@
-let myPeriod, myEvent, myContent, myIntro`;
-let events = [];
+let myPeriod, myEvent, myContent, myIntro;
+let Events = {};
 let periods = [];
-let intro;
-let content = {};
+let intro = '';
+let Content = {};
 const lastEventInPeriodStored = g => `last5000yrsEventInPeriod${g}`
 const lastEventStored = `last5000yrsEvent`
 let lastEvent;
 let lastPeriod;
 const optionPeriod = g => `<option value="${g}" ${(g == lastPeriod) ? 'selected' : ''}>${g.replaceAll('_',' ')}</option>`;
-const optionEvent = e => {
-  const [P, E, T, B, I] = e.split(' ');
-  return `<option value="${e}" ${(I == lastEvent) ? 'selected' : ''}>${E} ${T}</option>`};
+const optionEvent = e => `<option value="${e.join(' ')}" ${(e[3] == lastEvent) ? 'selected' : ''}>${e[0]} ${e[1]}</option>`;
 const getDeviceType = () => {
   const userAgent = navigator.userAgent;
   const platform = navigator.platform;
@@ -45,10 +43,9 @@ async function fetchJSON(file) {
 }
 document.addEventListener("DOMContentLoaded", function(event) { myInit(); });
 async function myInit() { 
-const  myFootlineSetting = document.getElementById('myFootlineSetting');
-const  myFootline = document.getElementById('myFootline');
-const deviceType = getDeviceType();
-
+  const  myFootlineSetting = document.getElementById('myFootlineSetting');
+  const  myFootline = document.getElementById('myFootline');
+  const deviceType = getDeviceType();
   if (deviceType !== "Other") {
     const minHeight = (deviceType === 'iOS') ? '80px' : '70px';
     myFootline.style.minHeight = minHeight;
@@ -58,25 +55,33 @@ const deviceType = getDeviceType();
   }
   let data = await fetchText(`periods.txt`);
   periods = data.split('\n');
+  periods.forEach(p => { Event[p] = [] });
   data = await fetchText(`events.txt`);
-  events = data.split('\n');
+  const events = data.split('\n');
+  events.forEach(e => { const a = e.split(' '); Event[a[0]].push(a.slice(1)) });
   myPeriod = document.getElementById('myPeriod');
   myEvent = document.getElementById('myEvent');
+  myIntro = document.getElementById('myIntro');
+  myContent = document.getElementById('myContent');
   lastEvent = localStorage.getItem(lastEventStored);
   lastEvent = lastEvent ? lastEvent : '195';
-  lastPeriod = events.filter(e => e.endsWith(lastEvent))[0].split(' ')[0];
+  lastPeriod = periods.filter(p => Event[p].map(e => e[3]).includes(lastEvent))[0];
+  Content = await fetchJSON(`text/${lastPeriod}.json`);
   myPeriod.innerHTML = periods.map(g => optionPeriod(g)).join('\n');
-  myEvent.innerHTML = events.filter(e => e.startsWith(lastPeriod+' ')).map(b => optionEvent(b)).join('\n');
-  myPeriod.onchange = () => {
+  myEvent.innerHTML = Event[lastPeriod].map(b => optionEvent(b)).join('\n');
+  myIntro.value = await fetchText(`text/${lastPeriod}.txt`);
+  myContent.value = Content[myEvent.value.split(' ')[0]];
+  myPeriod.onchange = async () => {
+    myIntro.value = await fetchText(`text/${myPeriod.value}.txt`);
+    Content = await fetchJSON(`text/${myPeriod.value}.json`);
     lastEvent = localStorage.getItem(lastEventInPeriodStored(myPeriod.value));
-    lastEvent = lastEvent ? lastEvent : events.filter(e => e.startsWith(myPeriod.value + ' '))[0].split(' ')[0];
-    myEvent.innerHTML = event[myPeriod.value].map(b => optionEvent(b)).join('\n');
+    lastEvent = lastEvent ? lastEvent : Event[myPeriod.value][0][3];
+    myEvent.innerHTML = Event[myPeriod.value].map(b => optionEvent(b)).join('\n');
+    const e = myEvent.value.split(' ');
+    myContent.value = (e[0] in Content) ? Content[e[0]] : `#${e[3]} ${e[0]} ${e[1]}`;
   }
-}
-const ReadAloud = () => { 
-  lastEvent = myEvent.value;
-  lastPeriod = myPeriod.value;
-  localStorage.setItem(lastEventStored, lastEvent);
-  localStorage.setItem(lastEventInPeriodStored(lastPeriod), lastEvent);
-  window.location = `audiokoob.html?title=${myEvent.value}`; 
+  myEvent.onchange = () => {
+    const e = myEvent.value.split(' ');
+    myContent.value = (e[0] in Content) ? Content[e[0]] : `#${e[3]} ${e[0]} ${e[1]}`;
+  }
 }
