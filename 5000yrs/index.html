@@ -20,9 +20,14 @@
       <textarea name="myIntro" id="myIntro" readonly></textarea>
     </div>
     <div id="myBookline" class="div1">
-      <div>事件</div>
+      <div>
+        <a href="javascript:prevChapter()" style="color:cyan;">&lArr;</a> 
+      </div>
       <div class="select-wrapper">
         <select id="myEvent"> </select>
+      </div>
+      <div>
+        <a href="javascript:nextChapter()" style="color:cyan;">&rArr;</a> 
       </div>
     </div>
     <div class="remainingDiv">
@@ -30,7 +35,16 @@
     </div>
     <div id="myFootlineSetting" class="div1">
       <div>
+        <button id="showSetting" class="icon" popovertarget="setting"><img src="setting.svg" /></button>
+      </div>
+      <div>
         <button id="showQR" class="icon" popovertarget="qrcode"><img src="qr_code.svg" /></button>
+      </div>
+      <div>
+      <a href="javascript:speak()" style="color:red;">&#9654;</a>
+      </div>
+      <div>
+       <a href="javascript:pauseResume()" id="myPauseCancel" style="color:red;">&#9208;</a>
       </div>
       <div id="myBookTitle">
       中華五千年
@@ -55,6 +69,51 @@ var qrcode = new QRCode(document.getElementById("qrcode"), {
 	correctLevel : QRCode.CorrectLevel.H
 });
 </script>  
+<div id="setting" popover>
+   <div>
+      <input type="checkbox" id="myAutoplay" name="autoplay" value="autoplay" >
+      <label for="autoplay">自動播</label>
+    </div>
+    <div>
+      <input type="range" min="0" max="10" value="2" name="myRange" id="myRange">
+      <label for="myRange"><img src="textscale.svg" /></label>
+    </div>
+    <div>
+            <input type="range" name="mySpeed" id="mySpeed" min="0" max="15" value="15">
+      <label for="mySpeed">Rate</label>
+    </div>
+    <div>
+            <audio id="audio" preload="auto" tabindex="0" controls="" type="audio/mpeg">
+              <source type="audio/mp3" src="">
+              Sorry, your browser does not support HTML5 audio.
+            </audio>
+    </div>
+    <div>
+   <p> 
+   <input type="checkbox" id="mySchedule" name="schedule" value="schedule" >
+   <label for="schedule"><span id='sleep'>45</span> &rarr; 💤</label>
+    <input type="range" min="5" max="75" value="45" step="5" id="stop">
+   </p>
+    </div>
+ </div>
+<script>
+const stop = document.getElementById('stop');
+stop.onchange = () => { document.getElementById('sleep').innerText = stop.value; }
+let scheduleID = -1;
+const mySchedule = document.getElementById('mySchedule');
+mySchedule.onchange = function() {
+  if (this.checked) { 
+    scheduleStop(stop.value);
+    } else {
+    if (scheduleID == -1) return;
+    clearTimeout(scheduleID);
+    scheduleID = -1;
+  }
+}
+function scheduleStop(duration) {
+  scheduleID = setTimeout(() => { pauseResume(); mySchedule.checked = false; }, duration * 60 * 1000);
+}
+</script>
 </body>
 <script src="store.js"></script>
 </html>
