@@ -110,6 +110,7 @@ async function myInit() {
     myEvent.innerHTML = Event[myPeriod.value].map(b => optionEvent(b)).join('\n');
     const e = myEvent.value.split(' ');
     myContent.value = (e[0] in Content) ? Content[e[0]] : `#${e[3]} ${e[0]} ${e[1]}`;
+    gotoChapter(myEvent.value);
   }
   myEvent.onchange = () => {
     const e = myEvent.value.split(' ');
