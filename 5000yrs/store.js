@@ -9,7 +9,7 @@ const lastEventInPeriodStored = g => `last5000yrsEventInPeriod${g}`
 const lastEventStored = `last5000yrsEvent`
 let lastEvent;
 let lastPeriod;
-const soundUrl = (b,i) => `http://app4.rthk.hk/mp3/chiculture/fivethousandyears/${b}/${i}.mp3`;
+const soundUrl = (b,i) => `https://app4.rthk.hk/mp3/chiculture/fivethousandyears/${b}/${i}.mp3`;
 const optionPeriod = g => `<option value="${g}" ${(g == lastPeriod) ? 'selected' : ''}>${g.replaceAll('_',' ')}</option>`;
 const optionEvent = e => `<option value="${e.join(' ')}" ${(e[3] == lastEvent) ? 'selected' : ''}>${e[0]} ${e[1]}</option>`;
 const getDeviceType = () => {
