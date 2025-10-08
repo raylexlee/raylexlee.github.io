@@ -47,13 +47,13 @@ async function fetchJSON(file) {
 document.addEventListener("DOMContentLoaded", function(event) { myInit(); });
 async function myInit() { 
   audio = document.getElementById('audio');
-  myRange = document.getElementById('myRange'); 
+//  myRange = document.getElementById('myRange'); 
   myAutoplay = document.getElementById('myAutoplay');
-  myRange.oninput = function() {
-    const v = myRange.value;
-    myContent.style.fontSize = `${20 + parseInt(v)}px`;
-    myIntro.style.fontSize = `${20 + parseInt(v)}px`;
-  };
+//  myRange.oninput = function() {
+//    const v = myRange.value;
+//    myContent.style.fontSize = `${20 + parseInt(v)}px`;
+//    myIntro.style.fontSize = `${20 + parseInt(v)}px`;
+//  };
   audio.onplay = function (e) { 
     if (currentTime > audio.currentTime) {
       audio.currentTime = currentTime;
