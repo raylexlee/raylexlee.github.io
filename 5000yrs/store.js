@@ -1,3 +1,4 @@
+let mySpeak;
 let audio, myRange, myAutoplay;
 let myPeriod, myEvent, myContent, myIntro;
 let Events = {};
@@ -47,6 +48,7 @@ async function fetchJSON(file) {
 document.addEventListener("DOMContentLoaded", function(event) { myInit(); });
 async function myInit() { 
   audio = document.getElementById('audio');
+  mySpeak = document.getElementById('mySpeak');
 //  myRange = document.getElementById('myRange'); 
   myAutoplay = document.getElementById('myAutoplay');
 //  myRange.oninput = function() {
@@ -66,7 +68,11 @@ async function myInit() {
     localStorage.setItem(lastEventStored, eid); 
     localStorage.setItem('5000yrsCurrentTime'+eid, audio.currentTime);
     updateQR(eid, audio.currentTime);
+    mySpeak.innerHTML = '<a href="javascript:speak()" style="color:red;">&#9654;</a>';
   };
+  audio.onplay = function () {
+    mySpeak.innerHTML = '<img src="playing.svg" />';
+  }
   audio.onseeked = () => { currentTime = audio.currentTime; }
   audio.onended = function (e) {
     if (myAutoplay.checked) {
