@@ -96,8 +96,8 @@ function updateQR(e,t) {
   qrcode.makeCode(`${base}?title=${title}&episode=${e}&time=${t}`);
 }
 function prevChapter() {
-    const m = audio.firstElementChild.src.match(/\/([0-9]{3})\.mp3$/);
-    let i = chapters.findIndex(c => c.startsWith(m[1])) - 1;
+    const m = myChapter.value.split(' ')[0];
+    let i = chapters.findIndex(c => c.startsWith(m)) - 1;
     i = (i === -1) ? (chapters.length - 1) : i;
     const chapter = chapters[i];
     myChapter.value = chapter;
@@ -106,8 +106,8 @@ function prevChapter() {
     gotoChapter(chapter);
 }
 function nextChapter() {
-    const m = audio.firstElementChild.src.match(/\/([0-9]{3})\.mp3$/);
-    let i = 1 + chapters.findIndex(c => c.startsWith(m[1]));
+    const m = myChapter.value.split(' ')[0];
+    let i = 1 + chapters.findIndex(c => c.startsWith(m));
     i = (i === chapters.length) ? 0 : i;
     const chapter = chapters[i];
     myChapter.value = chapter;
