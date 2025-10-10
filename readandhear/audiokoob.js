@@ -1,5 +1,5 @@
 let nDigits = 3;
-let title, myContent, audio, myChapter, myRange, myBook, myAutoplay;
+let title, myContent, audio, myChapter, mySpeak, myBook, myAutoplay;
 let chapters;
 let mySync;
 let activeEpisode;
@@ -47,18 +47,9 @@ async function myInit() {
   myContent = document.getElementById('myContent');
   audio = document.getElementById('audio');
   myChapter = document.getElementById('myChapter');
-  myRange = document.getElementById('myRange'); 
-  mySpeed = document.getElementById('mySpeed'); 
+  mySpeak = document.getElementById('mySpeak'); 
   myBook = document.getElementById('myBook');
   myAutoplay = document.getElementById('myAutoplay');
-  myRange.oninput = function() {
-    const v = myRange.value;
-    myContent.style.fontSize = `${20 + parseInt(v)}px`;
-  };
-  mySpeed.oninput = function() {
-    const v = mySpeed.value;
-    audio.playbackRate = (85 + parseInt(v)) / 100;
-  }
 const  myFootlineSetting = document.getElementById('myFootlineSetting');
 const  myFootline = document.getElementById('myFootline');
   const deviceType = getDeviceType();
@@ -73,6 +64,7 @@ const  myFootline = document.getElementById('myFootline');
     if (currentTime > audio.currentTime) {
       audio.currentTime = currentTime;
     }
+    mySpeak.innerHTML = '<img src="playing.svg" />';
     const pageTime = myContent.offsetHeight / myContent.scrollHeight * audio.duration / audio.playbackRate;
     console.log(pageTime);
     SyncAudioWithContent();
@@ -81,6 +73,7 @@ const  myFootline = document.getElementById('myFootline');
   audio.onpause = function (e) {
     localStorage.setItem('currentTime'+title, audio.currentTime);
     updateQR(activeEpisode, audio.currentTime);
+    mySpeak.innerHTML = '<a href="javascript:speak()" style="color:red;">&#9654;</a>';
     clearInterval(mySync);
   };
   audio.onseeked = () => { currentTime = audio.currentTime; }
