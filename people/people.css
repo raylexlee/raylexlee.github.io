@@ -25,7 +25,6 @@ a:visited {
 .viewportDiv {
   display: flex;
   flex-direction: column;
-  gap: 30px;
   height: 100vh;
   width: 100vw;
 }
@@ -33,15 +32,13 @@ a:visited {
   background-color: black;
   width: 100vw;
   display: flex;
-  align-items: center;
-  flex-direction: row;
   flex-wrap: nowrap;
   gap: 20px;
   white-space: nowrap;   /* keeps text on one line */
   overflow: hidden;
   text-overflow: ellipsis; /* adds "..." if text is too long */
 }
-.icon {
+.div1 button {
   background-color: black; 
   border=1px solid black;
 }
@@ -62,6 +59,10 @@ a:visited {
 textarea::selection {
     color: white;
     background: blue;
+}
+textarea::-moz-selection {
+  background: blue;
+  color: white;
 }
 .select-wrapper {
   flex: 1;

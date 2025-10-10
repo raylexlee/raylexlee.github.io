@@ -1,18 +1,16 @@
-let mySpeak;
-let audio, myRange, myAutoplay;
-let myPeriod, myEvent, myContent, myIntro;
-let Events = {};
-let periods = [];
-let intro = '';
-let Content = {};
+let nDigits = 3;
+let title, myContent, audio, myChapter, mySpeak, myBook, myAutoplay;
+let chapters;
+let activeEpisode;
 let currentTime;
-const lastEventInPeriodStored = g => `last5000yrsEventInPeriod${g}`
-const lastEventStored = `last5000yrsEvent`
-let lastEvent;
-let lastPeriod;
-const soundUrl = (b,i) => `https://app4.rthk.hk/mp3/chiculture/fivethousandyears/${b}/${i}.mp3`;
-const optionPeriod = g => `<option value="${g}" ${(g == lastPeriod) ? 'selected' : ''}>${g.replaceAll('_',' ')}</option>`;
-const optionEvent = e => `<option value="${e.join(' ')}" ${(e[3] == lastEvent) ? 'selected' : ''}>${e[0]} ${e[1]}</option>`;
+const querystring = location.search;
+const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
+if (params === 'none') window.location = 'people.html?title=玄奘法師';
+title =  params.get('title');
+title = title ? title : '玄奘法師';
+document.addEventListener("DOMContentLoaded", function(event) {
+  myInit();
+});
 const getDeviceType = () => {
   const userAgent = navigator.userAgent;
   const platform = navigator.platform;
@@ -40,34 +38,40 @@ async function fetchText(file) {
   const text = await response.text();
   return text;
 }
-async function fetchJSON(file) {
-  const response = await fetch(file);
-  const data = await response.json(); // Parses JSON into JS object
-  return data;
-}
-document.addEventListener("DOMContentLoaded", function(event) { myInit(); });
-async function myInit() { 
+const optionChapter = c => `<option value="${c}" ${c.startsWith(activeEpisode) ? 'selected' : ''}>${c.split(' ')[1].replaceAll('_',' ')}</option>`;
+const soundUrl = id => `https://podcasts.rthk.hk/podcast/media/people/287_${id}.mp3`;
+const contentUrl = chapter => `text/${title}/${chapter.substring(0,3)}.txt`;
+async function myInit() {
+  document.title = title;
+  myContent = document.getElementById('myContent');
   audio = document.getElementById('audio');
-  mySpeak = document.getElementById('mySpeak');
-//  myRange = document.getElementById('myRange'); 
+  myChapter = document.getElementById('myChapter');
+  mySpeak = document.getElementById('mySpeak'); 
+  myBook = document.getElementById('myBook');
   myAutoplay = document.getElementById('myAutoplay');
-//  myRange.oninput = function() {
-//    const v = myRange.value;
-//    myContent.style.fontSize = `${20 + parseInt(v)}px`;
-//    myIntro.style.fontSize = `${20 + parseInt(v)}px`;
-//  };
+const  myFootlineSetting = document.getElementById('myFootlineSetting');
+const  myFootline = document.getElementById('myFootline');
+  const deviceType = getDeviceType();
+  if (deviceType !== "Other") {
+    const minHeight = (deviceType === 'iOS') ? '80px' : '70px';
+    myFootline.style.minHeight = minHeight;
+    myFootlineSetting.style.minHeight = minHeight;    
+  } else {
+    myFootline.style.display = 'none';
+  }
   audio.onplay = function (e) { 
     if (currentTime > audio.currentTime) {
       audio.currentTime = currentTime;
     }
+//    const pageTime = myContent.offsetHeight / myContent.scrollHeight * audio.duration / audio.playbackRate;
+//    console.log(pageTime);
+//    SyncAudioWithContent();
+//    mySync = setInterval(SyncAudioWithContent, Math.round(pageTime*700));
   };
   audio.onpause = function (e) {
-    const eid = myEvent.value.split(' ')[3];
-    const p = myPeriod.value;
-    localStorage.setItem(lastEventInPeriodStored(p), eid);
-    localStorage.setItem(lastEventStored, eid); 
-    localStorage.setItem('5000yrsCurrentTime'+eid, audio.currentTime);
-    updateQR(eid, audio.currentTime);
+    localStorage.setItem('PEOPLEcurrentTime'+title, audio.currentTime);
+    updateQR(activeEpisode, audio.currentTime);
+//    clearInterval(mySync);
     mySpeak.innerHTML = '<a href="javascript:speak()" style="color:red;">&#9654;</a>';
   };
   audio.onplay = function () {
@@ -77,113 +81,71 @@ async function myInit() {
   audio.onended = function (e) {
     if (myAutoplay.checked) {
       nextChapter();
-    } else {
-      currentTime = 0.0;
-      audio.play();
     }
   }
-  const  myFootlineSetting = document.getElementById('myFootlineSetting');
-  const  myFootline = document.getElementById('myFootline');
-  const deviceType = getDeviceType();
-  if (deviceType !== "Other") {
-    const minHeight = (deviceType === 'iOS') ? '80px' : '70px';
-    myFootline.style.minHeight = minHeight;
-    myFootlineSetting.style.minHeight = minHeight;    
-  } else {
-    myFootline.style.display = 'none';
-  }
-  let data = await fetchText(`periods.txt`);
-  periods = data.split('\n');
-  periods.forEach(p => { Event[p] = [] });
-  data = await fetchText(`events.txt`);
-  const events = data.split('\n');
-  events.forEach(e => { const a = e.split(' '); Event[a[0]].push(a.slice(1)) });
-  myPeriod = document.getElementById('myPeriod');
-  myEvent = document.getElementById('myEvent');
-  myIntro = document.getElementById('myIntro');
-  myContent = document.getElementById('myContent');
-  const event = getLastChapter();
-  Content = await fetchJSON(`text/${lastPeriod}.json`);
-  myPeriod.innerHTML = periods.map(g => optionPeriod(g)).join('\n');
-  myEvent.innerHTML = Event[lastPeriod].map(b => optionEvent(b)).join('\n');
-  myIntro.value = await fetchText(`text/${lastPeriod}.txt`);
-  myContent.value = Content[myEvent.value.split(' ')[0]];
-  myPeriod.onchange = async () => {
-    myIntro.value = await fetchText(`text/${myPeriod.value}.txt`);
-    Content = await fetchJSON(`text/${myPeriod.value}.json`);
-    lastEvent = localStorage.getItem(lastEventInPeriodStored(myPeriod.value));
-    lastEvent = lastEvent ? lastEvent : Event[myPeriod.value][0][3];
-    myEvent.innerHTML = Event[myPeriod.value].map(b => optionEvent(b)).join('\n');
-    const e = myEvent.value.split(' ');
-    myContent.value = (e[0] in Content) ? Content[e[0]] : `#${e[3]} ${e[0]} ${e[1]}`;
-    gotoChapter(myEvent.value);
-  }
-  myEvent.onchange = () => {
-    const e = myEvent.value.split(' ');
-    gotoChapter(myEvent.value);
-  }
-  gotoChapter(myEvent.value);
-}
+  const data = await fetchText(`person/${title}.txt`)
+  chapters = data.replace(/\n+$/, "").split('\n');
+  const chapter = getLastChapter();
+  myChapter.innerHTML = chapters.map(c => optionChapter(c)).join('\n');
+  myChapter.onchange = () => { gotoChapter(myChapter.value); }
+  myChapter.value = chapter;
+  gotoChapter(chapter); 
+}    
 function updateQR(e,t) {
   const base = decodeURI(document.location.href.split('?')[0]);
-  qrcode.makeCode(`${base}?episode=${e}&time=${t}`);
+  qrcode.makeCode(`${base}?title=${title}&episode=${e}&time=${t}`);
 }
 function prevChapter() {
-    const eid = myEvent.value.split(' ')[3];
-    const events = Event[myPeriod.value];
-    let pos = 0;
-    while (events[pos][3] !== eid) pos++;
-    pos -= 1;
-    if (pos < 0) pos = events.length - 1;    
-    const chapter = events[pos].join(' ');
-    myEvent.value = chapter;
+    const m = audio.firstElementChild.src.match(/\/([0-9]{3})\.mp3$/);
+    let i = chapters.findIndex(c => c.startsWith(m[1])) - 1;
+    i = (i === -1) ? (chapters.length - 1) : i;
+    const chapter = chapters[i];
+    myChapter.value = chapter;
     currentTime = 0.0;
-    localStorage.setItem('5000yrsCurrentTime'+events[pos][3], 0.0);
+    localStorage.setItem('PEOPLEcurrentTime'+title, 0.0);
     gotoChapter(chapter);
 }
 function nextChapter() {
-    const eid = myEvent.value.split(' ')[3];
-    const events = Event[myPeriod.value];
-    let pos = 0;
-    while (events[pos][3] !== eid) pos++;
-    pos += 1;
-    if (pos === events.length ) pos = 0;    
-    const chapter = events[pos].join(' ');
-    myEvent.value = chapter;
+    const m = audio.firstElementChild.src.match(/\/([0-9]{3})\.mp3$/);
+    let i = 1 + chapters.findIndex(c => c.startsWith(m[1]));
+    i = (i === chapters.length) ? 0 : i;
+    const chapter = chapters[i];
+    myChapter.value = chapter;
     currentTime = 0.0;
-    localStorage.setItem('5000yrsCurrentTime'+events[pos][3], 0.0);
+    localStorage.setItem('PEOPLEcurrentTime'+title, 0.0);
     gotoChapter(chapter);
 }
-function gotoChapter(chapter) {
-   const [E,T,B,I] = chapter.split(' ');
-   audio.firstElementChild.setAttribute('src', soundUrl(B,I));
+async function gotoChapter(chapter) {
+   const [E, T, M, I] = chapter.split(' ');
+   audio.firstElementChild.setAttribute('src', soundUrl(I));
    audio.load();
-   document.title = `${E}-${myPeriod.value}`;
-   myContent.value = (E in Content) ? Content[E] : `#${I} ${E} ${T}`;
+   activeEpisode = parseInt(chapter.substring(0,3));
+   localStorage.setItem('PEOPLEactiveEpisode'+title, activeEpisode);
+   myBook.innerHTML = title.replaceAll('_',' ');
+   document.title = `${title.replaceAll('_',' ')} ${T.replaceAll('_',' ')}`;
+   const data = await fetchText(contentUrl(chapter))
+   myContent.value = data;
+   myContent.scrollTop = 0.0;
    if (myAutoplay.checked) {
      audio.play();
      audio.currentTime = currentTime;
    }
 }
 function getLastChapter() {
-const querystring = location.search;
-const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
-if (params !== 'none') {
   const e = params.get('episode');
   const t = params.get('time');
   if (e && t) {
-    localStorage.setItem(lastEventStored, e);
-    localStorage.setItem('5000yrsCurrentTime'+e, t);
+    localStorage.setItem('PEOPLEactiveEpisode'+title,e);
+    localStorage.setItem('PEOPLEcurrentTime'+title, t);
   }
-}
-  if (!localStorage.getItem(lastEventStored)) {
-    localStorage.setItem(lastEventStored, '195');
-    localStorage.setItem('5000yrsCurrentTime'+'195', 0.0);
+  if (!localStorage.getItem('PEOPLEactiveEpisode'+title)) {
+    const start_episode = parseInt(chapters[0].substring(0,3));
+    localStorage.setItem('PEOPLEactiveEpisode'+title,start_episode);
+    localStorage.setItem('PEOPLEcurrentTime'+title, 0.0);
   }
-  lastEvent = localStorage.getItem(lastEventStored);
-  currentTime = localStorage.getItem('5000yrsCurrentTime'+lastEvent);
-  lastPeriod = periods.filter(p => Event[p].map(e => e[3]).includes(lastEvent))[0];
-  return Event[lastPeriod].filter(e => e[3] === lastEvent)[0];
+  activeEpisode = localStorage.getItem('PEOPLEactiveEpisode'+title);
+  currentTime = localStorage.getItem('PEOPLEcurrentTime'+title);
+  return chapters.find(c => c.startsWith(activeEpisode.padStart(3, '0'))) 
 }
 function speak() { audio.play(); }
 function pauseResume() { audio.pause(); }

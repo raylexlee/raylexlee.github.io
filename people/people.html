@@ -5,26 +5,18 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>中華五千年</title>
-  <link rel="stylesheet" href="store.css"> </link>
+  <title></title>
+  <link rel="stylesheet" href="people.css"> </link>
 </head>
+
 <body>
   <div class="viewportDiv">
-    <div id="myGroupline" class="div1">
-      <div>時期</div>
-      <div class="select-wrapper">
-        <select id="myPeriod"> </select>
-      </div>
-    </div>
-    <div class="remainingDiv">
-      <textarea name="myIntro" id="myIntro" readonly></textarea>
-    </div>
-    <div id="myBookline" class="div1">
+    <div id="myHeadline" class="div1">
       <div>
         <a href="javascript:prevChapter()" style="color:cyan;">&lArr;</a> 
       </div>
       <div class="select-wrapper">
-        <select id="myEvent"> </select>
+        <select id="myChapter"> </select>
       </div>
       <div>
         <a href="javascript:nextChapter()" style="color:cyan;">&rArr;</a> 
@@ -35,10 +27,10 @@
     </div>
     <div id="myFootlineSetting" class="div1">
       <div>
-        <button id="showSetting" class="icon" popovertarget="setting"><img src="setting.svg" /></button>
+        <button id="showQR" popovertarget="setting"><img src="setting.svg" /></button>
       </div>
       <div>
-        <button id="showQR" class="icon" popovertarget="qrcode"><img src="qr_code.svg" /></button>
+        <button id="showQR" popovertarget="qrcode"><img src="qr_code.svg" /></button>
       </div>
       <div id="mySpeak">
       <a href="javascript:speak()" style="color:red;">&#9654;</a>
@@ -46,12 +38,12 @@
       <div>
        <a href="javascript:pauseResume()" id="myPauseCancel" style="color:red;">&#9208;</a>
       </div>
-      <div id="myBookTitle">
-      中華五千年
+      <div id="myBook">
+      紅樓夢滿紙荒唐言，一把辛酸淚。都云作者癡，誰解其中味？
       </div>
     </div>
     <div id="myFootline" class="div1">
-Last updated : 6 Oct 2025
+Last updated : 11 October 2025
     </div>
   </div>
   <div id="qrcode" popover></div>
@@ -71,7 +63,7 @@ var qrcode = new QRCode(document.getElementById("qrcode"), {
 </script>  
 <div id="setting" popover>
    <div>
-      <input type="checkbox" id="myAutoplay" name="autoplay" value="autoplay" checked >
+      <input type="checkbox" id="myAutoplay" name="autoplay" value="autoplay" checked>
       <label for="autoplay">自動播</label>
     </div>
     <div>
@@ -107,5 +99,5 @@ function scheduleStop(duration) {
 }
 </script>
 </body>
-<script src="store.js"></script>
+<script src="people.js"></script>
 </html>
