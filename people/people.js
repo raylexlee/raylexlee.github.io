@@ -54,7 +54,11 @@ const  myFootline = document.getElementById('myFootline');
   const deviceType = getDeviceType();
   if (deviceType !== "Other") {
     const minHeight = (deviceType === 'iOS') ? '80px' : '70px';
-    myFootline.style.minHeight = minHeight;
+    if (isEdgeAndroid()) {
+      myFootline.style.minHeight = minHeight;
+    } else {
+        myFootline.style.display = 'none';
+      }
     myFootlineSetting.style.minHeight = minHeight;    
   } else {
     myFootline.style.display = 'none';
@@ -74,7 +78,7 @@ const  myFootline = document.getElementById('myFootline');
 //    clearInterval(mySync);
     mySpeak.innerHTML = '<a href="javascript:speak()" style="color:red;">&#9654;</a>';
   };
-  audio.onplay = function () {
+  audio.onplaying = function () {
     mySpeak.innerHTML = '<img src="playing.svg" />';
   }
   audio.onseeked = () => { currentTime = audio.currentTime; }
