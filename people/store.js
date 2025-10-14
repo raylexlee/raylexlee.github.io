@@ -42,11 +42,7 @@ const deviceType = getDeviceType();
 
   if (deviceType !== "Other") {
     const minHeight = (deviceType === 'iOS') ? '80px' : '70px';
-    if (isEdgeAndroid()) {
-      myFootline.style.minHeight = minHeight;
-    } else {
-        myFootline.style.display = 'none';
-      }
+    myFootline.style.minHeight = minHeight;
     myFootlineSetting.style.minHeight = minHeight;    
   } else {
     myFootline.style.display = 'none';
