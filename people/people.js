@@ -53,7 +53,7 @@ const  myFootlineSetting = document.getElementById('myFootlineSetting');
 const  myFootline = document.getElementById('myFootline');
   const deviceType = getDeviceType();
   if (deviceType !== "Other") {
-    const minHeight = (deviceType === 'iOS') ? '70px' : '60px';
+    const minHeight = ((deviceType === 'iOS') || isEdgeAndroid()) ? '70px' : '60px';
     myFootline.style.minHeight = minHeight;
     myFootlineSetting.style.minHeight = minHeight;    
   } else {
