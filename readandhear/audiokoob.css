@@ -1,11 +1,12 @@
 @charset "UTF-8";
-html,body {
+html { font-size: 25px; }
+body {
 	height: 100%;
 	margin: 0;
 	padding: 0;
   background-color: black;
   color:cornsilk;
-  font-size: max(25px,2vw);
+  font-size: clamp( 1rem, 2vw, 2rem);
 }
 ::backdrop {
   backdrop-filter: blur(20px);
@@ -48,7 +49,7 @@ a:visited {
   flex-direction: column;
 }
 .remainingDiv textarea {
-  font-size: max(23px,2vw);
+  font-size: clamp( 0.92rem, 2vw, 2rem);
   color:cornsilk;
   border: none;
   background-color: transparent;
@@ -73,7 +74,7 @@ textarea::-moz-selection {
 select {
   width: 100%;
   padding: 8px;
-  font-size: 1rem;
+  font-size: clamp( 1rem, 2vw, 2rem);
   box-sizing: border-box;
   white-space: nowrap;   /* keeps text on one line */
   overflow: hidden;
@@ -96,4 +97,9 @@ input[type="range"] {
   transform: scale(1.2); /* Adjust the scale factor as needed */
   vertical-align: middle;           /* Aligns with the middle of the text */
   margin-left: 10px;
+}
+@media (-webkit-min-device-pixel-ratio: 3), (min-resolution: 300dpi) {
+  html {
+    font-size: 35px;
+  }
 }
