@@ -6,7 +6,7 @@ body {
 	padding: 0;
   background-color: black;
   color:cornsilk;
-  font-size: clamp( 1rem, 2.2vw, 2rem);
+  font-size: clamp( 1rem, 2vw, 2rem);
 }
 ::backdrop {
   backdrop-filter: blur(20px);
@@ -43,7 +43,7 @@ a:visited {
   text-overflow: ellipsis; /* adds "..." if text is too long */
 }
         button {
-            font-size: clamp( 0.72rem, 2.2vw, 2rem);
+            font-size: clamp( 0.72rem, 2vw, 2rem);
             padding: 10px;
             margin: 10px;
             cursor: pointer;
@@ -64,7 +64,7 @@ a:visited {
   flex-direction: column;
 }
 .remainingDiv textarea {
-  font-size: clamp( 0.92rem, 2.2vw, 2rem);
+  font-size: clamp( 0.92rem, 2vw, 2rem);
   color:cornsilk;
   border: none;
   background-color: transparent;
@@ -85,7 +85,7 @@ textarea::selection {
 select {
   width: 100%;
   padding: 8px;
-  font-size: clamp( 1rem, 2.2vw, 2rem);
+  font-size: clamp( 1rem, 2vw, 2rem);
   box-sizing: border-box;
   white-space: nowrap;   /* keeps text on one line */
   overflow: hidden;
@@ -111,6 +111,6 @@ input[type="range"] {
 }
 @media (-webkit-min-device-pixel-ratio: 3), (min-resolution: 300dpi) {
   html {
-    font-size: 37.5px;
+    font-size: 35px;
   }
 }
