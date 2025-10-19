@@ -6,6 +6,11 @@ let lastBook;
 let lastGroup;
 const optionGroup = g => `<option value="${g}" ${(g == lastGroup) ? 'selected' : ''}>${g.replaceAll('_',' ')}</option>`;
 const optionBook = b => `<option value="${b}" ${(b == lastBook) ? 'selected' : ''}>${b.replaceAll('_',' ')}</option>`;
+const SetBaseFontForIpad = () => {
+  if (/iPad/.test(navigator.platform)) {
+    document.querySelector('html').style.fontSize = '6vmin';
+  }
+}
 const getDeviceType = () => {
   const userAgent = navigator.userAgent;
   const platform = navigator.platform;
@@ -38,7 +43,7 @@ async function myInit() {
 const  myFootlineSetting = document.getElementById('myFootlineSetting');
 const  myFootline = document.getElementById('myFootline');
 const deviceType = getDeviceType();
-
+SetBaseFontForIpad();
   if (deviceType !== "Other") {
     const minHeight = (deviceType === 'iOS') ? '80px' : '70px';
     myFootline.style.minHeight = minHeight;

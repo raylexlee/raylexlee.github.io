@@ -12,6 +12,11 @@ title = title ? title : '紅樓夢';
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
 });
+const SetBaseFontForIpad = () => {
+  if (/iPad/.test(navigator.platform)) {
+    document.querySelector('html').style.fontSize = '6vmin';
+  }
+}
 const getDeviceType = () => {
   const userAgent = navigator.userAgent;
   const platform = navigator.platform;
@@ -53,6 +58,7 @@ async function myInit() {
 const  myFootlineSetting = document.getElementById('myFootlineSetting');
 const  myFootline = document.getElementById('myFootline');
   const deviceType = getDeviceType();
+SetBaseFontForIpad();
   if (deviceType !== "Other") {
     const minHeight = ((deviceType === 'iOS') || isEdgeAndroid()) ? '70px' : '60px';
     myFootline.style.minHeight = minHeight;
