@@ -1,5 +1,5 @@
 @charset "UTF-8";
-html { font-size: max(25px,2vw); }
+html { font-size: 6vmin; }
 body {
 	height: 100%;
 	margin: 0;
@@ -108,9 +108,4 @@ input[type="range"] {
   transform: scale(1.2); /* Adjust the scale factor as needed */
   vertical-align: middle;           /* Aligns with the middle of the text */
   margin-left: 10px;
-}
-@media (-webkit-min-device-pixel-ratio: 3), (min-resolution: 300dpi) {
-  html {
-    font-size: max(35px,2vw);
-  }
 }

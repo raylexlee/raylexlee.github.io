@@ -12,11 +12,6 @@ title = title ? title : '紅樓夢';
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
 });
-const SetBaseFontForIpad = () => {
-  if (/iPad/.test(navigator.platform)) {
-    document.querySelector('html').style.fontSize = '6vmin';
-  }
-}
 const getDeviceType = () => {
   const userAgent = navigator.userAgent;
   const platform = navigator.platform;
@@ -24,11 +19,19 @@ const getDeviceType = () => {
 
   // Detect Android
   if (/android/i.test(userAgent)) {
+    document.querySelector('html').style.fontSize = '8vmin';
     return "Android";
   }
 
+  // Detect iPad (including iPads running iPadOS 13+ which might report as MacIntel)
+  if (/iPad/.test(platform) || (platform === 'MacIntel' && maxTouchPoints > 1)) {
+    document.querySelector('html').style.fontSize = '6vmin';
+    return "Other";
+  }
+
   // Detect iOS (including iPads running iPadOS 13+ which might report as MacIntel)
-  if (/iPad|iPhone|iPod/.test(platform) || (platform === 'MacIntel' && maxTouchPoints > 1)) {
+  if (/iPhone|iPod/.test(platform)) {
+    document.querySelector('html').style.fontSize = '8vmin';
     return "iOS";
   }
 
@@ -58,7 +61,6 @@ async function myInit() {
 const  myFootlineSetting = document.getElementById('myFootlineSetting');
 const  myFootline = document.getElementById('myFootline');
   const deviceType = getDeviceType();
-SetBaseFontForIpad();
   if (deviceType !== "Other") {
     const minHeight = ((deviceType === 'iOS') || isEdgeAndroid()) ? '70px' : '60px';
     myFootline.style.minHeight = minHeight;
