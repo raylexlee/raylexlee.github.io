@@ -26,7 +26,7 @@ const getDeviceType = () => {
   // Detect iPad (including iPads running iPadOS 13+ which might report as MacIntel)
   if (/iPad/.test(platform) || (platform === 'MacIntel' && maxTouchPoints > 1)) {
     document.querySelector('html').style.fontSize = '6vmin';
-    return "Other";
+    return "iOS";
   }
 
   // Detect iOS (including iPads running iPadOS 13+ which might report as MacIntel)
