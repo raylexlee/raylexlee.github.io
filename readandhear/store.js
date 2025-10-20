@@ -6,11 +6,19 @@ let lastBook;
 let lastGroup;
 const optionGroup = g => `<option value="${g}" ${(g == lastGroup) ? 'selected' : ''}>${g.replaceAll('_',' ')}</option>`;
 const optionBook = b => `<option value="${b}" ${(b == lastBook) ? 'selected' : ''}>${b.replaceAll('_',' ')}</option>`;
+function isIPhone() {
+  const ua = navigator.userAgent || navigator.vendor || window.opera;
+  return /\b(iPhone)\b/.test(ua);
+}
 const getDeviceType = () => {
   const userAgent = navigator.userAgent;
   const platform = navigator.platform;
   const maxTouchPoints = navigator.maxTouchPoints;
-
+const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent);
+if (isSafari && isIphone()) {
+    document.querySelector('html').style.fontSize = '9vmin';
+    return "iOS";
+}
   // Detect Android
   if (/android/i.test(userAgent)) {
     document.querySelector('html').style.fontSize = '8vmin';
