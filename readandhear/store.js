@@ -15,7 +15,7 @@ const getDeviceType = () => {
   const platform = navigator.platform;
   const maxTouchPoints = navigator.maxTouchPoints;
 const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent);
-if (isSafari && isIphone()) {
+if (isSafari && isIPhone()) {
     document.querySelector('html').style.fontSize = '9vmin';
     return "iOS";
 }
