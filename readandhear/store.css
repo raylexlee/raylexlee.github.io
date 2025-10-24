@@ -54,7 +54,10 @@ a:visited {
             background-color: #28a745;
             color: white;
         }
-#myBookline { font-size: 0.85rem; }
+#myBookline { 
+  font-size: 0.85rem;
+  gap: 5px;
+}
 .icon {
   background-color: black; 
   border=1px solid black;
