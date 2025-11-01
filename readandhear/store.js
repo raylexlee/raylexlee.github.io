@@ -74,7 +74,7 @@ const deviceType = getDeviceType();
   myGroup = document.getElementById('myGroup');
   myBook = document.getElementById('myBook');
   lastBook = localStorage.getItem(lastBookStored);
-  lastBook = lastBook ? lastBook : '紅樓夢';
+  lastBook = lastBook ? lastBook : book[Object.keys(book)[0]][0];
   lastGroup = Object.keys(book).filter(g => book[g].includes(lastBook))[0];
   myGroup.innerHTML = Object.keys(book).map(g => optionGroup(g)).join('\n');
   myBook.innerHTML = book[lastGroup].map(b => optionBook(b)).join('\n');
