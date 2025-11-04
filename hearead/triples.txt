@@ -1,6 +1,5 @@
 en Roland_Pertwee Men_of_Affairs
 en Jane_Austen Persuasion
-zh 江旻憓 江旻憓
 zh 社會奇情 紅樓夢
 ja 夏目漱石 それから
 ja 松尾芭蕉 芭蕉俳句全集
