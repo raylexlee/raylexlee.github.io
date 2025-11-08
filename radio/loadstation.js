@@ -1,4 +1,4 @@
-const DEFAULT = '音乐台';
+const DEFAULT = '香港';
 let station, group;
 let title, stream, mode, stations, groups;
 let lastTitle, lastStream, lastMode;
