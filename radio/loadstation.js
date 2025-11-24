@@ -1,4 +1,4 @@
-const DEFAULT = '香港';
+const DEFAULT = '广东';
 let station, group;
 let title, stream, mode, stations, groups;
 let lastTitle, lastStream, lastMode;
