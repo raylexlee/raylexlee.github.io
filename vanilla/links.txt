@@ -1,4 +1,4 @@
-https://thoriumlxc.gitlab.io/cmangos-classic/overview/
-https://github.com/Meridaw/Vanilla-Macros
-https://github.com/laytya/WowLuaVanilla
-https://www.wowhead.com/classic/guide/classes/priest/hardcore-leveling-tips
+docker_cmangos-classic https://thoriumlxc.gitlab.io/cmangos-classic/overview/
+vanilla_1.12_macros https://github.com/Meridaw/Vanilla-Macros
+WowLuaVanilla_Addon https://github.com/laytya/WowLuaVanilladdon
+AltBotMenu_Addon https://github.com/raylexlee/AltBotMenu

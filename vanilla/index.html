@@ -1,2 +1,50 @@
-<a href="https://github.com/Meridaw/Vanilla-Macros">Vanilla-Macros</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <title>Vanilla 1.12.1</title>
+<style>
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: green;
+}
 
+.flex-container > li {
+  background-color: #f1f1f1;
+  width: 100%;
+  margin: 1vw;
+  font-size: 2.4vw;
+  text-align: justify;
+}
+ul { list-style-type: none; }
+</style>
+</head>
+<body>
+<ul class="flex-container">
+</ul>
+<p>Hardware : Dell Vostro 3710, Win 11 Home, 16G Ram, 256 ssd + 1T Hardisk</p>
+<p>Testing started on 24 November 2025</p>
+</body>
+<script>
+  fetch(`links.txt`)
+    .then(response => response.text())
+    .then(data => {
+      const AuthorBooks = data.replace(/\n+$/, "").split('\n');
+      const book = [];
+      AuthorBooks.forEach(AuthorBook => {
+        const [Lang, Book] = AuthorBook.split(" ");
+        book.push([Lang, Book]);
+      });
+      const classes = 'warrior priest hunter druid shaman paladin rogue warlock mage';
+      const li_a = a => `<li><a href='https://www.wowhead.com/classic/guide/classes/${a}/hardcore-leveling-tips'>${a} Hardcore Levelling</a></li>`;
+      const li_b = a => `<li><a href='${a[1]}'>${a[0].replace(/_/g,' ')}</a></li>`;
+      document.querySelector('ul').innerHTML 
+        =  book.map(e =>   li_b(e)).join('\n') 
+         + classes.split(' ').map(c => li_a(c)).join('\n');
+    });
+</script>
+</html>
