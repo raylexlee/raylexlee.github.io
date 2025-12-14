@@ -3,3 +3,4 @@ vanilla_1.12_macros https://github.com/Meridaw/Vanilla-Macros
 vanilla_1.12_Addon https://github.com/fondlez/wow-addons-vanilla
 WowLuaVanilla_Addon https://github.com/laytya/WowLuaVanilladdon
 AltBotMenu_Addon https://github.com/raylexlee/AltBotMenu
+BotManager_Addon https://github.com/raylexlee/BotManager
