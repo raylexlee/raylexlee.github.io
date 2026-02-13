@@ -25,20 +25,6 @@ let utterThis = new SpeechSynthesisUtterance('Create utter this');
  }
 // utterThis.onboundary = SyncAudioWithContent;
   myContent.style.lineHeight=2;
-  myContent.onselect = e => {
-    if (programSelect >= 1) {
-       programSelect--;
-       return;
-    }
-    for (let i = 0; i < punctuationPosition.length; i++) {
-      if (punctuationPosition[i] >= myContent.selectionStart) {
-         positionIndex = i;
-         speak();
-         console.log('onselect ',i);
-         break;
-      }
-    }
-  }
   myContent.onchange = gotoChapter;
 //  myRange.oninput = function() {
 //    const v = myRange.value;
@@ -138,3 +124,17 @@ function CalculateScrollData() {
   }
   lineHeight = myContent.scrollHeight / rowsLine[rowsLine.length - 1];
 }
+function processContentSelection() {
+    if (programSelect >= 1) {
+       programSelect--;
+       return;
+    }
+    for (let i = 0; i < punctuationPosition.length; i++) {
+      if (punctuationPosition[i] >= myContent.selectionStart) {
+         positionIndex = i;
+         speak();
+         console.log('onselect ',i);
+         break;
+      }
+    }
+  }
