@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanilla 1.12 Macro Viewer</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #24292e;
+            background-color: #1a1e24;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #2d333b;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            overflow: hidden;
+            border: 1px solid #444c56;
+        }
+
+        /* Header */
+        .header {
+            background: #22272e;
+            color: #adbac7;
+            padding: 24px 32px;
+            border-bottom: 1px solid #444c56;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #cdd9e5;
+        }
+
+        .header .subtitle {
+            opacity: 0.8;
+            font-size: 1em;
+            color: #768390;
+        }
+
+        .file-info {
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .file-badge {
+            background: #2d333b;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 0.9em;
+            font-family: 'SF Mono', Monaco, Consolas, monospace;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #444c56;
+            color: #adbac7;
+        }
+
+        .file-badge::before {
+            content: "📄";
+            font-size: 1.1em;
+        }
+
+        .macro-warning {
+            background: #5e3c24;
+            color: #e6c9a8;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 0.9em;
+            border: 1px solid #b7814d;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .macro-warning::before {
+            content: "⚠️";
+            font-size: 1.1em;
+        }
+
+        /* Loading and error states */
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #768390;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #373e47;
+            border-top: 4px solid #539bf5;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #442326;
+            color: #f5b1aa;
+            padding: 40px;
+            text-align: center;
+            border-radius: 8px;
+            margin: 30px;
+            border: 1px solid #c93c37;
+        }
+
+        .error h3 {
+            margin-bottom: 12px;
+            font-size: 1.4em;
+            color: #f5b1aa;
+        }
+
+        .error-actions {
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .error-actions a {
+            color: #539bf5;
+            text-decoration: none;
+            padding: 8px 16px;
+            background: #373e47;
+            border-radius: 6px;
+            border: 1px solid #444c56;
+        }
+
+        .error-actions a:hover {
+            background: #444c56;
+        }
+
+        /* Markdown content styling */
+        .markdown-body {
+            padding: 40px;
+            background: #2d333b;
+            color: #cdd9e5;
+        }
+
+        /* Typography */
+        .markdown-body h1 {
+            font-size: 2.2em;
+            border-bottom: 2px solid #444c56;
+            padding-bottom: 0.3em;
+            margin: 1em 0 0.5em;
+            font-weight: 600;
+            color: #cdd9e5;
+        }
+
+        .markdown-body h2 {
+            font-size: 1.8em;
+            border-bottom: 1px solid #444c56;
+            padding-bottom: 0.3em;
+            margin: 1.2em 0 0.5em;
+            font-weight: 600;
+            color: #cdd9e5;
+        }
+
+        .markdown-body h3 {
+            font-size: 1.5em;
+            margin: 1em 0 0.5em;
+            font-weight: 600;
+            color: #cdd9e5;
+        }
+
+        .markdown-body h4 {
+            font-size: 1.2em;
+            margin: 1em 0 0.5em;
+            font-weight: 600;
+            color: #cdd9e5;
+        }
+
+        .markdown-body p {
+            margin: 1em 0;
+            line-height: 1.7;
+            color: #adbac7;
+        }
+
+        /* Links */
+        .markdown-body a {
+            color: #539bf5;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .markdown-body a:hover {
+            border-bottom-color: #539bf5;
+        }
+
+        /* Lists */
+        .markdown-body ul, 
+        .markdown-body ol {
+            margin: 1em 0;
+            padding-left: 2em;
+            color: #adbac7;
+        }
+
+        .markdown-body li {
+            margin: 0.5em 0;
+        }
+
+        .markdown-body li > ul,
+        .markdown-body li > ol {
+            margin: 0.2em 0 0.2em 1.5em;
+        }
+
+        /* Code blocks - MACRO FRIENDLY (no escaping) */
+        .markdown-body pre {
+            background: #1c2128;
+            color: #adbac7;
+            padding: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 1.5em 0;
+            font-family: 'SF Mono', Monaco, Consolas, 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+            border: 1px solid #444c56;
+            position: relative;
+        }
+
+        .code-header {
+            background: #2d333b;
+            padding: 8px 16px;
+            border-bottom: 1px solid #444c56;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85em;
+            color: #768390;
+        }
+
+        .code-language {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .code-language::before {
+            content: "📋";
+            font-size: 1.1em;
+        }
+
+        .copy-button {
+            background: #373e47;
+            color: #adbac7;
+            border: 1px solid #444c56;
+            padding: 4px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .copy-button:hover {
+            background: #444c56;
+            color: #cdd9e5;
+            border-color: #539bf5;
+        }
+
+        .copy-button.copied {
+            background: #347d39;
+            color: white;
+            border-color: #46954a;
+        }
+
+        .copy-button::before {
+            content: "📋";
+            font-size: 1.1em;
+        }
+
+        .copy-button.copied::before {
+            content: "✅";
+        }
+
+        .markdown-body pre code {
+            display: block;
+            padding: 16px;
+            overflow-x: auto;
+            background: #1c2128;
+            color: #adbac7;
+            font-family: 'SF Mono', Monaco, Consolas, 'Courier New', monospace;
+            white-space: pre;
+            tab-size: 4;
+        }
+
+        /* Inline code */
+        .markdown-body code:not(pre code) {
+            font-family: 'SF Mono', Monaco, Consolas, 'Courier New', monospace;
+            background: #373e47;
+            padding: 0.2em 0.4em;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #e6c9a8;
+            border: 1px solid #444c56;
+        }
+
+        /* Blockquotes */
+        .markdown-body blockquote {
+            margin: 1.5em 0;
+            padding: 1em 1.5em;
+            background: #373e47;
+            border-left: 4px solid #539bf5;
+            color: #adbac7;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .markdown-body blockquote p {
+            margin: 0.5em 0;
+            color: #adbac7;
+        }
+
+        /* Tables */
+        .markdown-body table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5em 0;
+            overflow-x: auto;
+            display: block;
+            color: #adbac7;
+        }
+
+        .markdown-body table th {
+            background: #373e47;
+            font-weight: 600;
+            padding: 12px;
+            border: 1px solid #444c56;
+            color: #cdd9e5;
+        }
+
+        .markdown-body table td {
+            padding: 10px 12px;
+            border: 1px solid #444c56;
+        }
+
+        .markdown-body table tr:nth-child(even) {
+            background: #323a43;
+        }
+
+        /* Images */
+        .markdown-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 1em 0;
+            border: 1px solid #444c56;
+        }
+
+        /* Horizontal rule */
+        .markdown-body hr {
+            border: none;
+            height: 2px;
+            background: #444c56;
+            margin: 2.5em 0;
+        }
+
+        /* Bold and italic */
+        .markdown-body strong {
+            font-weight: 600;
+            color: #cdd9e5;
+        }
+
+        .markdown-body em {
+            font-style: italic;
+            color: #adbac7;
+        }
+
+        /* Copy notification */
+        .copy-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #347d39;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s;
+            border: 1px solid #46954a;
+            z-index: 1000;
+        }
+
+        .copy-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Footer */
+        .footer {
+            background: #22272e;
+            padding: 24px 32px;
+            border-top: 1px solid #444c56;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: #768390;
+            text-decoration: none;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #539bf5;
+        }
+
+        .nav-links a::before {
+            font-size: 1.2em;
+        }
+
+        .home-link::before { content: "🏠"; }
+        .reload-link::before { content: "🔄"; }
+        .readme-link::before { content: "📖"; }
+
+        .status {
+            color: #768390;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #347d39;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 8px #46954a;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .markdown-body {
+                padding: 20px;
+            }
+
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .file-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Vanilla 1.12 Macro Viewer</h1>
+            <div class="subtitle">Perfect for game macros - preserves exact formatting</div>
+            <div class="file-info">
+                <span class="file-badge" id="current-file">No file selected</span>
+                <span class="macro-warning">Macros preserved - no HTML escaping</span>
+            </div>
+        </div>
+
+        <div id="content">
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Loading macro file...</p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="nav-links">
+                <a href="?" class="home-link">Home</a>
+                <a href="#" id="reload-link" class="reload-link">Reload</a>
+                <a href="?md=README" id="readme-link" class="readme-link">README</a>
+            </div>
+            <div class="status">
+                <span class="status-dot"></span>
+                <span id="status-text">Ready</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="copy-notification" id="copyNotification">✅ Copied to clipboard!</div>
+
+    <script>
+        // ==================== Copy to Clipboard Function ====================
+        async function copyToClipboard(text, button) {
+            try {
+                await navigator.clipboard.writeText(text);
+                
+                // Show success on button
+                button.classList.add('copied');
+                button.innerHTML = 'Copied!';
+                
+                // Show notification
+                const notification = document.getElementById('copyNotification');
+                notification.classList.add('show');
+                
+                // Reset button after 2 seconds
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = 'Copy';
+                }, 2000);
+                
+                // Hide notification after 2 seconds
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 2000);
+                
+            } catch (err) {
+                console.error('Failed to copy:', err);
+                alert('Failed to copy to clipboard. Please copy manually.');
+            }
+        }
+
+        // ==================== Simple Markdown Parser ====================
+        const markdownParser = {
+            // Main parse function
+            parse: function(text) {
+                if (!text) return '';
+                
+                // Parse code blocks FIRST - with NO escaping for macros
+                text = this.parseCodeBlocks(text);
+                
+                // Parse block elements (but avoid messing with code blocks)
+                text = this.parseHeaders(text);
+                text = this.parseBlockquotes(text);
+                text = this.parseHorizontalRules(text);
+                text = this.parseLists(text);
+                text = this.parseTables(text);
+                
+                // Parse inline elements (but avoid messing with code blocks)
+                text = this.parseInlineFormatting(text);
+                text = this.parseLinks(text);
+                text = this.parseImages(text);
+                
+                // Parse paragraphs
+                text = this.parseParagraphs(text);
+                
+                return text;
+            },
+
+            // Parse code blocks - NO ESCAPING, preserves exact macro text
+            parseCodeBlocks: function(text) {
+                // Fenced code blocks with optional language
+                text = text.replace(/```(\w*)\n([\s\S]*?)```/g, (match, lang, code) => {
+                    // Generate unique ID for this code block
+                    const codeId = 'code-' + Math.random().toString(36).substr(2, 9);
+                    const language = lang ? lang : 'macro';
+                    
+                    // Create code block with copy button - PRESERVE EXACT CODE
+                    return `<div class="code-block" id="${codeId}">
+                        <div class="code-header">
+                            <span class="code-language">${language}</span>
+                            <button class="copy-button" onclick="copyToClipboard(atob('${btoa(code)}'), this)">Copy</button>
+                        </div>
+                        <pre><code>${code}</code></pre>
+                    </div>`;
+                });
+                
+                // Indented code blocks (4 spaces or 1 tab)
+                text = text.replace(/(?:^|\n)(?: {4}|\t)(.*(?:\n(?: {4}|\t).*)*)/g, (match, code) => {
+                    // Remove the indentation
+                    const cleanCode = code.replace(/^ {4}|\t/gm, '');
+                    const codeId = 'code-' + Math.random().toString(36).substr(2, 9);
+                    
+                    return `\n<div class="code-block" id="${codeId}">
+                        <div class="code-header">
+                            <span class="code-language">macro</span>
+                            <button class="copy-button" onclick="copyToClipboard(atob('${btoa(cleanCode)}'), this)">Copy</button>
+                        </div>
+                        <pre><code>${cleanCode}</code></pre>
+                    </div>\n`;
+                });
+                
+                return text;
+            },
+
+            // Parse headers
+            parseHeaders: function(text) {
+                text = text.replace(/^# (.*$)/gm, '<h1>$1</h1>');
+                text = text.replace(/^## (.*$)/gm, '<h2>$1</h2>');
+                text = text.replace(/^### (.*$)/gm, '<h3>$1</h3>');
+                text = text.replace(/^#### (.*$)/gm, '<h4>$1</h4>');
+                text = text.replace(/^##### (.*$)/gm, '<h5>$1</h5>');
+                text = text.replace(/^###### (.*$)/gm, '<h6>$1</h6>');
+                
+                // Setext style headers
+                text = text.replace(/^(.*)\n={3,}$/gm, '<h1>$1</h1>');
+                text = text.replace(/^(.*)\n-{3,}$/gm, '<h2>$1</h2>');
+                
+                return text;
+            },
+
+            // Parse blockquotes
+            parseBlockquotes: function(text) {
+                return text.replace(/(?:^|\n)>(.*?)(?=\n|$)/gs, (match, content) => {
+                    return `\n<blockquote>${content.trim()}</blockquote>\n`;
+                });
+            },
+
+            // Parse horizontal rules
+            parseHorizontalRules: function(text) {
+                return text.replace(/^([-*_]){3,}\s*$/gm, '<hr>');
+            },
+
+            // Parse lists
+            parseLists: function(text) {
+                // Unordered lists
+                text = text.replace(/(?:^|\n)[*+-] .*(?:\n[*+-] .*)*/g, (match) => {
+                    const items = match.split('\n').map(line => {
+                        const content = line.replace(/^[*+-] /, '').trim();
+                        return `<li>${content}</li>`;
+                    }).join('');
+                    return `\n<ul>${items}</ul>\n`;
+                });
+                
+                // Ordered lists
+                text = text.replace(/(?:^|\n)\d+\. .*(?:\n\d+\. .*)*/g, (match) => {
+                    const items = match.split('\n').map(line => {
+                        const content = line.replace(/^\d+\. /, '').trim();
+                        return `<li>${content}</li>`;
+                    }).join('');
+                    return `\n<ol>${items}</ol>\n`;
+                });
+                
+                return text;
+            },
+
+            // Parse tables
+            parseTables: function(text) {
+                const tableRegex = /\n(.+)\n\|?(?:\|.*)+\|?\n/;
+                return text.replace(tableRegex, (match, headerRow) => {
+                    const rows = match.trim().split('\n');
+                    if (rows.length < 2) return match;
+                    
+                    const headers = rows[0].split('|').filter(cell => cell.trim()).map(cell => `<th>${cell.trim()}</th>`);
+                    const dataRows = rows.slice(2).map(row => {
+                        const cells = row.split('|').filter(cell => cell.trim()).map(cell => `<td>${cell.trim()}</td>`);
+                        return `<tr>${cells.join('')}</tr>`;
+                    });
+                    
+                    return `\n<table><thead><tr>${headers.join('')}</tr></thead><tbody>${dataRows.join('')}</tbody></table>\n`;
+                });
+            },
+
+            // Parse inline formatting (but skip if inside code blocks)
+            parseInlineFormatting: function(text) {
+                // Bold
+                text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                text = text.replace(/__(.*?)__/g, '<strong>$1</strong>');
+                
+                // Italic
+                text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                text = text.replace(/_(.*?)_/g, '<em>$1</em>');
+                
+                // Inline code
+                text = text.replace(/`(.*?)`/g, '<code>$1</code>');
+                
+                // Strikethrough
+                text = text.replace(/~~(.*?)~~/g, '<del>$1</del>');
+                
+                return text;
+            },
+
+            // Parse links
+            parseLinks: function(text) {
+                // [text](url)
+                text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+                
+                // Plain URLs
+                text = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1">$1</a>');
+                
+                return text;
+            },
+
+            // Parse images
+            parseImages: function(text) {
+                text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">');
+                return text;
+            },
+
+            // Parse paragraphs
+            parseParagraphs: function(text) {
+                const lines = text.split('\n');
+                let inParagraph = false;
+                let paragraphs = [];
+                
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    
+                    if (line === '') {
+                        inParagraph = false;
+                        continue;
+                    }
+                    
+                    if (line.startsWith('<h') || line.startsWith('<div class="code-block') || 
+                        line.startsWith('<pre') || line.startsWith('<ul') || 
+                        line.startsWith('<ol') || line.startsWith('<blockquote') || 
+                        line.startsWith('<table') || line.startsWith('<hr')) {
+                        paragraphs.push(line);
+                        inParagraph = false;
+                        continue;
+                    }
+                    
+                    if (!inParagraph) {
+                        paragraphs.push('<p>' + line);
+                        inParagraph = true;
+                    } else {
+                        paragraphs[paragraphs.length - 1] += ' ' + line;
+                    }
+                }
+                
+                if (inParagraph && paragraphs.length > 0) {
+                    paragraphs[paragraphs.length - 1] += '</p>';
+                }
+                
+                return paragraphs.join('\n');
+            }
+        };
+
+        // ==================== URL Parameter Handling ====================
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // ==================== File Loading ====================
+        async function loadMarkdownFile(filename) {
+            const contentDiv = document.getElementById('content');
+            const loadingDiv = document.getElementById('loading');
+            const currentFileSpan = document.getElementById('current-file');
+            const statusText = document.getElementById('status-text');
+            
+            try {
+                loadingDiv.style.display = 'block';
+                contentDiv.innerHTML = '';
+                statusText.textContent = 'Loading...';
+                
+                const mdFilename = filename.endsWith('.md') ? filename : filename + '.md';
+                currentFileSpan.textContent = mdFilename;
+                
+                const response = await fetch(mdFilename);
+                
+                if (!response.ok) {
+                    throw new Error(`File not found: ${mdFilename}`);
+                }
+                
+                const markdownText = await response.text();
+                
+                // Parse markdown to HTML - with macros preserved
+                const htmlContent = markdownParser.parse(markdownText);
+                
+                contentDiv.innerHTML = `<div class="markdown-body">${htmlContent}</div>`;
+                statusText.textContent = 'Loaded';
+                document.title = `${mdFilename} - Macro Viewer`;
+                
+            } catch (error) {
+                contentDiv.innerHTML = `
+                    <div class="error">
+                        <h3>⚠️ Error Loading File</h3>
+                        <p>${error.message}</p>
+                        <p>Try one of these options:</p>
+                        <div class="error-actions">
+                            <a href="?md=README">View README.md</a>
+                            <a href="#" onclick="window.location.reload()">Reload Page</a>
+                        </div>
+                    </div>
+                `;
+                currentFileSpan.textContent = 'Error';
+                statusText.textContent = 'Error';
+            } finally {
+                loadingDiv.style.display = 'none';
+            }
+        }
+
+        // ==================== Initialize ====================
+        async function init() {
+            const mdParam = getUrlParameter('md');
+            const filename = mdParam || 'README';
+            
+            document.getElementById('reload-link').href = `?md=${filename}`;
+            document.getElementById('readme-link').href = '?md=README';
+            
+            await loadMarkdownFile(filename);
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+        window.addEventListener('popstate', init);
+    </script>
+</body>
+</html>

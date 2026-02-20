@@ -1,0 +1,1 @@
+/run c=CastSpellByName p="pet" h=UnitHealth(p)if not UnitExists(p)then c("Call Pet")elseif h<1 then c("Revive Pet")elseif GetPetHappiness()<3 then c("Feed Pet")PickupContainerItem(0, 1)elseif h<UnitHealthMax(p)then c("Mend Pet")else c("Dismiss Pet")end
