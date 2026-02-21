@@ -230,7 +230,7 @@
         /* Code blocks - MACRO FRIENDLY (no escaping) */
         .markdown-body pre {
             background: #1c2128;
-            color: #adbac7;
+            color: white;
             padding: 0;
             border-radius: 8px;
             overflow: hidden;
@@ -504,9 +504,9 @@
     <div class="copy-notification" id="copyNotification">✅ Copied to clipboard!</div>
 
     <script>
-        // ==================== Copy to Clipboard Function ====================
-        async function copyToClipboard(text, button) {
+        async function copyToClipboard(textId, button) {
             try {
+                const text = document.getElementById(textId).innerText;
                 await navigator.clipboard.writeText(text);
                 
                 // Show success on button
@@ -572,30 +572,13 @@
                     // Create code block with copy button - PRESERVE EXACT CODE
                     return `<div class="code-block" id="${codeId}">
                         <div class="code-header">
-                            <span class="code-language">${language}</span>
-                            <button class="copy-button" onclick="copyToClipboard(atob('${btoa(code)}'), this)">Copy</button>
+                            <button class="copy-button" onclick="copyToClipboard("${codeId}", this)">Copy</button>
                         </div>
-                        <pre><code>${code}</code></pre>
+                        <code id="${codeId}">${code}</code>
                     </div>`;
                 });
-                
-                // Indented code blocks (4 spaces or 1 tab)
-                text = text.replace(/(?:^|\n)(?: {4}|\t)(.*(?:\n(?: {4}|\t).*)*)/g, (match, code) => {
-                    // Remove the indentation
-                    const cleanCode = code.replace(/^ {4}|\t/gm, '');
-                    const codeId = 'code-' + Math.random().toString(36).substr(2, 9);
-                    
-                    return `\n<div class="code-block" id="${codeId}">
-                        <div class="code-header">
-                            <span class="code-language">macro</span>
-                            <button class="copy-button" onclick="copyToClipboard(atob('${btoa(cleanCode)}'), this)">Copy</button>
-                        </div>
-                        <pre><code>${cleanCode}</code></pre>
-                    </div>\n`;
-                });
-                
-                return text;
-            },
+               return text;
+            }, 
 
             // Parse headers
             parseHeaders: function(text) {
