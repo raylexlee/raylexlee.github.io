@@ -73,5 +73,6 @@ const ReadAloud = () => {
   lastGroup = myGroup.value;
   localStorage.setItem(lastBookStored, lastBook);
   localStorage.setItem(lastBookInGroupStored(lastGroup), lastBook);
-  window.location = `md.html?md=${myGroup.value}/${myBook.value}`; 
+  const mdPath = encodeURIComponent(`${myGroup.value}/${myBook.value}`);
+  window.location = `md.html?md=${mdPath}`; 
 }
