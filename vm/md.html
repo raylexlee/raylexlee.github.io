@@ -504,10 +504,10 @@
     <div class="copy-notification" id="copyNotification">✅ Copied to clipboard!</div>
 
     <script>
-        async function copyToClipboard(textId, button) {
+        function copyToClipboard(textId, button) {
             try {
                 const text = document.getElementById(textId).innerText;
-                await navigator.clipboard.writeText(text);
+                navigator.clipboard.writeText(text);
                 
                 // Show success on button
                 button.classList.add('copied');
