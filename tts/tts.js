@@ -55,7 +55,7 @@ if (speechSynthesis.onvoiceschanged !== undefined) {
 
 function nowVoice(){
     let v;
-    const selectedOption = voiceSelect.selectedOptions[0].getAttribute('data-name');
+    const selectedOption = voiceSelect[voiceSelect.selectedIndex].getAttribute('data-name');
     for(i = 0; i < voices.length ; i++) {
       if(voices[i].name === selectedOption) {
         v = voices[i];
@@ -71,10 +71,10 @@ function nowVoice(){
 voiceSelect.onchange = function() {
   localStorage.setItem('ttsReadAloudVoice',voiceSelect.selectedIndex);
  currentVoice = nowVoice();
-  justCancel = true;
-  synth.cancel();
-  programSelect = 1;
-  speak();
+//  justCancel = true;
+//  synth.cancel();
+//  programSelect = 1;
+//  speak();
 }
 
 function pauseResume() {
