@@ -1,0 +1,52 @@
+body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+  background-color: black;
+  color:cornsilk;
+  font-size: 25px;
+}
+        .copy-icon {
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            /* Make the SVG fill match the current text color */
+            filter: invert(1);
+        }
+        
+        /* Rest of the styles remain the same */
+        .copy-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .copy-icon:active {
+            transform: scale(0.95);
+        }
+        
+        .feedback {
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .feedback.show {
+            opacity: 1;
+        }
+
+        /* Add this class to test different backgrounds */
+        .dark-mode {
+            background: black;
+            color: white;
+        }
+textarea {
+   background-color: black;
+   color: white;
+   width: 100%;
+   font-size: 20px;
+}    
