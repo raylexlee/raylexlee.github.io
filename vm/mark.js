@@ -148,7 +148,6 @@ id.init()
                 
                 // Italic
                 text = text.replace(/\*(.*?)\*/g, '<em>$1</em>');
-                text = text.replace(/_(.*?)_/g, '<em>$1</em>');
                 
                 // Inline code
                 text = text.replace(/`(.*?)`/g, '<code>$1</code>');
