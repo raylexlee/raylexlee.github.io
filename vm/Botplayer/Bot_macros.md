@@ -21,9 +21,24 @@ Set home fo all party members to the nearby innkeeper.
 
 
 ## Talk
-Get the flight point from the nearby fligh master.
+- Talk to the quest giver.
+- Get the flight point from the nearby fligh master.
 ```
 /p talk
+```
+
+
+## Check
+Check all the items in the inventory of party members
+```
+/p c
+```
+
+
+## Check item
+Check the specific item of the party members. It's handy for checking quest items of shared quest.
+```
+/p c [item]
 ```
 
 
