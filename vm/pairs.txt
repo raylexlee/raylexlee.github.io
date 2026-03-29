@@ -8,6 +8,7 @@ Basic Interaction
 Basic Macro_Tips
 Basic Miscellanea
 Basic Run_Script
+Botplayer Bot_macros
 Chat Chat_messages
 Chat Guild_Recruitment
 Chat Quest_Objectives
