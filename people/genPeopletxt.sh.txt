@@ -8,5 +8,5 @@ curl -s -o temp.html $EPISODES_URL
 dos2unix -q temp.html
 ST=$(cat temp.html | pup 'meta[name="episodeName"] attr{content}'I | head -1)
 echo $DATE $EID $ST
-done < people.txt
+done < persons.txt
 rm temp.html

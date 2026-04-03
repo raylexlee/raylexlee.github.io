@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+grep ^VM /mnt/c/Users/rayle/Downloads/persons.log | awk '{print $2,$3,$4;}' | sort > persons.txt
