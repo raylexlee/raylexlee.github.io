@@ -1,9 +1,6 @@
 ## How to scrap the data from RTHK
 The following steps refter to a Windows 11 with wsl. 
-1. Using the latest version of chromium based browswer (Microsoft Edge, Google Chrome or Firefox', go to
-```
-https://www.rthk.hk/archive
-```
+1. Using the latest version of chromium based browswer (Microsoft Edge, Google Chrome or Firefox', go to https://www.rthk.hk/archive
 2. Fill in the name of the programme in the searching box.
 ```
 古今風雲人物
@@ -28,17 +25,8 @@ raylex()
 ```
 grep ^VM /mnt/c/Users/rayle/Downloads/persons.log | awk '{print $2,$3,$4;}' | sort > persons.txt
 ```
-6. Generate People.txt from persons.txt by runnig genPeopletxt.sh.txt . The content of bash script is 
+6. Generate People.txt and data files in two subfolders, text and person, from persons.txt by runnig 
 ```
-while read -r line
-do
-DATE=$(awk '{print $1;}' <<< $line)
-EID=$(awk '{print $2;}' <<< $line)
-EPISODES_URL='https://www.rthk.hk/radio/radio1/programme/People/episode/'"$EID"
-curl -s -o temp.html $EPISODES_URL
-dos2unix -q temp.html
-ST=$(cat temp.html | pup 'meta[name="episodeName"] attr{content}'I | head -1)
-echo $DATE $EID $ST
-done < persons.txt
-rm temp.html
+./genPeopletxt.sh.txt > People.txt
+./createPersonText.sh.txt
 ```
