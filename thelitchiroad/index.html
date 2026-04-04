@@ -1,0 +1,23 @@
+<video id="video" controls autoplay width="640" height="360"></video>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<script>
+  const video = document.getElementById('video');
+  const src = "https://rthkvod2022.akamaized.net/mp4_hk/tv/2026/SINOCT2026L27700001.smil/master.m3u8";
+
+  if (Hls.isSupported()) {
+    const hls = new Hls();
+    hls.loadSource(src);
+    hls.attachMedia(video);
+
+    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+      // Switch to audio track index 1 (ch2)
+      hls.audioTrack = 1;
+      video.play();
+    });
+  } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = src;
+    video.play();
+  }
+</script>
+

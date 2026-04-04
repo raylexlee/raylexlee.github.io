@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+nl -n rz -w 5 -s " " The.txt | awk '{print $1,$4;}' > ranktitle.txt
+echo "#EXTM3U"
+while read rank title; do
+  echo "#EXTINF:0, $title"
+  echo https://rthkvod2022.akamaized.net/mp4_hk/tv/2026/SINOCT2026L277"$rank".smil/master.m3u8
+done < ranktitle.txt
