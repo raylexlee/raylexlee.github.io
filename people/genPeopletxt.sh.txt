@@ -6,7 +6,7 @@ EID=$(awk '{print $2;}' <<< $line)
 EPISODES_URL='https://www.rthk.hk/radio/radio1/programme/People/episode/'"$EID"
 curl -s -o temp.html $EPISODES_URL
 dos2unix -q temp.html
-ST=$(cat temp.html | pup 'meta[name="episodeName"] attr{content}'I | head -1)
+ST=$(cat temp.html | pup 'meta[name="episodeName"] attr{content}' | head -1)
 echo $DATE $EID $ST
 done < persons.txt
 rm temp.html
