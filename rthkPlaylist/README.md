@@ -1,5 +1,5 @@
 ## Workflow to create People.m3u8 of RTHK using Dev-tools only.
-Heavily guided by Copilot.
+Usage : Open DevTools after searching programme name on RTHK archive website, paste script, playlist auto‑downloads
 1. Using the latest version of chromium based browswer (Microsoft Edge, Google Chrome or Firefox', go to https://www.rthk.hk/archive
 2. Fill in the name of the programme in the searching box.
 ```
@@ -7,17 +7,12 @@ Heavily guided by Copilot.
 ```
 3. Open the dev-tools by pressing ctrl-shift-i . Clear console by the right-click menu. Paste the following javascript snippet.
 ```
-// Programme slug (change "People" to e.g. "free_as_the_wind_sunday")
-const programmeSlug = "People";
-const prefixLink = `https://www.rthk.hk/radio/radio1/programme/${programmeSlug}/episode/`;
-const episodeLink = id => prefixLink + id;
-const m3u8URL = yyyymmdd =>
-  `https://rthkaod2022.akamaized.net/m4a/radio/archive/radio1/${programmeSlug}/m4a/${yyyymmdd}.m4a/index_0_a.m3u8`;
-
-const prefixPath = `/radio/radio1/programme/${programmeSlug}/episode/`;
+// Set the programme name (works for audio or TV)
+let progName = "古今風雲人物"; // audio podcast
+// let progName = "長安的荔枝"; // TV series
 
 function scrapeEpisodes() {
-  const anchors = document.querySelectorAll(`a[href*="${prefixPath}"]`);
+  const anchors = document.querySelectorAll(`a[title="${progName}"]`);
   const episodes = [];
   anchors.forEach(a => {
     const h = a.getAttribute("href");
@@ -34,37 +29,44 @@ function scrapeEpisodes() {
   return episodes;
 }
 
-async function getEpisodeMeta(id) {
-  const res = await fetch(episodeLink(id));
+async function getEpisodeMeta(ep) {
+  const res = await fetch(ep.url);
   const html = await res.text();
   const doc = new DOMParser().parseFromString(html, "text/html");
-  const parts = doc.title.split("|");
-  return {
-    artist: parts[0] || "RTHK Radio",
-    album: parts[1] || "RTHK Programme",
-    episodeTitle: parts[2] || `Episode ${id}`
-  };
-}
 
-async function buildEntry(ep) {
-  const meta = await getEpisodeMeta(ep.id);
-  const link = m3u8URL(ep.date);
-  return `#EXTINF:0, ${meta.episodeTitle} [${ep.date}]\n${link}\n`;
+  // Title parsing for episode name
+  const parts = doc.title.split("|");
+  const episodeTitle = parts[parts.length - 1].trim();
+
+  // Find the master.m3u8 link (audio or video)
+  const match = html.match(/https:\/\/[^"]+master\.m3u8/);
+  const m3u8Link = match ? match[0] : null;
+
+  return {
+    date: ep.date,
+    episodeTitle,
+    m3u8Link
+  };
 }
 
 async function generatePlaylist() {
   const episodes = scrapeEpisodes();
   let m3u = "#EXTM3U\n";
+
   for (const ep of episodes) {
-    m3u += await buildEntry(ep);
+    const meta = await getEpisodeMeta(ep);
+    if (meta.m3u8Link) {
+      m3u += `#EXTINF:0, ${progName} — ${meta.episodeTitle} [${meta.date}]\n`;
+      m3u += `${meta.m3u8Link}\n`;
+    }
   }
 
-  // Explicit UTF-8 encoding and .m3u8 filename
+  // Save as UTF-8 .m3u8
   const blob = new Blob([new TextEncoder().encode(m3u)], {type: "audio/x-mpegurl;charset=utf-8"});
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `${programmeSlug}.m3u8`;   // use .m3u8 extension
+  a.download = `${progName}.m3u8`;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
