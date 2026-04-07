@@ -1,20 +1,15 @@
-// Set the programme name (works for audio or TV)
-let progName = "古今風雲人物"; // audio podcast
-// let progName = "長安的荔枝"; // TV series
-
-function scrapeEpisodes() {
+function scrapeEpisodes(progName) {
   const anchors = document.querySelectorAll(`a[title="${progName}"]`);
   const episodes = [];
   anchors.forEach(a => {
     const h = a.getAttribute("href");
     const fullUrl = h.startsWith("http") ? h : "https://www.rthk.hk" + h;
-    const x = a.innerText.split('\n');
-    if (!x[0]) return;
-    const d = x[0].split('/'); // dd/mm/yyyy
+    const x = a.innerText.substring(0, 10);
+    if (!x) return;
+    const d = x.split('/'); // dd/mm/yyyy
     if (d.length !== 3) return;
     const yyyymmdd = d[2] + d[1] + d[0];
-    const id = fullUrl.substring(fullUrl.lastIndexOf("/") + 1);
-    episodes.push({id, date: yyyymmdd, url: fullUrl});
+    episodes.push({date: yyyymmdd, url: fullUrl});
   });
   episodes.sort((a, b) => a.date.localeCompare(b.date));
   return episodes;
@@ -47,17 +42,18 @@ async function getEpisodeMeta(ep) {
   };
 }
 
-async function generatePlaylist() {
-  const episodes = scrapeEpisodes();
+async function generatePlaylist(progName = "古今風雲人物") {
+  const episodes = scrapeEpisodes(progName);
   let m3u = "#EXTM3U\n";
 
-  for (const ep of episodes) {
-    const meta = await getEpisodeMeta(ep);
-    if (meta.m3u8Link) {
-      m3u += `#EXTINF:0, ${progName} — ${meta.episodeTitle} [${meta.date}]\n`;
-      m3u += `${meta.m3u8Link}\n`;
-    }
+const seen = new Set();
+for (const ep of episodes) {
+  const meta = await getEpisodeMeta(ep);
+  if (meta.m3u8Link && !seen.has(meta.date)) {
+    seen.add(meta.date);
+    m3u += `#EXTINF:0, ${progName} — ${meta.episodeTitle} [${meta.date}]\n${meta.m3u8Link}\n`;
   }
+}
 
   // Save as UTF-8 .m3u8
   const blob = new Blob([new TextEncoder().encode(m3u)], {type: "audio/x-mpegurl;charset=utf-8"});
@@ -75,4 +71,5 @@ async function generatePlaylist() {
 
 // Run it
 generatePlaylist();
+// generatePlaylist("長安的荔枝");
 
