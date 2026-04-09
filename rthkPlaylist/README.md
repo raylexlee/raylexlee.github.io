@@ -1,4 +1,4 @@
-## Workflow to create People.m3u8 of RTHK using Dev-tools only.
+## Workflow to create 古今風雲人物.m3u8 of RTHK using Dev-tools only.
 Usage : Open DevTools after searching programme name on RTHK archive website, paste script, playlist auto‑downloads
 1. Using the latest version of chromium based browswer (Microsoft Edge, Google Chrome or Firefox', go to https://www.rthk.hk/archive
 2. Fill in the name of the programme in the searching box.
