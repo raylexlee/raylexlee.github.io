@@ -51,7 +51,7 @@ function initMediaHTML(link) {
 }
 const optionChapter = c => `<option value="${c.date}" ${(c.date === activeEpisode) ? 'selected' : ''}>${c.episodeTitle}</option>`;
 async function myInit() {
-  const chapter = getLastChapter(); // fetch chpaters, activeEpisode, currenTime
+  const chapter = await getLastChapter(); // fetch chpaters, activeEpisode, currenTime
   initMediaHTML(chapter.m3u8Link);
   document.title = title;
   myContent = document.getElementById('myContent');
@@ -141,7 +141,7 @@ const earliestDate = `${yyyy}${mm}${dd}`;
   const data = await fetchText(`${title}.m3u8`);
 chapters = data.split('\n#EXTINF:0, ').slice(1,).map(e => {
     const [t, m3u8Link] = e.split('\n');
-    const [episodeTitle, dt] = t.slice(3 + progName.length,).split(' [');
+    const [episodeTitle, dt] = t.slice(3 + title.length,).split(' [');
     return {date : dt.substring(0,8), episodeTitle, m3u8Link}
     }).filter(e => e.date >= earliestDate);
 
@@ -158,7 +158,7 @@ chapters = data.split('\n#EXTINF:0, ').slice(1,).map(e => {
   }
   activeEpisode = localStorage.getItem(LAST_EPISODE);
   currentTime = localStorage.getItem(LAST_EPISODE_TIME);
-  return chapters.find(c => e.date === activeEpisode) 
+  return chapters.find(e => e.date === activeEpisode) 
 }
 function speak() { audio.play(); }
 function pauseResume() { audio.pause(); }
