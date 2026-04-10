@@ -2,14 +2,14 @@ let nDigits = 3;
 let title, myContent, audio, myChapter, mySpeak, myBook, myAutoplay;
 let chapters;
 let activeEpisode;
-const LAST_EPISODE = `rthkPlaylistLastEpisode${title}`;
-const LAST_EPISODE_TIME = `rthkPlaylistLastEpisodeTime${title}`;
 let currentTime;
 const querystring = location.search;
 const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
 if (params === 'none') window.location = 'rplayer.html?title=古今風雲人物';
 title =  params.get('title');
 title = title ? title : '古今風雲人物';
+const LAST_EPISODE = `rthkPlaylistLastEpisode${title}`;
+const LAST_EPISODE_TIME = `rthkPlaylistLastEpisodeTime${title}`;
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
 });
