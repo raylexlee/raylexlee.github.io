@@ -77,5 +77,5 @@ const rthkPeople = () => {
   lastGroup = myGroup.value;
   localStorage.setItem(lastBookStored, lastBook);
   localStorage.setItem(lastBookInGroupStored(lastGroup), lastBook);
-  window.location = `rplayer.html?title=${myBook.value}`; 
+  window.location = `qplayer.html?title=${myBook.value}`; 
 }
