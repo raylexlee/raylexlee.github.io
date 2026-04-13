@@ -23,10 +23,11 @@
       </div>
     </div>
     <div class="remainingDiv">
-      <section id="media"></section>
-      <textarea name="myContent" id="myContent" readonly></textarea>
+	<div id="tvRTHK">
+<video id="audio" controls width="640" height="360"></video>
+	</div>
     </div>
-    <div id="myFootlineSetting" class="div1">
+<div id="myFootlineSetting" class="div1">
       <div>
         <button id="showQR" popovertarget="setting"><img src="setting.svg" /></button>
       </div>
@@ -44,7 +45,7 @@
       </div>
     </div>
     <div id="myFootline" class="div1">
-Last updated : 10 April 2026
+Last updated : 13 April 2026
     </div>
   </div>
   <div id="qrcode" popover></div>
@@ -67,6 +68,11 @@ var qrcode = new QRCode(document.getElementById("qrcode"), {
       <input type="checkbox" id="myAutoplay" name="autoplay" value="autoplay" checked>
       <label for="autoplay">自動播</label>
     </div>
+<div id="radioRTHK">
+	<audio id="audio" controls autoplay>
+	  <source src="" type="application/x-mpegURL">
+	</audio>
+</div>
     <div>
    <p> 
    <input type="checkbox" id="mySchedule" name="schedule" value="schedule" >
@@ -94,5 +100,6 @@ function scheduleStop(duration) {
 }
 </script>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script src="rplayer.js"></script>
 </html>
