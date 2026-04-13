@@ -153,6 +153,10 @@ chapters = data.split('\n#EXTINF:0, ').slice(1,).map(e => {
   }
   activeEpisode = localStorage.getItem(LAST_EPISODE);
   currentTime = localStorage.getItem(LAST_EPISODE_TIME);
+  if (activeEpisode < chapters[0].date) {
+    activeEpisode = chapters[0].date;
+    currentTime = 0.0;
+  }
   return chapters.find(e => e.date === activeEpisode) 
 }
 function speak() { audio.play(); }
