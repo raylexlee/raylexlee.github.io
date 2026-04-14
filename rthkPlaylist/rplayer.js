@@ -3,7 +3,7 @@ let title, myContent, audio, myChapter, mySpeak, myBook, myAutoplay;
 let chapters;
 let activeEpisode;
 let currentTime;
-let hls, currentLevel, audioTrack;
+let hls, currentLevel, audioTrack, audioLabel;
 const querystring = location.search;
 const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
 if (params === 'none') window.location = 'rplayer.html?title=古今風雲人物';
@@ -46,32 +46,38 @@ function initMediaHTML(link) {
     document.getElementById('radioRTHK').innerHTML =
       `
     <div>
-      <label for="currentLevel">屏幕 </label>
-      <input type="range" min="0" max="5" value="3" name="currentLevel" id="currentLevel" />
+      <label for="currentLevel">畫質</label>
+      <input type="range" min="0" max="5" value="3" id="currentLevel" />
     </div>
     <div>
-      <label for="audioTrack">粵 </label>
-      <input type="range" min="0" max="1" value="0" name="audioTrack" id="audioTrack" />
-      <label for="audioTrack"> 普</label>
+      <label for="audioTrack">音訊</label>
+      <input type="range" min="0" max="1" value="0" id="audioTrack" aria-valuetext="粵" />
+      <span id="audioLabel">粵</span>
     </div>
       `;
-  audio = document.getElementById('audio');
+  audio = document.getElementById('player');
   currentLevel = document.getElementById('currentLevel');
   audioTrack = document.getElementById('audioTrack');
+  audioLabel = document.getElementById("audioLabel");
 hls = new Hls();
 hls.loadSource(link);
 hls.attachMedia(audio);
 
 hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
-  hls.currentLevel = currentLevel.value;
-  hls.audioTrack = audioTrack.value;
+  audio.play();
+  hls.currentLevel = parseInt(currentLevel.value, 10);
+  hls.audioTrack = parseInt(audioTrack.value, 10);
 });
 
 currentLevel.oninput = function () {
-  hls.currentLevel = currentLevel.value
+  hls.currentLevel = parseInt(currentLevel.value, 10)
 }
 audioTrack.oninput = function () {
-  hls.audioTrack = audioTrack.value
+      const val = parseInt(audioTrack.value, 10);
+      hls.audioTrack = val;
+      const labelText = val === 0 ? "粵" : "普";
+      audioTrack.setAttribute("aria-valuetext", labelText);
+      audioLabel.textContent = labelText;
 }
   } else {
       document.getElementById('tvRTHK').innerHTML =
@@ -154,11 +160,6 @@ async function gotoChapter(date) {
      audio.load();
    } else {
 hls.loadSource(chapter.m3u8Link);
-
-hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
-  hls.currentLevel = currentLevel.value;
-  hls.audioTrack = audioTrack.value;
-});
      }
    activeEpisode = date;
    localStorage.setItem(LAST_EPISODE, activeEpisode);
