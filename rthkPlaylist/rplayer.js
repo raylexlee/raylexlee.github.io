@@ -9,6 +9,8 @@ const params = (querystring != '') ? (new URL(document.location)).searchParams :
 if (params === 'none') window.location = 'rplayer.html?title=古今風雲人物';
 title =  params.get('title');
 title = title ? title : '古今風雲人物';
+const PLAYER_CURRENT_LEVEL = `RPLAYERcurrentLevel`;
+const PLAYER_AUDIO_TRACK = `RPLAYERaudioTrack`;
 const LAST_EPISODE = `rthkPlaylistLastEpisode${title}`;
 const LAST_EPISODE_TIME = `rthkPlaylistLastEpisodeTime${title}`;
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -62,7 +64,17 @@ function initMediaHTML(link) {
 hls = new Hls();
 hls.loadSource(link);
 hls.attachMedia(audio);
-
+if (!localStorage.getItem(PLAYER_CURRENT_LEVEL)) {
+  localStorage.setItem(PLAYER_CURRENT_LEVEL, currentLevel.value);
+}
+currentLevel.value = localStorage.getItem(PLAYER_CURRENT_LEVEL);
+if (!localStorage.getItem(PLAYER_AUDIO_TRACK)) {
+  localStorage.setItem(PLAYER_AUDIO_TRACK, audioTrack.value);
+}
+audioTrack.value = localStorage.getItem(PLAYER_AUDIO_TRACK);
+      const labelText = audioTrack.value === '0' ? "粵" : "普";
+      audioTrack.setAttribute("aria-valuetext", labelText);
+      audioLabel.textContent = labelText;
 hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
   audio.play();
   hls.currentLevel = parseInt(currentLevel.value, 10);
@@ -70,9 +82,11 @@ hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
 });
 
 currentLevel.oninput = function () {
+  localStorage.setItem(PLAYER_CURRENT_LEVEL, currentLevel.value);
   hls.currentLevel = parseInt(currentLevel.value, 10)
 }
 audioTrack.oninput = function () {
+  localStorage.setItem(PLAYER_AUDIO_TRACK, audioTrack.value);
       const val = parseInt(audioTrack.value, 10);
       hls.audioTrack = val;
       const labelText = val === 0 ? "粵" : "普";
