@@ -1,19 +1,20 @@
-## Workflow to create 古今風雲人物.m3u8 of RTHK using Dev-tools only.
+## Workflow to create  香港故事創科夢工場2.m3u8 of RTHK using Dev-tools only.
 Usage : Open DevTools after searching programme name on RTHK archive website, paste script, playlist auto‑downloads
 1. Using the latest version of chromium based browswer (Microsoft Edge, Google Chrome or Firefox', go to https://www.rthk.hk/archive
 2. Fill in the name of the programme in the searching box.
 ```
-古今風雲人物
+香港故事
 ```
-3. Open the dev-tools by pressing ctrl-shift-i . Clear console by the right-click menu. Paste the following javascript snippet.
+3. Click on the item "香港故事: 創科夢工場 2" from the drop down list. Scroll down the list to get all episodes. Open the dev-tools by pressing ctrl-shift-i . Clear console by the right-click menu. Paste the following javascript snippet.
 ```
-function scrapeEpisodes(progName) {
-  const anchors = document.querySelectorAll(`a[title="${progName}"]`);
+function scrapeEpisodes() {
+  const archGrid = document.getElementById('archGrid');
+  const anchors = archGrid.querySelectorAll('a')
   const episodes = [];
   anchors.forEach(a => {
     const h = a.getAttribute("href");
     const fullUrl = h.startsWith("http") ? h : "https://www.rthk.hk" + h;
-    const x = a.innerText.substring(0, 10);
+    const x = a.getElementsByClassName("dateBlock picVer")[0].innerText;
     if (!x) return;
     const d = x.split('/'); // dd/mm/yyyy
     if (d.length !== 3) return;
@@ -51,8 +52,10 @@ async function getEpisodeMeta(ep) {
   };
 }
 
-async function generatePlaylist(progName = "古今風雲人物") {
-  const episodes = scrapeEpisodes(progName);
+async function generatePlaylist() {
+  const s1 = document.getElementById('s1');
+  const progName = s1.value.replace(/[^\w\u4e00-\u9fff-]/g,'');
+  const episodes = scrapeEpisodes();
   let m3u = "#EXTM3U\n";
 
 const seen = new Set();
@@ -80,8 +83,8 @@ for (const ep of episodes) {
 
 // Run it
 generatePlaylist();
-// generatePlaylist("長安的荔枝");
+
 
 ```
-4. After execution of the javascript function, People.m3u8 will be saved in the Download folder.
-5. Load People.m3u8 in VLC or foobar2000. 
+4. After execution of the javascript function, 香港故事創科夢工場2.m3u8 will be saved in the Download folder.
+5. Load 香港故事創科夢工場2.m3u8 in VLC (video or audio streams) or foobar2000 (audio stream). 
