@@ -1,15 +1,18 @@
-let nDigits = 3;
+let playlistData;
 let title, myContent, audio, myChapter, mySpeak, myBook, myAutoplay;
 let chapters;
 let activeEpisode;
 let currentTime;
+let hls, currentLevel, audioTrack, audioLabel;
 const querystring = location.search;
 const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
-if (params === 'none') window.location = 'qplayer.html?title=古今風雲人物';
+if (params === 'none') window.location = 'rplayer.html?title=古今風雲人物';
 title =  params.get('title');
-title = title ? title : '古今風雲人物';
-const LAST_EPISODE = `rthkPlaylistLastEpisode${title}`;
-const LAST_EPISODE_TIME = `rthkPlaylistLastEpisodeTime${title}`;
+// title = title ? title : '古今風雲人物';
+const PLAYER_CURRENT_LEVEL = `QPLAYERcurrentLevel`;
+const PLAYER_AUDIO_TRACK = `QPLAYERaudioTrack`;
+let LAST_EPISODE = `rthkQPlaylistLastEpisode${title}`;
+let LAST_EPISODE_TIME = `rthkQPlaylistLastEpisodeTime${title}`;
 document.addEventListener("DOMContentLoaded", function(event) {
   myInit();
 });
@@ -41,8 +44,60 @@ async function fetchText(file) {
   return text;
 }
 function initMediaHTML(link) {
-  document.getElementById(link.split('/').includes('radio') ? 'tvRTHK' : 'radioRTHK').innerHTML =
-`<p>經由香港電台網站串流而成, 並且優化收聽效果, 可以自動跳集, 記錄上次收聽時段。</p>`
+  if (link.split('/').includes('tv')) {
+    document.getElementById('radioRTHK').innerHTML =
+      `
+    <div>
+      <label for="currentLevel">畫質</label>
+      <input type="range" min="0" max="5" value="3" id="currentLevel" />
+    </div>
+    <div>
+      <label for="audioTrack">音訊</label>
+      <input type="range" min="0" max="1" value="0" id="audioTrack" aria-valuetext="粵" />
+      <span id="audioLabel">粵</span>
+    </div>
+      `;
+  audio = document.getElementById('player');
+  currentLevel = document.getElementById('currentLevel');
+  audioTrack = document.getElementById('audioTrack');
+  audioLabel = document.getElementById("audioLabel");
+hls = new Hls();
+hls.loadSource(link);
+hls.attachMedia(audio);
+if (!localStorage.getItem(PLAYER_CURRENT_LEVEL)) {
+  localStorage.setItem(PLAYER_CURRENT_LEVEL, currentLevel.value);
+}
+currentLevel.value = localStorage.getItem(PLAYER_CURRENT_LEVEL);
+if (!localStorage.getItem(PLAYER_AUDIO_TRACK)) {
+  localStorage.setItem(PLAYER_AUDIO_TRACK, audioTrack.value);
+}
+audioTrack.value = localStorage.getItem(PLAYER_AUDIO_TRACK);
+      const labelText = audioTrack.value === '0' ? "粵" : "普";
+      audioTrack.setAttribute("aria-valuetext", labelText);
+      audioLabel.textContent = labelText;
+hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+  audio.play();
+  hls.currentLevel = parseInt(currentLevel.value, 10);
+  hls.audioTrack = parseInt(audioTrack.value, 10);
+});
+
+currentLevel.oninput = function () {
+  localStorage.setItem(PLAYER_CURRENT_LEVEL, currentLevel.value);
+  hls.currentLevel = parseInt(currentLevel.value, 10)
+}
+audioTrack.oninput = function () {
+  localStorage.setItem(PLAYER_AUDIO_TRACK, audioTrack.value);
+      const val = parseInt(audioTrack.value, 10);
+      hls.audioTrack = val;
+      const labelText = val === 0 ? "粵" : "普";
+      audioTrack.setAttribute("aria-valuetext", labelText);
+      audioLabel.textContent = labelText;
+}
+  } else {
+      document.getElementById('tvRTHK').innerHTML =
+        `<p>經由香港電台網站串流而成, 並且優化收聽效果, 可以自動跳集, 記錄上次收聽時段。</p>`;
+      audio = document.getElementById('audio');
+    }
 }
 const optionChapter = c => `<option value="${c.date}" ${(c.date === activeEpisode) ? 'selected' : ''}>${c.episodeTitle}</option>`;
 async function myInit() {
@@ -50,7 +105,6 @@ async function myInit() {
   initMediaHTML(chapter.m3u8Link);
   document.title = title;
   myContent = document.getElementById('myContent');
-  audio = document.getElementById('audio');
   myChapter = document.getElementById('myChapter');
   mySpeak = document.getElementById('mySpeak'); 
   myBook = document.getElementById('myBook');
@@ -115,8 +169,12 @@ function nextChapter() {
 }
 async function gotoChapter(date) {
    const chapter = chapters.find(c => c.date === date);
-   audio.firstElementChild.setAttribute('src', chapter.m3u8Link);
-   audio.load();
+   if (chapter.m3u8Link.split('/').includes('radio')) {
+     audio.firstElementChild.setAttribute('src', chapter.m3u8Link)
+     audio.load();
+   } else {
+hls.loadSource(chapter.m3u8Link);
+     }
    activeEpisode = date;
    localStorage.setItem(LAST_EPISODE, activeEpisode);
    myBook.innerHTML = `${title} [${chapter.date}]`;
@@ -132,9 +190,20 @@ const yyyy = date.getFullYear() - 1;
 const mm = String(date.getMonth() + 1).padStart(2, '0');
 const dd = String(date.getDate()).padStart(2, '0');
 const earliestDate = `${yyyy}${mm}${dd}`;
+if (!title) {
 
-  const data = await fetchText(`${title}.m3u8`);
-chapters = data.split('\n#EXTINF:0, ').slice(1,).map(e => {
+  if (!file) window.location = 
+    "https://github.com/raylexlee/raylexlee.github.io/tree/master/rthkPlaylist#readme";
+
+  playlistData = await file.text();
+  title = file.name.split(".")[0];
+ LAST_EPISODE = `rthkQPlaylistLastEpisode${title}`;
+ LAST_EPISODE_TIME = `rthkQPlaylistLastEpisodeTime${title}`;
+  
+} else { 
+    playlistData = await fetchText(`${title}.m3u8`);
+  }
+chapters = playlistData.split('\n#EXTINF:0, ').slice(1,).map(e => {
     const [t, m3u8Link] = e.split('\n');
     const [episodeTitle, dt] = t.slice(3 + title.length,).split(' [');
     return {date : dt.substring(0,8), episodeTitle, m3u8Link}
