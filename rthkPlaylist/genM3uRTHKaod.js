@@ -47,15 +47,19 @@ async function generatePlaylist() {
   const s1 = document.getElementById('s1');
   const progName = s1.value.replace(/[^\w\u4e00-\u9fff-]/g,'');
   const episodes = scrapeEpisodes();
-  let m3u = "#EXTM3U\n";
-
+const metas = [];
 const seen = new Set();
 for (const ep of episodes) {
   const meta = await getEpisodeMeta(ep);
-  if (meta.m3u8Link && !seen.has(meta.date)) {
-    seen.add(meta.date);
-    m3u += `#EXTINF:0, ${progName} — ${meta.episodeTitle} [${meta.date}]\n${meta.m3u8Link}\n`;
+  if (meta.m3u8Link && !seen.has(meta.m3u8Link)) {
+    seen.add(meta.m3u8Link);
+    metas.push(meta)
   }
+}
+metas.sort((a, b) => a.m3u8Link.localeCompare(b.m3u8Link));
+let m3u = "#EXTM3U\n";
+for (const meta of metas) {
+  m3u += `#EXTINF:0, ${progName} — ${meta.episodeTitle} [${meta.date}]\n${meta.m3u8Link}\n`;
 }
 
   // Save as UTF-8 .m3u8
@@ -69,7 +73,7 @@ for (const ep of episodes) {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 
-  console.log("Playlist generated and download triggered!");
+  console.log(`${progName}.m3u8 generated and download triggered!`);
 }
 
 // Run it
