@@ -1,10 +1,13 @@
-function scrapeEpisodes(progName) {
-  const anchors = document.querySelectorAll(`a[title="${progName}"]`);
+function scrapeEpisodes() {
+  const archGrid = document.getElementById('archGrid');
+  // const anchors = document.querySelectorAll(`a[title="${progName}"]`);
+  const anchors = archGrid.getElementsByTagName('a') 
   const episodes = [];
   anchors.forEach(a => {
     const h = a.getAttribute("href");
     const fullUrl = h.startsWith("http") ? h : "https://www.rthk.hk" + h;
-    const x = a.innerText.substring(0, 10);
+    // const x = a.innerText.substring(0, 10);
+    const x = a.getElementsByClassName("dateBlock picVer")[0].innerText;
     if (!x) return;
     const d = x.split('/'); // dd/mm/yyyy
     if (d.length !== 3) return;
@@ -42,8 +45,10 @@ async function getEpisodeMeta(ep) {
   };
 }
 
-async function generatePlaylist(progName = "古今風雲人物") {
-  const episodes = scrapeEpisodes(progName);
+async function generatePlaylist() {
+  const s1 = document.getElementById('s1');
+  const progName = s1.value.replace(/[^\w\u4e00-\u9fff-]/g,'');
+  const episodes = scrapeEpisodes();
   let m3u = "#EXTM3U\n";
 
 const seen = new Set();
