@@ -35,7 +35,16 @@ async function getEpisodeMeta(ep) {
       .map(m => m[0])
       .sort()[0];
   }
+  if (ep.url.split('/').includes('radio') && ep.date < '20250401') {
+      const fileMatchesp = [...html.matchAll(/https:\/\/[^"]+playlist\.m3u8/g)];
 
+      if (fileMatchesp.length > 0) {
+        // Pick the one with the shortest identifier (episode-specific)
+        m3u8Link = fileMatchesp
+          .map(m => m[0])
+          .sort()[0];
+      }
+  }
   return {
     date: ep.date,
     episodeTitle,
@@ -56,7 +65,11 @@ for (const ep of episodes) {
     metas.push(meta)
   }
 }
+if (metas[0].m3u8Link.split('/').includes('tv')) {
 metas.sort((a, b) => a.m3u8Link.localeCompare(b.m3u8Link));
+} else {
+metas.sort((a, b) => a.date.localeCompare(b.date));
+}
 let m3u = "#EXTM3U\n";
 for (const meta of metas) {
   m3u += `#EXTINF:0, ${progName} — ${meta.episodeTitle} [${meta.date}]\n${meta.m3u8Link}\n`;
