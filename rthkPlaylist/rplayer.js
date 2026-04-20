@@ -189,7 +189,7 @@ const date = new Date();
 const yyyy = date.getFullYear() - 1;
 const mm = String(date.getMonth() + 1).padStart(2, '0');
 const dd = String(date.getDate()).padStart(2, '0');
-const earliestDate = `${yyyy}${mm}${dd}`;
+const earliestDate = NoEarliestDate.includes(title) ? '20180901' : `${yyyy}${mm}${dd}`;
 
   const data = await fetchText(`${title}.m3u8`);
 chapters = data.split('\n#EXTINF:0, ').slice(1,).map(e => {
