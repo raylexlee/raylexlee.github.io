@@ -4,11 +4,8 @@ let chapters;
 let activeEpisode;
 let currentTime;
 let hls, currentLevel, audioTrack, audioLabel;
-const querystring = location.search;
-const params = (querystring != '') ? (new URL(document.location)).searchParams : 'none';
-if (params === 'none') window.location = 'rplayer.html?title=古今風雲人物';
+const params = new URLSearchParams(window.location.search);
 title =  params.get('title');
-// title = title ? title : '古今風雲人物';
 const PLAYER_CURRENT_LEVEL = `QPLAYERcurrentLevel`;
 const PLAYER_AUDIO_TRACK = `QPLAYERaudioTrack`;
 let LAST_EPISODE = `rthkQPlaylistLastEpisode${title}`;
@@ -192,14 +189,40 @@ const dd = String(date.getDate()).padStart(2, '0');
 const earliestDate = NoEarliestDate.includes(title) ? '20180901' : `${yyyy}${mm}${dd}`;
 if (!title) {
 
-  if (!file) window.location = 
-    "https://github.com/raylexlee/raylexlee.github.io/tree/master/rthkPlaylist#readme";
+    // Case 2: show modal dialog and wait for file
+    const dialog = document.getElementById("fileDialog");
+    const fileInput = document.getElementById("fileInput");
 
-  playlistData = await file.text();
-  title = file.name.split(".")[0];
- LAST_EPISODE = `rthkQPlaylistLastEpisode${title}`;
- LAST_EPISODE_TIME = `rthkQPlaylistLastEpisodeTime${title}`;
-  
+    let selectedFile = null;
+
+    fileInput.addEventListener("change", e => {
+      const file = e.target.files[0];
+      if (file) {
+        selectedFile = file;
+        dialog.close();
+      }
+    });
+
+    dialog.addEventListener("close", () => {
+      if (!selectedFile) {
+        // User closed without selecting a file
+        window.location.href = "https://github.com/raylexlee/raylexlee.github.io/tree/master/rthkPlaylist#readme";
+      }
+    });
+
+    dialog.showModal();
+
+    // Wait until dialog closes and file is set
+    while (!selectedFile && dialog.open) {
+      await new Promise(r => setTimeout(r, 100));
+    }
+
+    if (selectedFile) {
+      playlistData = await selectedFile.text();
+      title = selectedFile.name.split(".")[0];
+      LAST_EPISODE = `rthkQPlaylistLastEpisode${title}`;
+      LAST_EPISODE_TIME = `rthkQPlaylistLastEpisodeTime${title}`;
+    }
 } else { 
     playlistData = await fetchText(`${title}.m3u8`);
   }

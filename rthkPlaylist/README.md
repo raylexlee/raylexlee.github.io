@@ -104,5 +104,5 @@ generatePlaylist();
 
 ```
 4. After execution of the javascript function, 香港故事創科夢工場2.m3u8 will be saved in the Download folder.
-5. Load 香港故事創科夢工場2.m3u8 in VLC (video or audio streams) or foobar2000 (audio stream). 
-6. Keep staying the RTHK archive page and search other programmes and scroll down to fetch all possible episodes. Move to the Devtools, hit UP ARROW to show generatePlaylist() and press RETURN to get your playlist. Repeat as many times as you wish. Performance never degrades. Enjoy! Have a nice day!
+5. Load 香港故事創科夢工場2.m3u8 in VLC (video or audio streams) or foobar2000 (audio stream). Welcome to try it on https://raylexlee.github.io/rthkPlaylist/qplayer.html . 
+6. Keep staying the RTHK archive page and search other programmes and scroll down to fetch all possible episodes. Move to the Devtools, hit UP ARROW to show generatePlaylist() and press RETURN to get your playlist. Repeat as many times as you wish. Should the response is slugglish, start a new session.
