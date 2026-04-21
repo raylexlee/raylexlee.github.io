@@ -189,7 +189,7 @@ const date = new Date();
 const yyyy = date.getFullYear() - 1;
 const mm = String(date.getMonth() + 1).padStart(2, '0');
 const dd = String(date.getDate()).padStart(2, '0');
-const earliestDate = `${yyyy}${mm}${dd}`;
+const earliestDate = NoEarliestDate.includes(title) ? '20180901' : `${yyyy}${mm}${dd}`;
 if (!title) {
 
   if (!file) window.location = 
