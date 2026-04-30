@@ -99,7 +99,7 @@ audioTrack.oninput = function () {
       audio = document.getElementById('audio');
     }
 }
-const kid = c => (nDigits === 8) ? c.date : c.m3u8Link.replace(/.*(000\d\d).*/,'$1');
+const kid = c => (nDigits === 8) ? c.date : c.m3u8Link.replace(/.*(\d{5})\.(4k|smil).*/,'$1');
 const optionChapter = c => `<option value="${kid(c)}" ${(kid(c) === activeEpisode) ? 'selected' : ''}>${c.episodeTitle}</option>`;
 async function myInit() {
   const chapter = await getLastChapter(); // fetch chpaters, activeEpisode, currenTime
