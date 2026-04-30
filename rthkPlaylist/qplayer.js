@@ -1,3 +1,4 @@
+let nDigits = 8;
 let playlistData;
 let title, myContent, audio, myChapter, mySpeak, myBook, myAutoplay;
 let chapters;
@@ -96,7 +97,8 @@ audioTrack.oninput = function () {
       audio = document.getElementById('audio');
     }
 }
-const optionChapter = c => `<option value="${c.date}" ${(c.date === activeEpisode) ? 'selected' : ''}>${c.episodeTitle}</option>`;
+const kid = c => (nDigits === 8) ? c.date : c.m3u8Link.replace(/.*(\d{5})\.(4k|smil).*/,'$1');
+const optionChapter = c => `<option value="${kid(c)}" ${(kid(c) === activeEpisode) ? 'selected' : ''}>${c.episodeTitle}</option>`;
 async function myInit() {
   const chapter = await getLastChapter(); // fetch chpaters, activeEpisode, currenTime
   initMediaHTML(chapter.m3u8Link);
@@ -137,8 +139,8 @@ const  myFootline = document.getElementById('myFootline');
   }
   myChapter.innerHTML = chapters.map(c => optionChapter(c)).join('\n');
   myChapter.onchange = () => { gotoChapter(myChapter.value); }
-  myChapter.value = chapter.date;
-  gotoChapter(chapter.date); 
+  myChapter.value = kid(chapter);
+  gotoChapter(myChapter.value); 
 }    
 function updateQR(e,t) {
   const base = decodeURI(document.location.href.split('?')[0]);
@@ -146,35 +148,35 @@ function updateQR(e,t) {
 }
 function prevChapter() {
     const m = myChapter.value;
-    let i = chapters.findIndex(c => c.date === m) - 1;
+    let i = chapters.findIndex(c => kid(c) === m) - 1;
     i = (i === -1) ? (chapters.length - 1) : i;
     const chapter = chapters[i];
-    myChapter.value = chapter.date;
+    myChapter.value = kid(chapter); 
     currentTime = 0.0;
     localStorage.setItem(LAST_EPISODE_TIME, 0.0);
-    gotoChapter(chapter.date);
+    gotoChapter(myChapter.value);
 }
 function nextChapter() {
     const m = myChapter.value;
-    let i = 1 + chapters.findIndex(c => c.date === m);
+    let i = 1 + chapters.findIndex(c => kid(c) === m);
     i = (i === chapters.length) ? 0 : i;
     const chapter = chapters[i];
-    myChapter.value = chapter.date;
+    myChapter.value = kid(chapter); 
     currentTime = 0.0;
     localStorage.setItem(LAST_EPISODE_TIME, 0.0);
-    gotoChapter(chapter.date);
+    gotoChapter(myChapter.value);
 }
-async function gotoChapter(date) {
-   const chapter = chapters.find(c => c.date === date);
-   if (chapter.m3u8Link.split('/').includes('radio')) {
+async function gotoChapter(id) {
+   const chapter = chapters.find(c => id === kid(c));
+   if (nDigits === 8) {
      audio.firstElementChild.setAttribute('src', chapter.m3u8Link)
      audio.load();
    } else {
 hls.loadSource(chapter.m3u8Link);
      }
-   activeEpisode = date;
+   activeEpisode = id;
    localStorage.setItem(LAST_EPISODE, activeEpisode);
-   myBook.innerHTML = `${title} [${chapter.date}]`;
+   myBook.innerHTML = `${title} [${chapter.date}] ${(nDigits === 8) ? '' : id}`;
    document.title = chapter.episodeTitle;
    if (myAutoplay.checked) {
      audio.play();
@@ -231,10 +233,12 @@ chapters = playlistData.split('\n#EXTINF:0, ').slice(1,).map(e => {
     const [episodeTitle, dt] = t.slice(3 + title.length,).split(' [');
     return {date : dt.substring(0,8), episodeTitle, m3u8Link}
     }).filter(e => e.date >= earliestDate);
+  if (chapters.length === 0) window.location.href = "https://raylexlee.github.io/rthkPlaylist/";
+  nDigits = chapters[0].m3u8Link.split('/').includes('tv') ? 5 : 8; 
 
   const e = params.get('episode');
   const t = params.get('time');
-  if (e && t && (e >= chapters[0].date)) {
+  if (e && t && (e >= kid(chapters[0]))) {
     localStorage.setItem(LAST_EPISODE,e);
     localStorage.setItem(LAST_EPISODE_TIME, t);
   }
@@ -245,11 +249,24 @@ chapters = playlistData.split('\n#EXTINF:0, ').slice(1,).map(e => {
   }
   activeEpisode = localStorage.getItem(LAST_EPISODE);
   currentTime = localStorage.getItem(LAST_EPISODE_TIME);
-  if (activeEpisode < chapters[0].date) {
+  if ((activeEpisode.length === 8) && (activeEpisode < chapters[0].date)) {
     activeEpisode = chapters[0].date;
     currentTime = 0.0;
   }
-  return chapters.find(e => e.date === activeEpisode) 
+  if (nDigits === 8) {
+     return chapters.find(e => e.date === activeEpisode) }
+  if (activeEpisode.length === 8) {
+    const chapter = chapters.find(e => e.date === activeEpisode);
+    if (chapter) {
+      activeEpisode = kid(chapter);
+      return chapter
+    }
+  }
+  const chapter = chapters.find(e => activeEpisode === kid(e));
+  if (chapter) return chapter;
+  activeEpisode = kid(chapters[0]); 
+  currentTime = 0.0;
+  return chapters[0]
 }
 function speak() { audio.play(); }
 function pauseResume() { audio.pause(); }

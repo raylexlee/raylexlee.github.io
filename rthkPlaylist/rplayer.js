@@ -202,7 +202,7 @@ chapters = data.split('\n#EXTINF:0, ').slice(1,).map(e => {
   nDigits = chapters[0].m3u8Link.split('/').includes('tv') ? 5 : 8; 
   const e = params.get('episode');
   const t = params.get('time');
-  if (e && t && (e >= chapters[0].date)) {
+  if (e && t && (e >= kid(chapters[0]))) {
     localStorage.setItem(LAST_EPISODE,e);
     localStorage.setItem(LAST_EPISODE_TIME, t);
   }
