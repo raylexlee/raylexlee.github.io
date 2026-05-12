@@ -3,46 +3,42 @@
     let ttsMode = 'alternate'; 
     let currentGender = 'male'; 
     const ttsRate = 1.1;
+    const synth = window.speechSynthesis;
+    const utterance = new SpeechSynthesisUtterance('raylexlee');
+    // 朗讀結束後觸發自動翻轉
+    utterance.onend = function() {
+        if (ttsMode === 'alternate') {
+            currentGender = (currentGender === 'male') ? 'female' : 'male';
+        }
+    };
 
     // --- 1. 熱鍵監聽 (M, F, A) ---
     document.addEventListener('keydown', function(event) {
         const key = event.key.toLowerCase();
-        const synth = window.speechSynthesis;
         
         if (key === 'm') {
             ttsMode = 'male';
             currentGender = 'male';
-            // speakFeedback("Fixed Male Voice");
         } else if (key === 'f') {
             ttsMode = 'female';
             currentGender = 'female';
-            // speakFeedback("Fixed Female Voice");
         } else if (key === 'a') {
             ttsMode = 'alternate';
-            speakFeedback("Auto Alternate Mode");
         }
     });
-
-    function speakFeedback(msg) {
-        const synth = window.speechSynthesis;
-        synth.cancel();
-        const utterance = new SpeechSynthesisUtterance(msg);
-        utterance.lang = 'en-US';
-        synth.speak(utterance);
-        // console.log("TTS Mode Switched:", msg);
-    }
 
     // --- 2. 語音執行與自動翻轉 ---
     const speak = function(text) {
         if (!text || text.trim().length === 0) return;
-        const synth = window.speechSynthesis;
         synth.cancel();
 
         const voices = synth.getVoices();
-        const fVoice = voices.find(v => v.name.includes("Aria") || v.name.includes("Zira") || v.name.includes("Female"));
-        const mVoice = voices.find(v => v.name.includes("Guy") || v.name.includes("David") || v.name.includes("Male"));
+        const Emma = voices.find(v => v.name.includes("Emma"));
+        const fVoice = Emma ? Emma : voices.find(v => v.name.includes("Aria") || v.name.includes("Zira") || v.name.includes("Female"));
+        const Brian = voices.find(v => v.name.includes("Brian"));
+        const mVoice = Brian ? Brian : voices.find(v => v.name.includes("Guy") || v.name.includes("David") || v.name.includes("Male"));
 
-        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.text = text;
         utterance.lang = 'en-US';
         utterance.rate = ttsRate;
 
@@ -55,13 +51,6 @@
             utterance.pitch = 0.9;
         }
 
-        // 朗讀結束後觸發自動翻轉
-        utterance.onend = function() {
-            if (ttsMode === 'alternate') {
-                currentGender = (currentGender === 'male') ? 'female' : 'male';
-                // console.log("Next gender will be:", currentGender);
-            }
-        };
 
         synth.speak(utterance);
     };
