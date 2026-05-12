@@ -12,11 +12,11 @@
         if (key === 'm') {
             ttsMode = 'male';
             currentGender = 'male';
-            speakFeedback("Fixed Male Voice");
+            // speakFeedback("Fixed Male Voice");
         } else if (key === 'f') {
             ttsMode = 'female';
             currentGender = 'female';
-            speakFeedback("Fixed Female Voice");
+            // speakFeedback("Fixed Female Voice");
         } else if (key === 'a') {
             ttsMode = 'alternate';
             speakFeedback("Auto Alternate Mode");
@@ -29,7 +29,7 @@
         const utterance = new SpeechSynthesisUtterance(msg);
         utterance.lang = 'en-US';
         synth.speak(utterance);
-        console.log("TTS Mode Switched:", msg);
+        // console.log("TTS Mode Switched:", msg);
     }
 
     // --- 2. 語音執行與自動翻轉 ---
@@ -59,7 +59,7 @@
         utterance.onend = function() {
             if (ttsMode === 'alternate') {
                 currentGender = (currentGender === 'male') ? 'female' : 'male';
-                console.log("Next gender will be:", currentGender);
+                // console.log("Next gender will be:", currentGender);
             }
         };
 
