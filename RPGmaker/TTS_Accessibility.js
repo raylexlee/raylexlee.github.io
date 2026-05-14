@@ -35,11 +35,11 @@
         const voices = synth.getVoices();
         const Emma = voices.find(v => v.name.includes("Emma"));
         const fVoice = Emma ? Emma : voices.find(v => v.name.includes("Aria") || v.name.includes("Zira") || v.name.includes("Female"));
-        const Brian = voices.find(v => v.name.includes("Brian"));
-        const mVoice = Brian ? Brian : voices.find(v => v.name.includes("Guy") || v.name.includes("David") || v.name.includes("Male"));
+        const Ryan = voices.find(v => v.name.includes("Ryan"));
+        const mVoice = Ryan ? Ryan : voices.find(v => v.name.includes("Guy") || v.name.includes("David") || v.name.includes("Male"));
 
         utterance.text = text;
-        utterance.lang = 'en-US';
+//        utterance.lang = 'en-US';
         utterance.rate = ttsRate;
 
         // 根據目前性別設定語音
