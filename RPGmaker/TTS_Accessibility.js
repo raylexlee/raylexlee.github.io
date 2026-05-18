@@ -1,18 +1,27 @@
 (function() {
-    // 預設模式：'alternate', 'male', 'female'
+    // Default voices
+    const edgeMale = 'Thomas';
+    const edgeFemale = 'Emma';
+    const googleMale = 'Male';
+    const googleFemale = 'Female';
+    const localMale = 'David';
+    const localFemale = 'Zira';
+    // Default Mod 'alternate', 'male', 'female'
     let ttsMode = 'alternate'; 
     let currentGender = 'male'; 
+    let fVoice, mVoice;
+    let initVoice = 3;
     const ttsRate = 1.1;
     const synth = window.speechSynthesis;
     const utterance = new SpeechSynthesisUtterance('raylexlee');
-    // 朗讀結束後觸發自動翻轉
+    // Auto flip gender after speech
     utterance.onend = function() {
         if (ttsMode === 'alternate') {
             currentGender = (currentGender === 'male') ? 'female' : 'male';
         }
     };
 
-    // --- 1. 熱鍵監聽 (M, F, A) ---
+    // --- 1. Keypress monitoring (M, F, A) ---
     document.addEventListener('keydown', function(event) {
         const key = event.key.toLowerCase();
         
@@ -27,25 +36,26 @@
         }
     });
 
-    // --- 2. 語音執行與自動翻轉 ---
+    // --- 2. Speak execuation and auto flip gender ---
     const speak = function(text) {
         if (!text || text.trim().length === 0) return;
         synth.cancel();
-
-        const voices = synth.getVoices();
-        const Emma = voices.find(v => v.name.includes("Emma"));
-        const fVoice = Emma ? Emma : voices.find(v => v.name.includes("Aria") || v.name.includes("Zira") || v.name.includes("Female"));
-        const Ryan = voices.find(v => v.name.includes("Ryan"));
-        const mVoice = Ryan ? Ryan : voices.find(v => v.name.includes("Guy") || v.name.includes("David") || v.name.includes("Male"));
-
+        if (initVoice !== 0) {
+            const voices = synth.getVoices();
+            const mCloud = voices.find(v => v.name.includes(edgeMale) || v.name.includes(googleMale));
+            mVoice = mCloud ? mCloud : voices.find(v => v.name.includes(localMale));
+            const fCloud = voices.find(v => v.name.includes(edgeFemale) || v.name.includes(googleFemale));
+            fVoice = fCloud ? fCloud : voices.find(v => v.name.includes(localFemale));
+        initVoice--;
+        }
         utterance.text = text;
 //        utterance.lang = 'en-US';
         utterance.rate = ttsRate;
 
-        // 根據目前性別設定語音
+        // Setup voice based on setting
         if (currentGender === 'female') {
             utterance.voice = fVoice || null;
-            utterance.pitch = 1.3;
+            utterance.pitch = fVoice.localService ? 1.3 : 0.9;
         } else {
             utterance.voice = mVoice || null;
             utterance.pitch = 0.9;
@@ -55,7 +65,7 @@
         synth.speak(utterance);
     };
 
-    // --- 3. 核心過濾與觸發 (穩定版) ---
+    // --- 3. Filter message from trigger
     const cleanText = function(text) {
         if (!text || text.trim().length === 0) return "";
         try {
@@ -85,7 +95,7 @@
         }, 350);
     };
 
-    // 選單朗讀也包含進來，確保完整性
+    // TTS cater for menu selection
     const _Window_Selectable_select = Window_Selectable.prototype.select;
     Window_Selectable.prototype.select = function(index) {
         _Window_Selectable_select.call(this, index);
