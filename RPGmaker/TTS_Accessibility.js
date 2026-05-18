@@ -1,6 +1,6 @@
 (function() {
     // Default voices
-    const edgeMale = 'Thomas';
+    const edgeMale = 'Ryan';
     const edgeFemale = 'Emma';
     const googleMale = 'Male';
     const googleFemale = 'Female';
