@@ -47,7 +47,7 @@
         const mVoice = 雲龍 ? 雲龍 : voices.find(v => v.name.includes("粤語") || v.name.includes("Danny") || v.name.includes("Male"));
 
         utterance.text = text;
-        utterance.lang = 'zh-HK';
+        //utterance.lang = 'zh-HK';
         utterance.rate = ttsRate;
 
         // 根據目前性別設定語音
