@@ -3,7 +3,7 @@
     const edgeMale = 'Ryan';
     const edgeFemale = 'Emma';
     const googleMale = 'Male';
-    const googleFemale = 'Female';
+    const googleFemale = 'Google US';
     const localMale = 'David';
     const localFemale = 'Zira';
     // Default Mod 'alternate', 'male', 'female'
@@ -56,9 +56,11 @@
         if (currentGender === 'female') {
             utterance.voice = fVoice || null;
             utterance.pitch = fVoice.localService ? 1.3 : 0.9;
+            utterance.rate = fVoice.localService ? 1 : ((fVoice === edgeFemale) ? 1 : 0.9);
         } else {
             utterance.voice = mVoice || null;
             utterance.pitch = 0.9;
+            utterance.rate = 1;
         }
 
 
