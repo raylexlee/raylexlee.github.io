@@ -8,7 +8,7 @@ let voices = [];
 let utterThis;
 
 function populateVoiceList() {
-  voices = synth.getVoices().filter(v => v.lang.startsWith('zh'));
+  voices = synth.getVoices().filter(v => v.lang.startsWith('en') && 'AU_US_GB_CA_IE_NZ_HK'.includes(v.lang.slice(3,5)));
   var selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
   voiceSelect.innerHTML = '';
   for(i = 0; i < voices.length ; i++) {
@@ -63,9 +63,18 @@ function speak(){
     synth.speak(utterThis);
   }
 }
+async function copyTextToClipboard(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+    speak()
+  } catch (err) {
+    console.error('Failed to copy: ', err);
+  }
+}
 
 voiceSelect.onchange = function(){
-  speak();
+  const name = voiceSelect.value.split(' ')[1];
+  copyTextToClipboard(name)
 }
 
 function pauseResume() {
@@ -80,3 +89,17 @@ function pauseResume() {
   synth.pause();
   if (synth.paused !== true) synth.cancel();
 }
+function moveToNextOption() {
+  synth.cancel();
+  const selectElement = voiceSelect;
+  
+  // Calculate the next index, looping back to 0 if at the end
+  const nextIndex = (selectElement.selectedIndex + 1) % selectElement.options.length;
+  
+  // Update the select element
+  selectElement.selectedIndex = nextIndex;
+  
+  // Optional: Trigger a 'change' event if other scripts rely on it
+  selectElement.dispatchEvent(new Event('change'));
+}
+

@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebSpeechAPI</title>
+  <title>English Audition</title>
   <link rel="stylesheet" href="tts.css">
   </link>
 </head>
@@ -17,10 +17,14 @@
       <select id='myVoice'></select>
       <button type="button" id="btnStop" onclick="myInit();">INIT</button>
       <input type="range" min="0.5" max="2" value="1" step="0.1" id="rate">
+      <button type="button" id="btnNext" onclick="moveToNextOption();">NEXT</button>
 
     </div>
     <div class="remainingDiv">
-      <textarea name="myContent" id="myContent" ></textarea>
+      <textarea name="myContent" id="myContent" >
+The intense interest aroused in the public by what was known at the time as "The Styles Case" has now somewhat subsided. Nevertheless, in view of the world-wide notoriety which attended it, I have been asked, both by my friend Poirot and the family themselves, to write an account of the whole story. This, we trust, will effectually silence the sensational rumours which still persist.
+      
+</textarea>
     </div>
   </div>
 </body>
