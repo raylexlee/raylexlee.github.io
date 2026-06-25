@@ -8,7 +8,7 @@ let voices = [];
 let utterThis;
 
 function populateVoiceList() {
-  voices = synth.getVoices().filter(v => v.lang.startsWith('en') && 'AU_US_GB_CA_IE_NZ_HK'.includes(v.lang.slice(3,5)));
+  voices = synth.getVoices().filter(v => !v.localService && v.lang.startsWith('en') && 'AU_US_GB_CA_IE_NZ_HK'.includes(v.lang.slice(3,5)));
   var selectedIndex = voiceSelect.selectedIndex < 0 ? 0 : voiceSelect.selectedIndex;
   voiceSelect.innerHTML = '';
   for(i = 0; i < voices.length ; i++) {
@@ -88,6 +88,21 @@ function pauseResume() {
   }
   synth.pause();
   if (synth.paused !== true) synth.cancel();
+}
+function moveToPrevOption() {
+  synth.cancel();
+  const selectElement = voiceSelect;
+  
+  // Calculate the next index, looping back to 0 if at the end
+  const nextIndex = selectElement.selectedIndex
+                   ? (selectElement.selectedIndex - 1)
+                   : (selectElement.options.length - 1);
+  
+  // Update the select element
+  selectElement.selectedIndex = nextIndex;
+  
+  // Optional: Trigger a 'change' event if other scripts rely on it
+  selectElement.dispatchEvent(new Event('change'));
 }
 function moveToNextOption() {
   synth.cancel();

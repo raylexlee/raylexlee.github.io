@@ -14,10 +14,11 @@
   <div class="viewportDiv">
     <div class="div1">
       <button type="button" id="btnSpeak" onclick="speak();">SPEAK</button>
+        <a href="javascript:moveToPrevOption()" style="color:cyan;">&lArr;</a> 
       <select id='myVoice'></select>
+        <a href="javascript:moveToNextOption()" style="color:cyan;">&rArr;</a> 
       <button type="button" id="btnStop" onclick="myInit();">INIT</button>
       <input type="range" min="0.5" max="2" value="1" step="0.1" id="rate">
-      <button type="button" id="btnNext" onclick="moveToNextOption();">NEXT</button>
 
     </div>
     <div class="remainingDiv">
