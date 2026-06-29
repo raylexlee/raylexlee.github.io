@@ -84,13 +84,6 @@ const deviceType = getDeviceType();
     myBook.innerHTML = book[myGroup.value].map(b => optionBook(b)).join('\n');
   }
 }
-const ReadAloud = () => { 
-  lastBook = myBook.value;
-  lastGroup = myGroup.value;
-  localStorage.setItem(lastBookStored, lastBook);
-  localStorage.setItem(lastBookInGroupStored(lastGroup), lastBook);
-  window.location = `audiokoob.html?title=${myBook.value}`; 
-}
 const zhttsAloud = () => { 
   lastBook = myBook.value;
   lastGroup = myGroup.value;
