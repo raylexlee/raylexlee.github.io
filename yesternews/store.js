@@ -6,7 +6,8 @@ const qEvent = {
 "12oclocknews" : "午間新聞天地",
 "6oclocknews" : "傍晚新聞天地",
 "eveningnews" : "晚間新聞天地",
-"newspaper" : "報章摘要"
+"newspaper" : "報章摘要",
+"global_analysis" : "環看天下"
 }
 const periods = Array.from({ length: 14 }, (_, i) => {
     const d = new Date();
