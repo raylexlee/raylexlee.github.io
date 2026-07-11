@@ -1,0 +1,12 @@
+古今風雲人物 1 People 6 false
+周末午夜場 1 saturday_drama_fever 0 true
+舊日的足跡 1 hkfootpath 0 false
+語妙天下 2 languageacademy 0 true
+音樂情人 2 musiclover 0 true
+香港故事 1 Hongkongstory 0 true
+晨早新聞天地 1 hktoday 0 true
+午間新聞天地 1 12oclocknews -1 false
+傍晚新聞天地 1 6oclocknews -1 false
+晚間新聞天地 1 eveningnews -1 false
+報章摘要 1 newspaper -1 false
+環看天下 1 global_analysis -1 false
