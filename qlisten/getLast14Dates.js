@@ -1,15 +1,17 @@
 function getLast14Dates(weekday = -1, exclude = false) {
     const dates = [];
     const d = new Date();
+    
+    // Map weekday = 7 to Mon-Fri array [1, 2, 3, 4, 5]
+    let targetDays = weekday === 7 ? [1, 2, 3, 4, 5] : [weekday];
 
-    // Loop backward until we collect exactly 14 matching dates
     while (dates.length < 14) {
         const currentDay = d.getDay();
         
-        // Match conditions based on weekday and exclude flags
-        const isMatch = (weekday === -1) || 
-                        (!exclude && currentDay === weekday) || 
-                        (exclude && currentDay !== weekday);
+        // Match conditions handling standard weekdays, 7 (Mon-Fri), and exclusion
+        const isMatch = targetDays.includes(-1) || 
+                        (!exclude && targetDays.includes(currentDay)) || 
+                        (exclude && !targetDays.includes(currentDay));
 
         if (isMatch) {
             const yyyy = d.getFullYear();
@@ -19,16 +21,13 @@ function getLast14Dates(weekday = -1, exclude = false) {
             dates.push(`${yyyy}${mm}${dd}`);
         }
         
-        // Move back 1 day
         d.setDate(d.getDate() - 1);
     }
 
-    // Reverse the array to sort from oldest to newest
     return dates.reverse();
 }
 
-// Examples:
-console.log(getLast14Dates(-1, false)); // Last 14 consecutive days
-console.log(getLast14Dates(0, false));  // Last 14 Sundays
-console.log(getLast14Dates(0, true));   // Last 14 days that are NOT Sundays
+// RTHK Use Cases:
+console.log(getLast14Dates(7, false)); // Mon-Fri programs (Gets last 14 episodes)
+console.log(getLast14Dates(6, false)); // Weekly Saturday programs (Gets last 14 Saturdays)
 
