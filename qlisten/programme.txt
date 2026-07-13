@@ -1,6 +1,6 @@
 古今風雲人物 1 People 6
 中國復刻與新潮 1 chinese_revival_new_trends 0
-大學堂 1 1 halls_of_knowledge
+大學堂 1 halls_of_knowledge 0
 講東講西-週日版 1 free_as_the_wind_sunday 0
 香港故事 1 Hongkongstory 8
 周末午夜場 1 saturday_drama_fever 0
