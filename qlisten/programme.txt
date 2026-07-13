@@ -1,23 +1,23 @@
-古今風雲人物 1 People 6 false
-中國復刻與新潮 1 chinese_revival_new_trends 0 false
-大學堂 1 1 halls_of_knowledge 0 false
-講東講西-週日版 1 free_as_the_wind_sunday 0 false
-周末午夜場 1 saturday_drama_fever 6 false
-舊日的足跡 1 hkfootpath 0 false
-語妙天下 2 languageacademy 0 false
-音樂中年 2 musiclife 7 false
-恬淡情懷 2 subtle_sensuality 7 false
-音樂情人 2 musiclover 7 false
-中文歌曲龍虎榜 2 chinesepopchart 6 false
-環球榜 2 chinesepopchart 6 false
-香港故事 1 Hongkongstory 7 false
-晨早新聞天地 1 hktoday -1 false
-午間新聞天地 1 12oclocknews -1 false
-傍晚新聞天地 1 6oclocknews -1 false
-晚間新聞天地 1 eveningnews -1 false
-報章摘要 1 newspaper -1 false
-環看天下 1 global_analysis -1 false
-天地‧人 1 people_2025 1 false
-放眼世界 1 international_feature -1 false
-透視大中華 1 greater_china_feature 1 false
-神州理財小百科 1 china_finance_feature 5 false
+古今風雲人物 1 People 6
+中國復刻與新潮 1 chinese_revival_new_trends 0
+大學堂 1 1 halls_of_knowledge 0
+講東講西-週日版 1 free_as_the_wind_sunday 0
+周末午夜場 1 saturday_drama_fever 6
+舊日的足跡 1 hkfootpath 0
+語妙天下 2 languageacademy 0
+音樂中年 2 musiclife 7
+恬淡情懷 2 subtle_sensuality 7
+音樂情人 2 musiclover 7
+中文歌曲龍虎榜 2 chinesepopchart 6
+環球榜 2 chinesepopchart 6
+香港故事 1 Hongkongstory 7
+晨早新聞天地 1 hktoday -1
+午間新聞天地 1 12oclocknews -1
+傍晚新聞天地 1 6oclocknews -1
+晚間新聞天地 1 eveningnews -1
+報章摘要 1 newspaper -1
+環看天下 1 global_analysis -1
+天地‧人 1 people_2025 1
+放眼世界 1 international_feature -1
+透視大中華 1 greater_china_feature 1
+神州理財小百科 1 china_finance_feature 5

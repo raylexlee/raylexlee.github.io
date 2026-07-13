@@ -92,12 +92,11 @@ async function myInit() {
   let data = await fetchText(`programme.txt`);
   const periods = data.split('\n');
   periods.forEach(p => {
-      const [name, radio, id, weekday, exclude] = p;
+      const [name, radio, id, weekday] = p;
       pid[id] = {
           radio : radio,
           name : name,
-          weekday : parseInt(weeday),
-          exclude : (exclude === 'true') ? true : false
+          weekday : parseInt(weekday)
       }
   });
   myPeriod = document.getElementById('myPeriod');
@@ -154,7 +153,7 @@ function gotoChapter() {
    const R = pid[id].radio;
    audio.firstElementChild.setAttribute('src', soundUrl(R, id, ymd));
    audio.load();
-   document.title = `${E}-${myPeriod.value}`;
+   document.title = `${pid[id].name}-${ymd}`;
    if (myAutoplay.checked) {
      audio.play();
      audio.currentTime = currentTime;
@@ -182,8 +181,8 @@ if (params !== 'none') {
   return 
 }
 function getLastEvent() {
-  const pgm = pid(lastPeriod);
-  qEvent = getLast14Dates(pgm.weekday,pgm.exclude);
+  const pgm = pid[lastPeriod];
+  qEvent = getLast14Dates(pgm.weekday);
   if (!localStorage.getItem(lastEventInPeriodStored(lastPeriod))) {
     localStorage.setItem(lastEventInPeriodStored(lastPeriod), qEvent[0]);
     localStorage.setItem(currentTimeStored(lastPeriod), 0.0);
