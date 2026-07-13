@@ -92,7 +92,7 @@ async function myInit() {
   let data = await fetchText(`programme.txt`);
   const periods = data.split('\n');
   periods.forEach(p => {
-      const [name, radio, id, weekday] = p;
+      const [name, radio, id, weekday] = p.split(' ');
       pid[id] = {
           radio : radio,
           name : name,
@@ -197,7 +197,7 @@ function getLast14Dates(weekday = -1, exclude = false) {
     
     // Map weekday = 7 to Mon-Fri array [1, 2, 3, 4, 5]
     let targetDays = weekday === 7 ? [1, 2, 3, 4, 5] : [weekday];
-
+    if (weekday === 8) targetDays = [2, 3, 4, 5, 6];
     while (dates.length < 14) {
         const currentDay = d.getDay();
         
