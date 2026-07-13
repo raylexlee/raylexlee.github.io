@@ -90,7 +90,7 @@ async function myInit() {
     myFootline.style.display = 'none';
   }
   let data = await fetchText(`programme.txt`);
-  const periods = data.split('\n');
+  const periods = data.replace(/\n+$/, "").split('\n');
   periods.forEach(p => {
       const [name, radio, id, weekday] = p.split(' ');
       pid[id] = {
@@ -108,10 +108,11 @@ async function myInit() {
   myEvent.innerHTML = qEvent.map(b => optionEvent(b)).join('\n');
   myPeriod.onchange = () => {
     lastPeriod = myPeriod.value;
-    getLastEvent;
+    getLastEvent();
     gotoChapter();
   }
   myEvent.onchange = () => {
+    currentTime = 0.0;
     gotoChapter();
   }
   gotoChapter();
@@ -191,20 +192,20 @@ function getLastEvent() {
   lastEvent = (lastEvent < qEvent[0]) ? qEvent[0] : lastEvent;
   currentTime = localStorage.getItem(currentTimeStored(lastPeriod));
 }
-function getLast14Dates(weekday = -1, exclude = false) {
+function getLast14Dates(weekday = -1) {
     const dates = [];
     const d = new Date();
     
     // Map weekday = 7 to Mon-Fri array [1, 2, 3, 4, 5]
-    let targetDays = weekday === 7 ? [1, 2, 3, 4, 5] : [weekday];
+    let targetDays = [weekday];
+    if (weekday === 7) targetDays = [1, 2, 3, 4, 5];
     if (weekday === 8) targetDays = [2, 3, 4, 5, 6];
     while (dates.length < 14) {
         const currentDay = d.getDay();
         
         // Match conditions handling standard weekdays, 7 (Mon-Fri), and exclusion
         const isMatch = targetDays.includes(-1) || 
-                        (!exclude && targetDays.includes(currentDay)) || 
-                        (exclude && !targetDays.includes(currentDay));
+                        targetDays.includes(currentDay)
 
         if (isMatch) {
             const yyyy = d.getFullYear();
