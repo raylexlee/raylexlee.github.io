@@ -105,7 +105,6 @@ async function myInit() {
   myContent = document.getElementById('myContent');
   getLastPeriod(); 
   myPeriod.innerHTML = Object.keys(pid).map(g => optionPeriod(g)).join('\n');
-  myEvent.innerHTML = qEvent.map(b => optionEvent(b)).join('\n');
   myPeriod.onchange = () => {
     lastPeriod = myPeriod.value;
     getLastEvent();
@@ -189,8 +188,12 @@ function getLastEvent() {
     localStorage.setItem(currentTimeStored(lastPeriod), 0.0);
   }
   lastEvent = localStorage.getItem(lastEventInPeriodStored(lastPeriod));
-  lastEvent = (lastEvent < qEvent[0]) ? qEvent[0] : lastEvent;
   currentTime = localStorage.getItem(currentTimeStored(lastPeriod));
+  if (!qEvent.includes(lastEvent)) {
+     lastEvent = qEvent[0];
+     currentTime = 0.0;
+  }  
+  myEvent.innerHTML = qEvent.map(b => optionEvent(b)).join('\n');
 }
 function getLast14Dates(weekday = -1) {
     const dates = [];
