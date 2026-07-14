@@ -20,3 +20,7 @@
 放眼世界 1 international_feature -1
 透視大中華 1 greater_china_feature 1
 神州理財小百科 1 china_finance_feature 5
+HongKongToday 3 hongkongtoday 7
+NewsAtEleven 3 newsateleven -1
+SteveJames 3 stevejames 7
+NightMusic 3 nightmusic -1
