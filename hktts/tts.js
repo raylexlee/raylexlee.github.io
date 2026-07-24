@@ -6,6 +6,10 @@ const myContent = document.getElementById('myContent');
 const rate = document.querySelector('#rate');
 let voices = [];
 let utterThis;
+const nameSpeaker = name => {
+   const firstPart = name.split('(')[0].trim();
+   return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
+};
 
 function populateVoiceList() {
   voices = synth.getVoices().filter(v => v.lang.startsWith('en') && 'AU_US_GB_CA_IE_NZ_HK'.includes(v.lang.slice(3,5)));
@@ -74,7 +78,7 @@ async function copyTextToClipboard(text) {
 }
 
 voiceSelect.onchange = function(){
-  const name = voiceSelect.value.split(' ')[1];
+  const name = nameSpeaker(voiceSelect.value);
   copyTextToClipboard(name)
 }
 
