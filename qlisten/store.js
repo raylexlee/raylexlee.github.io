@@ -199,10 +199,20 @@ function getLast14Dates(weekday = -1) {
     const dates = [];
     const d = new Date();
     
-    // Map weekday = 7 to Mon-Fri array [1, 2, 3, 4, 5]
-    let targetDays = [weekday];
-    if (weekday === 7) targetDays = [1, 2, 3, 4, 5];
-    if (weekday === 8) targetDays = [2, 3, 4, 5, 6];
+    switch (weekday) {
+        case 7:
+            targetDays = [1, 2, 3, 4, 5];
+            break;
+        case 8:
+            targetDays = [2, 3, 4, 5, 6];
+            break;
+        case 9:
+            targetDays = [1, 2, 3, 4, 5, 6];
+            break;
+        default:
+            targetDays = [weekday];
+            break;
+    }
     while (dates.length < 14) {
         const currentDay = d.getDay();
         
