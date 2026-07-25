@@ -6,8 +6,7 @@ const qEvent = {
 "12oclocknews" : "午間新聞天地",
 "6oclocknews" : "傍晚新聞天地",
 "eveningnews" : "晚間新聞天地",
-"newspaper" : "報章摘要",
-"global_analysis" : "環看天下"
+"newspaper" : "報章摘要"
 }
 const periods = Array.from({ length: 14 }, (_, i) => {
     const d = new Date();
@@ -98,12 +97,12 @@ function myInit() {
   myPeriod.onchange = () => {
     lastEvent = 'hktoday';
     myEvent.innerHTML = Object.keys(qEvent).map(b => optionEvent(b)).join('\n');
-    gotoChapter(myEvent.value);
+    gotoChapter();
   }
   myEvent.onchange = () => {
-    gotoChapter(myEvent.value);
+    gotoChapter();
   }
-  gotoChapter(myEvent.value);
+  gotoChapter();
 }
 function updateQR(e,t) {
   const base = decodeURI(document.location.href.split('?')[0]);
@@ -136,7 +135,7 @@ function moveToNextOption() {
   selectElement.dispatchEvent(new Event('change'));
 }
 
-function gotoChapter(chapter) {
+function gotoChapter() {
    const B = myEvent.value;
    const E = qEvent[B];
    const I = myPeriod.value;
