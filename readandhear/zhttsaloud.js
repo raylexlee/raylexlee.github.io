@@ -1,3 +1,4 @@
+let timeoutId = null;
 let adjustment = 0.4;
 let audio;
 let title, myContent, myChapter, myRange, myBook, myAutoplay;
@@ -26,6 +27,12 @@ let numCharsLine=[];
 let punctuationPosition=[];
 let punctuationArray=[];
 let positionIndex = 0;
+const setoff_timeoutId = () => {
+   if (timeoutId) {
+     clearTimeout(timeoutId);
+     timeoutId = null;
+   }
+};
 const nameSpeaker = name => {
    const firstPart = name.split('(')[0].trim();
    return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
@@ -63,6 +70,7 @@ if (voice !== -1) {
    console.log(event.charIndex);
    console.log('SpeechSynthesisUtterance.onpause');
  }
+ utterThis.onstart = setoff_timeoutId;
  utterThis.onend = function (e) {
    if (justCancel) {
      justCancel = false;
@@ -241,6 +249,7 @@ function speak(){
     //    console.error('speechSynthesis.speaking');
         return;
     }
+    setoff_timeoutId();
     if (myContent.value !== '') {
     pausing = false;  
     const start = (positionIndex >= 1) ? (punctuationPosition[positionIndex - 1] + 1) : 0;
@@ -252,11 +261,10 @@ function speak(){
     utterThis.rate = rate.value;
     justCancel = true;
     synth.cancel();
+    timeoutId = setTimeout(speak, 3500); // After 3.5s, repeat speak
     synth.speak(utterThis);
     audio.play();
     justCancel = false;
-//    const portion = start / myContent.value.length;
-//    myContent.scrollTop = portion * myContent.scrollHeight - adjustment * myContent.offsetHeight;
     ScrollText(start);
     myContent.select();
     myContent.setSelectionRange(start, stop);
@@ -273,6 +281,7 @@ function pauseResume() {
   if (synth.speaking !== true) {
     return;
   }
+  setoff_timeoutId();
   audio.pause();
   synth.cancel();
   localStorage.setItem('wspa_positionIndex'+title, positionIndex);
