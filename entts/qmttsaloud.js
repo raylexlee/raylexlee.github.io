@@ -1,3 +1,4 @@
+let timeoutId = null;
 let adjustment = 0.4;
 let audio;
 const hasSpace = ['zh','ja','ko'];
@@ -35,6 +36,12 @@ let numCharsLine=[];
 let punctuationPosition=[];
 let punctuationArray=[];
 let positionIndex = 0;
+const setoff_timeoutId = () => {
+   if (timeoutId) {
+     clearTimeout(timeoutId);
+     timeoutId = null;
+   }
+};
 const nameSpeaker = name => {
    const firstPart = name.split('(')[0].trim();
    return firstPart.startsWith('Microsoft') ? firstPart.split(' ')[1] : firstPart;
@@ -65,6 +72,7 @@ function myTTSinit() {
    console.log(event.charIndex);
    console.log('SpeechSynthesisUtterance.onpause');
  }
+ utterThis.onstart = setoff_timeoutId;
  utterThis.onend = function (e) {
    if (justCancel) {
      justCancel = false;
@@ -147,20 +155,6 @@ const  myFootline = document.getElementById('myFootline');
   } else {
     myFootline.style.display = 'none';
   }
-  myContent.onselect = e => {
-    if (programSelect >= 1) {
-       programSelect--;
-       return;
-    }
-    for (let i = 0; i < punctuationPosition.length; i++) {
-      if (punctuationPosition[i] >= myContent.selectionStart) {
-         positionIndex = i;
-         speak();
-         console.log('onselect ',i);
-         break;
-      }
-    }
-  }
   myRange.oninput = function() {
     const v = myRange.value;
     myContent.style.fontSize = `${20 + parseInt(v)}px`;
@@ -206,7 +200,7 @@ async function gotoChapter(chapter, PleaseSpeak = true) {
    //activeEpisode = parseInt(chapter.substring(0,3));
    activeEpisode = chapter.substring(0,nDigits);
    localStorage.setItem('wspa_activeEpisode'+title, activeEpisode);
-   myBook.innerHTML = title.replaceAll('_',' ');
+   myBook.innerText = title.replaceAll('_',' ');
    document.title = `${title.replaceAll('_',' ')} ${chapter.substring(1 + nDigits).replaceAll('_',' ')}`;
    const data = await fetchText(contentUrl(chapter))
    myContent.value = data;
@@ -267,10 +261,8 @@ function getLastChapter() {
   return chapters.find(c => c.startsWith(activeEpisode)); 
 }
 function speak(){
-    if (synth.speaking) {
-    //    console.error('speechSynthesis.speaking');
-        return;
-    }
+//    if (synth.speaking)  return;
+    setoff_timeoutId();
     if (myContent.value !== '') {
     pausing = false;  
     const start = (positionIndex >= 1) ? (punctuationPosition[positionIndex - 1] + 1) : 0;
@@ -282,6 +274,7 @@ function speak(){
     utterThis.rate = rate.value;
     justCancel = true;
     synth.cancel();
+    timeoutId = setTimeout(speak, 3500); // After 3.5s, repeat speak
     synth.speak(utterThis);
     audio.play();
     justCancel = false;
@@ -306,6 +299,7 @@ function pauseResume() {
   if (synth.speaking !== true) {
     return;
   }
+  setoff_timeoutId();
   audio.pause();
   synth.cancel();
   localStorage.setItem('wspa_positionIndex'+title, positionIndex);
@@ -339,4 +333,13 @@ function CalculateScrollData() {
     lineIndex++;
   }
   lineHeight = myContent.scrollHeight / rowsLine[rowsLine.length - 1];
+}
+function processContentSelection() {
+  for (let i = 0; i < punctuationPosition.length; i++) {
+    if (punctuationPosition[i] >= myContent.selectionStart) {
+      positionIndex = i;
+      speak();
+      break;
+    }
+  }
 }
