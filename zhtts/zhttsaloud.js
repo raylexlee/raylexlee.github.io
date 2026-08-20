@@ -245,10 +245,7 @@ function getLastChapter() {
   return chapters.find(c => c.startsWith(activeEpisode)); 
 }
 function speak(){
-    if (synth.speaking) {
-    //    console.error('speechSynthesis.speaking');
-        return;
-    }
+//    if (synth.speaking)  return;
     setoff_timeoutId();
     if (myContent.value !== '') {
     pausing = false;  
