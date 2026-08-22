@@ -1,3 +1,4 @@
+let avaIndex, avaVoices;
 let timeoutId = null;
 let adjustment = 0.4;
 let audio;
@@ -76,6 +77,7 @@ if (voice !== -1) {
      justCancel = false;
      return;
    }
+   setoff_timeoutId();
    positionIndex++;
    if (positionIndex === punctuationPosition.length) {
      positionIndex = 0;
@@ -193,6 +195,7 @@ function nextChapter() {
 }
 async function gotoChapter(chapter, PleaseSpeak = true) {
    //activeEpisode = parseInt(chapter.substring(0,3));
+   setoff_timeoutId();
    activeEpisode = chapter.substring(0,nDigits);
    localStorage.setItem('wspa_activeEpisode'+title, activeEpisode);
    myBook.innerText = title.replaceAll('_',' ');
@@ -245,20 +248,20 @@ function getLastChapter() {
   return chapters.find(c => c.startsWith(activeEpisode)); 
 }
 function speak(){
-//    if (synth.speaking)  return;
+if (avaVoices === undefined) reset_avaVoices();
     setoff_timeoutId();
     if (myContent.value !== '') {
     pausing = false;  
     const start = (positionIndex >= 1) ? (punctuationPosition[positionIndex - 1] + 1) : 0;
     const stop = punctuationPosition[positionIndex];
-    utterThis.voice = mySpeaker.filter(e => e.name === myVoice.value)[0];
+    utterThis.voice = avaVoices[avaIndex];
     updatePauseCancel();
     utterThis.text = myContent.value.substring(start, stop);
     utterThis.pitch = 1;
     utterThis.rate = rate.value;
     justCancel = true;
     synth.cancel();
-    timeoutId = setTimeout(speak, 3500); // After 3.5s, repeat speak
+    timeoutId = setTimeout(handleTTStiemout, 57000); // After 57s, switch voice if possible
     synth.speak(utterThis);
     audio.play();
     justCancel = false;
@@ -269,6 +272,8 @@ function speak(){
 }
 myVoice.onchange = function(){
   localStorage.setItem('zhttsVoice',myVoice.selectedIndex);
+  setoff_timeoutId();
+  reset_avaVoices();
   justCancel = true;
   synth.cancel();
   speak();
@@ -322,3 +327,22 @@ function processContentSelection() {
     }
   }
 }
+function reset_avaVoices() {
+   avaIndex = 0;
+   const currentVoice = mySpeaker.filter(e => e.name === myVoice.value);
+   if (currentVoice[0].localService) {
+      avaVoices = currentVoice;
+      return;
+   }
+   const lang = currentVoice[0].lang;
+   avaVoices = currentVoice.concat( 
+       mySpeaker.filter( e => !e.localService && e.lang === lang && e.name !== myVoice.value),
+       mySpeaker.filter( e => e.localService && e.lang === lang) )
+}
+function handleTTStiemout() {
+    setoff_timeoutId();
+    synth.cancel();
+    avaIndex = (avaIndex + 1) % avaVoices.length;
+    speak();
+}
+
