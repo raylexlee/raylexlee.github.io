@@ -88,7 +88,11 @@ if (voice !== -1) {
    speak();
  }
  utterThis.onerror = function (event) {
-   console.error('SpeechSynthesisUtterance.onerror');
+  console.log(`TTS synth error : ${event.error}`);
+  if (event.error === 'network' || event.error === 'synthesis-failed') {
+     setoff_timeoutId();
+     speak();
+  }
  }
 // utterThis.onboundary = SyncAudioWithContent;
 }
