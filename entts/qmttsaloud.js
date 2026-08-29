@@ -136,7 +136,7 @@ const contentUrl = chapter => `text/${title}/${chapter.substring(0,nDigits)}.txt
 async function myInit() {
   document.title = title.replaceAll('_',' ');
   audio = document.getElementById('audio');
-  audio.onended = () => { audio.play(); };
+  // audio.onended = () => { audio.play(); };
   audio.onplay = speak;
   audio.onpause = pauseResume;
   myContent = document.getElementById('myContent');
