@@ -1,3 +1,4 @@
+const DEFAULT = 'musiclife';
 let mySpeak;
 let audio, myRange, myAutoplay;
 let myPeriod, myEvent, myContent, myIntro;
@@ -10,7 +11,7 @@ const lastEventInPeriodStored = g => `qlistenEventInPeriod${g}`
 const lastPeriodStored = `qlistenPeriod`
 const currentTimeStored = g => `qlistenCurrentTime${g}`;
 let lastEvent; // yyyymmdd
-let lastPeriod; // People
+let lastPeriod; // DEFAULT
 // r = 1,2,3,4,5 (radio) b = hktoday, 12oclocknews, ..., newspaper
 const soundUrl = (r,b,i) => `https://rthkaod2022.akamaized.net/m4a/radio/archive/radio${r}/${b}/m4a/${i}.m4a/master.m3u8`;
 // i = yyyymmdd
@@ -173,8 +174,8 @@ if (params !== 'none') {
   }
 }
   if (!localStorage.getItem(lastPeriodStored)) {
-    localStorage.setItem(lastPeriodStored, 'People');
-    localStorage.setItem(currentTimeStored('People'), 0.0);
+    localStorage.setItem(lastPeriodStored, DEFAULT);
+    localStorage.setItem(currentTimeStored(DEFAULT), 0.0);
   }
   lastPeriod = localStorage.getItem(lastPeriodStored);
   getLastEvent();
