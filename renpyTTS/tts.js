@@ -22,6 +22,7 @@ function loadGameConfig() {
             .then(res => res.json())
             .then(data => {
                 window.characterMap = data;
+                if (!('Narrator' in window.characterMap)) window.characterMap['Narrator'] = 'Ryan';
                 if (statusEl) statusEl.innerText = `已成功載入遊戲設定：${gameName}`;
             })
             .catch(() => {
@@ -61,7 +62,7 @@ window.speak = function(message) {
 
     // 實施模糊匹配搜尋
     let targetVoice = allVoices.find(v => 
-        v.name.toLowerCase().includes(window.currentVoiceName.toLowerCase())
+        v.name.includes(window.currentVoiceName)
     );
     
     // 🔥 核心修正 3：防禦性 Fallback（萬一還是找不到指定的 Yan/Libby）
