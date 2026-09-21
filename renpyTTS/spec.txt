@@ -1,0 +1,13 @@
+run_milfy_city.py
+   1. MilfyCity game
+   2. run selenium + Edge -> https:///raylexlee.github.io/renpyTTS/tts.html?game=MilfyCity
+game/selenium_direct_bridge.rpy
+    Gather dialog characterName + message and forward to selenium exec script
+tts.js
+    init and gather all ttsvoices
+    use a global currentVoice for the global utterance (reused after first create)
+    receive characterName -> ..Map -> short voice name . use a dictionary to keep track of short voice name -> speechSynthesis.voice (use existed ttsvoice if possible. otherwise do the search) . renew the global currentVoice
+    speek(message) -> set utterance.text = message utterance.voice = currentVoice.
+   For multiple choices of dialog, mouse hover the choice will highlight the choice, would be nice to speak the highlighted choice 
+should have tts.html
+    
