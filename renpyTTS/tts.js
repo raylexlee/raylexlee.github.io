@@ -1,39 +1,14 @@
-// 核心全域變數
 window.ttsVoices = [];
-window.characterMap = {};     // 儲存從 JSON 載入的 角色名 -> 語音小名 (例如 {"Judy": "Yan"})
-window.voiceCache = {};        // 快取字典：語音小名 -> 實體 SpeechSynthesisVoice 物件
+window.characterMap = {};     // {"Judy": "Yan", "Narrator": "Yunxi"}
+window.currentVoiceName = ""; // 當前語音小名 (例如 "Yan")
 
-// 【核心優化】：全域重複利用同一個 Utterance 物件
-window.globalUtterance = new SpeechSynthesisUtterance();
-
-// 初始化獲取語音清單
+// 初始化獲取語音
 function populateVoices() {
     window.ttsVoices = window.speechSynthesis.getVoices();
 }
 populateVoices();
 if (window.speechSynthesis.onvoiceschanged !== undefined) {
     window.speechSynthesis.onvoiceschanged = populateVoices;
-}
-
-// 根據小名尋找或從快取返回 Voice 物件
-function getVoiceByShortName(shortName) {
-    if (!shortName) return null;
-    
-    // 如果快取裡已經有了，直接返回，避免重複搜尋
-    if (window.voiceCache[shortName]) {
-        return window.voiceCache[shortName];
-    }
-    
-    // 否則，在瀏覽器支援的語音清單中進行模糊搜尋
-    const foundVoice = window.ttsVoices.find(v => 
-        v.name.toLowerCase().includes(shortName.toLowerCase())
-    );
-    
-    if (foundVoice) {
-        window.voiceCache[shortName] = foundVoice; // 存入快取
-        return foundVoice;
-    }
-    return null;
 }
 
 // 解析 URL 參數並異步載入對應遊戲的 JSON 字典
@@ -44,46 +19,64 @@ function loadGameConfig() {
 
     if (gameName) {
         fetch(`${gameName}.json`)
-            .then(res => { if (!res.ok) throw new Error(); return res.json(); })
+            .then(res => res.json())
             .then(data => {
                 window.characterMap = data;
                 if (statusEl) statusEl.innerText = `已成功載入遊戲設定：${gameName}`;
             })
             .catch(() => {
-                if (statusEl) statusEl.innerText = `載入 ${gameName}.json 失敗，將使用預設語音`;
+                if (statusEl) statusEl.innerText = `載入 JSON 失敗`;
             });
-    } else {
-        if (statusEl) statusEl.innerText = "未指定遊戲參數 (?game=...)";
     }
 }
 window.addEventListener('DOMContentLoaded', loadGameConfig);
 
-// 【全新改版】：Python 會調用這個函數來換聲音
+// Python 調用：更換目前說話者的語音小名
 window.changeVoiceBySpeaker = function(speakerName) {
-    // 查表：角色名 -> 語音小名，找不到就用旁白 Narrator
-    const shortVoiceName = window.characterMap[speakerName] || window.characterMap['Narrator'] || '';
-    const targetVoice = getVoiceByShortName(shortVoiceName);
-    
-    if (targetVoice) {
-        window.globalUtterance.voice = targetVoice;
-        console.log(`聲線切換成功: [${speakerName}] -> ${targetVoice.name}`);
-    }
+    window.currentVoiceName = window.characterMap[speakerName] || window.characterMap['Narrator'] || '';
+    console.log(`[聲線指令] ${speakerName} -> 尋找小名: ${window.currentVoiceName}`);
 };
 
-// 【簡化版 speak】：只接受一個訊息參數
+// 【終極修復版】強制實時抓取 334 個語音的 speak 函數
 window.speak = function(message) {
-    window.speechSynthesis.cancel(); // 瞬間掐斷上一句，保障流暢度
-    // 【核心修復】：如果發現傳進來的是 Selenium 的 arguments 物件，從中取出真正的對白字串
-    let cleanMessage = message;
-    if (message && typeof message === 'object' && message.length !== undefined) {
-        cleanMessage = message[0];
+    window.speechSynthesis.cancel(); // 掐斷上一句
+    
+    if (!message) return;
+    const cleanMessage = String(message);
+    
+    // 🔥 核心修正 1：在執行的當下，強制重新跟瀏覽器索取最即時的 334 個完整語音陣列！
+    // 這能完美解決網頁初次加載時，陣列尚未填滿的時間差地雷
+    let allVoices = window.speechSynthesis.getVoices();
+    if (allVoices.length === 0) {
+        allVoices = window.ttsVoices; // 備用緩衝
+    }
+
+    const utterance = new SpeechSynthesisUtterance(cleanMessage);
+    
+    // 🔥 核心修正 2：如果 Python 丟指令過來時 currentVoiceName 還沒被初始化（例如第一句對白太快）
+    // 預設強制塞給它 Narrator 的語音（例如 Yunxi），拒絕讓它裸奔去找 David
+    if (!window.currentVoiceName && window.characterMap['Narrator']) {
+        window.currentVoiceName = window.characterMap['Narrator'];
+    }
+
+    // 實施模糊匹配搜尋
+    let targetVoice = allVoices.find(v => 
+        v.name.toLowerCase().includes(window.currentVoiceName.toLowerCase())
+    );
+    
+    // 🔥 核心修正 3：防禦性 Fallback（萬一還是找不到指定的 Yan/Libby）
+    // 絕對不讓它崩潰，直接在 334 個語音中強行抓取任何一個名字包含 "Natural" 或 "Online" 的高級真人語音
+    if (!targetVoice && allVoices.length > 0) {
+        targetVoice = allVoices.find(v => v.name.includes("Natural") || v.name.includes("Online"));
     }
     
-    if (!cleanMessage) return "Empty message";    
+    if (targetVoice) {
+        utterance.voice = targetVoice;
+        console.log(`[TTS 播放成功] 語音物件：${targetVoice.name} -> 內容: ${cleanMessage}`);
+    } else {
+        console.warn(`[TTS 播放警告] 無法匹配任何語音，將使用系統預設`);
+    }
     
-    // 更新全域 Utterance 的內文
-    window.globalUtterance.text = cleanMessage;
-    
-    window.speechSynthesis.speak(window.globalUtterance);
+    window.speechSynthesis.speak(utterance);
 };
 
