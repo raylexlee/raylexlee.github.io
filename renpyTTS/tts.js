@@ -44,7 +44,12 @@ window.speak = function(message) {
     
     if (!message) return;
     const cleanMessage = String(message);
+    // 🔥 【核心黑科技】：瞬間抹除所有的星號 * 防止語音姬唸出 "Asterisk"
+    // /g 代表全域匹配，把所有星號替換成空字串
+    cleanMessage = cleanMessage.replace(/\*/g, "");
     
+    // 2. 額外防禦防護：順便抹除可能殘留的 Ren'Py {b} {/b} 等樣式代碼標籤
+    cleanMessage = cleanMessage.replace(/\{[^}]*\}/g, "");    
     // 🔥 核心修正 1：在執行的當下，強制重新跟瀏覽器索取最即時的 334 個完整語音陣列！
     // 這能完美解決網頁初次加載時，陣列尚未填滿的時間差地雷
     let allVoices = window.speechSynthesis.getVoices();
