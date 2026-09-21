@@ -7,7 +7,7 @@ from webdriver_manager.microsoft import EdgeChromiumDriverManager
 
 # 配置參數
 GAME_NAME = "MilfyCity"
-TARGET_URL = f"https://github.io{GAME_NAME}"
+TARGET_URL = f"https://raylexlee.github.io/renpyTTS/tts.html?game={GAME_NAME}"
 
 print(f"[TTS 主程式] 正在啟動 Edge 瀏覽器並開啟: {TARGET_URL}")
 options = webdriver.EdgeOptions()
