@@ -43,7 +43,7 @@ window.speak = function(message) {
     window.speechSynthesis.cancel(); // 掐斷上一句
     
     if (!message) return;
-    const cleanMessage = String(message);
+    let cleanMessage = String(message);
     // 🔥 【核心黑科技】：瞬間抹除所有的星號 * 防止語音姬唸出 "Asterisk"
     // /g 代表全域匹配，把所有星號替換成空字串
     cleanMessage = cleanMessage.replace(/\*/g, "");
