@@ -73,11 +73,16 @@ window.changeVoiceBySpeaker = function(speakerName) {
 // 【簡化版 speak】：只接受一個訊息參數
 window.speak = function(message) {
     window.speechSynthesis.cancel(); // 瞬間掐斷上一句，保障流暢度
+    // 【核心修復】：如果發現傳進來的是 Selenium 的 arguments 物件，從中取出真正的對白字串
+    let cleanMessage = message;
+    if (message && typeof message === 'object' && message.length !== undefined) {
+        cleanMessage = message[0];
+    }
     
-    if (!message) return;
+    if (!cleanMessage) return "Empty message";    
     
     // 更新全域 Utterance 的內文
-    window.globalUtterance.text = message;
+    window.globalUtterance.text = cleanMessage;
     
     window.speechSynthesis.speak(window.globalUtterance);
 };

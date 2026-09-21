@@ -58,17 +58,17 @@ try:
                     
                     # 叫 Edge 查表動態切換聲線
                     target_voice = driver.execute_script(
-                        "return window.characterMap[arguments] || window.characterMap['Narrator'] || '';", 
+                        "return window.characterMap[arguments[0]] || window.characterMap['Narrator'] || '';", 
                         speaker
                     )
                     if target_voice and target_voice != last_assigned_voice:
-                        driver.execute_script("window.currentVoiceName = arguments;", target_voice)
+                        driver.execute_script("window.currentVoiceName = arguments[0];", target_voice)
                         last_assigned_voice = target_voice
                         print(f"【更換聲線】{speaker} -> {target_voice}")
                     
                     # 操控 Edge 高速發聲
                     print(f"【播放語音】[{speaker}]: {text}")
-                    driver.execute_script("window.speak(arguments);", text)
+                    driver.execute_script("window.speak(arguments[0]);", text)
             except Exception as e:
                 pass
         time.sleep(0.01) # 10毫秒輪詢一次，實現無感延遲
