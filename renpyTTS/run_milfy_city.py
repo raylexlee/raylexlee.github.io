@@ -8,7 +8,7 @@ from websocket import create_connection
 
 # 1. 基礎參數配置
 GAME_NAME = "MilfyCity"
-TARGET_URL = f"https://raylexlee.github.io/renpyTTS/?game={GAME_NAME}"
+TARGET_URL = f"https://raylexlee.github.io/renpyTTS/tts.html?game={GAME_NAME}"
 EDGE_EXE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 DEBUG_PORT = 9222
 USER_DATA_DIR = r"C:\Users\Raylex Lee\edge-debug-profile"
