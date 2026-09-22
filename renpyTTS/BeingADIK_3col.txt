@@ -35,7 +35,7 @@ mc MC William
  Chao Andrew
  Charlotte Sonia
  Chen Guy
- Christian Sonia
+cr Christian Guy
  Christie Natasha
  Clara Natasha
  Clerk Natasha
@@ -53,7 +53,7 @@ mc MC William
  Darius Christopher
  David Eric
  Dawe Connor
- Derek Ryan
+de Derek Ryan
  Detective_Conti Ryan
  Doctor Ryan
  Doris Aria
@@ -85,8 +85,8 @@ he Heather Emily
  Ida Emily
  Instructor Luna
  Iris Neerja
- Isabella Yan
- Jacob Roger
+isa Isabella Yan
+jac Jacob Roger
  Jade Libby
  James Connor
  Jamie Connor
@@ -101,7 +101,7 @@ he Heather Emily
  John_Boy Roger
  Jonah Connor
  Jonathan Roger
- Josy Emily
+js Josy Emily
  Karen Emily
  Kid Connor
  Kylie Sonia
@@ -112,15 +112,15 @@ he Heather Emily
  Lily Molly
  Linda Molly
  Locksmith Roger
- Lucas Roger
+lu Lucas Roger
  Luis Connor
  Lynette Emily
  Madame_Rose Libby
  Magnar Ryan
  Maid Emily
  Marc Connor
- Matthew Connor
- Maya Natasha
+mat Matthew Connor
+my Maya Natasha
  Melanie Natasha
  Mia Natasha
  Micha Natasha
@@ -143,12 +143,12 @@ he Heather Emily
  Old_Lady Leah
  Old_Man Liam
  Oliver Liam
- Olivia Emily
+oli Olivia Emily
  Oscar Liam
  Owner Liam
  Patrick Liam
  Paula Emily
- Penny Emily
+py Penny Emily
  Pete Liam
  Philip Liam
  Photographer Steffan
@@ -169,7 +169,7 @@ ri Riona Natasha
  Rose Clara
  Rox Steffan
  Rusty Eric
- Sage Aria
+sa Sage Aria
  Sally Natasha
  Sandy Clara
  Sarah Aria
