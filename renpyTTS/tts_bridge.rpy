@@ -1,41 +1,51 @@
 init -1 python:
-    # 1. 備份 Ren'Py 內建官方原生的 say 函數（以防萬一與交還主權）
-    if not hasattr(renpy.exports, '_original_say'):
-        renpy.exports._original_say = renpy.exports.say
-
-    # 2. 定義我們自己的攔截 say 函數
-    def custom_tts_say(who, what, *args, **kwargs):
-        """
-        當遊戲試圖調用 say 顯示任何台詞時，瞬間優先觸發本函數。
-        who: 角色物件或字串
-        what: 對白文字
-        """
-        try:
-            # 安全解析角色名稱
-            if who is not None:
-                speaker_name = who.name if hasattr(who, 'name') else str(who)
-            else:
+    # 核心回調：處理標準對白跳出并寫入臨時檔
+    def direct_selenium_dialogue_callback(event, interact=True, **kwargs):
+        if event == "show" or event == "begin":
+            try:
+                who = renpy.store._last_say_who
+                what = renpy.store._last_say_what
+                speaker_name = who.name if (who is not None and hasattr(who, 'name')) else (str(who) if who is not None else "Narrator")
+            except:
                 speaker_name = "Narrator"
-        except:
-            speaker_name = "Narrator"
+                what = ""
 
-        # 安全清理文字並進行 Ren'Py 變數 substitute
-        try:
             clean_text = str(renpy.substitute(what))
-        except:
-            clean_text = str(what)
+            if not clean_text:
+                return
 
-        # 毫秒級寫入臨時信號檔通知 Python 3 驅動 Edge 發聲
-        if clean_text:
             try:
                 with open("tts_signal.tmp", "w") as f:
                     f.write(str(speaker_name) + "|||" + clean_text)
             except:
                 pass
 
-        # 🎯 核心關鍵：把所有參數原封不動交還給原本的 say 函數，讓遊戲畫面正常前進
-        return renpy.exports._original_say(who, what, *args, **kwargs)
+    # 為了徹底防範 RevertableList 崩潰地雷
+    # 我們建立一個標準的 Python 呼叫包裝類別
+    class RenpyTTSCallbackWrapper(object):
+        def __init__(self, old_callback):
+            self.old_callback = old_callback
 
-    # 3. 實施 Monkey Patch，強行用我們的發聲器全面接管 Ren'Py 的 say 函數出口
-    renpy.exports.say = custom_tts_say
+        def __call__(self, event, interact=True, **kwargs):
+            # 先執行我們的語音直連
+            try:
+                direct_selenium_dialogue_callback(event, interact, **kwargs)
+            except:
+                pass
+            
+            # 再執行遊戲原本可能存在的舊回調，確保原遊戲邏輯完整
+            if self.old_callback:
+                try:
+                    if isinstance(self.old_callback, list):
+                        for cb in self.old_callback:
+                            cb(event, interact, **kwargs)
+                    else:
+                        self.old_callback(event, interact, **kwargs)
+                except:
+                    pass
+
+    # ---- 終極注入防禦：直接替換整個常規物件，100% 免疫讀檔回溯錯誤 ----
+    if not getattr(renpy.store, '_tts_injected', False):
+        config.character_callback = RenpyTTSCallbackWrapper(config.character_callback)
+        renpy.store._tts_injected = True
 
