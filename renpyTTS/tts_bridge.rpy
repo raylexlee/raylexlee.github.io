@@ -1,29 +1,31 @@
-# ======================================================================
-# 1. 核心發聲函數定義（安全放置於最早期，此時不開展任何變數改寫）
-# ======================================================================
 init -1 python:
-    # 處理標準對白跳出
-    def direct_selenium_dialogue_callback(event, interact=True, **kwargs):
-        if event == "show" or event == "begin":
-            try:
-                who = _last_say_who
-                what = _last_say_what
-                speaker_name = who.name if (who is not None and hasattr(who, 'name')) else (str(who) if who is not None else "Narrator")
-            except:
-                speaker_name = "Narrator"
-                what = ""
+    # 1. 【全新核心】：利用文字過濾器安全攔截標準對白，100% 繞過 RevertableList 地雷
+    def tts_say_text_filter(what):
+        try:
+            # 獲取當前說話的角色
+            who = _last_say_who
+            speaker_name = who.name if (who is not None and hasattr(who, 'name')) else (str(who) if who is not None else "Narrator")
+        except:
+            speaker_name = "Narrator"
 
+        # 清理並轉化對白文字
+        try:
             clean_text = str(substitute(what))
-            if not clean_text:
-                return
+        except:
+            clean_text = str(what)
 
+        # 將說話者與對白寫入 10ms 級別的輪詢信號檔
+        if clean_text:
             try:
                 with open("tts_signal.tmp", "w") as f:
                     f.write(str(speaker_name) + "|||" + clean_text)
             except:
                 pass
 
-    # 處理選項懸停朗讀
+        # 這是過濾器的本職：必須把原始文字原封不動還給遊戲，畫面才能正常顯示
+        return what
+
+    # 2. 處理選項懸停朗讀的核心發聲函數
     def direct_selenium_choice_hover(choice_text):
         if not choice_text:
             return
@@ -44,19 +46,13 @@ init -1 python:
 
 
 # ======================================================================
-# 🎯 2. 終極安全注入：在遊戲初始化最末期實施，100% 免疫讀檔回溯錯誤
+# 🎯 2. 記憶體黑客安全注入（安全期實施）
 # ======================================================================
 init 999 python:
-    # ---- 關鍵防禦 A：安全附加對白回調，絕對不破壞、不重寫原本的物件類型 ----
-    if config.character_callback is None:
-        config.character_callback = [direct_selenium_dialogue_callback]
-    else:
-        # 如果它已經是個 List 或 RevertableList，我們只用 append 追加，絕不進行 Proxy 類別包裝
-        # 這樣讀檔時回溯系統就不會引發 'RevertableList' object is not callable 異常
-        if direct_selenium_dialogue_callback not in config.character_callback:
-            config.character_callback.append(direct_selenium_dialogue_callback)
+    # 🎯 終極防禦 A：將我們的發聲器綁定到文字過濾器上，存讀檔回溯絕對不會崩潰！
+    config.say_menu_text_filter = tts_say_text_filter
 
-    # ---- 關鍵防禦 B：安全攔截 RPA 內的選單出口 (Monkey Patch) ----
+    # 🎯 終極防禦 B：安全攔截 RPA 內的選單出口 (Monkey Patch)
     if not hasattr(renpy.exports, '_original_display_menu'):
         renpy.exports._original_display_menu = renpy.exports.display_menu
 
