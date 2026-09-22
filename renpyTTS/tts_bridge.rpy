@@ -1,19 +1,31 @@
 init -1 python:
-    # 🎯 核心黑客通道：利用對白屬性處理器安全捕捉文字與聲線，100% 繞過 RevertableList 地雷
-    def tts_say_attribute_processor(speaker, attributes):
+    # 1. 備份 Ren'Py 內建官方原生的 say 函數（以防萬一與交還主權）
+    if not hasattr(renpy.exports, '_original_say'):
+        renpy.exports._original_say = renpy.exports.say
+
+    # 2. 定義我們自己的攔截 say 函數
+    def custom_tts_say(who, what, *args, **kwargs):
+        """
+        當遊戲試圖調用 say 顯示任何台詞時，瞬間優先觸發本函數。
+        who: 角色物件或字串
+        what: 對白文字
+        """
         try:
-            # 1. 抓取說話者的名字
-            who = _last_say_who
-            speaker_name = who.name if (who is not None and hasattr(who, 'name')) else (str(who) if who is not None else "Narrator")
-            
-            # 2. 抓取當前的對白內文
-            what = _last_say_what
-            clean_text = str(substitute(what)) if what else ""
+            # 安全解析角色名稱
+            if who is not None:
+                speaker_name = who.name if hasattr(who, 'name') else str(who)
+            else:
+                speaker_name = "Narrator"
         except:
             speaker_name = "Narrator"
-            clean_text = ""
 
-        # 3. 如果成功拿到對白，以 10ms 的極速寫入信號臨時檔
+        # 安全清理文字並進行 Ren'Py 變數 substitute
+        try:
+            clean_text = str(renpy.substitute(what))
+        except:
+            clean_text = str(what)
+
+        # 毫秒級寫入臨時信號檔通知 Python 3 驅動 Edge 發聲
         if clean_text:
             try:
                 with open("tts_signal.tmp", "w") as f:
@@ -21,13 +33,9 @@ init -1 python:
             except:
                 pass
 
-        # 這是處理器的本職：必須把原本傳進來的屬性原封不動還給遊戲，畫面才能正常渲染
-        return attributes
+        # 🎯 核心關鍵：把所有參數原封不動交還給原本的 say 函數，讓遊戲畫面正常前進
+        return renpy.exports._original_say(who, what, *args, **kwargs)
 
-# ======================================================================
-# 🎯 2. 記憶體黑客安全注入（安全期實施）
-# ======================================================================
-init 999 python:
-    # 🎯 終極防禦：將我們的發聲器綁定到屬性處理器上，存讀檔回溯與 V 鍵衝突徹底絕跡！
-    config.say_attribute_proc = tts_say_attribute_processor
+    # 3. 實施 Monkey Patch，強行用我們的發聲器全面接管 Ren'Py 的 say 函數出口
+    renpy.exports.say = custom_tts_say
 
