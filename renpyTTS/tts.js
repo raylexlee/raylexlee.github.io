@@ -34,6 +34,7 @@ window.addEventListener('DOMContentLoaded', loadGameConfig);
 
 // Python 調用：更換目前說話者的語音小名
 window.changeVoiceBySpeaker = function(speakerName) {
+    copyTextToClipboard(speakerName);
     window.currentVoiceName = window.characterMap[speakerName] || window.characterMap['Narrator'] || '';
     console.log(`[聲線指令] ${speakerName} -> 尋找小名: ${window.currentVoiceName}`);
 };
