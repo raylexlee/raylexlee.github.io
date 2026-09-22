@@ -1,44 +1,45 @@
-# 🚀 Ren'Py Direct TTS Bridge (Edge Natural Voices)
+# 🚀 Ren'Py Direct TTS Bridge (Edge Online Natural Voices)
 
-一個為 Ren'Py 引擎遊戲打造的**免伺服器（Flask-Free）、免 Selenium 控制、零延遲、記憶體直連**的第三方高畫質語音姬方案。
+A **Serverless (Flask-Free), Selenium-Free, Zero-Latency, and Memory-Direct** third-party High-Quality Text-to-Speech (TTS) solution tailored for Ren'Py engine games. 
 
-本專案透過微軟 Edge 瀏覽器原生的**遠端偵錯埠 (Chrome DevTools Protocol - CDP)** 機制，直接操控 Microsoft Edge 的高自然度雲端雙語語音（Online Natural Voices），並原生支援**遊戲對白角色聲線分流**與**滑鼠懸停選項實時朗讀**。
+This project leverages Microsoft Edge's native **Remote Debugging Port (Chrome DevTools Protocol - CDP)** mechanism via pure WebSockets to command premium, highly expressive, human-like **Online Natural Voices**. It features automatic character-based gender voice splitting and fluid gameplay streaming.
 
-特別適合用於開發者停用了語音助理（Self-Voicing）的遊戲（如 *Milfy City*、*Being a DIK* 等），提供極致的沉浸式男女聲線配音與盲人無障礙優化體驗。
-
----
-
-## ✨ 核心特性
-
-- ⚡ **零延遲 CDP 直連**：拋棄傳統的本地 Flask 伺服器與沉重的 Selenium 框架，直接利用 WebSocket 與瀏覽器底層通訊，實現毫秒級無感響應。
-- 🕵️ **100% 偽裝解鎖雲端語音**：使用原生命令列引導獨立的 Edge 偵錯沙盒，徹底抹除自動化測試指紋（`webdriver`），完美初始化 Edge 內建的 334 個高級自然語音套件。
-- 🗣️ **智能精準聲線分流**：透過極簡的 JSON 對照表，自動根據角色名稱匹配對應的 Natural 語音。採用「空格邊界精準匹配」演算法，徹底杜絕錯認（如將 `Yan` 誤配為 `Ryan`）。
-- 🔄 **記憶體極致優化**：網頁端全域重複利用單一 `SpeechSynthesisUtterance` 執行個體，在對白推進或滑鼠快速晃動時，極速「掐斷（Cancel）」上一句，體驗絲滑。
+Perfect for games where developers completely disabled or stripped the native voice assistant/self-voicing feature (such as *Milfy City*, *Being a DIK*, etc.), restoring an immersive and high-fidelity voiced experience for players and accessibility enhancement.
 
 ---
 
-## 🛠️ 安裝與環境準備
+## ✨ Core Features
 
-### 1. Windows 原生 Python 環境
-請確保您的 Windows 11 系統已安裝 **Python 3.13+**。
-打開命令提示字元 (CMD) 並執行以下指令，安裝極輕量的 WebSocket 遠端控制依賴：
+- ⚡ **Zero-Latency CDP Connection**: Ditches traditional local Flask API servers and heavy Selenium automated testing frameworks. Communicates directly with the browser's engine over high-frequency WebSockets for instantaneous response.
+- 🕵️ **100% Stealth & Cloud Voice Unlock**: Launches an isolated native Edge debugging sandbox via pure command-line flags. This completely erases automated testing signatures (`webdriver`), ensuring Microsoft's 334+ Online Natural Voices load successfully without safety restrictions.
+- 🗣️ **Distinct Gender Voice Mapping**: Dynamically switches male/female voices according to the active speaker via a lightweight JSON mapping profile. Utilizes a "precise space boundary matching" algorithm to eliminate misidentifications (e.g., preventing `Yan` from mistakenly matching `Ryan`).
+- 🔄 **On-the-Fly Tuning Sliders**: Reuses a single global `SpeechSynthesisUtterance` instance. You can drag the **Rate** and **Pitch** sliders on the webpage mid-game, and the very next dialogue line will instantly update its speed/tone without restarting!
+- 🛑 **Instant Text Sanitization**: Automatically strips annoying asterisks (`*`) in visual novels (e.g., converting `*Whispered*` or `*Sigh*` into clean readable text) so the engine never awkwardly reads out the word "Asterisk".
+
+---
+
+## 🛠️ Requirements & Installation
+
+### 1. Windows Native Python Environment
+Ensure your Windows 11 system has **Python 3.13+** installed (The Microsoft Store version works perfectly). 
+Open your Command Prompt (CMD) and run the following command to install the lightweight WebSocket routing dependency:
 ```bash
 pip install websocket-client
 ```
 
-### 2. 下載本專案檔案
-將以下核心檔案部署到您的遊戲目錄與 GitHub Pages 中。
+### 2. File Deployment Checklist
+Deploy the following core assets to your game directory and your GitHub Pages repository.
 
 ---
 
-## 📦 檔案結構與部署說明
+## 📦 File Structure & Deployment
 
-### 🌐 A. 網頁 TTS 端 (上傳至您的 GitHub Pages)
-請將 `tts.html`, `tts.js` 以及遊戲的 `.json` 配置文件放置於您的 GitHub 倉庫中（例如 `https://<您的用戶名>.github.io/renpyTTS/`）：
+### 🌐 A. Web Page Side (Upload to your GitHub Pages)
+Place `tts.html`, `tts.js`, and your game profile `.json` files inside your GitHub repository folder (e.g., `https://<your-username>.github.io/renpyTTS/`):
 
-- **`tts.html`**: 語音快取與解鎖網頁。
-- **`tts.js`**: 重複利用全域 Utterance，具備實時加載 334 個語音的防異步時間差機制。
-- **`[遊戲名稱].json`**: 角色與語音對應表。格式極簡，僅需填入語音名字的第二個單字：
+- **`tts.html`**: The unified console dashboard containing interactive configuration sliders.
+- **`tts.js`**: Controls global utterance instantiation and safeguards asynchronous voice asset arrays.
+- **`[GameName].json`**: Character voice mapping file. Structure is highly streamlined; you only need to fill in the **second word** of the desired Edge Natural Voice name:
   ```json
   {
       "Narrator": "Yunxi",
@@ -48,32 +49,42 @@ pip install websocket-client
   }
   ```
 
-> 💡 **小工具提示**：本專案內附 `genJSON.sh` 腳本（適用於 WSL/Linux）。只要您用 Ren'Py 導出角色清單 `Game.txt`（每行如 `Judy Yan`），執行 `./genJSON.sh Game` 即可秒級生成標準 JSON 映射表。
+> 💡 **Utility Hint**: The repository includes a `genJSON.sh` script (for WSL/Linux). If you extract all character lists via Ren'Py into a plain text format (e.g., lines of `Judy Yan`), running `./genJSON.sh GameName` will generate the standard mapped JSON profile in seconds.
 
 ---
 
-### 🎮 B. 遊戲注入端 (放置於 Steam 遊戲目錄下)
+### 🎮 B. Game Injector Side (Place inside your Steam game directory)
 
 1. **`game/tts_bridge.rpy`**
-   直接放入遊戲的 `game/` 資料夾下。負責接管對白觸發與讀檔回溯（相容 7.4.x 的 `RevertableList` 結構），並以 10ms 級別將信號寫入極輕量的 `tts_signal.tmp`。
+   Place this directly into the game's `game/` folder. This handles real-time runtime script callbacks, filters formatting tags, and dumps dialogue signals into a 10ms high-speed buffer file `tts_signal.tmp`. (Use your earliest stable working version for seamless main dialogue synchronization).
 
-2. **`run_milfy_city.py`** (或重命名為 `run_game.py`)
-   放入遊戲的**根目錄**（與 `renpy/` 和 `game/` 資料夾同層）。作為唯一的啟動主程式，負責拉起 Edge 偵錯沙盒、引導遊戲原生的 `.exe` 執行，並接管高頻信號輪詢。
+2. **`run_milfy_city.py`** (or rename to `run_game.py`)
+   Place this into the game's **root directory** (same layer as the `renpy/` and `game/` folders). This acts as your unified launcher. It executes the native game `.exe`, spins up the Edge debugging profile, and manages the high-frequency background WebSocket polling loop.
 
 ---
 
-## 🚀 啟動與遊玩步驟
+## 🚀 How to Launch & Play
 
-1. 打開 Windows CMD，切換至遊戲根目錄。
-2. 執行啟動腳本：
+1. Open Windows CMD, and `cd` into your game's root directory.
+2. Fire up the launcher script:
    ```bash
    python run_milfy_city.py
    ```
-3. 腳本會自動拉起一個全新的 Edge 偵錯視窗並加載語音頁面。**【重要】請用滑鼠在該網頁任意空白處點擊一下**，以解鎖瀏覽器的音訊播放安全限制。
-4. 隨後原生的遊戲畫面會自動彈出。盡情享受絲滑、男女聲線分明的高音質自然語音配音之旅吧！
+3. The script will automatically trigger a clean instance of Edge navigating to your hosted page. **[CRITICAL] Use your mouse to click anywhere on that open browser webpage once.** This manually unlocks the browser's audio context autoplay security policy.
+4. Your Steam game window will pop up automatically right after. Enjoy your smooth, character-segregated high-quality voiced journey!
 
 ---
 
-## 🛡️ 免責聲明與開源授權
-本專案僅供學術交流、研究 Ren'Py 引擎進程間通訊機制以及盲人無障礙技術優化使用。請勿用於任何商業用途。
+## 🖱️ Accessibility Tip: Choice Hovering & Menu Speaking
+
+For the absolute smoothest and most responsive gameplay experience, choice hovering and button reading can be perfectly supplemented via Ren'Py's native engine behavior:
+
+- **95% Immersive Storytelling (Default Mode)**: Keep your main dialogue flowing seamlessly with high-fidelity, distinct male and female Microsoft Edge Natural online voices.
+- **5% Choice Hovering / Review Mode**: For 99% of Ren'Py games that retain native hotkey mapping, simply press **`V`** on your keyboard during dialogue selections to activate the built-in Self-Voicing engine. As you move your mouse to highlight choices or review old chats in the History Log, the native local Windows SAPI voice (e.g., David or Mark) will promptly read them out for perfect navigation. 
+- Once your choice is clicked, tap **`V`** again to immediately disable it and seamlessly return to your premium, immersive cloud Natural voices!
+
+---
+
+## 🛡️ Disclaimer & License
+This project is strictly created for educational purposes, academic research into Ren'Py process communication mechanisms, and accessibility optimization for visual novels. Not for commercial use.
 
