@@ -4,22 +4,22 @@ mc MC William
  Amelia Clara
  Andy Andrew
  Announcer Andrew
- Anthony Roger
- Arieth Clara
- Ashley Guy
+an Anthony Roger
+ar Arieth Clara
+ash Ashley Guy
  Audience Guy
- Avery Guy
+av Avery Luna
  Balding_Teacher Thomas
  Barista Guy
  Bartender Thomas
- Becky Luna
+bc Becky Luna
  Bert Guy
- Beth Luna
+beth Beth Luna
  Bianca Luna
  Blonde_Guest Luna
  Boss Eric
  Bouncer Connor
- Brandi Connor
+br Brandi Connor
  Bret Connor
  Brian Brian
  Brown-haired_Teacher Luna
@@ -27,7 +27,7 @@ mc MC William
  Buddy Brian
  Cafeteria_Worker Liam
  Caleb Liam
- Camila Emily
+cam Camila Emily
  Carla Emily
  Cashier Emily
  Cathy Emma
@@ -36,7 +36,7 @@ mc MC William
  Charlotte Sonia
  Chen Guy
 cr Christian Guy
- Christie Natasha
+chr Christie Natasha
  Clara Natasha
  Clerk Natasha
  Clive Guy
@@ -49,7 +49,7 @@ cr Christian Guy
  DIK Guy
  DIKs Guy
  Dad Eric
- Dany Michelle
+dn Dany Michelle
  Darius Christopher
  David Eric
  Dawe Connor
@@ -59,7 +59,7 @@ de Derek Ryan
  Doris Aria
  Dr_PinkCake Luna
  Dwyane Ryan
- Elena Jenny
+el Elena Jenny
  Emma Jenny
  Envy Jenny
  Erin Jenny
@@ -74,7 +74,7 @@ de Derek Ryan
  Geoff Connor
  Gina Natasha
  Girl Natasha
- Gordon Connor
+go Gordon Connor
  Guest Connor
  Guy Connor
  Gym_Guy Connor
@@ -89,7 +89,7 @@ isa Isabella Yan
 jac Jacob Roger
  Jade Libby
  James Connor
- Jamie Connor
+jm Jamie Connor
  Jeff Connor
  Jen Libby
  Jenna Libby
@@ -98,7 +98,7 @@ jac Jacob Roger
  Jock Connor
  Jocks Connor
  John Connor
- John_Boy Roger
+jb John_Boy Roger
  Jonah Connor
  Jonathan Roger
 js Josy Emily
@@ -107,9 +107,9 @@ js Josy Emily
  Kylie Sonia
  Lana Sonia
  Leanne Connor
- Leon Connor
+le Leon Connor
  Librarian Roger
- Lily Molly
+li Lily Molly
  Linda Molly
  Locksmith Roger
 lu Lucas Roger
@@ -121,7 +121,7 @@ lu Lucas Roger
  Marc Connor
 mat Matthew Connor
 my Maya Natasha
- Melanie Natasha
+ml Melanie Natasha
  Mia Natasha
  Micha Natasha
  Mick Connor
@@ -135,8 +135,8 @@ my Maya Natasha
  Neil Connor
  Nerd Connor
  New_Guy Thomas
- Nick Liam
- Nicole Neerja
+ni Nick Liam
+nic Nicole Neerja
  Nikita Neerja
  Nora Yan
  Nurse Emily
@@ -159,20 +159,20 @@ py Penny Emily
  Professor Steffan
  Professor_Burke Steffan
  Psychiatrist Steffan
- Quinn Clara
+qu Quinn Clara
  Receptionist Aria
  Red-haired_Guest Aria
  Referee Liam
  Rich Liam
 ri Riona Natasha
  Ron Steffan
- Rose Clara
+ro Rose Clara
  Rox Steffan
- Rusty Eric
+rs Rusty Eric
 sa Sage Aria
  Sally Natasha
- Sandy Clara
- Sarah Aria
+sn Sandy Clara
+sar Sarah Aria
  Seasoned_Gamer Steffan
  Security Steffan
  Stanley Steffan
@@ -183,21 +183,21 @@ sa Sage Aria
  Student Natasha
  Suzy Natasha
  TV_Host Michelle
- Tania Michelle
- Tara Michelle
+tan Tania Michelle
+ta Tara Michelle
  Tate Natasha
  Than Natasha
  The_Ice_Queen Michelle
  Tiffani Michelle
  Tina Michelle
- Tommy Roger
+tm Tommy Roger
  Trent Roger
  Tri-betas Roger
  Troy Roger
  Tybalt Christopher
- Unknown Roger
+uk Unknown Roger
  Ursula Michelle
- Vinny Christopher
+vi Vinny Christopher
  Vivian Michelle
  Waiter Roger
  Wendy Leah
@@ -205,4 +205,4 @@ sa Sage Aria
  Woman Leah
  Worker Roger
  Young_Gamer Steffan
- Zoey Jenny
+zo Zoey Jenny
