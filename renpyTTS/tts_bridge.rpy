@@ -1,5 +1,5 @@
 init -1 python:
-    # A. 核心回調：處理標準對白跳出
+    # 1. 處理標準對白跳出
     def direct_selenium_dialogue_callback(event, interact=True, **kwargs):
         if event == "show" or event == "begin":
             try:
@@ -20,53 +20,71 @@ init -1 python:
             except:
                 pass
 
-    # B. 核心回調：處理滑鼠移入選項時的發聲
+    # 2. 處理選項懸停朗讀的核心發聲函數
     def direct_selenium_choice_hover(choice_text):
         if not choice_text:
             return
         try:
             import re
             clean_choice = re.sub(r'\{[^}]*\}', '', str(choice_text))
-            
             with open("tts_signal.tmp", "w") as f:
                 f.write("Narrator|||" + clean_choice)
         except:
             pass
 
-    # ---- 關鍵修正：使用最安全的通用轉發 (*args, **kwargs) ----
+    # 安全註冊對白監聽
     if config.character_callback is None:
         config.character_callback = [direct_selenium_dialogue_callback]
     else:
         if isinstance(config.character_callback, list):
             config.character_callback.append(direct_selenium_dialogue_callback)
         else:
-            # 透過星號表達式安全透傳，100% 避免 multiple values for keyword argument 報錯
             class TTSCallbackProxy(object):
-                def __init__(self, old): 
-                    self.old = old
+                def __init__(self, old): self.old = old
                 def __call__(self, *args, **kwargs):
-                    try:
-                        direct_selenium_dialogue_callback(*args, **kwargs)
-                    except:
-                        pass
+                    try: direct_selenium_dialogue_callback(*args, **kwargs)
+                    except: pass
                     if self.old:
-                        try:
-                            self.old(*args, **kwargs)
-                        except:
-                            pass
+                        try: self.old(*args, **kwargs)
+                        except: pass
             config.character_callback = TTSCallbackProxy(config.character_callback)
 
-# ---- 🎯 相容 Ren'Py 7.4.x 的動態 UI 懸停注入 ----
+# ======================================================================
+# 🎯 核心黑科技：在記憶體中定點爆破 7.4.x 的 choice 螢幕組件 (RPA 解包免疫)
+# ======================================================================
 init 999 python:
+    import renpy
+
+    # 建立一個與 Ren'Py 7.4.x 動作系統 100% 相容的自訂懸停 Action 類別
     class TTSChoiceHoverAction(renpy.ui.Action):
         def __init__(self, caption):
             self.caption = caption
         def __call__(self):
+            # 滑鼠移入時，瞬間觸發檔案寫入
             direct_selenium_choice_hover(self.caption)
 
-    # 針對 7.4.x 的動態螢幕按鈕行為進行攔截補丁
-    # 每當選單畫面渲染，強行將 hovered 屬性與我們的動作綁定
-    if hasattr(renpy.config, 'screens') and 'choice' in renpy.config.screens:
-        # 有些版本會把 choice 封裝在特殊結構，在此做安全調試準備
-        pass
+    # 覆蓋 Ren'Py 官方選單物品物件的預設行為
+    # 在 7.4.x 中，每當選單跳出，Ren'Py 會將選項封裝成 MenuEntry 物件
+    if not hasattr(renpy.exports, '_original_display_menu'):
+        renpy.exports._original_display_menu = renpy.exports.display_menu
+
+    def custom_display_menu(items, **kwargs):
+        """
+        當選單即將要在螢幕上畫出來的瞬間（此時 .rpa 已經解壓完畢且 items 已生成），
+        我們在記憶體裡攔截這群選項按鈕，強制把我們的懸停動作硬塞進去！
+        """
+        try:
+            for item in items:
+                if item and hasattr(item, 'caption') and item.caption:
+                    # 抓取選項的文字，並為其動態注入我們自訂的 hovered 行為
+                    # 完美欺騙引擎，使其等同於在 screens.rpy 裡寫下了 hovered Function(...)
+                    item.kwargs['hovered'] = TTSChoiceHoverAction(item.caption)
+        except Exception as e:
+            pass
+            
+        # 移交回官方原本的選單渲染流程
+        return renpy.exports._original_display_menu(items, **kwargs)
+
+    # 實施 Monkey Patch 覆蓋核心選單出口
+    renpy.exports.display_menu = custom_display_menu
 
