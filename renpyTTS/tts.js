@@ -5,7 +5,6 @@ window.currentVoiceName = ""; // 當前語音小名 (例如 "Yan")
 async function copyTextToClipboard(text) {
   try {
     await navigator.clipboard.writeText(text);
-    speak()
   } catch (err) {
     console.error('Failed to copy: ', err);
   }
