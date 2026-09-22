@@ -3,14 +3,14 @@ init -1 python:
     def direct_selenium_dialogue_callback(event, interact=True, **kwargs):
         if event == "show" or event == "begin":
             try:
-                who = renpy.store._last_say_who
-                what = renpy.store._last_say_what
+                who = _last_say_who
+                what = _last_say_what
                 speaker_name = who.name if (who is not None and hasattr(who, 'name')) else (str(who) if who is not None else "Narrator")
             except:
                 speaker_name = "Narrator"
                 what = ""
 
-            clean_text = str(renpy.substitute(what))
+            clean_text = str(substitute(what))
             if not clean_text:
                 return
 
@@ -25,6 +25,7 @@ init -1 python:
         if not choice_text:
             return
         try:
+            # 移去 Ren'Py 的樣式標籤 (如 {b}, {color})
             import re
             clean_choice = re.sub(r'\{[^}]*\}', '', str(choice_text))
             with open("tts_signal.tmp", "w") as f:
@@ -50,36 +51,32 @@ init -1 python:
             config.character_callback = TTSCallbackProxy(config.character_callback)
 
 # ======================================================================
-# 🎯 核心黑科技：在記憶體中定點爆破 7.4.x 的 choice 螢幕組件 (RPA 解包免疫)
+# 🎯 記憶體黑客注入：透過覆蓋 exports.display_menu 攔截 RPA 內的選單
 # ======================================================================
-init 999 python:
-    import renpy
-
-    # 建立一個與 Ren'Py 7.4.x 動作系統 100% 相容的自訂懸停 Action 類別
-    class TTSChoiceHoverAction(renpy.ui.Action):
+init -1 python:
+    # 建立一個與 Ren'Py 7.4.x 動作系統相容的自訂懸停 Action 類別
+    class TTSChoiceHoverAction(ui.Action):
         def __init__(self, caption):
             self.caption = caption
         def __call__(self):
-            # 滑鼠移入時，瞬間觸發檔案寫入
             direct_selenium_choice_hover(self.caption)
 
-    # 覆蓋 Ren'Py 官方選單物品物件的預設行為
-    # 在 7.4.x 中，每當選單跳出，Ren'Py 會將選項封裝成 MenuEntry 物件
+    # 備份原有的選單行為，改用 exports 內建空間安全取得
     if not hasattr(renpy.exports, '_original_display_menu'):
         renpy.exports._original_display_menu = renpy.exports.display_menu
 
     def custom_display_menu(items, **kwargs):
         """
-        當選單即將要在螢幕上畫出來的瞬間（此時 .rpa 已經解壓完畢且 items 已生成），
-        我們在記憶體裡攔截這群選項按鈕，強制把我們的懸停動作硬塞進去！
+        在選單即將要畫出來的瞬間（此時 items 已從 scripts.rpa 解壓生成），
+        我們便利這群選項，強行將我們封裝好的懸停動作（hovered）硬塞進去！
         """
         try:
             for item in items:
+                # 在 Ren'Py 中，item 通常是 Choice 物件，擁有 args, kwargs 與 caption
                 if item and hasattr(item, 'caption') and item.caption:
-                    # 抓取選項的文字，並為其動態注入我們自訂的 hovered 行為
-                    # 完美欺騙引擎，使其等同於在 screens.rpy 裡寫下了 hovered Function(...)
+                    # 動態將行為塞進選單物品的屬性中，完美繞過 .rpa 封鎖
                     item.kwargs['hovered'] = TTSChoiceHoverAction(item.caption)
-        except Exception as e:
+        except:
             pass
             
         # 移交回官方原本的選單渲染流程
