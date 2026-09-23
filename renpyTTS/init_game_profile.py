@@ -8,45 +8,52 @@ def guess_gender(name):
     name_lower = name.lower().strip()
     
     # 1. 常見的硬編碼男性/旁白/系統詞根
-    male_keywords = ['mc', 'dad', 'stepdad', 'boy', 'jock', 'man', 'bounc', 'cop', 'teacher', 'worker', 'driver', 'sir']
+    male_keywords = ['mc', 'dad', 'stepdad', 'boy', 'jock', 'man', 'bounc', 'cop', 'teacher', 'worker', 'driver', 'sir', 'lord', 'king']
     if any(kw in name_lower for kw in male_keywords) or name_lower == 'narrator':
         return 'Male'
         
     # 2. 常見的硬編碼女性詞根
-    female_keywords = ['mom', 'mother', 'girl', 'maid', 'stripper', 'female', 'queen', 'wife', 'lady', 'sister']
+    female_keywords = ['mom', 'mother', 'girl', 'maid', 'stripper', 'female', 'queen', 'wife', 'lady', 'sister', 'witch', 'goddess']
     if any(kw in name_lower for kw in female_keywords):
         return 'Female'
 
     # 3. 英語語言學後綴規則 (女性高頻字尾)
-    # 以 a, e, y, i, ah, ia, ie, lly, na 結尾的絕大多數是女性
     female_suffixes = ('a', 'e', 'y', 'i', 'ah', 'ia', 'ie', 'tette', 'lines', 'ly', 'na', 'el')
     if name_lower.endswith(female_suffixes):
-        # 排除少數以 y 結尾的男性名字 (如 Tommy, Danny 在關鍵字已處理，Jock 排除)
         if name_lower.endswith(('roy', 'guy')):
             return 'Male'
         return 'Female'
         
     # 4. 英語語言學後綴規則 (男性高頻字尾)
-    # 以 o, k, d, n, r, s, m, t, x, b, g, p 結尾的通常是男性
     male_suffixes = ('o', 'k', 'd', 'n', 'r', 's', 'm', 't', 'x', 'b', 'g', 'p', 'th')
     if name_lower.endswith(male_suffixes):
         return 'Male'
         
-    # 5. 無法判定的預設給女性（因為視覺小說通常女主居多）
+    # 5. 無法判定的預設給女性
     return 'Female'
 
 def main():
-    game_name = "TheSevenRealms"
-    names_file = f"{game_name}_extracted.txt" # 這是你用 sed 擷取出來的 38 個純名字檔案
+    # 🎯 核心升級：讀取命令列引數
+    # 檢查使用者有沒有輸入遊戲名稱參數
+    if len(sys.argv) < 2:
+        print("\n❌ 錯誤：未指定遊戲名稱！")
+        print("💡 用法範例：python init_game_profile.py TheSevenRealms")
+        print("💡 用法範例：python init_game_profile.py MilfyCity\n")
+        return
+
+    # 取得命令列傳入的遊戲名稱
+    game_name = sys.argv[1]
+    
+    names_file = f"{game_name}_extracted.txt" # 讀取該遊戲的名字清單 (如 TheSevenRealms_extracted.txt)
     voice_file = "voiceGender.txt"
-    output_file = f"{game_name}_3col.txt"
+    output_file = f"{game_name}_3col.txt"     # 輸出該遊戲的 3 欄位設定檔 (如 TheSevenRealms_3col.txt)
     
     if not os.path.exists(names_file):
-        print(f"Error: 找不到 38 個名字的來源檔 {names_file}")
+        print(f"❌ Error: 找不到該遊戲的名字來源檔: {names_file}")
         return
         
     if not os.path.exists(voice_file):
-        print(f"Error: 找不到語音性別庫 {voice_file}")
+        print(f"❌ Error: 找不到語音性別庫 {voice_file}，請確保它存在於同目錄下！")
         return
 
     # 載入語音性別庫
@@ -65,19 +72,19 @@ def main():
     if not male_voices: male_voices = ["Yunxi"]
     if not female_voices: female_voices = ["Xiaoxiao"]
 
-    # 讀取 38 個名字並開始大數據配對
+    # 讀取名字並開始自動批量配對
     m_idx, f_idx = 0, 0
     results = []
+    
+    print(f"🚀 正在為遊戲 [{game_name}] 進行智能性別預測與語音初步配對...")
     
     with open(names_file, "r", encoding="utf-8") as f:
         for line in f:
             full_name = line.strip().replace(" ", "_") # 空格轉底線防範欄位破裂
             if not full_name: continue
             
-            # 預測性別
             gender = guess_gender(full_name)
             
-            # 輪流指派該性別對應的 Edge Natural 語音小名，實現多樣化初始配音
             if gender == 'Male':
                 assigned_voice = male_voices[m_idx % len(male_voices)]
                 m_idx += 1
@@ -85,18 +92,16 @@ def main():
                 assigned_voice = female_voices[f_idx % len(female_voices)]
                 f_idx += 1
                 
-            # 💡 完美對接你的 Vim 增量工作流：
-            # 第一欄預設留空（一個空格），等待你在遊玩時，直接 Ctrl+V 貼上剪貼簿裡自動複製的實時 2-letter 代碼！
+            # 第一欄保持單一空格，對齊你的 Vim 工作流
             results.append(f" {full_name} {assigned_voice}")
-            print(f"🎨 [預測成功] 名字: {full_name:25} -> 猜測性別: {gender:6} -> 預配語音: {assigned_voice}")
+            print(f"  ↳ [Match] {full_name:25} -> {gender:6} -> {assigned_voice}")
 
-    # 寫入成符合你格式的 3-column Vim 初始檔
+    # 寫入成 3-column Vim 初始檔
     with open(output_file, "w", encoding="utf-8") as f:
         for item in results:
             f.write(item + "\n")
             
-    print(f"\n🚀 大功告成！已成功為您生成 3 欄位初始檔: {output_file}")
-    print("第一欄已預設留空。現在您可以直接用 Vim 開啟它，一邊玩遊戲、一邊秒速粘貼真實代碼了！")
+    print(f"\n✅ 成功！已為 [{game_name}] 生成 3 欄位初始檔: {output_file}")
 
 if __name__ == "__main__":
     main()
