@@ -45,7 +45,7 @@ def main():
     GAME_NAME = detect_game_name()
     print(f"🤖 [🤖 智慧辨識] 成功偵測到目前遊戲主程式名稱為: 【{GAME_NAME}】")
     
-    TARGET_URL = f"https://github.io{GAME_NAME}"
+    TARGET_URL = f"https://raylexlee.github.io/renpyTTS/tts.html?game={GAME_NAME}"
     EDGE_EXE = r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
     DEBUG_PORT = 9222
     USER_DATA_DIR = r"C:\Users\Raylex Lee\edge-debug-profile"
