@@ -24,7 +24,7 @@ br Brandi Connor
  Brian Brian
  Brown-haired_Teacher Luna
  Bruce Brian
- Buddy Brian
+bd Buddy Brian
  Cafeteria_Worker Liam
  Caleb Liam
 cam Camila Emily
@@ -45,17 +45,17 @@ chr Christie Natasha
  Coworker Guy
  Crossfitter_#1 Guy
  Crossfitter_#2 Guy
- Customer Guy
+cs Customer Guy
  DIK Guy
- DIKs Guy
+dikcs DIKs Guy
  Dad Eric
 dn Dany Michelle
  Darius Christopher
  David Eric
- Dawe Connor
+dw Dawe Connor
 de Derek Ryan
  Detective_Conti Ryan
- Doctor Ryan
+doc Doctor Ryan
  Doris Aria
  Dr_PinkCake Luna
  Dwyane Ryan
@@ -80,7 +80,7 @@ go Gordon Connor
  Gym_Guy Connor
  HOT_Girl Neerja
 he Heather Emily
- Helen Emily
+hl Helen Emily
  Husband Connor
  Ida Emily
  Instructor Luna
@@ -93,7 +93,7 @@ jm Jamie Connor
  Jeff Connor
  Jen Libby
  Jenna Libby
- Jill Sonia
+ji Jill Sonia
  Jimmy Connor
  Jock Connor
  Jocks Connor
@@ -146,7 +146,7 @@ nic Nicole Neerja
 oli Olivia Emily
  Oscar Liam
  Owner Liam
- Patrick Liam
+pa Patrick Liam
  Paula Emily
 py Penny Emily
  Pete Liam
@@ -167,7 +167,7 @@ qu Quinn Clara
 ri Riona Natasha
  Ron Steffan
 ro Rose Clara
- Rox Steffan
+rx Rox Steffan
 rs Rusty Eric
 sa Sage Aria
  Sally Natasha
@@ -177,7 +177,7 @@ sar Sarah Aria
  Security Steffan
  Stanley Steffan
  Stepdad Steffan
- Stephen Steffan
+sb Stephen Steffan
  Steve Steffan
  Stripper Natasha
  Student Natasha
@@ -188,7 +188,7 @@ ta Tara Michelle
  Tate Natasha
  Than Natasha
  The_Ice_Queen Michelle
- Tiffani Michelle
+ti Tiffani Michelle
  Tina Michelle
 tm Tommy Roger
  Trent Roger
