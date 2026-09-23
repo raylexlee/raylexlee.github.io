@@ -1,4 +1,5 @@
 b Eric
+s Clara
 d Connor
 g Emma
 mm Jenny

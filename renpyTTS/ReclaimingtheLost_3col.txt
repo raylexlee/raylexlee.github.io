@@ -3,7 +3,7 @@
 b Barista Eric
  Bob Brian
  Charles Christopher
- Chloe Clara
+s Chloe Clara
 d Detective_Dave Connor
  Elizabeth Emily
  Evelyn Ava
