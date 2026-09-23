@@ -1,8 +1,11 @@
 b Eric
 bb Brian
+f Christopher
 s Clara
 d Connor
 g Emma
 p Emma
 mm Jenny
+ma Guy
+re Andrew
 m William

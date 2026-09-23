@@ -2,7 +2,7 @@
  Assistant Andrew
 b Barista Eric
 bb Bob Brian
- Charles Christopher
+f Charles Christopher
 s Chloe Clara
 d Detective_Dave Connor
  Elizabeth Emily
@@ -10,9 +10,9 @@ d Detective_Dave Connor
 g Girl Emma
 p Emma Emma
 mm Grace Jenny
- Man Guy
+ma Man Guy
  Olivia Leah
  Politician Liam
- Reception Luna
+re Reception Andrew
 m You William
 Narrator Narrator Ryan
