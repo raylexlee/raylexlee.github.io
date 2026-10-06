@@ -86,6 +86,7 @@ window.speak = function(message) {
     
     if (targetVoice) {
         utterance.voice = targetVoice;
+        utterance.rate = 0.93;
         console.log(`[TTS 播放成功] 語音物件：${targetVoice.name} -> 內容: ${cleanMessage}`);
     } else {
         console.warn(`[TTS 播放警告] 無法匹配任何語音，將使用系統預設`);
