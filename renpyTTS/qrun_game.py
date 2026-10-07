@@ -155,7 +155,7 @@ def main():
                                 print(f"【更換聲線】{speaker} -> {target_voice}")
             
                         if text:
-                            print(f"【播放語音】: {text}")
+                            print(f"【播放語音】: {qmingtext}")
                             execute_js_via_cdp(f"window.speak('{safe_text}');")
                         
                 except Exception as e:
