@@ -1,0 +1,147 @@
+???
+Amaia
+Barbara
+Bartendress
+Bianca
+Bill
+Billie
+Bodyguard
+Cara
+Carrie
+Chad
+Christie
+Claire
+Cynthia
+Day Care Worker
+Derrick
+Diana
+Dmitri Volkov
+Dr. Eclipse
+Dr. Hamrick
+Edith
+Emma
+Fake Derrick
+Francesca
+Frank Miller
+Geoffrey
+Ghostly Voice
+Gino
+Girl
+Golden Gary
+Guard
+Gym visitor
+Jack Straufman
+Jamal
+James
+Janet
+Jennifer
+Joyce
+Judge
+Karen
+Kayla
+Latifa
+Leah
+Lesley
+Lillie
+Man
+Marcus
+Mark
+Max
+Mercenary
+Motel Clerk
+Mr. Davis
+Mr. Wong
+Mrs. Wong
+Mysterious Man
+Mysterious Woman
+Neighbor
+OSA Agent
+Operator
+Paramedic
+Phantom
+Polly
+Prosecutor
+Rat
+Raven
+Richard
+Sabrina
+Sarah
+Scarlett
+Security
+Shady Man
+Stacy
+Student
+Tiffany
+Trainer
+Victor Kriskonov
+Violet
+Vira
+Waiter
+Woman
+Zora
+[mc_n_lower]
+[mom_n_lower]
+[morning_routine_character!c]
+[sis_n_lower]
+agent adams
+agent johnson
+agent smith
+alice
+anchorman
+angela
+angelina
+ava
+baldur
+barista
+bouncer
+bronn
+camila
+captain badis guy
+cat
+child
+coach
+crustacean jack
+customer
+dad
+dark mage
+dealer
+dragon
+dwarf
+eleanor
+football player 1
+football player 2
+football player 3
+gaillart
+girl 1
+girl 2
+girl 3
+graham
+gudrun
+isabela
+june
+kathy
+kobe
+linda
+luna
+maria
+mary
+michelle
+mr. parker
+mrs. baker
+nancy
+officer
+officer 1
+officer 2
+officer 3
+officer 4
+ogre
+professor
+rachel
+receptionist
+rosaline
+rose
+sharon
+sonia
+thomas
+troll
+zoe
