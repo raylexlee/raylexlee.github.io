@@ -1,78 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enhanced Radio Player</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-            margin: 50px;
-            transition: background-color 0.3s, color 0.3s;
-        }
-        .dark-mode {
-            background-color: #333;
-            color: white;
-        }
-        .player {
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            display: inline-block;
-            max-width: 90%;
-        }
-        .dark-mode .player {
-            background: #444;
-        }
-        button, select {
-            font-size: 18px;
-            padding: 10px;
-            margin: 10px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-        }
-        .play-btn {
-            background-color: #28a745;
-            color: white;
-        }
-        .stop-btn {
-            background-color: #dc3545;
-            color: white;
-        }
-        .toggle-btn {
-            background-color: #007bff;
-            color: white;
-        }
-        @media (max-width: 600px) {
-            .player {
-                width: 100%;
-                padding: 10px;
-            }
-            button, select {
-                font-size: 16px;
-                padding: 8px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>電台直播</title>
+  <link rel="stylesheet" href="store.css"> </link>
 </head>
 <body>
-    <div class="player">
-        <select id="group"> </select>
-        <select id="station"> </select>
-        <audio id="radio"></audio>
-        <button class="play-btn" onclick="playRadio()">Play</button>
-        <button class="stop-btn" onclick="stopRadio()">Stop</button>
-        <button class="toggle-btn" onclick="toggleDarkMode()">Dark Mode</button>
+  <div class="viewportDiv">
+    <div id="myGroupline" class="div1">
+      <div>地區</div>
+      <div class="select-wrapper">
+        <select id="myPeriod"> </select>
+      </div>
+    </div>
+    <div class="remainingDiv">
+      <textarea name="myIntro" id="myIntro" readonly></textarea>
+    </div>
+    <div id="myBookline" class="div1">
+      <div>
+        <a href="javascript:moveToPrevOption()" style="color:cyan;">&lArr;</a> 
+      </div>
+      <div class="select-wrapper">
+        <select id="myEvent"> </select>
+      </div>
+      <div>
+        <a href="javascript:moveToNextOption()" style="color:cyan;">&rArr;</a> 
+      </div>
+    </div>
+    <div class="remainingDiv">
+      <textarea name="myContent" id="myContent" readonly></textarea>
+    </div>
+    <div id="myFootlineSetting" class="div1">
+      <div>
+        <button id="showSetting" class="icon" popovertarget="setting"><img src="setting.svg" /></button>
+      </div>
+      <div>
+        <button id="showQR" class="icon" popovertarget="qrcode"><img src="qr_code.svg" /></button>
+      </div>
+      <div id="mySpeak">
+      <a href="javascript:speak()" style="color:red;">&#9654;</a>
+      </div>
+      <div>
+       <a href="javascript:pauseResume()" id="myPauseCancel" style="color:red;">&#9208;</a>
+      </div>
+      <div id="myBookTitle">
+      電台直播
+      </div>
+    </div>
+    <div id="myFootline" class="div1">
+Last updated : 8 October 2026
+    </div>
+  </div>
+  <div id="qrcode" popover></div>
+<script src="qrcode.js"></script> 
+<script type="text/javascript">
+let qw = window.innerWidth;
+let qh = window.innerHeight;
+const qq = (qw > qh) ? qh : qw;
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	text: decodeURI(window.location.href),
+	width: qq * 0.8,
+	height: qq * 0.8,
+	colorDark : "#ffffff",
+	colorLight : "#000000",
+	correctLevel : QRCode.CorrectLevel.H
+});
+</script>  
+<div id="setting" popover>
+   <div>
+      <input type="checkbox" id="myAutoplay" name="autoplay" value="autoplay" checked >
+      <label for="autoplay">自動播</label>
+    </div>
+    <div>
+            <audio id="audio" preload="auto" tabindex="0" controls="" src="">
+            </audio>
+    </div>
+    <div>
    <p> 
    <input type="checkbox" id="mySchedule" name="schedule" value="schedule" >
-   <label for="schedule"><span id='sleep'>45</span> min &rarr; 💤</label>
+   <label for="schedule"><span id='sleep'>45</span> &rarr; 💤</label>
     <input type="range" min="5" max="75" value="45" step="5" id="stop">
    </p>
     </div>
+ </div>
 <script>
 const stop = document.getElementById('stop');
 stop.onchange = () => { document.getElementById('sleep').innerText = stop.value; }
@@ -83,28 +96,14 @@ mySchedule.onchange = function() {
     scheduleStop(stop.value);
     } else {
     if (scheduleID == -1) return;
-    cleanTimeout(scheduleID);
+    clearTimeout(scheduleID);
     scheduleID = -1;
   }
 }
 function scheduleStop(duration) {
-  scheduleID = setTimeout(() => { stopRadio(); mySchedule.checked = false; }, duration * 60 * 1000);
+  scheduleID = setTimeout(() => { pauseResume(); mySchedule.checked = false; }, duration * 60 * 1000);
 }
 </script>
-  <div id="qrcode"></div>
-<script src="qrcode.js"></script> 
-<script type="text/javascript">
-var qrcode = new QRCode(document.getElementById("qrcode"), {
-	text: window.location.href,
-	width: 128,
-	height: 128,
-	colorDark : "#ffffff",
-	colorLight : "#000000",
-	correctLevel : QRCode.CorrectLevel.H
-});
-</script>  
-
-<script src="loadstation.js"></script>
 </body>
+<script src="store.js"></script>
 </html>
-
