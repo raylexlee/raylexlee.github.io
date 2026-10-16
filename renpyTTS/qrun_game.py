@@ -129,8 +129,13 @@ def main():
                         speaker = ''
                         text = ''
                         if ": " in qmingtext:
-                            speaker, _ , text = qmingtext.partition(": ")
-                            speaker = speaker.replace(" ","_")
+                            c = qmingtext.split(": ")
+                            b = [x for x in c if x and not x[0].isdigit()]
+                            if len(b) == 2:
+                               text = b[1]
+                               speaker = b[0].replace(" ","_")
+                            if len(b) == 1:
+                               text = b[0]
                         else:
                             text = qmingtext 
                         text = text.replace('\n',' ')
