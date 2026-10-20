@@ -33,13 +33,13 @@ This instantly evaluates suffix structures and formats your direct mapping confi
 ### Step 3: Inject the Bridge Scripts
 Deploy the newly optimized universal scripts directly from the source repository:
 
-- **🎮 Game Injector Layer (`game/qtts_bridge.rpy`)**:
+- **🎮 Game Injector Layer (`game/jtts_bridge.rpy`)**:
   Fetches the final managed speech string and funnels it into a sub-millisecond background buffer `tts_signal.tmp`. Automatically forces the re-mapping of hotkey `V` to ensure accessibility is enabled on all platforms.
-  *Source*: [qtts_bridge.rpy](https://raw.githubusercontent.com/raylexlee/raylexlee.github.io/refs/heads/master/renpyTTS/qtts_bridge.rpy)
+  *Source*: [jtts_bridge.rpy](https://raw.githubusercontent.com/raylexlee/raylexlee.github.io/refs/heads/master/renpyTTS/jtts_bridge.rpy)
 
-- **🚀 System Launcher Layer (`root/qrun_game.py`)**:
+- **🚀 System Launcher Layer (`root/jrun_game.py`)**:
   Performs smart automatic detection of the native game `.exe`, spins up the isolated Edge WebSocket CDP debugging sandbox on port `9222`, and runs the 10ms high-frequency polling routine.
-  *Source*: [qrun_game.py](https://raw.githubusercontent.com/raylexlee/raylexlee.github.io/refs/heads/master/renpyTTS/qrun_game.py)
+  *Source*: [jrun_game.py](https://raw.githubusercontent.com/raylexlee/raylexlee.github.io/refs/heads/master/renpyTTS/jrun_game.py)
 
 ---
 
