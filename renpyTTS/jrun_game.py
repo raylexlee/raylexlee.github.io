@@ -131,11 +131,12 @@ def main():
                         print(f"【ORIG】: {qmingtext}")
                         if ": " in qmingtext:
                             c = qmingtext.split(": ")
-                            b = [x for x in c if x and not x[0].isdigit()]
+                            b = [x for x in c if x and not x.isdigit()]
                             if len(b) >= 2:
                                text = b[-1]
                                speaker = b[-2].replace(" ","_")
                             if len(b) == 1:
+                               speaker = 'Narrator'
                                text = b[0]
                         else:
                             text = qmingtext 
