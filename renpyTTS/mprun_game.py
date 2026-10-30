@@ -51,7 +51,8 @@ def main():
     USER_DATA_DIR = r"C:\Users\Raylex Lee\edge-debug-profile"
 
     print(f"[TTS 主程式] 正在啟動獨立偵錯 Edge 並加載設定: {TARGET_URL}")
-    
+    ignore_heading = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
+                       'Morning', 'Afternoon', 'Evening', 'Night' ]    
     # 啟動原生 Edge 偵錯沙盒
     edge_cmd = [
         EDGE_EXE,
@@ -131,7 +132,7 @@ def main():
                         print(f"【ORIG】: {qmingtext}")
                         if ": " in qmingtext:
                             c = qmingtext.split(": ")
-                            b = [x for x in c if x and not x[0].isdigit()]
+                            b = [x for x in c if x and not x in ignore_heading and '$' != x[0]]
                             if len(b) >= 2:
                                text = b[1]
                                speaker = b[0].replace(" ","_")
