@@ -1,7 +1,7 @@
 window.ttsVoices = [];
 window.characterMap = {};     // {"Judy": "Yan", "Narrator": "Yunxi"}
 window.currentVoiceName = ""; // 當前語音小名 (例如 "Yan")
-
+window.gameName = '';
 async function copyTextToClipboard(text) {
   try {
     await navigator.clipboard.writeText(text);
@@ -21,7 +21,7 @@ if (window.speechSynthesis.onvoiceschanged !== undefined) {
 // 解析 URL 參數並異步載入對應遊戲的 JSON 字典
 function loadGameConfig() {
     const urlParams = new URLSearchParams(window.location.search);
-    const gameName = urlParams.get('game');
+    window.gameName = urlParams.get('game');
     const statusEl = document.getElementById('status');
 
     if (gameName) {
@@ -94,8 +94,9 @@ window.speak = function(message) {
     window.speechSynthesis.speak(utterance);
 };
 const    ignore_heading = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
-'•', 'Morning', 'Afternoon', 'Evening', 'Night', 'Notes', 'Fun' ]    
-
+'•', 'Morning', 'Afternoon', 'Evening', 'Night', 'Notes', 'Fun',
+'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ]    
+startAtOne = ['Shattered_Minds' ]
 window.prepare2speak = function(text) {
     let speaker, msg;
     const b = text.split(': ').filter(x => x && !x.startsWith('$') && !ignore_heading.includes(x))
@@ -106,7 +107,8 @@ window.prepare2speak = function(text) {
     } else {
        const testSpeaker = b[0].replace(' ','_');
        if (testSpeaker in window.characterMap) {
-         const last = b.length - 1;
+         let last = b.length - 1;
+         if (startAtOne.includes(gameName)) last = 1;
          msg = b[last];
          speaker = testSpeaker;
        } else {
