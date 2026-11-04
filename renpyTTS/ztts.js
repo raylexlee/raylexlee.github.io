@@ -2,13 +2,8 @@ window.ttsVoices = [];
 window.characterMap = {};     // {"Judy": "Yan", "Narrator": "Yunxi"}
 window.currentVoiceName = ""; // 當前語音小名 (例如 "Yan")
 window.gameName = '';
-async function copyTextToClipboard(text) {
-  try {
-    await navigator.clipboard.writeText(text);
-  } catch (err) {
-    console.error('Failed to copy: ', err);
-  }
-}
+window.ignore_heading = [];
+
 // 初始化獲取語音
 function populateVoices() {
     window.ttsVoices = window.speechSynthesis.getVoices();
@@ -93,14 +88,13 @@ window.speak = function(message) {
     
     window.speechSynthesis.speak(utterance);
 };
-const    ignore_heading = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
-'•', 'Morning', 'Afternoon', 'Evening', 'Night', 'Notes', 'Fun',
+window.ignore_heading = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
+'•', 'Morning', 'Afternoon', 'Evening', 'Night', 'Notes', 'Fun', 'COMIC_TEST','COMIC_TEST.',
 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ]    
-startAtOne = ['Shattered_Minds' ]
-window.prepare2speak = function(text) {
+window.getSpeakerMsg = function(text) {
     let speaker, msg;
     const b = text.split(': ').filter(x => x && !x.startsWith('$') && !ignore_heading.includes(x))
-    if (b.length === 0) return;
+    if (b.length === 0) return ['', ''];
     if (b.length === 1) {
        speaker = 'Narrator';
        msg = b[0];
@@ -108,7 +102,6 @@ window.prepare2speak = function(text) {
        const testSpeaker = b[0].replace(' ','_');
        if (testSpeaker in window.characterMap) {
          let last = b.length - 1;
-         if (startAtOne.includes(gameName)) last = 1;
          msg = b[last];
          speaker = testSpeaker;
        } else {
@@ -116,6 +109,11 @@ window.prepare2speak = function(text) {
             msg = b.join(' ');
          }
       }
+   return [speaker, msg]
+}
+window.prepare2speak = function(text) {
+    const [speaker, msg] = window.getSpeakerMsg(text);
+    if (msg.length === 0) return;
     window.changeVoiceBySpeaker(speaker);
     window.speak(msg)
 }
