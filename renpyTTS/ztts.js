@@ -31,6 +31,18 @@ function loadGameConfig() {
                 if (statusEl) statusEl.innerText = `載入 JSON 失敗`;
             });
     }
+const script = document.createElement("script");
+
+script.onload = () => {
+   console.log('#### Loaded new getSpeakerMsg()'); 
+};
+
+script.onerror = () => {
+    console.log(`##### ${gameName}.js not found...`);
+};
+
+script.src =`${gameName}.js`;
+document.head.appendChild(script);
 }
 window.addEventListener('DOMContentLoaded', loadGameConfig);
 
@@ -88,9 +100,6 @@ window.speak = function(message) {
     
     window.speechSynthesis.speak(utterance);
 };
-window.ignore_heading = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
-'•', 'Morning', 'Afternoon', 'Evening', 'Night', 'Notes', 'Fun', 'COMIC_TEST','COMIC_TEST.',
-'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' ]    
 window.getSpeakerMsg = function(text) {
     let speaker, msg;
     const b = text.split(': ').filter(x => x && !x.startsWith('$') && !ignore_heading.includes(x))
@@ -101,7 +110,7 @@ window.getSpeakerMsg = function(text) {
     } else {
        const testSpeaker = b[0].replace(' ','_');
        if (testSpeaker in window.characterMap) {
-         let last = b.length - 1;
+         let last = 1;
          msg = b[last];
          speaker = testSpeaker;
        } else {
