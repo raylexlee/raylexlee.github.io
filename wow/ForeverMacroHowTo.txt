@@ -1,0 +1,61 @@
+Macros in WoW Forever can seem confusing, but they're one of the easiest ways to clean up your action bars and play more smoothly.
+
+We go over how macros work, piece by piece, so you can write your own mouseover, modifier and utility macros with confidence.
+
+Check The Guide ➡️: https://youtu.be/Hrh8107iHsk
+
+📝 WoW Forever EZ Macros 📝
+
+Mod Spell
+#showtooltip
+/startattack
+/cast [nomod:shift] spell; spell
+
+Mouseover Heal Downranks
+#showtooltip
+/target [@mouseover]
+/cast [nomod] Healing Touch(Rank 2); [mod:shift] Healing Touch(Rank 1); [mod:ctrl] Healing Touch(Rank 3)
+
+Multibox Heal Macro
+#showtooltip
+/cast [mod:shift, @player] Regrowth; [@Lorutank] Regrowth
+
+Focus Util Macro
+#showtooltip Kick
+/cast [@focus,exists,nodead] Kick; Kick
+
+Focus Moon Util Macro
+#showtooltip Polymorph
+/focus
+/tm [@focus] 5
+/cast [@focus,exists,nodead] Polymorph; Polymorph
+/s i am polying the moon
+
+Mouseover Heal Macro:
+#showtooltip Flash Heal
+/cast [@mouseover,help,nodead][] Flash Heal
+
+Pet Attacks Macro
+#showtooltip
+/petattack
+/Serpent Sting
+
+Pet Control Macro
+/petpassive
+/petfollow
+
+Ability Combine Macro
+#showtooltip
+/startattack
+/cast Rend
+/cast Overpower
+
+Multibox Buffs Macro
+#showtooltip
+/cast [btn:2, @Loruhots] Thorns; [@Lorutank] Thorns
+
+2x Gather Macro
+#showtooltip
+/castsequence !Find Herbs, !Find Minerals
+
+
