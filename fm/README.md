@@ -20,3 +20,9 @@
 /focus [@focus,noexists] [@focus,dead]
 /cast [@focus,harm,nodead] [] Fear
 ```
+## petToggle
+```
+#showtooltip
+/petattack [pet,target=harm,nodead,nopetattack]
+/petfollow [pet,petattack]
+```
